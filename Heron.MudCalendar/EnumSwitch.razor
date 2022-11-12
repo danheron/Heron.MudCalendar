@@ -1,0 +1,13 @@
+@typeparam T where T : Enum
+
+<div class="@Classname">
+    <MudButtonGroup OverrideStyles="false">
+        @foreach (int value in Enum.GetValues(Type))
+        {
+            if (AllowedValues == null || AllowedValues.Contains((T)Enum.ToObject(Type, value)))
+            {
+                <MudButton Color="@Color" Variant="@(value == Convert.ToInt32(Value) ? Variant.Filled : Variant.Outlined)" OnClick="@(() => Value = (T)Enum.ToObject(Type, value))">@Enum.GetName(Type, value)</MudButton>
+            }
+        }
+    </MudButtonGroup>
+</div>

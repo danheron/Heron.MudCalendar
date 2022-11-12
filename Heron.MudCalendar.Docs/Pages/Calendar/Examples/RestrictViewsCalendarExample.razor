@@ -1,0 +1,15 @@
+@namespace Heron.MudCalendar.Docs.Examples
+
+<MudCalendar T="CalendarItem" Style="height: 400px;" ShowDay="_showDay" ShowWeek="_showWeek" ShowMonth="_showMonth" />
+
+<MudToolBar Class="mt-4">
+    <MudSwitch @bind-checked="@_showDay" Color="Color.Primary" T="bool">Show Day View</MudSwitch>
+    <MudSwitch @bind-checked="@_showWeek" Color="Color.Primary" T="bool">Show Week View</MudSwitch>
+    <MudSwitch @bind-checked="@_showMonth" Color="Color.Primary" T="bool">Show Month View</MudSwitch>
+</MudToolBar>
+
+@code {
+    private bool _showDay = true;
+    private bool _showWeek = true;
+    private bool _showMonth = true;
+}

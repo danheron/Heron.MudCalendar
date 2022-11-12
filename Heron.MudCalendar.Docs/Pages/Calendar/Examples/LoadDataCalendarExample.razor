@@ -1,0 +1,16 @@
+@namespace Heron.MudCalendar.Docs.Examples
+
+@inject EventService EventService
+
+<MudCalendar Items="_events" DateRangeChanged="DateRangeChanged" />
+
+@code{
+
+    private List<CalendarItem> _events = new();
+
+    private void DateRangeChanged(DateRange dateRange)
+    {
+        // Load events from service
+        _events = EventService.GetEvents(dateRange);
+    }
+}

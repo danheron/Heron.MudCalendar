@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.10" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.10" PrivateAssets="all" />
+		<PackageReference Include="MudBlazor" Version="6.0.18" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="Pages\MudCalendar\CalendarPage.razor" />
+	  <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Heron.MudCalendar\Heron.MudCalendar.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Pages\Calendar\Code\SimpleCalendarExampleCode.html" />
+	  <EmbeddedResource Include="Pages\Calendar\Code\SimpleCalendarExampleCode.html" />
+	</ItemGroup>
+	
+	
+</Project>

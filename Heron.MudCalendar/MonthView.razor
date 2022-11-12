@@ -1,0 +1,43 @@
+@typeparam T where T : CalendarItem
+
+<div class="mud-cal-month-view">
+    <table>
+        <thead>
+        <tr>
+            @for (var i = 0; i < 7; i++)
+            {
+                <th>
+                    @_cells[i].Date.ToString("ddd")
+                </th>
+            }
+        </tr>
+        </thead>
+        <tbody>
+        @for (var week = 0; week < _cells.Count / 7; week++)
+        {
+            <tr>
+                @for (var i = week * 7; i < (week + 1) * 7; i++)
+                {
+                    var cell = _cells[i];
+                    <td>
+                        <div class="mud-cal-month-cell" style="@DayStyle(cell)">
+                            <div class="@DayClassname(cell)">
+                                @cell.Date.Day
+                            </div>
+                            <div class="mud-cal-month-cell-events">
+                            @if (CellTemplate is not null)
+                            {
+                                foreach (var item in cell.Items)
+                                {
+                                    @CellTemplate?.Invoke(item)
+                                }
+                            }
+                            </div>
+                        </div>
+                    </td>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

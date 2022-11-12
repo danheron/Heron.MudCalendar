@@ -1,0 +1,50 @@
+.mud-cal-week-view {
+  height: 100%;
+  
+  table {
+    * tr {
+      > td {
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+.mud-cal-week-cell {
+  border-top: 1px solid var(--mud-palette-lines-default);
+  height: 36px;
+
+  &.mud-cal-week-cell-half {
+    border-top: 1px solid var(--mud-palette-divider);
+  }
+}
+
+.mud-cal-time-column {
+  width: 60px;
+}
+
+.mud-cal-time-cell {
+  text-align: center;
+}
+
+.mud-cal-week-day-holder {
+  height: 100%;
+}
+
+.mud-cal-week-scroll {
+  display: block;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow-y: scroll;
+}
+
+.mud-cal-week-layer {
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+}

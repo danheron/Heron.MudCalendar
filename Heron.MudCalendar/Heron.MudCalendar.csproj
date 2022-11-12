@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <SupportedPlatform Include="browser" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.10" />
+        <PackageReference Include="MudBlazor" Version="6.0.18" />
+    </ItemGroup>
+
+    <Target Name="ToolRestore">
+        <Exec Command="dotnet tool restore" StandardOutputImportance="high" />
+    </Target>
+    
+    <Target Name="WebCompiler" BeforeTargets="Build" DependsOnTargets="ToolRestore">
+        <!--compile and minify scss-->
+        <Exec Command="dotnet webcompiler ./Styles/Heron.MudCalendar.scss -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
+    </Target>
+
+    <Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
+        <Error Condition="!Exists('wwwroot/CalendarShell.min.css')" Text="Missing CalendarShell.min.css in wwwroot" />
+        <ItemGroup>
+            <Content Include="wwwroot/CalendarShell.min.css" Condition="!Exists('wwwroot/CalendarShell.min.css')" />
+        </ItemGroup>
+    </Target>
+
+    <ItemGroup>
+        <!--For automatic compile on save of the scss use
+        dotnet watch webcompiler ./Styles/Heron.MudCalendar.scss -c excubowebcompiler.json
+        -->
+        <Watch Include="**/*.scss" />
+    </ItemGroup>
+
+</Project>
