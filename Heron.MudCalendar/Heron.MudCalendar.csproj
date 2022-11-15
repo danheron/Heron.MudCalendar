@@ -12,7 +12,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.10" />
-        <PackageReference Include="MudBlazor" Version="6.0.18" />
+        <PackageReference Include="MudBlazor" Version="6.1.0" />
     </ItemGroup>
 
     <Target Name="ToolRestore">
@@ -25,9 +25,9 @@
     </Target>
 
     <Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
-        <Error Condition="!Exists('wwwroot/CalendarShell.min.css')" Text="Missing CalendarShell.min.css in wwwroot" />
+        <Error Condition="!Exists('wwwroot/Heron.MudCalendar.min.css')" Text="Missing Heron.MudCalendar.min.css in wwwroot" />
         <ItemGroup>
-            <Content Include="wwwroot/CalendarShell.min.css" Condition="!Exists('wwwroot/CalendarShell.min.css')" />
+            <Content Include="wwwroot/Heron.MudCalendar.min.css" Condition="!Exists('wwwroot/Heron.MudCalendar.min.css')" />
         </ItemGroup>
     </Target>
 
@@ -36,6 +36,12 @@
         dotnet watch webcompiler ./Styles/Heron.MudCalendar.scss -c excubowebcompiler.json
         -->
         <Watch Include="**/*.scss" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="MudBlazor">
+        <HintPath>..\..\MudBlazor\src\MudBlazor\bin\Debug\net6.0\MudBlazor.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

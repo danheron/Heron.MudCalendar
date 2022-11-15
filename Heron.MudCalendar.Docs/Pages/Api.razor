@@ -1,0 +1,27 @@
+@page "/api/{component}"
+@using MudBlazor.Docs.Components
+
+@if (ComponentType == null)
+{
+    <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+}
+else
+{
+    <DocsApi Type="@ComponentType"></DocsApi>
+}
+
+
+@code {
+
+    [Parameter]
+    public string Component { get; set; } = string.Empty;
+
+    public Type ComponentType { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        //ComponentType = ApiLink.GetTypeFromComponentLink(component);
+        ComponentType = typeof(MudCalendar<>).MakeGenericType(typeof(CalendarItem));
+        StateHasChanged();
+    }
+}

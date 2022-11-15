@@ -2,19 +2,22 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<Nullable>enable</Nullable>
+		<Nullable>disable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Blazor-Analytics" Version="3.11.0" />
+		<PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.10" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.10" PrivateAssets="all" />
-		<PackageReference Include="MudBlazor" Version="6.0.18" />
+		<PackageReference Include="MudBlazor" Version="6.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <_ContentIncludedByDefault Remove="Pages\MudCalendar\CalendarPage.razor" />
 	  <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
+	  <_ContentIncludedByDefault Remove="Components\CalSectionContent.razor" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -25,6 +28,17 @@
 	  <None Remove="Pages\Calendar\Code\SimpleCalendarExampleCode.html" />
 	  <EmbeddedResource Include="Pages\Calendar\Code\SimpleCalendarExampleCode.html" />
 	</ItemGroup>
-	
+
+	<ItemGroup>
+		<Reference Include="MudBlazor">
+			<HintPath>..\..\MudBlazor\src\MudBlazor\bin\Debug\net6.0\MudBlazor.dll</HintPath>
+		</Reference>
+		<Reference Include="MudBlazor.Docs">
+			<HintPath>..\..\MudBlazor\src\MudBlazor.Docs\bin\Debug\net6.0\MudBlazor.Docs.dll</HintPath>
+		</Reference>
+		<Reference Include="MudBlazor.Examples.Data">
+			<HintPath>..\..\MudBlazor\src\MudBlazor.Docs\bin\Debug\net6.0\MudBlazor.Examples.Data.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 	
 </Project>

@@ -5,8 +5,9 @@
     <MudDialogProvider/>
     <MudSnackbarProvider/>
 
-    <MudLayout>
-        <MudAppBar Elevation="0">
+    <MudLayout Class="mudblazor-docs">
+        <MudAppBar Class="docs-appbar-filter" Color="Color.Transparent" Elevation="0"></MudAppBar>
+        <MudAppBar Class="docs-appbar" Elevation="0">
             <MudSpacer/>
             <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank"/>
             <MudIconButton Icon="@(_isRtl ? @Icons.Material.Filled.FormatTextdirectionLToR : @Icons.Material.Filled.FormatTextdirectionRToL)" OnClick="RtlToggle" Color="Color.Inherit"/>
@@ -19,11 +20,10 @@
             </MudDrawerHeader>
             <NavMenu/>
         </MudDrawer>
-        <MudMainContent>
-            <MudContainer MaxWidth="MaxWidth.Large">
-                @Body
-            </MudContainer>
-        </MudMainContent>
+        @Body
+        <MudScrollToTop TopOffset="400" Style="z-index:2000;">
+            <MudFab Icon="@Icons.Material.Filled.KeyboardArrowUp" Color="Color.Primary"/>
+        </MudScrollToTop>
     </MudLayout>
 </MudRTLProvider>
 
@@ -42,4 +42,5 @@
     {
         _isRtl = !_isRtl;
     }
+
 }
