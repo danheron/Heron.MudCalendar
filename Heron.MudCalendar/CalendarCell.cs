@@ -1,6 +1,6 @@
 namespace Heron.MudCalendar;
 
-public class CalendarCell<T> where T : CalendarItem
+internal class CalendarCell<T> where T : CalendarItem
 {
     public DateTime Date { get; set; }
 

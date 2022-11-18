@@ -3,7 +3,7 @@ using Microsoft.JSInterop;
 
 namespace Heron.MudCalendar.Services;
 
-public class JsService : IAsyncDisposable
+internal class JsService : IAsyncDisposable
 {
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
 

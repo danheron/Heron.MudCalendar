@@ -1,60 +1,129 @@
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
 using MudBlazor.Extensions;
 using MudBlazor.Utilities;
+using MudBlazor;
+using CategoryAttribute = Heron.MudCalendar.Attributes.CategoryAttribute;
+using CategoryTypes = Heron.MudCalendar.Attributes.CategoryTypes;
 
 namespace Heron.MudCalendar;
 
 public partial class MudCalendar<T> : MudComponentBase where T : CalendarItem
 {
+    /// <summary>
+    /// The higher the number, the heavier the drop-shadow. 0 for no shadow.
+    /// </summary>
     [Parameter]
+    [Attributes.Category(CategoryTypes.Calendar.Appearance)]
     public int Elevation { get; set; } = 1;
     
+    /// <summary>
+    /// If true, border-radius is set to 0.
+    /// </summary>
     [Parameter]
+    [Category(CategoryTypes.Calendar.Appearance)]
     public bool Square { get; set; }
     
+    /// <summary>
+    /// If true, table will be outlined.
+    /// </summary>
     [Parameter]
+    [Category(CategoryTypes.Calendar.Appearance)]
     public bool Outlined { get; set; }
 
+    /// <summary>
+    /// The color of the buttons and other items.
+    /// </summary>
     [Parameter]
+    [Category(CategoryTypes.Calendar.Appearance)]
     public Color Color { get; set; } = Color.Primary;
 
+    /// <summary>
+    /// The variant to use for buttons.
+    /// </summary>
     [Parameter]
+    [Category(CategoryTypes.Calendar.Appearance)]
     public Variant ButtonVariant { get; set; } = Variant.Filled;
     
+    
+    /// <summary>
+    /// Gets or sets the day that the calendar is showing.
+    /// </summary>
     [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
     public DateTime CurrentDay { get; set; }
     
+    /// <summary>
+    /// Gets or sets the view (day, week, month) being shown.
+    /// </summary>
     [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
     public CalendarView View { get; set; } = CalendarView.Month;
 
+    /// <summary>
+    /// If true highlights today.
+    /// </summary>
     [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
     public bool HighlightToday { get; set; } = true;
 
+    /// <summary>
+    /// If false the day view is not shown.
+    /// </summary>
     [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowDay { get; set; } = true;
 
+    /// <summary>
+    /// If false the week view is not shown.
+    /// </summary>
     [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowWeek { get; set; } = true;
 
+    /// <summary>
+    /// If false the month view is not shown.
+    /// </summary>
     [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowMonth { get; set; } = true;
     
+    /// <summary>
+    /// Defines the cell content for the Month view.
+    /// </summary>
+    [Category(CategoryTypes.Calendar.Template)]
     [Parameter]
     public RenderFragment<T>? MonthTemplate { get; set; }
     
+    /// <summary>
+    /// Defines the cell content for the Week view.
+    /// </summary>
+    [Category(CategoryTypes.Calendar.Template)]
     [Parameter]
     public RenderFragment<T>? WeekTemplate { get; set; }
     
+    /// <summary>
+    /// Defines the cell content for the Day view.
+    /// </summary>
+    [Category(CategoryTypes.Calendar.Template)]
     [Parameter]
     public RenderFragment<T>? DayTemplate { get; set; }
 
+    /// <summary>
+    /// The data to display in the Calendar.
+    /// </summary>
+    [Category(CategoryTypes.Calendar.Behavior)]
     [Parameter]
     public IEnumerable<T> Items { get; set; } = new List<T>();
     
+    /// <summary>
+    /// Called when the dates visible in the Calendar change.
+    /// </summary>
     [Parameter]
     public EventCallback<DateRange> DateRangeChanged { get; set; }
     
+    /// <summary>
+    /// Called when the View is changed.
+    /// </summary>
     [Parameter]
     public EventCallback<CalendarView> ViewChanged { get; set; }
 

@@ -1,4 +1,5 @@
 @inherits MudComponentBase
+@using CategoryTypes = Heron.MudCalendar.Attributes.CategoryTypes
 @typeparam T where T : CalendarItem
 
 <HeadContent>
@@ -39,6 +40,10 @@
 
 @code{
 
+    /// <summary>
+    /// Defines the cell content for the Calendar.  Can be overriden for different Views by defining DayTemplate, WeekTemplate and MonthTemplate.
+    /// </summary>
+    [Attributes.Category(CategoryTypes.Calendar.Template)]
     [Parameter]
     public RenderFragment<T> CellTemplate { get; set; } =
         calendarItem =>

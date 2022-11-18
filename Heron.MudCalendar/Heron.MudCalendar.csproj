@@ -6,6 +6,11 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\net6.0\Heron.MudCalendar.xml</DocumentationFile>
+      <NoWarn>1701;1702;IL2121;1591</NoWarn>
+    </PropertyGroup>
+
     <ItemGroup>
         <SupportedPlatform Include="browser" />
     </ItemGroup>
