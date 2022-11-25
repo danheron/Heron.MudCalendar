@@ -1,17 +1,74 @@
 @page "/calendar"
 
 <DocsPage>
-    <DocsPageHeader Title="Calendar"/>
+    <DocsPageHeader Title="Calendar" SubTitle="A simple but powerful calendar component"/>
     <DocsPageContent>
 
         <DocsPageSection>
             <SectionHeader Title="Simple">
                 <Description>
-                    This is a simple calendar
+                    The simplest way to use the Calendar is to pass an array of <CodeInline>CalendarItem</CodeInline> to the <CodeInline>Items</CodeInline> property.
                 </Description>
             </SectionHeader>
             <SectionContent DarkenBackground="true" Code="SimpleCalendarExample" ShowCode="false" Block="true" FullWidth="true" Assembly="typeof(CalendarPage).Assembly" AllowRunCode="false">
                 <SimpleCalendarExample/>
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Custom Content">
+                <Description>
+                    Normally you will want to define the content of the calendar cells. This is done by creating a class that inherits from <CodeInline>CalendarItem</CodeInline> and
+                    defining how it should be displayed in the <CodeInline>CellTemplate</CodeInline> property.
+                </Description>
+            </SectionHeader>
+            <SectionContent DarkenBackground="true" Code="CustomCalendarExample" ShowCode="false" Block="true" FullWidth="true" Assembly="typeof(CalendarPage).Assembly" AllowRunCode="false">
+                <CustomCalendarExample/>
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Multiple Templates">
+                <Description>
+                    You can define different templates for the Day, Week and Month views using the <CodeInline>DayTemplate</CodeInline>, <CodeInline>WeekTemplate</CodeInline> and
+                    <CodeInline>MonthTemplate</CodeInline> properties.
+                </Description>
+            </SectionHeader>
+            <SectionContent DarkenBackground="true" Code="TemplatesCalendarExample" ShowCode="false" Block="true" FullWidth="true" Assembly="typeof(CalendarPage).Assembly" AllowRunCode="false">
+                <TemplatesCalendarExample/>
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Options">
+                <Description>
+                    MudCalendar supports all the usual MudBlazor options such as <CodeInline>Elevation</CodeInline>, <CodeInline>Square</CodeInline>, <CodeInline>Outlined</CodeInline> etc.
+                </Description>
+            </SectionHeader>
+            <SectionContent DarkenBackground="true" Code="OptionsCalendarExample" ShowCode="false" Block="true" FullWidth="true" Assembly="typeof(CalendarPage).Assembly" AllowRunCode="false">
+                <OptionsCalendarExample/>
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Restrict Views">
+                <Description>
+                    Restrict which views are shown using the <CodeInline>ShowDay</CodeInline>, <CodeInline>ShowWeek</CodeInline> and <CodeInline>ShowMonth</CodeInline> properties.
+                </Description>
+            </SectionHeader>
+            <SectionContent DarkenBackground="true" Code="RestrictViewCalendarExample" ShowCode="false" Block="true" FullWidth="true" Assembly="typeof(CalendarPage).Assembly" AllowRunCode="false">
+                <RestrictViewsCalendarExample/>
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Loading Data">
+                <Description>
+                    Respond to the <CodeInline>DateRangeChanged</CodeInline> event to dynamically load calendar items.
+                </Description>
+            </SectionHeader>
+            <SectionContent DarkenBackground="true" Code="LoadDataCalendarExample" ShowCode="false" Block="true" FullWidth="true" Assembly="typeof(CalendarPage).Assembly" AllowRunCode="false">
+                <LoadDataCalendarExample/>
             </SectionContent>
         </DocsPageSection>
 
