@@ -22,7 +22,14 @@
                     <td>
                         <div class="mud-cal-month-cell" style="@DayStyle(cell)">
                             <div class="@DayClassname(cell)">
-                                @cell.Date.Day
+                                @if (CellClicked.HasDelegate)
+                                {
+                                    <MudLink @onclick="() => CellLinkClicked(cell)">@cell.Date.Day</MudLink>
+                                }
+                                else
+                                {
+                                    @cell.Date.Day   
+                                }
                             </div>
                             <div class="mud-cal-month-cell-events">
                             @if (CellTemplate is not null)

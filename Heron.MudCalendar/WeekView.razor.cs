@@ -27,6 +27,9 @@ public partial class WeekView<T> : IAsyncDisposable where T : CalendarItem
     
     [Parameter]
     public IEnumerable<T> Items { get; set; } = new List<T>();
+    
+    [Parameter]
+    public EventCallback<DateTime> CellClicked { get; set; }
 
     private List<CalendarCell<T>> _cells = new();
     private ElementReference _scrollDiv;
@@ -75,6 +78,12 @@ public partial class WeekView<T> : IAsyncDisposable where T : CalendarItem
             .AddStyle("width", "100%")
             .AddStyle("overflow", "hidden")
             .Build();
+    }
+
+    private Task CellLinkClicked(CalendarCell<T> cell, int row)
+    {
+        var date = cell.Date.AddHours(row / 2.0);
+        return CellClicked.InvokeAsync(date);
     }
 
     private int CalcTop(CalendarItem item)

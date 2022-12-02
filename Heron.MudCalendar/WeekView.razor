@@ -31,7 +31,7 @@
                         <div class="d-block relative">
                             <table>
                                 <colgroup>
-                                    <col class="mud-cal-time-column" />
+                                    <col class="mud-cal-time-column"/>
                                 </colgroup>
                                 <tbody>
                                 @for (var i = 0; i < 48; i++)
@@ -75,7 +75,7 @@
                         <div class="mud-cal-week-layer">
                             <table>
                                 <colgroup>
-                                    <col class="mud-cal-time-column" />
+                                    <col class="mud-cal-time-column"/>
                                 </colgroup>
                                 <tbody>
                                 <tr>
@@ -83,6 +83,15 @@
                                     @foreach (var cell in _cells)
                                     {
                                         <td style="position: relative;">
+                                            @for (var i = 0; i < 48; i++)
+                                            {
+                                                var row = i;
+                                                <div style="height: 36px;">
+                                                    <MudLink @onclick="() => CellLinkClicked(cell, row)" Style="cursor: pointer; z-index: 100;">
+                                                        <div class="mud-cal-week-link"></div>
+                                                    </MudLink>
+                                                </div>   
+                                            }
                                             @foreach (var item in cell.Items)
                                             {
                                                 <div style="@EventStyle(item)">

@@ -48,3 +48,13 @@
   left: 0;
   top: 0;
 }
+
+.mud-cal-week-link {
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+
+.mud-cal-week-link:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}

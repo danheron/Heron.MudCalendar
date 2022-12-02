@@ -7,15 +7,23 @@ namespace Heron.MudCalendar;
 
 public partial class MonthView<T> where T : CalendarItem
 {
-    [Parameter] public Color Color { get; set; } = Color.Primary;
+    [Parameter]
+    public Color Color { get; set; } = Color.Primary;
 
-    [Parameter] public DateTime CurrentDay { get; set; }
+    [Parameter]
+    public DateTime CurrentDay { get; set; }
 
-    [Parameter] public bool HighlightToday { get; set; } = true;
+    [Parameter]
+    public bool HighlightToday { get; set; } = true;
 
-    [Parameter] public RenderFragment<T>? CellTemplate { get; set; }
+    [Parameter]
+    public RenderFragment<T>? CellTemplate { get; set; }
 
-    [Parameter] public IEnumerable<T> Items { get; set; } = new List<T>();
+    [Parameter]
+    public IEnumerable<T> Items { get; set; } = new List<T>();
+    
+    [Parameter]
+    public EventCallback<DateTime> CellClicked { get; set; }
 
     private List<CalendarCell<T>> _cells = new();
 
@@ -27,7 +35,7 @@ public partial class MonthView<T> where T : CalendarItem
     private string DayClassname(CalendarCell<T> calendarCell)
     {
         return new CssBuilder()
-            .AddClass("mud-cal-month-cell-day")
+            .AddClass("mud-cal-month-cell-title")
             .AddClass("mud-cal-month-outside", calendarCell.Outside)
             .Build();
     }
@@ -38,6 +46,11 @@ public partial class MonthView<T> where T : CalendarItem
             .AddStyle("border", $"1px solid var(--mud-palette-{Color.ToDescriptionString()})",
                 calendarCell.Today && HighlightToday)
             .Build();
+    }
+
+    private Task CellLinkClicked(CalendarCell<T> cell)
+    {
+        return CellClicked.InvokeAsync(cell.Date);
     }
 
     private void BuildCells()

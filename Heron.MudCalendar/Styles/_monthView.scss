@@ -14,6 +14,11 @@
   &.mud-cal-month-outside {
     color: var(--mud-palette-text-disabled);
   }
+  
+  .mud-link {
+    color: inherit !important;
+    cursor: pointer;
+  }
 }
 
 .mud-cal-month-cell-events {

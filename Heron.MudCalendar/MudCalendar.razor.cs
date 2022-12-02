@@ -126,6 +126,9 @@ public partial class MudCalendar<T> : MudComponentBase where T : CalendarItem
     /// </summary>
     [Parameter]
     public EventCallback<CalendarView> ViewChanged { get; set; }
+    
+    [Parameter]
+    public EventCallback<DateTime> CellClicked { get; set; }
 
     private DateTime? PickerDate
     {

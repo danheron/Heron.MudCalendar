@@ -1,0 +1,15 @@
+@namespace Heron.MudCalendar.Docs.Examples
+
+<MudCalendar T="CalendarItem" CellClicked="CellClicked" />
+
+@code {
+
+    [Inject]
+    private IDialogService DialogService { get; set; }
+
+    private Task CellClicked(DateTime dateTime)
+    {
+        return DialogService.ShowMessageBox("Click", dateTime.ToString(Thread.CurrentThread.CurrentCulture));
+    }
+
+}
