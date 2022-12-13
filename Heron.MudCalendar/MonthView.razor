@@ -1,6 +1,6 @@
 @typeparam T where T : CalendarItem
 
-<div class="mud-cal-month-view">
+<div class="@Classname">
     <table>
         <thead>
         <tr>
@@ -28,17 +28,17 @@
                                 }
                                 else
                                 {
-                                    @cell.Date.Day   
+                                    @cell.Date.Day
                                 }
                             </div>
                             <div class="mud-cal-month-cell-events">
-                            @if (CellTemplate is not null)
-                            {
-                                foreach (var item in cell.Items)
+                                @if (CellTemplate is not null)
                                 {
-                                    @CellTemplate?.Invoke(item)
+                                    foreach (var item in cell.Items)
+                                    {
+                                        @CellTemplate?.Invoke(item)
+                                    }
                                 }
-                            }
                             </div>
                         </div>
                     </td>

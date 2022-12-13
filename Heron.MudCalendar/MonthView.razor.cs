@@ -15,6 +15,9 @@ public partial class MonthView<T> where T : CalendarItem
 
     [Parameter]
     public bool HighlightToday { get; set; } = true;
+    
+    [Parameter]
+    public int MinCellHeight { get; set; }
 
     [Parameter]
     public RenderFragment<T>? CellTemplate { get; set; }
@@ -32,6 +35,16 @@ public partial class MonthView<T> where T : CalendarItem
         BuildCells();
     }
 
+    private string Classname =>
+        new CssBuilder("mud-cal-month-view")
+            .AddClass("mud-cal-month-fixed-height", MinCellHeight == 0)
+            .Build();
+
+    private string RowStyle =>
+        new StyleBuilder()
+            .AddStyle("min-height", MinCellHeight + "px", MinCellHeight > 0)
+            .Build();
+
     private string DayClassname(CalendarCell<T> calendarCell)
     {
         return new CssBuilder()
@@ -45,6 +58,7 @@ public partial class MonthView<T> where T : CalendarItem
         return new StyleBuilder()
             .AddStyle("border", $"1px solid var(--mud-palette-{Color.ToDescriptionString()})",
                 calendarCell.Today && HighlightToday)
+            .AddStyle("min-height", MinCellHeight + "px", MinCellHeight > 0)
             .Build();
     }
 

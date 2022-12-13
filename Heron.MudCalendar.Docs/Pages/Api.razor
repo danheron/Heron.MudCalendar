@@ -1,5 +1,4 @@
 @page "/api/{Component}"
-@using MudBlazor.Docs.Models
 
 @if (ComponentType == null)
 {
@@ -20,9 +19,6 @@ else
 
     protected override void OnParametersSet()
     {
-        //ComponentType = ApiLink.GetTypeFromComponentLink("Alert");
-        //ComponentType = typeof(MudCalendar<>).MakeGenericType(typeof(CalendarItem));
-        //ComponentType = CalApiLink.GetTypeFromComponentLink(Component);
         ComponentType = typeof(MudCalendar<>).MakeGenericType(typeof(CalendarItem));
         StateHasChanged();
     }

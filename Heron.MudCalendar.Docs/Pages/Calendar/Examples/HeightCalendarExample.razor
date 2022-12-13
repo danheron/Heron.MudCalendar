@@ -1,0 +1,58 @@
+@namespace Heron.MudCalendar.Docs.Examples
+
+<MudCalendar Items="_events" Height="600" MonthMinHeight="@(_fixed ? 0 : 115)">
+    <MonthTemplate>
+        <div class="d-flex gap-1">
+            <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Secondary" Size="Size.Small"/>
+            <div>@context.Text</div>
+        </div>
+    </MonthTemplate>
+</MudCalendar>
+
+<MudSwitch class="mt-4" @bind-checked="@_fixed" Color="Color.Primary" T="bool">Fixed Height</MudSwitch>
+
+@code {
+
+    private bool _fixed;
+
+    private List<CalendarItem> _events = new()
+    {
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(10),
+            End = DateTime.Today.AddHours(11),
+            Text = "Event 1"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(11),
+            End = DateTime.Today.AddHours(12),
+            Text = "Event 2"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(13),
+            End = DateTime.Today.AddHours(14),
+            Text = "Event 3"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(14),
+            End = DateTime.Today.AddHours(15),
+            Text = "Event 4"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(17),
+            End = DateTime.Today.AddHours(18),
+            Text = "Event 5"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(17),
+            End = DateTime.Today.AddHours(18),
+            Text = "Event 6"
+        }
+    };
+
+}

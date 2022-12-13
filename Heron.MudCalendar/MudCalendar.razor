@@ -6,36 +6,36 @@
     <link href="_content/Heron.MudCalendar/Heron.MudCalendar.min.css" rel="stylesheet"/>
 </HeadContent>
 
-<div class="@Classname" style="@Style">
-
-    <div class="d-flex flex-column mud-height-full">
-        <div class="mud-cal-toolbar pa-4">
-            <div>
-                <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" Color="@Color" OnClick="Previous" Class="mr-2"/>
-                <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" Color="@Color" OnClick="Next" Class="mr-2"/>
-                <CalendarDatePicker @bind-Date="PickerDate" @bind-View="View" Variant="ButtonVariant" Color="Color"/>
+<div class="@Classname" style="@Styles">
+    
+        <div class="d-flex flex-column mud-height-full">
+            <div class="mud-cal-toolbar pa-4">
+                <div>
+                    <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" Color="@Color" OnClick="Previous" Class="mr-2"/>
+                    <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" Color="@Color" OnClick="Next" Class="mr-2"/>
+                    <CalendarDatePicker @bind-Date="PickerDate" @bind-View="View" Variant="ButtonVariant" Color="Color"/>
+                </div>
+                <div>
+                    <EnumSwitch Value="@View" T="CalendarView" Color="@Color" AllowedValues="AllowedViews()" ValueChanged="OnViewChange"/>
+                </div>
             </div>
-            <div>
-                <EnumSwitch Value="@View" T="CalendarView" Color="@Color" AllowedValues="AllowedViews()" ValueChanged="OnViewChange"/>
+
+            <div class="@ViewClassname">
+                @switch (View)
+                {
+                    case CalendarView.Day:
+                        <WeekView View="CalendarView.Day" Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(DayTemplate ?? CellTemplate)" Items="@Items"/>
+                        break;
+                    case CalendarView.Week:
+                        <WeekView View="CalendarView.Week" Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(WeekTemplate ?? CellTemplate)" Items="@Items"/>
+                        break;
+                    case CalendarView.Month:
+                    default:
+                        <MonthView Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" MinCellHeight="MonthMinHeight" CellTemplate="@(MonthTemplate ?? CellTemplate)" Items="@Items"/>
+                        break;
+                }
             </div>
         </div>
-
-        <div class="@ViewClassname">
-            @switch (View)
-            {
-                case CalendarView.Day:
-                    <WeekView View="CalendarView.Day" Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(DayTemplate ?? CellTemplate)" Items="@Items"/>
-                    break;
-                case CalendarView.Week:
-                    <WeekView View="CalendarView.Week" Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(WeekTemplate ?? CellTemplate)" Items="@Items"/>
-                    break;
-                case CalendarView.Month:
-                default:
-                    <MonthView Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(MonthTemplate ?? CellTemplate)" Items="@Items"/>
-                    break;
-            }
-        </div>
-    </div>
 </div>
 
 @code{

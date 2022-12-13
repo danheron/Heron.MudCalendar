@@ -43,7 +43,20 @@ public partial class MudCalendar<T> : MudComponentBase where T : CalendarItem
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public Variant ButtonVariant { get; set; } = Variant.Filled;
-    
+
+    /// <summary>
+    /// The height of the calendar component.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Appearance)]
+    public int Height { get; set; } = 700;
+
+    /// <summary>
+    /// If 0 the calendar will be fixed height. If set the month view will exapnd when necessary with this being the minimum height of each cell.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Appearance)]
+    public int MonthMinHeight { get; set; }
     
     /// <summary>
     /// Gets or sets the day that the calendar is showing.
@@ -142,6 +155,11 @@ public partial class MudCalendar<T> : MudComponentBase where T : CalendarItem
             .AddClass("mud-cal-square", Square)
             .AddClass($"mud-elevation-{Elevation}", !Outlined)
             .AddClass(Class)
+            .Build();
+
+    protected string Styles =>
+        new StyleBuilder("min-height", $"{Height}px")
+            .AddStyle(Style)
             .Build();
 
     protected string ViewClassname =>

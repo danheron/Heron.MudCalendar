@@ -1,5 +1,13 @@
 .mud-cal-month-view {
-  height: 100%;
+  &.mud-cal-month-fixed-height {
+    height: 100%; 
+  }
+}
+
+.mud-cal-month-fixed-height {
+  .mud-cal-month-cell {
+    overflow-y: scroll;
+  }
 }
 
 .mud-cal-month-cell {
