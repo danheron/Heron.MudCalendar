@@ -1,17 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>disable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Blazor-Analytics" Version="3.11.0" />
-		<PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.10" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.10" PrivateAssets="all" />
-		<PackageReference Include="MudBlazor" Version="6.1.0" />
+		<PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.1" PrivateAssets="all" />
+		<PackageReference Include="MudBlazor" Version="6.1.7" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -24,9 +24,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Reference Include="MudBlazor">
-			<HintPath>..\..\MudBlazor\src\MudBlazor\bin\Debug\net6.0\MudBlazor.dll</HintPath>
-		</Reference>
 		<Reference Include="MudBlazor.Docs">
 			<HintPath>..\..\MudBlazor\src\MudBlazor.Docs\bin\Debug\net6.0\MudBlazor.Docs.dll</HintPath>
 		</Reference>

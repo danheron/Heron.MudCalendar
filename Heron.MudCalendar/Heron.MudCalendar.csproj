@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -15,9 +15,12 @@
         <SupportedPlatform Include="browser" />
     </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.10" />
-        <PackageReference Include="MudBlazor" Version="6.1.0" />
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.11" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.1" />
     </ItemGroup>
 
     <Target Name="ToolRestore">
@@ -44,9 +47,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="MudBlazor">
-        <HintPath>..\..\MudBlazor\src\MudBlazor\bin\Debug\net6.0\MudBlazor.dll</HintPath>
-      </Reference>
+      <PackageReference Include="MudBlazor" Version="6.1.7" />
     </ItemGroup>
 
 </Project>
