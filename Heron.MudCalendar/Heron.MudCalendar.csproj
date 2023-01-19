@@ -5,6 +5,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     </PropertyGroup>
+    
+    <PropertyGroup>
+        <PackageId>Heron.MudCalendar</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>Dan Heron</Authors>
+    </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
       <DocumentationFile>bin\Debug\net6.0\Heron.MudCalendar.xml</DocumentationFile>
@@ -35,7 +41,7 @@
     <Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
         <Error Condition="!Exists('wwwroot/Heron.MudCalendar.min.css')" Text="Missing Heron.MudCalendar.min.css in wwwroot" />
         <ItemGroup>
-            <Content Include="wwwroot/Heron.MudCalendar.min.css" Condition="!Exists('wwwroot/Heron.MudCalendar.min.css')" />
+            <Content Include="wwwroot/Heron.MudCalendar.min.css" />
         </ItemGroup>
     </Target>
 
