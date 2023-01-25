@@ -33,15 +33,15 @@ jobs:
 
       - name: Restore MudBlazor
         run: dotnet restore
-        working-directory: ./MudBlazor
+        working-directory: ./MudBlazor/src
 
       - name: Build MudBlazor
         run: dotnet build -c Release --no-restore
-        working-directory: ./MudBlazor
+        working-directory: ./MudBlazor/src
 
       - name: Restore
         run: dotnet restore
-        working-directory: ./Heron.MudCalednar
+        working-directory: ./Heron.MudCalendar
 
       - name: Build
         run: dotnet build -c Release --no-restore
