@@ -37,7 +37,7 @@ jobs:
 
       - name: Build MudBlazor
         run: dotnet build -c Release --no-restore
-        working-directory: ./MudBlazor/src
+        working-directory: ./MudBlazor/src/MudBlazor.Docs
 
       - name: Restore
         run: dotnet restore
