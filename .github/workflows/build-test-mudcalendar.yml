@@ -16,44 +16,30 @@ jobs:
     steps:
       - name: Checkout MudCalendar repository
         uses: actions/checkout@v3
-        with:
-          path: Heron.MudCalendar
-
-      - name: Checkout MudBlazor repository
-        uses: actions/checkout@v3
-        with:
-          repository: danheron/MudBlazor
-          ref: mudcalendar
-          path: MudBlazor
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Restore MudBlazor
-        run: dotnet restore
-        working-directory: ./MudBlazor/src
-
-      - name: Build MudBlazor
-        run: dotnet build -c Release --no-restore
-        working-directory: ./MudBlazor/src/MudBlazor.Docs
-
       - name: Restore
         run: dotnet restore
-        working-directory: ./Heron.MudCalendar
 
       - name: Build
         run: dotnet build -c Release --no-restore
         working-directory: ./Heron.MudCalendar
 
+      - name: Build
+        run: dotnet build -c Release --no-restore
+        working-directory: ./Heron.UnitTests
+
       - name: Test
         run: dotnet test -c Release --no-build --no-restore --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
-        working-directory: ./Heron.MudCalendar
+        working-directory: ./Heron.MudCalendar.UnitTests
 
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v3
         with:
           name: dotnet-results-${{ matrix.dotnet-version }}
-          path: ./Heron.MudCalendar/TestResults-${{ matrix.dotnet-version }}
+          path: ./Heron.MudCalendar.UnitTests/TestResults-${{ matrix.dotnet-version }}
         if: ${{ always() }}
