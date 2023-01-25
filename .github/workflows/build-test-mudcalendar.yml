@@ -31,7 +31,7 @@ jobs:
 
       - name: Build
         run: dotnet build -c Release --no-restore
-        working-directory: ./Heron.UnitTests
+        working-directory: ./Heron.MudCalendar.UnitTests
 
       - name: Test
         run: dotnet test -c Release --no-build --no-restore --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
