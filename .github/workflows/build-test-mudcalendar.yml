@@ -17,7 +17,7 @@ jobs:
       - name: Checkout MudCalendar repository
         uses: actions/checkout@v3
         with:
-          path: Heron.MudBlazor
+          path: Heron.MudCalendar
 
       - name: Checkout MudBlazor repository
         uses: actions/checkout@v3
@@ -55,5 +55,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dotnet-results-${{ matrix.dotnet-version }}
-          path: ./Heron.MudBlazor/TestResults-${{ matrix.dotnet-version }}
+          path: ./Heron.MudCalendar/TestResults-${{ matrix.dotnet-version }}
         if: ${{ always() }}
