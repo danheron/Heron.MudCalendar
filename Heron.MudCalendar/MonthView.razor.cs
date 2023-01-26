@@ -43,6 +43,7 @@ public partial class MonthView<T> where T : CalendarItem
     private string RowStyle =>
         new StyleBuilder()
             .AddStyle("min-height", MinCellHeight + "px", MinCellHeight > 0)
+            .AddStyle("height", $"{100 / (_cells.Count / 7)}%", MinCellHeight == 0)
             .Build();
 
     private string DayClassname(CalendarCell<T> calendarCell)

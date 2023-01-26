@@ -135,4 +135,14 @@ public class CalendarTests : BunitTest
         comp.Find("div.mud-cal-week-layer a").Click();
         textField.Instance.Text.Should().Be("8");
     }
+
+    [Test]
+    public void EnsureAllDays()
+    {
+        var cut = Context.RenderComponent<CalendarTest>();
+        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
+        
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
+        comp.FindAll("div.mud-cal-month-cell-title").Count.Should().Be(42);
+    }
 }

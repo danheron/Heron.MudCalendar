@@ -15,7 +15,7 @@
         <tbody>
         @for (var week = 0; week < _cells.Count / 7; week++)
         {
-            <tr>
+            <tr style="@RowStyle">
                 @for (var i = week * 7; i < (week + 1) * 7; i++)
                 {
                     var cell = _cells[i];
