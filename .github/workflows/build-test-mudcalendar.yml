@@ -34,7 +34,7 @@ jobs:
         working-directory: ./Heron.MudCalendar.UnitTests
 
       - name: Test
-        run: dotnet test -c Release --no-build --no-restore --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
+        run: dotnet test -c Release --no-build --no-restore --blame-hang --blame-hang-timeout 60s /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverageAttribute' /p:Include='[Heron.MudCalendar]*' /p:CoverletOutput='./TestResults/' --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
         working-directory: ./Heron.MudCalendar.UnitTests
 
       - name: Upload dotnet test results

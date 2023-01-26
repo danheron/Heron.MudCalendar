@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using MudBlazor;
 
 namespace Heron.MudCalendar.Attributes;
@@ -10,6 +11,7 @@ namespace Heron.MudCalendar.Attributes;
 /// This attribute is similar to <see cref="System.ComponentModel.CategoryAttribute"/>. <br/>
 /// The name of the category can be specified by using a constant defined in the <see cref="CategoryTypes"/> class.
 /// </remarks>
+[ExcludeFromCodeCoverage]
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
 public class CategoryAttribute : Attribute
 {
