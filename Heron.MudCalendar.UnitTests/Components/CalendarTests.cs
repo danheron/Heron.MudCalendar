@@ -6,6 +6,7 @@ using MudBlazor;
 
 namespace Heron.MudCalendar.UnitTests.Components;
 
+[SetCulture("en-GB")]
 public class CalendarTests : BunitTest
 {
     [Test]
@@ -67,7 +68,7 @@ public class CalendarTests : BunitTest
         // Month View
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
         comp.FindAll("button.mud-icon-button")[1].Click();
-        comp.Find("div.mud-cal-month-cell-title").TextContent.Should().Be("30");
+        comp.FindAll("div.mud-cal-month-cell-title")[0].TextContent.Should().Be("30");
         
         // Week View
         comp.SetParam(x => x.View, CalendarView.Week);
