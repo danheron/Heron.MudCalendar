@@ -6,8 +6,6 @@ namespace Heron.MudCalendar;
 
 public partial class EnumSwitch<T>
 {
-    private T _value = default!;
-
     [Parameter]
     public Color Color { get; set; } = Color.Primary;
     
@@ -15,19 +13,19 @@ public partial class EnumSwitch<T>
     public IEnumerable<T>? AllowedValues { get; set; }
 
     [Parameter]
-    public T Value
-    {
-        get => _value;
-        set
-        {
-            if (_value.Equals(value)) return;
-            _value = value;
-            ValueChanged.InvokeAsync(value);
-        }
-    }
+    public T Value { get; set; } = default!;
 
     [Parameter]
     public EventCallback<T> ValueChanged { get; set; }
+
+    private async Task ButtonClicked(T newValue)
+    {
+        if (!newValue.Equals(Value))
+        {
+            Value = newValue;
+            await ValueChanged.InvokeAsync(newValue);
+        }
+    }
 
     private string Classname =>
         new CssBuilder("mud-width-full")
@@ -36,5 +34,5 @@ public partial class EnumSwitch<T>
             .AddClass("d-none", AllowedValues != null && AllowedValues.Count() <= 1)
             .Build();
 
-    private Type Type => typeof(T);
+    private static Type Type => typeof(T);
 }
