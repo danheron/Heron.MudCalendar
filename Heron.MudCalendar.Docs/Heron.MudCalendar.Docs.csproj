@@ -25,10 +25,10 @@
 
 	<ItemGroup>
 		<Reference Include="MudBlazor.Docs">
-			<HintPath>..\..\MudBlazor\src\MudBlazor.Docs\bin\Debug\net6.0\MudBlazor.Docs.dll</HintPath>
+			<HintPath>..\..\MudBlazor\src\MudBlazor.Docs\bin\Release\net7.0\MudBlazor.Docs.dll</HintPath>
 		</Reference>
 		<Reference Include="MudBlazor.Examples.Data">
-			<HintPath>..\..\MudBlazor\src\MudBlazor.Docs\bin\Debug\net6.0\MudBlazor.Examples.Data.dll</HintPath>
+			<HintPath>..\..\MudBlazor\src\MudBlazor.Docs\bin\Release\net7.0\MudBlazor.Examples.Data.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 
