@@ -2,43 +2,49 @@
 @using CategoryTypes = Heron.MudCalendar.Attributes.CategoryTypes
 @typeparam T where T : CalendarItem
 
-<HeadContent>
-    <link href="_content/Heron.MudCalendar/Heron.MudCalendar.min.css" rel="stylesheet"/>
-</HeadContent>
+@RenderHeader
 
-<div class="@Classname" style="@Styles">
-    
-        <div class="d-flex flex-column mud-height-full">
-            <div class="mud-cal-toolbar pa-4">
-                <div>
-                    <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" Color="@Color" OnClick="Previous" Class="mr-2"/>
-                    <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" Color="@Color" OnClick="Next" Class="mr-2"/>
-                    <CalendarDatePicker @bind-Date="PickerDate" @bind-View="View" Variant="ButtonVariant" Color="Color"/>
+@Render
+
+@code {
+
+    protected virtual RenderFragment RenderHeader =>
+        @<HeadContent>
+            <link href="_content/Heron.MudCalendar/Heron.MudCalendar.min.css" rel="stylesheet"/>
+        </HeadContent>;
+
+    protected virtual RenderFragment Render =>
+        @<div class="@Classname" style="@Styles">
+
+            <div class="d-flex flex-column mud-height-full">
+                <div class="mud-cal-toolbar pa-4">
+                    <div>
+                        <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" Color="@Color" OnClick="Previous" Class="mr-2"/>
+                        <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" Color="@Color" OnClick="Next" Class="mr-2"/>
+                        <CalendarDatePicker @bind-Date="PickerDate" @bind-View="View" Variant="ButtonVariant" Color="Color"/>
+                    </div>
+                    <div>
+                        <EnumSwitch Value="@View" T="CalendarView" Color="@Color" AllowedValues="AllowedViews()" ValueChanged="OnViewChange"/>
+                    </div>
                 </div>
-                <div>
-                    <EnumSwitch Value="@View" T="CalendarView" Color="@Color" AllowedValues="AllowedViews()" ValueChanged="OnViewChange"/>
+
+                <div class="@ViewClassname">
+                    @switch (View)
+                    {
+                        case CalendarView.Day:
+                            @DayViewTemplate
+                            break;
+                        case CalendarView.Week:
+                            @WeekViewTemplate
+                            break;
+                        case CalendarView.Month:
+                        default:
+                            @MonthViewTemplate
+                            break;
+                    }
                 </div>
             </div>
-
-            <div class="@ViewClassname">
-                @switch (View)
-                {
-                    case CalendarView.Day:
-                        <WeekView View="CalendarView.Day" Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(DayTemplate ?? CellTemplate)" Items="@Items"/>
-                        break;
-                    case CalendarView.Week:
-                        <WeekView View="CalendarView.Week" Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(WeekTemplate ?? CellTemplate)" Items="@Items"/>
-                        break;
-                    case CalendarView.Month:
-                    default:
-                        <MonthView Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" MinCellHeight="MonthMinHeight" CellTemplate="@(MonthTemplate ?? CellTemplate)" Items="@Items"/>
-                        break;
-                }
-            </div>
-        </div>
-</div>
-
-@code{
+        </div>;
 
     /// <summary>
     /// Defines the cell content for the Calendar.  Can be overriden for different Views by defining DayTemplate, WeekTemplate and MonthTemplate.
@@ -50,5 +56,14 @@
             @<div style="width: 100%; padding: 4px;">
                 <MudChip Label="true" Color="Color.Primary" Style="width: 100%; margin: 0; min-height: 36px;">@calendarItem.Text</MudChip>
             </div>;
-    
+
+    protected virtual RenderFragment MonthViewTemplate =>
+        @<MonthView Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" MinCellHeight="MonthMinHeight" CellTemplate="@(MonthTemplate ?? CellTemplate)" Items="@Items"/>;
+
+    protected virtual RenderFragment WeekViewTemplate =>
+        @<WeekView View="CalendarView.Week" Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(WeekTemplate ?? CellTemplate)" Items="@Items"/>;
+
+    protected virtual RenderFragment DayViewTemplate =>
+        @<WeekView View="CalendarView.Day" Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(DayTemplate ?? CellTemplate)" Items="@Items"/>;
+
 }
