@@ -1,0 +1,101 @@
+name: deploy-mudcalendar-docs
+env:
+  PUBLISH_FOLDER: './Heron.MudCalendar/Heron.MudCalendar.Docs/bin/Release/net7.0/publish/wwwroot'
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Tag to publish v[0-9]+.[0-9]+.[0-9]+*'
+        required: true
+        default: ''
+        type: string
+
+jobs:
+  get-version:
+    name: Get version to deploy
+    runs-on: ubuntu-latest
+    env:
+      VERSION: 1.0.0
+    outputs:
+      VERSION: ${{ steps.output-version.outputs.VERSION }}
+    steps:
+    - name: Set tag from input
+      env:
+        TAG: ${{ github.event.inputs.version }}
+      run: echo "VERSION=${TAG#v}" >> $GITHUB_ENV
+
+    - name: VERSION to job output
+      id: output-version
+      run: |
+        echo "VERSION=${{ env.VERSION }}" >> $GITHUB_OUTPUT
+
+  deploy-docs:
+    name: Deploy Docs to Github Pages
+    needs: get-version
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout MudBlazor
+      uses: actions/checkout@v3
+      with:
+        repository: danheron/MudBlazor
+        ref: mudcalendar
+        path: './MudBlazor'
+
+    - name: Checkout mudcalendar
+      uses: actions/checkout@v3
+      with:
+        ref: 'refs/tags/v${{ needs.get-version.outputs.VERSION }}'
+        path: './Heron.MudCalendar'
+
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+
+    - name: Restore MudBlazor
+      run: dotnet restore
+      working-directory: './MudBlazor/src'
+
+    - name: Restore MudCalendar
+      run: dotnet restore
+      working-directory: './Heron.MudCalendar'
+
+    - name: Build MudCalendar
+      run: dotnet build -c Release --no-restore
+      working-directory: './Heron.MudCalendar/Heron.MudCalendar'
+
+    - name: Build MudBlazor Docs
+      run: dotnet build -c Release --no-restore
+      working-directory: './MudBlazor/src/MudBlazor.Docs'
+
+    - name: Build MudCalendar Docs
+      run: dotnet build -c Release --no-restore
+      working-directory: './Heron.MudCalendar/Heron.MudCalendar.Docs'
+
+    - name: Publish MudCalendar
+      run: dotnet public -c Release --no-restore
+      working-directory: './Heron.MudCalendar/Heron.MudCalendar.Docs'
+
+    # base href url value should be changed so that resources like CSS and scripts can load properly.
+    - name: Rewrite base href
+      if: success()
+      uses: SteveSandersonMS/ghaction-rewrite-base-href@v1.1.0
+      with:
+        html_path: ${{ env.PUBLISH_FOLDER }}/index.html
+        base_href: REPOSITORY_NAME
+
+    # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project.
+    # Allow files and folders starting with an underscore.
+    - name: Add .nojekyll file
+      run: touch ${{ env.PUBLISH_DIR }}/.nojekyll
+
+    - name: Deploy to Github Pages
+      uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: {{ secrets.PUBLISH_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: /${{ env.PUBLISH_FOLDER }}
+          allow_empty_commit: false
+          keep_files: false
+          force_orphan: true
