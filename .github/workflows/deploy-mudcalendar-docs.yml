@@ -92,10 +92,10 @@ jobs:
 
     - name: Deploy to Github Pages
       uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: {{ secrets.PUBLISH_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: /${{ env.PUBLISH_FOLDER }}
-          allow_empty_commit: false
-          keep_files: false
-          force_orphan: true
+      with:
+        github_token: {{ secrets.PUBLISH_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: /${{ env.PUBLISH_FOLDER }}
+        allow_empty_commit: false
+        keep_files: false
+        force_orphan: true

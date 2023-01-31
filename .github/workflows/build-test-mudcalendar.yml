@@ -1,6 +1,6 @@
 name: build-test-mudcalendar
 
-on
+on:
   workflow_dispatch:
   push:
     branches: [ dev ]
