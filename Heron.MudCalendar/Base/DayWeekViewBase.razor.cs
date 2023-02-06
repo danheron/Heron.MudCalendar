@@ -86,8 +86,8 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
 
     private async Task ScrollToDay()
     {
-        var percent = (double)(DayStartTime * 60) / MinutesInDay;
-        var scrollTo = PixelsInDay * percent;
+        const double percent = (double)(DayStartTime * 60) / MinutesInDay;
+        const double scrollTo = PixelsInDay * percent;
 
         _jsService ??= new JsService(JsRuntime);
         await _jsService.Scroll(_scrollDiv, (int)scrollTo);

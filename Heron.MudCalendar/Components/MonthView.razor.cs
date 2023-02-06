@@ -68,18 +68,17 @@ public partial class MonthView : CalendarViewBase
         var monthEnd = new DateTime(CurrentDay.AddMonths(1).Year, CurrentDay.AddMonths(1).Month, 1).AddDays(-1);
 
         var range = new CalendarDateRange(CurrentDay, CalendarView.Month);
-        if (range.Start != null && range.End != null)
+        if (range.Start == null || range.End == null) return cells;
+        
+        var date = range.Start.Value;
+        var lastDate = range.End.Value;
+        while (date <= lastDate)
         {
-            var date = range.Start.Value;
-            var lastDate = range.End.Value;
-            while (date <= lastDate)
-            {
-                var cell = BuildCell(date, monthStart, monthEnd);
-                cells.Add(cell);
+            var cell = BuildCell(date, monthStart, monthEnd);
+            cells.Add(cell);
 
-                // Next day
-                date = date.AddDays(1);
-            }
+            // Next day
+            date = date.AddDays(1);
         }
 
         return cells;

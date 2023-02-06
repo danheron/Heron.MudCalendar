@@ -8,7 +8,7 @@ public partial class CalendarDatePicker
     [Parameter]
     public CalendarView View { get; set; }
 
-    protected string? DateRangeText
+    protected virtual string? DateRangeText
     {
         get
         {
@@ -21,7 +21,7 @@ public partial class CalendarDatePicker
                     if (!Date.HasValue) return null;
                     var range = new CalendarDateRange(Date.Value, View);
                     return range.End != null && range.Start != null && range.Start.Value.Month == range.End.Value.Month ? 
-                        $"{range.Start:dd} - {range.End:dd} {range.End.Value.ToString("MMM yyyy")}" : 
+                        $"{range.Start:dd} - {range.End:dd} {range.End.Value:MMM yyyy}" : 
                         $"{range.Start:dd} {range.End:MMM} - {range.End:dd} {range.End?.ToString("MMM yyyy")}";
                 
                 case CalendarView.Month:

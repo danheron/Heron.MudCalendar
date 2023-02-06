@@ -1,3 +1,4 @@
+@namespace Heron.MudCalendar
 @inherits CalendarViewBase
 @using Microsoft.JSInterop
 @inject IJSRuntime JsRuntime
@@ -148,7 +149,7 @@
             }
             @RenderCellContents(cell)
         </td>;
-
+    
     protected virtual RenderFragment RenderCellContents(CalendarCell cell) => __builder =>
     {
         foreach (var item in cell.Items)
