@@ -5,57 +5,8 @@ using MudBlazor.Utilities;
 
 namespace Heron.MudCalendar;
 
-public partial class MonthView
+public partial class MonthView : CalendarViewBase
 {
-    /// <summary>
-    /// The color of the buttons and other items.
-    /// </summary>
-    [Parameter]
-    public Color Color { get; set; } = Color.Primary;
-
-    /// <summary>
-    /// Gets or sets the day that the calendar is showing.
-    /// </summary>
-    [Parameter]
-    public DateTime CurrentDay { get; set; }
-
-    /// <summary>
-    /// If true highlights today.
-    /// </summary>
-    [Parameter]
-    public bool HighlightToday { get; set; } = true;
-    
-    /// <summary>
-    /// If 0 the month view will be fixed height. If set the month view will exapnd when necessary with this being the minimum height of each cell.
-    /// </summary>
-    [Parameter]
-    public int MinCellHeight { get; set; }
-
-    /// <summary>
-    /// Defines the cell content for the month view.
-    /// </summary>
-    [Parameter]
-    public RenderFragment<CalendarItem>? CellTemplate { get; set; }
-
-    /// <summary>
-    /// The data to display in the month view.
-    /// </summary>
-    [Parameter]
-    public IEnumerable<CalendarItem> Items { get; set; } = new List<CalendarItem>();
-    
-    /// <summary>
-    /// Called when a cell is clicked.
-    /// </summary>
-    [Parameter]
-    public EventCallback<DateTime> CellClicked { get; set; }
-
-    protected List<CalendarCell> Cells = new();
-
-    protected override void OnParametersSet()
-    {
-        BuildCells();
-    }
-
     /// <summary>
     /// Classes added to main div of component.
     /// </summary>
@@ -105,15 +56,12 @@ public partial class MonthView
     /// </summary>
     /// <param name="cell">The cell that was clicked.</param>
     /// <returns></returns>
-    protected virtual Task OnCellLinkClick(CalendarCell cell)
+    protected virtual Task OnCellLinkClicked(CalendarCell cell)
     {
         return CellClicked.InvokeAsync(cell.Date);
     }
-
-    /// <summary>
-    /// Builds a collection of cells that will be displayed in the month view.
-    /// </summary>
-    protected virtual void BuildCells()
+    
+    protected override List<CalendarCell> BuildCells()
     {
         var cells = new List<CalendarCell>();
         var monthStart = new DateTime(CurrentDay.Year, CurrentDay.Month, 1);
@@ -134,7 +82,7 @@ public partial class MonthView
             }
         }
 
-        Cells = cells;
+        return cells;
     }
     
     /// <summary>

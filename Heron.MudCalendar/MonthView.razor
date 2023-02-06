@@ -1,3 +1,5 @@
+@inherits CalendarViewBase
+
 @Render
 
 @code {
@@ -70,7 +72,7 @@
         @<div class="@DayClassname(cell)">
             @if (CellClicked.HasDelegate)
             {
-                <MudLink @onclick="() => OnCellLinkClick(cell)">@cell.Date.Day</MudLink>
+                <MudLink @onclick="() => OnCellLinkClicked(cell)">@cell.Date.Day</MudLink>
             }
             else
             {
@@ -83,13 +85,10 @@
     /// </summary>
     protected virtual RenderFragment RenderCellContents(CalendarCell cell) =>
         @<div class="mud-cal-month-cell-events">
-            @if (CellTemplate is not null)
-            {
-                foreach (var item in cell.Items)
+            @foreach (var item in cell.Items)
                 {
                     @CellTemplate?.Invoke(item)
                 }
-            }
         </div>;
 
 }

@@ -1,3 +1,4 @@
+@inherits CalendarViewBase
 @using Microsoft.JSInterop
 @inject IJSRuntime JsRuntime
 
@@ -127,27 +128,35 @@
                     <td></td>
                     @foreach (var cell in Cells)
                     {
-                        <td style="position: relative;">
-                            @for (var i = 0; i < 48; i++)
-                            {
-                                var row = i;
-                                <div style="height: 36px;">
-                                    <MudLink @onclick="() => CellLinkClicked(cell, row)" Style="cursor: pointer; z-index: 100;">
-                                        <div class="mud-cal-week-link"></div>
-                                    </MudLink>
-                                </div>
-                            }
-                            @foreach (var item in cell.Items)
-                            {
-                                <div style="@EventStyle(item)">
-                                    @CellTemplate?.Invoke(item)
-                                </div>
-                            }
-                        </td>
+                        @RenderCell(cell)
                     }
                 </tr>
                 </tbody>
             </table>
         </div>;
+
+    protected virtual RenderFragment RenderCell(CalendarCell cell) =>
+        @<td style="position: relative;">
+            @for (var i = 0; i < 48; i++)
+            {
+                var row = i;
+                <div style="height: 36px;">
+                    <MudLink @onclick="() => OnCellLinkClicked(cell, row)" Style="cursor: pointer; z-index: 100;">
+                        <div class="mud-cal-week-link"></div>
+                    </MudLink>
+                </div>
+            }
+            @RenderCellContents(cell)
+        </td>;
+
+    protected virtual RenderFragment RenderCellContents(CalendarCell cell) => __builder =>
+    {
+        foreach (var item in cell.Items)
+        {
+            <div style="@EventStyle(item)">
+                @CellTemplate?.Invoke(item)
+            </div>
+        }
+    };
 
 }
