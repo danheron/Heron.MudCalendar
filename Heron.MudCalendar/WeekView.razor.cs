@@ -8,7 +8,7 @@ using MudBlazor.Utilities;
 
 namespace Heron.MudCalendar;
 
-public partial class WeekView<T> : IAsyncDisposable where T : CalendarItem
+public partial class WeekView : IAsyncDisposable
 {
     
     [Parameter]
@@ -24,15 +24,15 @@ public partial class WeekView<T> : IAsyncDisposable where T : CalendarItem
     public bool HighlightToday { get; set; } = true;
     
     [Parameter]
-    public RenderFragment<T>? CellTemplate { get; set; }
+    public RenderFragment<CalendarItem>? CellTemplate { get; set; }
     
     [Parameter]
-    public IEnumerable<T> Items { get; set; } = new List<T>();
+    public IEnumerable<CalendarItem> Items { get; set; } = new List<CalendarItem>();
     
     [Parameter]
     public EventCallback<DateTime> CellClicked { get; set; }
 
-    protected List<CalendarCell<T>> Cells = new();
+    protected List<CalendarCell> Cells = new();
     
     private ElementReference _scrollDiv;
     private JsService? _jsService;
@@ -64,7 +64,7 @@ public partial class WeekView<T> : IAsyncDisposable where T : CalendarItem
         }
     }
 
-    protected virtual string DayStyle(CalendarCell<T> calendarCell)
+    protected virtual string DayStyle(CalendarCell calendarCell)
     {
         return new StyleBuilder()
             .AddStyle("border", $"1px solid var(--mud-palette-{Color.ToDescriptionString()})", calendarCell.Today && HighlightToday)
@@ -82,7 +82,7 @@ public partial class WeekView<T> : IAsyncDisposable where T : CalendarItem
             .Build();
     }
 
-    protected virtual Task CellLinkClicked(CalendarCell<T> cell, int row)
+    protected virtual Task CellLinkClicked(CalendarCell cell, int row)
     {
         var date = cell.Date.AddHours(row / 2.0);
         return CellClicked.InvokeAsync(date);
@@ -123,7 +123,7 @@ public partial class WeekView<T> : IAsyncDisposable where T : CalendarItem
 
     protected virtual void BuildCellsWeek()
     {
-        var cells = new List<CalendarCell<T>>();
+        var cells = new List<CalendarCell>();
         var range = new CalendarDateRange(CurrentDay, View);
         if (range.Start != null && range.End != null)
         {
@@ -131,7 +131,7 @@ public partial class WeekView<T> : IAsyncDisposable where T : CalendarItem
             var lastDate = range.End.Value;
             while (date <= lastDate)
             {
-                var cell = new CalendarCell<T> { Date = date };
+                var cell = new CalendarCell { Date = date };
                 if (date.Date == DateTime.Today) cell.Today = true;
             
                 cell.Items = Items.Where(i => i.Start >= date && i.Start < date.AddDays(1)).ToList();
@@ -148,12 +148,12 @@ public partial class WeekView<T> : IAsyncDisposable where T : CalendarItem
     
     protected virtual void BuildCellsDay()
     {
-        var cell = new CalendarCell<T> { Date = CurrentDay };
+        var cell = new CalendarCell { Date = CurrentDay };
         if (CurrentDay.Date == DateTime.Today) cell.Today = true;
         
         cell.Items = Items.Where(i => i.Start >= CurrentDay && i.Start < CurrentDay.AddDays(1)).ToList();
 
-        Cells = new List<CalendarCell<T>> { cell };
+        Cells = new List<CalendarCell> { cell };
     }
 
     public async ValueTask DisposeAsync()

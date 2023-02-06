@@ -5,7 +5,7 @@ using MudBlazor.Utilities;
 
 namespace Heron.MudCalendar;
 
-public partial class MonthView<T> where T : CalendarItem
+public partial class MonthView
 {
     /// <summary>
     /// The color of the buttons and other items.
@@ -35,13 +35,13 @@ public partial class MonthView<T> where T : CalendarItem
     /// Defines the cell content for the month view.
     /// </summary>
     [Parameter]
-    public RenderFragment<T>? CellTemplate { get; set; }
+    public RenderFragment<CalendarItem>? CellTemplate { get; set; }
 
     /// <summary>
     /// The data to display in the month view.
     /// </summary>
     [Parameter]
-    public IEnumerable<T> Items { get; set; } = new List<T>();
+    public IEnumerable<CalendarItem> Items { get; set; } = new List<CalendarItem>();
     
     /// <summary>
     /// Called when a cell is clicked.
@@ -49,7 +49,7 @@ public partial class MonthView<T> where T : CalendarItem
     [Parameter]
     public EventCallback<DateTime> CellClicked { get; set; }
 
-    protected List<CalendarCell<T>> Cells = new();
+    protected List<CalendarCell> Cells = new();
 
     protected override void OnParametersSet()
     {
@@ -78,7 +78,7 @@ public partial class MonthView<T> where T : CalendarItem
     /// </summary>
     /// <param name="calendarCell">The cell.</param>
     /// <returns></returns>
-    protected virtual string DayClassname(CalendarCell<T> calendarCell)
+    protected virtual string DayClassname(CalendarCell calendarCell)
     {
         return new CssBuilder()
             .AddClass("mud-cal-month-cell-title")
@@ -91,7 +91,7 @@ public partial class MonthView<T> where T : CalendarItem
     /// </summary>
     /// <param name="calendarCell">The cell.</param>
     /// <returns></returns>
-    protected virtual string DayStyle(CalendarCell<T> calendarCell)
+    protected virtual string DayStyle(CalendarCell calendarCell)
     {
         return new StyleBuilder()
             .AddStyle("border", $"1px solid var(--mud-palette-{Color.ToDescriptionString()})",
@@ -105,7 +105,7 @@ public partial class MonthView<T> where T : CalendarItem
     /// </summary>
     /// <param name="cell">The cell that was clicked.</param>
     /// <returns></returns>
-    protected virtual Task OnCellLinkClick(CalendarCell<T> cell)
+    protected virtual Task OnCellLinkClick(CalendarCell cell)
     {
         return CellClicked.InvokeAsync(cell.Date);
     }
@@ -115,7 +115,7 @@ public partial class MonthView<T> where T : CalendarItem
     /// </summary>
     protected virtual void BuildCells()
     {
-        var cells = new List<CalendarCell<T>>();
+        var cells = new List<CalendarCell>();
         var monthStart = new DateTime(CurrentDay.Year, CurrentDay.Month, 1);
         var monthEnd = new DateTime(CurrentDay.AddMonths(1).Year, CurrentDay.AddMonths(1).Month, 1).AddDays(-1);
 
@@ -144,9 +144,9 @@ public partial class MonthView<T> where T : CalendarItem
     /// <param name="monthStart">The first day of the month being shown.</param>
     /// <param name="monthEnd">The last day of the month being shown.</param>
     /// <returns></returns>
-    protected virtual CalendarCell<T> BuildCell(DateTime date, DateTime monthStart, DateTime monthEnd)
+    protected virtual CalendarCell BuildCell(DateTime date, DateTime monthStart, DateTime monthEnd)
     {
-        var cell = new CalendarCell<T> { Date = date };
+        var cell = new CalendarCell { Date = date };
         if (date.Date == DateTime.Today) cell.Today = true;
         if (date < monthStart || date > monthEnd)
         {

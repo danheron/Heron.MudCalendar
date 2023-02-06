@@ -1,10 +1,10 @@
 namespace Heron.MudCalendar;
 
-public class CalendarCell<T> where T : CalendarItem
+public class CalendarCell
 {
     public DateTime Date { get; set; }
 
-    public IEnumerable<T> Items { get; set; } = new List<T>();
+    public IEnumerable<CalendarItem> Items { get; set; } = new List<CalendarItem>();
     
     public bool Outside { get; set; }
     

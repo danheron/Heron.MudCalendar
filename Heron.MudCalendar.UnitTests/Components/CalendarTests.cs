@@ -38,7 +38,7 @@ public class CalendarTests : BunitTest
     public void RestrictViews()
     {
         var cut = Context.RenderComponent<CalendarTest>();
-        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
+        var comp = cut.FindComponent<MudCalendar>();
 
         comp.SetParam(x => x.ShowDay, false);
         comp.SetParam(x => x.ShowWeek, false);
@@ -51,7 +51,7 @@ public class CalendarTests : BunitTest
     public void EnsureViewIsChangedWhenCurrentViewNotAllowed()
     {
         var cut = Context.RenderComponent<CalendarTest>();
-        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
+        var comp = cut.FindComponent<MudCalendar>();
 
         comp.SetParam(x => x.ShowMonth, false);
 
@@ -63,7 +63,7 @@ public class CalendarTests : BunitTest
     public void NextButton()
     {
         var cut = Context.RenderComponent<CalendarTest>();
-        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
+        var comp = cut.FindComponent<MudCalendar>();
         
         // Month View
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
@@ -89,7 +89,7 @@ public class CalendarTests : BunitTest
     public void PrevButton()
     {
         var cut = Context.RenderComponent<CalendarTest>();
-        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
+        var comp = cut.FindComponent<MudCalendar>();
         
         // Month View
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
@@ -115,7 +115,7 @@ public class CalendarTests : BunitTest
     public void CellClick()
     {
         var cut = Context.RenderComponent<CalendarCellClickTest>();
-        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
+        var comp = cut.FindComponent<MudCalendar>();
         var textField = cut.FindComponent<MudTextField<string>>();
         
         // Month View
@@ -140,7 +140,7 @@ public class CalendarTests : BunitTest
     public void EnsureAllDays()
     {
         var cut = Context.RenderComponent<CalendarTest>();
-        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
+        var comp = cut.FindComponent<MudCalendar>();
         
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
         comp.FindAll("div.mud-cal-month-cell-title").Count.Should().Be(42);

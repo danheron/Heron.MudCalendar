@@ -6,7 +6,7 @@ using CategoryTypes = Heron.MudCalendar.Attributes.CategoryTypes;
 
 namespace Heron.MudCalendar;
 
-public partial class MudCalendar<T> : MudComponentBase where T : CalendarItem
+public partial class MudCalendar : MudComponentBase
 {
     /// <summary>
     /// The higher the number, the heavier the drop-shadow. 0 for no shadow.
@@ -104,28 +104,28 @@ public partial class MudCalendar<T> : MudComponentBase where T : CalendarItem
     /// </summary>
     [Category(CategoryTypes.Calendar.Template)]
     [Parameter]
-    public RenderFragment<T>? MonthTemplate { get; set; }
+    public RenderFragment<CalendarItem>? MonthTemplate { get; set; }
     
     /// <summary>
     /// Defines the cell content for the Week view.
     /// </summary>
     [Category(CategoryTypes.Calendar.Template)]
     [Parameter]
-    public RenderFragment<T>? WeekTemplate { get; set; }
+    public RenderFragment<CalendarItem>? WeekTemplate { get; set; }
     
     /// <summary>
     /// Defines the cell content for the Day view.
     /// </summary>
     [Category(CategoryTypes.Calendar.Template)]
     [Parameter]
-    public RenderFragment<T>? DayTemplate { get; set; }
+    public RenderFragment<CalendarItem>? DayTemplate { get; set; }
 
     /// <summary>
     /// The data to display in the Calendar.
     /// </summary>
     [Category(CategoryTypes.Calendar.Behavior)]
     [Parameter]
-    public IEnumerable<T> Items { get; set; } = new List<T>();
+    public IEnumerable<CalendarItem> Items { get; set; } = new List<CalendarItem>();
     
     /// <summary>
     /// Called when the dates visible in the Calendar change.

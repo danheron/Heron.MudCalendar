@@ -1,5 +1,4 @@
 @using Microsoft.JSInterop
-@typeparam T where T : CalendarItem
 @inject IJSRuntime JsRuntime
 
 @Render
@@ -53,7 +52,7 @@
     /// <summary>
     /// Renders the title of a day.
     /// </summary>
-    protected virtual RenderFragment RenderDayTitle(CalendarCell<T> cell) => __builder =>
+    protected virtual RenderFragment RenderDayTitle(CalendarCell cell) => __builder =>
     {
         __builder.AddContent(1, cell.Date.ToString("ddd"));
         __builder.AddContent(2, " ");

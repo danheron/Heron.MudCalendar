@@ -1,10 +1,10 @@
 @using MudBlazor.Extensions
 @namespace Heron.MudCalendar.Docs.Examples
 
-<MudCalendar T="CustomItem" Items="_events">
+<MudCalendar Items="_events">
     <CellTemplate>
-        <div style="width: 100%; height: 100%; border: 2px solid @GetColor(context.Color)">
-            <div style="background-color: @GetColor(context.Color)"><MudText Style="color: #ffffff;" Typo="Typo.body1" Align="Align.Center">@context.Title</MudText></div>
+        <div style="width: 100%; height: 100%; border: 2px solid @GetColor(((CustomItem)context).Color)">
+            <div style="background-color: @GetColor(((CustomItem)context).Color)"><MudText Style="color: #ffffff;" Typo="Typo.body1" Align="Align.Center">@((CustomItem)context).Title</MudText></div>
             <div class="pa-2"><MudText Typo="Typo.body2">@context.Text</MudText></div>
         </div>
     </CellTemplate>

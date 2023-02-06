@@ -19,7 +19,7 @@ else
 
     protected override void OnParametersSet()
     {
-        ComponentType = typeof(MudCalendar<>).MakeGenericType(typeof(CalendarItem));
+        ComponentType = typeof(MudCalendar);
         StateHasChanged();
     }
 }

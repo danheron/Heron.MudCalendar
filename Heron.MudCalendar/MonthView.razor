@@ -1,5 +1,3 @@
-@typeparam T where T : CalendarItem
-
 @Render
 
 @code {
@@ -57,7 +55,7 @@
     /// <summary>
     /// Renders an individual cell.
     /// </summary>
-    protected virtual RenderFragment RenderCell(CalendarCell<T> cell) =>
+    protected virtual RenderFragment RenderCell(CalendarCell cell) =>
         @<td>
             <div class="mud-cal-month-cell" style="@DayStyle(cell)">
                 @RenderCellDayNumber(cell)
@@ -68,7 +66,7 @@
     /// <summary>
     /// Renders the day number of the cell.
     /// </summary>
-    protected virtual RenderFragment RenderCellDayNumber(CalendarCell<T> cell) =>
+    protected virtual RenderFragment RenderCellDayNumber(CalendarCell cell) =>
         @<div class="@DayClassname(cell)">
             @if (CellClicked.HasDelegate)
             {
@@ -83,7 +81,7 @@
     /// <summary>
     /// Renders the contents of the cell.
     /// </summary>
-    protected virtual RenderFragment RenderCellContents(CalendarCell<T> cell) =>
+    protected virtual RenderFragment RenderCellContents(CalendarCell cell) =>
         @<div class="mud-cal-month-cell-events">
             @if (CellTemplate is not null)
             {
