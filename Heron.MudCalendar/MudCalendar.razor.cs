@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using MudBlazor.Extensions;
 using MudBlazor.Utilities;
 using MudBlazor;
 using CategoryAttribute = Heron.MudCalendar.Attributes.CategoryAttribute;
@@ -13,7 +12,7 @@ public partial class MudCalendar<T> : MudComponentBase where T : CalendarItem
     /// The higher the number, the heavier the drop-shadow. 0 for no shadow.
     /// </summary>
     [Parameter]
-    [Attributes.Category(CategoryTypes.Calendar.Appearance)]
+    [Category(CategoryTypes.Calendar.Appearance)]
     public int Elevation { get; set; } = 1;
     
     /// <summary>
@@ -140,6 +139,9 @@ public partial class MudCalendar<T> : MudComponentBase where T : CalendarItem
     [Parameter]
     public EventCallback<CalendarView> ViewChanged { get; set; }
     
+    /// <summary>
+    /// Called when a cell is clicked.
+    /// </summary>
     [Parameter]
     public EventCallback<DateTime> CellClicked { get; set; }
 
@@ -149,7 +151,10 @@ public partial class MudCalendar<T> : MudComponentBase where T : CalendarItem
         set => CurrentDay = value ?? DateTime.Today;
     }
 
-    protected string Classname =>
+    /// <summary>
+    /// Classes added to main div of component.
+    /// </summary>
+    protected virtual string Classname =>
         new CssBuilder("mud-calendar")
             .AddClass("mud-cal-outlined", Outlined)
             .AddClass("mud-cal-square", Square)
@@ -157,12 +162,15 @@ public partial class MudCalendar<T> : MudComponentBase where T : CalendarItem
             .AddClass(Class)
             .Build();
 
-    protected string Styles =>
+    /// <summary>
+    /// Styles added to main div of component.
+    /// </summary>
+    protected virtual string Styles =>
         new StyleBuilder("min-height", $"{Height}px")
             .AddStyle(Style)
             .Build();
 
-    protected string ViewClassname =>
+    private string ViewClassname =>
         new CssBuilder("flex-grow-1")
             .AddClass("d-none", AllowedViews().Count == 0)
             .Build();
@@ -197,7 +205,12 @@ public partial class MudCalendar<T> : MudComponentBase where T : CalendarItem
         }
     }
 
-    private Task OnViewChange(CalendarView view)
+    /// <summary>
+    /// Method invoked when the user changes the view.
+    /// </summary>
+    /// <param name="view">The new view that is being shown.</param>
+    /// <returns></returns>
+    protected virtual Task OnViewChange(CalendarView view)
     {
         View = view;
         var viewTask = ViewChanged.InvokeAsync(View);
@@ -205,7 +218,11 @@ public partial class MudCalendar<T> : MudComponentBase where T : CalendarItem
         return Task.WhenAll(viewTask, dateRangeTask);
     }
 
-    private Task Next()
+    /// <summary>
+    /// Method invoked when the user clicks the next button.
+    /// </summary>
+    /// <returns></returns>
+    protected virtual Task OnNextClicked()
     {
         CurrentDay = View switch
         {
@@ -218,7 +235,11 @@ public partial class MudCalendar<T> : MudComponentBase where T : CalendarItem
         return DateRangeChanged.InvokeAsync(new CalendarDateRange(CurrentDay, View));
     }
 
-    private Task Previous()
+    /// <summary>
+    /// Method invoked when the user clicks the previous button.
+    /// </summary>
+    /// <returns></returns>
+    protected virtual Task OnPreviousClicked()
     {
         CurrentDay = View switch
         {

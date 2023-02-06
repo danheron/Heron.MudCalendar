@@ -7,39 +7,42 @@
 @Render
 
 @code {
-
+    
+    /// <summary>
+    /// Renders the html page head element.
+    /// </summary>
     protected virtual RenderFragment RenderHeader =>
         @<HeadContent>
-            <link href="_content/Heron.MudCalendar/Heron.MudCalendar.min.css" rel="stylesheet"/>
+            @RenderHeaderContent
         </HeadContent>;
+    
+    /// <summary>
+    /// Renders the contents of the head element.
+    /// </summary>
+    protected virtual RenderFragment RenderHeaderContent =>
+        @<link href="_content/Heron.MudCalendar/Heron.MudCalendar.min.css" rel="stylesheet"/>;
 
+    /// <summary>
+    /// Renders the component.
+    /// </summary>
     protected virtual RenderFragment Render =>
         @<div class="@Classname" style="@Styles">
 
             <div class="d-flex flex-column mud-height-full">
-                <div class="mud-cal-toolbar pa-4">
-                    <div>
-                        <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" Color="@Color" OnClick="Previous" Class="mr-2"/>
-                        <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" Color="@Color" OnClick="Next" Class="mr-2"/>
-                        <CalendarDatePicker @bind-Date="PickerDate" @bind-View="View" Variant="ButtonVariant" Color="Color"/>
-                    </div>
-                    <div>
-                        <EnumSwitch Value="@View" T="CalendarView" Color="@Color" AllowedValues="AllowedViews()" ValueChanged="OnViewChange"/>
-                    </div>
-                </div>
+                @RenderToolbar
 
                 <div class="@ViewClassname">
                     @switch (View)
                     {
                         case CalendarView.Day:
-                            @DayViewTemplate
+                            @RenderDayView
                             break;
                         case CalendarView.Week:
-                            @WeekViewTemplate
+                            @RenderWeekView
                             break;
                         case CalendarView.Month:
                         default:
-                            @MonthViewTemplate
+                            @RenderMonthView
                             break;
                     }
                 </div>
@@ -57,13 +60,37 @@
                 <MudChip Label="true" Color="Color.Primary" Style="width: 100%; margin: 0; min-height: 36px;">@calendarItem.Text</MudChip>
             </div>;
 
-    protected virtual RenderFragment MonthViewTemplate =>
+    /// <summary>
+    /// Renders the toolbar of the component including prev/next buttons, date picker and view switcher.
+    /// </summary>
+    protected virtual RenderFragment RenderToolbar =>
+        @<div class="mud-cal-toolbar pa-4">
+            <div>
+                <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" Color="@Color" OnClick="OnPreviousClicked" Class="mr-2"/>
+                <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" Color="@Color" OnClick="OnNextClicked" Class="mr-2"/>
+                <CalendarDatePicker @bind-Date="PickerDate" @bind-View="View" Variant="ButtonVariant" Color="Color"/>
+            </div>
+            <div>
+                <EnumSwitch Value="@View" T="CalendarView" Color="@Color" AllowedValues="AllowedViews()" ValueChanged="OnViewChange"/>
+            </div>
+        </div>;
+
+    /// <summary>
+    /// Renders the month view.
+    /// </summary>
+    protected virtual RenderFragment RenderMonthView =>
         @<MonthView Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" MinCellHeight="MonthMinHeight" CellTemplate="@(MonthTemplate ?? CellTemplate)" Items="@Items"/>;
 
-    protected virtual RenderFragment WeekViewTemplate =>
+    /// <summary>
+    /// Renders the week view.
+    /// </summary>
+    protected virtual RenderFragment RenderWeekView =>
         @<WeekView View="CalendarView.Week" Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(WeekTemplate ?? CellTemplate)" Items="@Items"/>;
 
-    protected virtual RenderFragment DayViewTemplate =>
+    /// <summary>
+    /// Renders the day view.
+    /// </summary>
+    protected virtual RenderFragment RenderDayView =>
         @<WeekView View="CalendarView.Day" Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(DayTemplate ?? CellTemplate)" Items="@Items"/>;
 
 }

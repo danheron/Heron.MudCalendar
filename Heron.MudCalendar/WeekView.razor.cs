@@ -10,6 +10,7 @@ namespace Heron.MudCalendar;
 
 public partial class WeekView<T> : IAsyncDisposable where T : CalendarItem
 {
+    
     [Parameter]
     public CalendarView View { get; set; } = CalendarView.Week;
     
@@ -31,7 +32,8 @@ public partial class WeekView<T> : IAsyncDisposable where T : CalendarItem
     [Parameter]
     public EventCallback<DateTime> CellClicked { get; set; }
 
-    private List<CalendarCell<T>> _cells = new();
+    protected List<CalendarCell<T>> Cells = new();
+    
     private ElementReference _scrollDiv;
     private JsService? _jsService;
     
@@ -62,14 +64,14 @@ public partial class WeekView<T> : IAsyncDisposable where T : CalendarItem
         }
     }
 
-    private string DayStyle(CalendarCell<T> calendarCell)
+    protected virtual string DayStyle(CalendarCell<T> calendarCell)
     {
         return new StyleBuilder()
             .AddStyle("border", $"1px solid var(--mud-palette-{Color.ToDescriptionString()})", calendarCell.Today && HighlightToday)
             .Build();
     }
 
-    private string EventStyle(CalendarItem item)
+    protected virtual string EventStyle(CalendarItem item)
     {
         return new StyleBuilder()
             .AddStyle("position", "absolute")
@@ -80,7 +82,7 @@ public partial class WeekView<T> : IAsyncDisposable where T : CalendarItem
             .Build();
     }
 
-    private Task CellLinkClicked(CalendarCell<T> cell, int row)
+    protected virtual Task CellLinkClicked(CalendarCell<T> cell, int row)
     {
         var date = cell.Date.AddHours(row / 2.0);
         return CellClicked.InvokeAsync(date);
@@ -119,7 +121,7 @@ public partial class WeekView<T> : IAsyncDisposable where T : CalendarItem
         await _jsService.Scroll(_scrollDiv, (int)scrollTo);
     }
 
-    private void BuildCellsWeek()
+    protected virtual void BuildCellsWeek()
     {
         var cells = new List<CalendarCell<T>>();
         var range = new CalendarDateRange(CurrentDay, View);
@@ -141,17 +143,17 @@ public partial class WeekView<T> : IAsyncDisposable where T : CalendarItem
             }
         }
 
-        _cells = cells;
+        Cells = cells;
     }
     
-    private void BuildCellsDay()
+    protected virtual void BuildCellsDay()
     {
         var cell = new CalendarCell<T> { Date = CurrentDay };
         if (CurrentDay.Date == DateTime.Today) cell.Today = true;
         
         cell.Items = Items.Where(i => i.Start >= CurrentDay && i.Start < CurrentDay.AddDays(1)).ToList();
 
-        _cells = new List<CalendarCell<T>> { cell };
+        Cells = new List<CalendarCell<T>> { cell };
     }
 
     public async ValueTask DisposeAsync()

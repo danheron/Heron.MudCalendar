@@ -2,9 +2,36 @@
 @typeparam T where T : CalendarItem
 @inject IJSRuntime JsRuntime
 
-<div class="mud-cal-week-view">
-    <div class="d-flex flex-column mud-height-full">
-        <div>
+@Render
+
+@code {
+
+    /// <summary>
+    /// Renders the component.
+    /// </summary>
+    protected virtual RenderFragment Render =>
+        @<div class="mud-cal-week-view">
+            <div class="d-flex flex-column mud-height-full">
+                @RenderHeader
+                <div class="flex-grow-1">
+                    <div class="d-block relative mud-height-full">
+                        <div @ref="_scrollDiv" class="mud-cal-week-scroll">
+                            <div class="d-block relative">
+                                @RenderTimes
+                                @RenderDays
+                                @RenderCells
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>;
+
+    /// <summary>
+    /// Renders the header that contains the day names.
+    /// </summary>
+    protected virtual RenderFragment RenderHeader =>
+        @<div>
             <table>
                 <colgroup>
                     <col class="mud-cal-time-column"/>
@@ -12,101 +39,116 @@
                 <thead>
                 <tr>
                     <th></th>
-                    @foreach (var cell in _cells)
+                    @foreach (var cell in Cells)
                     {
                         <th>
-                            @cell.Date.ToString("ddd")
-                            &nbsp;
-                            @cell.Date.Day
+                            @RenderDayTitle(cell)
                         </th>
                     }
                 </tr>
                 </thead>
             </table>
-        </div>
-        <div class="flex-grow-1">
-            <div class="d-block relative mud-height-full">
-                <div @ref="_scrollDiv" class="mud-cal-week-scroll">
-                    <div class="d-block relative">
-                        <div class="d-block relative">
-                            <table>
-                                <colgroup>
-                                    <col class="mud-cal-time-column"/>
-                                </colgroup>
-                                <tbody>
-                                @for (var i = 0; i < 48; i++)
-                                {
-                                    <tr>
-                                        @if (i % 2 == 0)
-                                        {
-                                            <td class="mud-cal-week-cell mud-cal-time-cell">
-                                                @(i / 2):00
-                                            </td>
-                                            <td class="mud-cal-week-cell"></td>
-                                        }
-                                        else
-                                        {
-                                            <td></td>
-                                            <td class="mud-cal-week-cell mud-cal-week-cell-half"></td>
-                                        }
-                                    </tr>
-                                }
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="mud-cal-week-layer">
-                            <table>
-                                <colgroup>
-                                    <col style="width: 60px;"/>
-                                </colgroup>
-                                <tbody>
-                                <tr>
-                                    <td></td>
-                                    @foreach (var cell in _cells)
-                                    {
-                                        <td>
-                                            <div class="mud-cal-week-day-holder" style="@DayStyle(cell)">&nbsp;</div>
-                                        </td>
-                                    }
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="mud-cal-week-layer">
-                            <table>
-                                <colgroup>
-                                    <col class="mud-cal-time-column"/>
-                                </colgroup>
-                                <tbody>
-                                <tr>
-                                    <td></td>
-                                    @foreach (var cell in _cells)
-                                    {
-                                        <td style="position: relative;">
-                                            @for (var i = 0; i < 48; i++)
-                                            {
-                                                var row = i;
-                                                <div style="height: 36px;">
-                                                    <MudLink @onclick="() => CellLinkClicked(cell, row)" Style="cursor: pointer; z-index: 100;">
-                                                        <div class="mud-cal-week-link"></div>
-                                                    </MudLink>
-                                                </div>
-                                            }
-                                            @foreach (var item in cell.Items)
-                                            {
-                                                <div style="@EventStyle(item)">
-                                                    @CellTemplate?.Invoke(item)
-                                                </div>
-                                            }
-                                        </td>
-                                    }
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+        </div>;
+
+    /// <summary>
+    /// Renders the title of a day.
+    /// </summary>
+    protected virtual RenderFragment RenderDayTitle(CalendarCell<T> cell) => __builder =>
+    {
+        __builder.AddContent(1, cell.Date.ToString("ddd"));
+        __builder.AddContent(2, " ");
+        __builder.AddContent(3, cell.Date.Day);
+    };
+
+    /// <summary>
+    /// Renders the times of day.
+    /// </summary>
+    protected virtual RenderFragment RenderTimes =>
+        @<div class="d-block relative">
+            <table>
+                <colgroup>
+                    <col class="mud-cal-time-column"/>
+                </colgroup>
+                <tbody>
+                @for (var i = 0; i < 48; i++)
+                {
+                    <tr>
+                        @if (i % 2 == 0)
+                        {
+                            <td class="mud-cal-week-cell mud-cal-time-cell">
+                                @(i / 2):00
+                            </td>
+                            <td class="mud-cal-week-cell"></td>
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td class="mud-cal-week-cell mud-cal-week-cell-half"></td>
+                        }
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>;
+
+    /// <summary>
+    /// Renders each day.
+    /// </summary>
+    protected virtual RenderFragment RenderDays =>
+        @<div class="mud-cal-week-layer">
+            <table>
+                <colgroup>
+                    <col style="width: 60px;"/>
+                </colgroup>
+                <tbody>
+                <tr>
+                    <td></td>
+                    @foreach (var cell in Cells)
+                    {
+                        <td>
+                            <div class="mud-cal-week-day-holder" style="@DayStyle(cell)">&nbsp;</div>
+                        </td>
+                    }
+                </tr>
+                </tbody>
+            </table>
+        </div>;
+
+    /// <summary>
+    /// Renders the cells.
+    /// </summary>
+    protected virtual RenderFragment RenderCells =>
+        @<div class="mud-cal-week-layer">
+            <table>
+                <colgroup>
+                    <col class="mud-cal-time-column"/>
+                </colgroup>
+                <tbody>
+                <tr>
+                    <td></td>
+                    @foreach (var cell in Cells)
+                    {
+                        <td style="position: relative;">
+                            @for (var i = 0; i < 48; i++)
+                            {
+                                var row = i;
+                                <div style="height: 36px;">
+                                    <MudLink @onclick="() => CellLinkClicked(cell, row)" Style="cursor: pointer; z-index: 100;">
+                                        <div class="mud-cal-week-link"></div>
+                                    </MudLink>
+                                </div>
+                            }
+                            @foreach (var item in cell.Items)
+                            {
+                                <div style="@EventStyle(item)">
+                                    @CellTemplate?.Invoke(item)
+                                </div>
+                            }
+                        </td>
+                    }
+                </tr>
+                </tbody>
+            </table>
+        </div>;
+
+}

@@ -1,50 +1,97 @@
 @typeparam T where T : CalendarItem
 
-<div class="@Classname">
-    <table>
-        <thead>
-        <tr>
+@Render
+
+@code {
+
+    /// <summary>
+    /// Renders the component.
+    /// </summary>
+    protected virtual RenderFragment Render =>
+        @<div class="@Classname">
+            <table>
+                <thead>
+                    @RenderHeader
+                </thead>
+                <tbody>
+                    @RenderBody
+                </tbody>
+            </table>
+        </div>;
+
+    /// <summary>
+    /// Renders the header of the component that contains the day names.
+    /// </summary>
+    protected virtual RenderFragment RenderHeader =>
+        @<tr>
             @for (var i = 0; i < 7; i++)
             {
                 <th>
-                    @_cells[i].Date.ToString("ddd")
+                    @RenderDayTitle(i)
                 </th>
             }
-        </tr>
-        </thead>
-        <tbody>
-        @for (var week = 0; week < _cells.Count / 7; week++)
+        </tr>;
+
+    /// <summary>
+    /// Renders the day name.
+    /// </summary>
+    protected virtual RenderFragment RenderDayTitle(int day) => __builder => { __builder.AddContent(1, Cells[day].Date.ToString("ddd")); };
+
+    /// <summary>
+    /// Renders the main body of the month view.
+    /// </summary>
+    protected virtual RenderFragment RenderBody => __builder =>
+    {
+        for (var week = 0; week < Cells.Count / 7; week++)
         {
             <tr style="@RowStyle">
                 @for (var i = week * 7; i < (week + 1) * 7; i++)
                 {
-                    var cell = _cells[i];
-                    <td>
-                        <div class="mud-cal-month-cell" style="@DayStyle(cell)">
-                            <div class="@DayClassname(cell)">
-                                @if (CellClicked.HasDelegate)
-                                {
-                                    <MudLink @onclick="() => CellLinkClicked(cell)">@cell.Date.Day</MudLink>
-                                }
-                                else
-                                {
-                                    @cell.Date.Day
-                                }
-                            </div>
-                            <div class="mud-cal-month-cell-events">
-                                @if (CellTemplate is not null)
-                                {
-                                    foreach (var item in cell.Items)
-                                    {
-                                        @CellTemplate?.Invoke(item)
-                                    }
-                                }
-                            </div>
-                        </div>
-                    </td>
+                    var cell = Cells[i];
+                    @RenderCell(cell)
                 }
             </tr>
         }
-        </tbody>
-    </table>
-</div>
+    };
+
+    /// <summary>
+    /// Renders an individual cell.
+    /// </summary>
+    protected virtual RenderFragment RenderCell(CalendarCell<T> cell) =>
+        @<td>
+            <div class="mud-cal-month-cell" style="@DayStyle(cell)">
+                @RenderCellDayNumber(cell)
+                @RenderCellContents(cell)
+            </div>
+        </td>;
+
+    /// <summary>
+    /// Renders the day number of the cell.
+    /// </summary>
+    protected virtual RenderFragment RenderCellDayNumber(CalendarCell<T> cell) =>
+        @<div class="@DayClassname(cell)">
+            @if (CellClicked.HasDelegate)
+            {
+                <MudLink @onclick="() => OnCellLinkClick(cell)">@cell.Date.Day</MudLink>
+            }
+            else
+            {
+                @cell.Date.Day
+            }
+        </div>;
+
+    /// <summary>
+    /// Renders the contents of the cell.
+    /// </summary>
+    protected virtual RenderFragment RenderCellContents(CalendarCell<T> cell) =>
+        @<div class="mud-cal-month-cell-events">
+            @if (CellTemplate is not null)
+            {
+                foreach (var item in cell.Items)
+                {
+                    @CellTemplate?.Invoke(item)
+                }
+            }
+        </div>;
+
+}

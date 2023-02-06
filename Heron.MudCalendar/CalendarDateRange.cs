@@ -7,40 +7,6 @@ public class CalendarDateRange : DateRange
 {
     public CalendarView View { get; }
 
-    // public DateTime FirstDate
-    // {
-    //     get
-    //     {
-    //         switch (View)
-    //         {
-    //             case CalendarView.Day:
-    //                 return _currentDay.Date;
-    //             case CalendarView.Week:
-    //                 return GetFirstWeekDate();
-    //             case CalendarView.Month:
-    //             default:
-    //                 return GetFirstMonthDate();
-    //         }
-    //     }
-    // }
-    //
-    // public DateTime LastDate
-    // {
-    //     get
-    //     {
-    //         switch (View)
-    //         {
-    //             case CalendarView.Day:
-    //                 return _currentDay.Date;
-    //             case CalendarView.Week:
-    //                 return GetLastWeekDate();
-    //             case CalendarView.Month:
-    //             default:
-    //                 return GetLastMonthDate();
-    //         }
-    //     }
-    // }
-
     private readonly DateTime _currentDay;
 
     public CalendarDateRange(DateTime currentDay, CalendarView view)
