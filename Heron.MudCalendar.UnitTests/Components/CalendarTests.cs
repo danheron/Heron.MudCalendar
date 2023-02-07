@@ -1,5 +1,4 @@
 using System;
-using AngleSharp.Dom;
 using FluentAssertions;
 using Heron.MudCalendar.UnitTests.Viewer.TestComponents.Calendar;
 using MudBlazor;
@@ -144,5 +143,19 @@ public class CalendarTests : BunitTest
         
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
         comp.FindAll("div.mud-cal-month-cell-title").Count.Should().Be(42);
+    }
+
+    [Test]
+    [SetCulture("en-US")]
+    public void WeekStartSunday()
+    {
+        var cut = Context.RenderComponent<CalendarTest>();
+        var comp = cut.FindComponent<MudCalendar>();
+
+        // Gets the highlighted day
+        var today = comp.Find(
+            "div.mud-cal-month-cell[style='border:1px solid var(--mud-palette-primary);'] div.mud-cal-month-cell-title");
+        today.TextContent.Should().Be(DateTime.Today.Day.ToString());
+
     }
 }
