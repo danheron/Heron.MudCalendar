@@ -15,7 +15,7 @@ else
     [Parameter]
     public string Component { get; set; } = string.Empty;
 
-    public Type ComponentType { get; set; }
+    private Type ComponentType { get; set; }
 
     protected override void OnParametersSet()
     {

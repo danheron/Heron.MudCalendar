@@ -137,12 +137,12 @@
         </div>;
 
     protected virtual RenderFragment RenderCell(CalendarCell cell) =>
-        @<td style="position: relative;">
+        @<td class="mud-cal-week-cell-holder">
             @for (var i = 0; i < 48; i++)
             {
                 var row = i;
                 <div style="height: 36px;">
-                    <MudLink @onclick="() => OnCellLinkClicked(cell, row)" Style="cursor: pointer; z-index: 100;">
+                    <MudLink @onclick="() => OnCellLinkClicked(cell, row)" Class="mud-cal-week-cell-link">
                         <div class="mud-cal-week-link"></div>
                     </MudLink>
                 </div>

@@ -49,6 +49,10 @@
   top: 0;
 }
 
+.mud-cal-week-cell-holder {
+  position: relative;
+}
+
 .mud-cal-week-link {
   height: 100%;
   width: 100%;
@@ -57,4 +61,9 @@
 
 .mud-cal-week-link:hover {
   background-color: rgba(0, 0, 0, 0.05);
+}
+
+.mud-cal-week-cell-link {
+  cursor: pointer;
+  z-index: 100;
 }

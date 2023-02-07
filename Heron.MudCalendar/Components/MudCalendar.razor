@@ -56,8 +56,8 @@
     [Parameter]
     public RenderFragment<CalendarItem> CellTemplate { get; set; } =
         calendarItem =>
-            @<div style="width: 100%; padding: 4px;">
-                <MudChip Label="true" Color="Color.Primary" Style="width: 100%; margin: 0; min-height: 36px;">@calendarItem.Text</MudChip>
+            @<div class="mud-cal-cell-template">
+                <MudChip Label="true" Color="Color.Primary" Class="mud-cal-cell-template-chip">@calendarItem.Text</MudChip>
             </div>;
 
     /// <summary>
@@ -71,7 +71,7 @@
                 <CalendarDatePicker @bind-Date="PickerDate" @bind-View="View" Variant="ButtonVariant" Color="Color"/>
             </div>
             <div>
-                <EnumSwitch Value="@View" T="CalendarView" Color="@Color" AllowedValues="AllowedViews()" ValueChanged="OnViewChange"/>
+                <EnumSwitch Value="@View" T="CalendarView" Color="@Color" AllowedValues="AllowedViews()" ValueChanged="OnViewChanging"/>
             </div>
         </div>;
 
@@ -85,12 +85,12 @@
     /// Renders the week view.
     /// </summary>
     protected virtual RenderFragment RenderWeekView =>
-        @<WeekView View="CalendarView.Week" Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(WeekTemplate ?? CellTemplate)" Items="@Items"/>;
+        @<WeekView Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(WeekTemplate ?? CellTemplate)" Items="@Items"/>;
 
     /// <summary>
     /// Renders the day view.
     /// </summary>
     protected virtual RenderFragment RenderDayView =>
-        @<DayView View="CalendarView.Day" Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(DayTemplate ?? CellTemplate)" Items="@Items"/>;
+        @<DayView Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(DayTemplate ?? CellTemplate)" Items="@Items"/>;
 
 }

@@ -210,7 +210,7 @@ public partial class MudCalendar : MudComponentBase
     /// </summary>
     /// <param name="view">The new view that is being shown.</param>
     /// <returns></returns>
-    protected virtual Task OnViewChange(CalendarView view)
+    protected virtual Task OnViewChanging(CalendarView view)
     {
         View = view;
         var viewTask = ViewChanged.InvokeAsync(View);
