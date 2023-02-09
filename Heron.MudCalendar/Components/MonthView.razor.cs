@@ -8,6 +8,12 @@ namespace Heron.MudCalendar;
 public partial class MonthView : CalendarViewBase
 {
     /// <summary>
+    /// If 0 the month view will be fixed height. If set the month view will exapnd when necessary with this being the minimum height of each cell.
+    /// </summary>
+    [Parameter]
+    public int MinCellHeight { get; set; }
+    
+    /// <summary>
     /// Classes added to main div of component.
     /// </summary>
     protected virtual string Classname =>

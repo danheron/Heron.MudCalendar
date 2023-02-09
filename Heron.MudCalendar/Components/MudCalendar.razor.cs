@@ -55,7 +55,7 @@ public partial class MudCalendar : MudComponentBase
     /// </summary>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
-    public int MonthMinHeight { get; set; }
+    public int MonthCellMinHeight { get; set; }
     
     /// <summary>
     /// Gets or sets the day that the calendar is showing.

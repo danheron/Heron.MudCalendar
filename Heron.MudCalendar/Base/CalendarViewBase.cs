@@ -22,12 +22,6 @@ public abstract class CalendarViewBase : ComponentBase
     /// </summary>
     [Parameter]
     public bool HighlightToday { get; set; } = true;
-    
-    /// <summary>
-    /// If 0 the month view will be fixed height. If set the month view will exapnd when necessary with this being the minimum height of each cell.
-    /// </summary>
-    [Parameter]
-    public int MinCellHeight { get; set; }
 
     /// <summary>
     /// Defines the cell content for the month view.
