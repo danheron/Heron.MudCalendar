@@ -39,7 +39,7 @@
 	  <ProjectReference Include="..\Heron.MudCalendar.UnitTests.Viewer\Heron.MudCalendar.UnitTests.Viewer.csproj" />
 	</ItemGroup>
 
-	<Target Name="GenerateHtmlCoverageReport" AfterTargets="GenerateCoverageResultAfterTest">
+	<Target Name="GenerateHtmlCoverageReport" AfterTargets="GenerateCoverageResultAfterTest" Condition="'@(CoverletReport-&gt;Count())' != 0">
 		<ReportGenerator ReportFiles="@(CoverletReport)" TargetDirectory="./TestResults/Report" />
 	</Target>
 

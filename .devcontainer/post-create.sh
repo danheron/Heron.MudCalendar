@@ -9,7 +9,7 @@ sudo apt update && \
 git config --global core.autocrlf input
 
 ## Enable local HTTPS for .NET
-#dotnet dev-certs https --trust
+dotnet dev-certs https --trust
 
 # Clone and checkout MudBlazor mudcalendar branch and restore
 gh repo clone danheron/MudBlazor /workspaces/MudBlazor
