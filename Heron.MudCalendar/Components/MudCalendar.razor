@@ -2,8 +2,6 @@
 @inherits MudComponentBase
 @using CategoryTypes = Heron.MudCalendar.Attributes.CategoryTypes
 
-@RenderHead
-
 @Render
 
 @code {
@@ -25,8 +23,11 @@
     /// <summary>
     /// Renders the component.
     /// </summary>
-    protected virtual RenderFragment Render =>
-        @<div class="@Classname" style="@Styles">
+    protected virtual RenderFragment Render => __builder =>
+    {
+        RenderHead(__builder);
+        
+        <div class="@Classname" style="@Styles">
 
             <div class="d-flex flex-column mud-height-full">
                 @RenderToolbar
@@ -47,7 +48,8 @@
                     }
                 </div>
             </div>
-        </div>;
+        </div>
+    };
 
     /// <summary>
     /// Defines the cell content for the Calendar.  Can be overriden for different Views by defining DayTemplate, WeekTemplate and MonthTemplate.
