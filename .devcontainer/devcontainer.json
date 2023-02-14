@@ -41,7 +41,7 @@
   "customizations": {
     "codespaces": {
       "repositories": {
-        "danheron/Heron.MudBlazor": {
+        "danheron/MudBlazor": {
           "permissions": {
             "contents": "write",
             "pull_requests": "write"
