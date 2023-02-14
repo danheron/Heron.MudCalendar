@@ -63,7 +63,7 @@ jobs:
 
     # Need to build a debug version because MudBlazor.Docs.Compiler needs the xml attributes
     - name: Build MudCalendar (Debug)
-      run: dotnet build -c Release --no-restore
+      run: dotnet build -c Debug --no-restore
       working-directory: './Heron.MudCalendar/Heron.MudCalendar'
 
     - name: Build MudCalendar (Release)

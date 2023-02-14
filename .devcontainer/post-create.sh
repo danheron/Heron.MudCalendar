@@ -18,10 +18,21 @@ dotnet dev-certs https --trust
 
 # Clone and checkout MudBlazor mudcalendar branch
 gh repo clone danheron/MudBlazor /workspaces/MudBlazor
-git --git-dir /workspaces/MudBlazor.git checkout mudcalendar
+git --git-dir /workspaces/MudBlazor/.git checkout mudcalendar
 
-## Restore .NET packages and build the default solution
-dotnet restore && dotnet build
+## Restore MudBlazor and mudcalendar
+dotnet restore /workspaces/MudBlazor/src
+dotnet restore /workspaces/Heron.MudCalendar
+
+# Build debug and release versions of MudCalendar
+dotnet build /workspaces/Heron.MudCalendar/Heron.MudCalendar -c Debug --no-restore
+dotnet build /workspaces/Heron.MudCalendar/Heron.MudCalendar -c Release --no-restore
+
+# Build MudBlazor docs
+dotnet build /workspaces/MudBlazor/src/MudBlazor.Docs -c Release --no-restore
+
+# Build MudCalendar projects
+dotnet build
 
 ## AZURE CLI EXTENSIONS ##
 # Uncomment the below to install Azure CLI extensions
