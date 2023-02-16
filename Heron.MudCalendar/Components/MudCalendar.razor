@@ -27,7 +27,7 @@
     {
         RenderHead(__builder);
 
-        <CascadingValue IsFixed="true" Value="this">
+        <CascadingValue IsFixed="false" Value="this">
             <div class="@Classname" style="@Styles">
 
                 <div class="d-flex flex-column mud-height-full">
@@ -83,18 +83,18 @@
     /// Renders the month view.
     /// </summary>
     protected virtual RenderFragment RenderMonthView =>
-        @<MonthView Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" MinCellHeight="MonthCellMinHeight" CellTemplate="@(MonthTemplate ?? CellTemplate)" Items="@Items"/>;
+        @<MonthView />;
 
     /// <summary>
     /// Renders the week view.
     /// </summary>
     protected virtual RenderFragment RenderWeekView =>
-        @<WeekView Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(WeekTemplate ?? CellTemplate)" Items="@Items"/>;
+        @<WeekView />;
 
     /// <summary>
     /// Renders the day view.
     /// </summary>
     protected virtual RenderFragment RenderDayView =>
-        @<DayView Color="@Color" CurrentDay="@CurrentDay" HighlightToday="@HighlightToday" CellClicked="CellClicked" CellTemplate="@(DayTemplate ?? CellTemplate)" Items="@Items"/>;
+        @<DayView />;
 
 }
