@@ -5,7 +5,7 @@
 @Render
 
 @code {
-    
+
     /// <summary>
     /// Renders the html page head element.
     /// </summary>
@@ -13,7 +13,7 @@
         @<HeadContent>
             @RenderHeaderContent
         </HeadContent>;
-    
+
     /// <summary>
     /// Renders the contents of the head element.
     /// </summary>
@@ -26,29 +26,31 @@
     protected virtual RenderFragment Render => __builder =>
     {
         RenderHead(__builder);
-        
-        <div class="@Classname" style="@Styles">
 
-            <div class="d-flex flex-column mud-height-full">
-                @RenderToolbar
+        <CascadingValue IsFixed="true" Value="this">
+            <div class="@Classname" style="@Styles">
 
-                <div class="@ViewClassname">
-                    @switch (View)
-                    {
-                        case CalendarView.Day:
-                            @RenderDayView
-                            break;
-                        case CalendarView.Week:
-                            @RenderWeekView
-                            break;
-                        case CalendarView.Month:
-                        default:
-                            @RenderMonthView
-                            break;
-                    }
+                <div class="d-flex flex-column mud-height-full">
+                    @RenderToolbar
+
+                    <div class="@ViewClassname">
+                        @switch (View)
+                        {
+                            case CalendarView.Day:
+                                @RenderDayView
+                                break;
+                            case CalendarView.Week:
+                                @RenderWeekView
+                                break;
+                            case CalendarView.Month:
+                            default:
+                                @RenderMonthView
+                                break;
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
+        </CascadingValue>
     };
 
     /// <summary>

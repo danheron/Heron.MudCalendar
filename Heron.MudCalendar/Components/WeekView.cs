@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Components;
+
 namespace Heron.MudCalendar;
 
 public class WeekView : DayWeekViewBase
@@ -5,7 +7,7 @@ public class WeekView : DayWeekViewBase
     protected override List<CalendarCell> BuildCells()
     {
         var cells = new List<CalendarCell>();
-        var range = new CalendarDateRange(CurrentDay, CalendarView.Week);
+        var range = new CalendarDateRange(Calendar.CurrentDay, CalendarView.Week);
         
         if (range.Start == null || range.End == null) return cells;
         
@@ -16,7 +18,7 @@ public class WeekView : DayWeekViewBase
             var cell = new CalendarCell { Date = date };
             if (date.Date == DateTime.Today) cell.Today = true;
             
-            cell.Items = Items.Where(i => i.Start >= date && i.Start < date.AddDays(1)).ToList();
+            cell.Items = Calendar.Items.Where(i => i.Start >= date && i.Start < date.AddDays(1)).ToList();
             
             cells.Add(cell);
             
@@ -26,4 +28,6 @@ public class WeekView : DayWeekViewBase
 
         return cells;
     }
+    
+    protected override RenderFragment<CalendarItem> CellTemplate => Calendar.WeekTemplate ?? Calendar.CellTemplate;
 }

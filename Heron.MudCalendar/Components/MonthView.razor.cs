@@ -8,17 +8,11 @@ namespace Heron.MudCalendar;
 public partial class MonthView : CalendarViewBase
 {
     /// <summary>
-    /// If 0 the month view will be fixed height. If set the month view will exapnd when necessary with this being the minimum height of each cell.
-    /// </summary>
-    [Parameter]
-    public int MinCellHeight { get; set; }
-    
-    /// <summary>
     /// Classes added to main div of component.
     /// </summary>
     protected virtual string Classname =>
         new CssBuilder("mud-cal-month-view")
-            .AddClass("mud-cal-month-fixed-height", MinCellHeight == 0)
+            .AddClass("mud-cal-month-fixed-height", Calendar.MonthCellMinHeight == 0)
             .Build();
 
     /// <summary>
@@ -26,8 +20,8 @@ public partial class MonthView : CalendarViewBase
     /// </summary>
     protected virtual string RowStyle =>
         new StyleBuilder()
-            .AddStyle("min-height", MinCellHeight + "px", MinCellHeight > 0)
-            .AddStyle("height", $"{100 / (Cells.Count / 7)}%", MinCellHeight == 0)
+            .AddStyle("min-height", Calendar.MonthCellMinHeight + "px", Calendar.MonthCellMinHeight > 0)
+            .AddStyle("height", $"{100 / (Cells.Count / 7)}%", Calendar.MonthCellMinHeight == 0)
             .Build();
 
     /// <summary>
@@ -51,9 +45,9 @@ public partial class MonthView : CalendarViewBase
     protected virtual string DayStyle(CalendarCell calendarCell)
     {
         return new StyleBuilder()
-            .AddStyle("border", $"1px solid var(--mud-palette-{Color.ToDescriptionString()})",
-                calendarCell.Today && HighlightToday)
-            .AddStyle("min-height", MinCellHeight + "px", MinCellHeight > 0)
+            .AddStyle("border", $"1px solid var(--mud-palette-{Calendar.Color.ToDescriptionString()})",
+                calendarCell.Today && Calendar.HighlightToday)
+            .AddStyle("min-height", Calendar.MonthCellMinHeight + "px", Calendar.MonthCellMinHeight > 0)
             .Build();
     }
 
@@ -64,16 +58,16 @@ public partial class MonthView : CalendarViewBase
     /// <returns></returns>
     protected virtual Task OnCellLinkClicked(CalendarCell cell)
     {
-        return CellClicked.InvokeAsync(cell.Date);
+        return Calendar.CellClicked.InvokeAsync(cell.Date);
     }
     
     protected override List<CalendarCell> BuildCells()
     {
         var cells = new List<CalendarCell>();
-        var monthStart = new DateTime(CurrentDay.Year, CurrentDay.Month, 1);
-        var monthEnd = new DateTime(CurrentDay.AddMonths(1).Year, CurrentDay.AddMonths(1).Month, 1).AddDays(-1);
+        var monthStart = new DateTime(Calendar.CurrentDay.Year, Calendar.CurrentDay.Month, 1);
+        var monthEnd = new DateTime(Calendar.CurrentDay.AddMonths(1).Year, Calendar.CurrentDay.AddMonths(1).Month, 1).AddDays(-1);
 
-        var range = new CalendarDateRange(CurrentDay, CalendarView.Month);
+        var range = new CalendarDateRange(Calendar.CurrentDay, CalendarView.Month);
         if (range.Start == null || range.End == null) return cells;
         
         var date = range.Start.Value;
@@ -105,7 +99,9 @@ public partial class MonthView : CalendarViewBase
         {
             cell.Outside = true;
         }
-        cell.Items = Items.Where(i => i.Start >= date && i.Start < date.AddDays(1)).ToList();
+        cell.Items = Calendar.Items.Where(i => i.Start >= date && i.Start < date.AddDays(1)).ToList();
         return cell;
     }
+
+    private RenderFragment<CalendarItem> CellTemplate => Calendar.MonthTemplate ?? Calendar.CellTemplate;
 }

@@ -71,7 +71,7 @@
     /// </summary>
     protected virtual RenderFragment RenderCellDayNumber(CalendarCell cell) =>
         @<div class="@DayClassname(cell)">
-            @if (CellClicked.HasDelegate)
+            @if (Calendar.CellClicked.HasDelegate)
             {
                 <MudLink @onclick="() => OnCellLinkClicked(cell)">@cell.Date.Day</MudLink>
             }

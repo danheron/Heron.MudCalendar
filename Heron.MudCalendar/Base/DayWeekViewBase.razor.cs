@@ -33,7 +33,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
     protected virtual string DayStyle(CalendarCell calendarCell)
     {
         return new StyleBuilder()
-            .AddStyle("border", $"1px solid var(--mud-palette-{Color.ToDescriptionString()})", calendarCell.Today && HighlightToday)
+            .AddStyle("border", $"1px solid var(--mud-palette-{Calendar.Color.ToDescriptionString()})", calendarCell.Today && Calendar.HighlightToday)
             .Build();
     }
     
@@ -57,7 +57,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
     protected virtual Task OnCellLinkClicked(CalendarCell cell, int row)
     {
         var date = cell.Date.AddHours(row / 2.0);
-        return CellClicked.InvokeAsync(date);
+        return Calendar.CellClicked.InvokeAsync(date);
     }
 
     private int CalcTop(CalendarItem item)
@@ -102,4 +102,6 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             await _jsService.DisposeAsync();
         }
     }
+    
+    protected virtual RenderFragment<CalendarItem> CellTemplate => Calendar.CellTemplate;
 }
