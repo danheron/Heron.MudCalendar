@@ -1,8 +1,0 @@
-/workspaces/Heron.MudCalendar/Heron.MudCalendar.Docs/Pages/Calendar/Code/HeightCalendarExampleCode.html
-/workspaces/Heron.MudCalendar/Heron.MudCalendar.Docs/Pages/Calendar/Code/CustomCalendarExampleCode.html
-/workspaces/Heron.MudCalendar/Heron.MudCalendar.Docs/Pages/Calendar/Code/EventsCalendarExampleCode.html
-/workspaces/Heron.MudCalendar/Heron.MudCalendar.Docs/Pages/Calendar/Code/OptionsCalendarExampleCode.html
-/workspaces/Heron.MudCalendar/Heron.MudCalendar.Docs/Pages/Calendar/Code/SimpleCalendarExampleCode.html
-/workspaces/Heron.MudCalendar/Heron.MudCalendar.Docs/Pages/Calendar/Code/RestrictViewsCalendarExampleCode.html
-/workspaces/Heron.MudCalendar/Heron.MudCalendar.Docs/Pages/Calendar/Code/LoadDataCalendarExampleCode.html
-/workspaces/Heron.MudCalendar/Heron.MudCalendar.Docs/Pages/Calendar/Code/TemplatesCalendarExampleCode.html
