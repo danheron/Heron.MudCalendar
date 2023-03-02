@@ -1,0 +1,49 @@
+@page "/extending"
+
+<DocsPage>
+    <DocsPageHeader Title="Extending" SubTitle="Extending MudCalendar"/>
+    <DocsPageContent>
+
+        <DocsPageSection>
+            <SectionHeader Title="Creating a Custom Calendar Component">
+                <Description>
+                    The <CodeInline>MudCalendar</CodeInline> component can be extended by inheriting and overriding the methods that render the component.<br />
+                    This example shows how to create a custom calendar component that renders the month day numbers as MudAvatar components.
+                </Description>
+            </SectionHeader>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Create a subclass of the MonthView component">
+                <Description>
+                    Create a <CodeInline>CustomMonthView</CodeInline> component that inherits from <CodeInline>MonthView</CodeInline> and override the method that renders the day numbers.
+                </Description>
+            </SectionHeader>
+            <SectionContent DarkenBackground="true" Code="CustomMonthViewExample" ShowCode="true" Block="true" FullWidth="true" Assembly="typeof(Extending).Assembly" AllowRunCode="false">
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Create a subclass of the MudCalendar component">
+                <Description>
+                    Then create a <CodeInline>CustomCalendar</CodeInline> component that inherits from <CodeInline>MudCalendar</CodeInline> and override the method that displays
+                    the <CodeInline>MonthView</CodeInline> to use the new <CodeInline>CustomMonthView</CodeInline> component.
+                </Description>
+            </SectionHeader>
+            <SectionContent DarkenBackground="true" Code="CustomMudCalendarExample" ShowCode="true" Block="true" FullWidth="true" Assembly="typeof(Extending).Assembly" AllowRunCode="false">
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Result">
+                <Description>
+                    The <CodeInline>CustomCalendar</CodeInline> component looks like this.
+                </Description>
+            </SectionHeader>
+            <SectionContent>
+                <CustomCalendar/>
+            </SectionContent>
+        </DocsPageSection>
+
+    </DocsPageContent>
+</DocsPage>

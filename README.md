@@ -27,7 +27,7 @@ Add the following to `_Imports.razor`
 Add the MudCalendar component to your razor page/component
 
 ```razor
-<MudCalendar T="CalendarItem" />
+<MudCalendar />
 ```
 
 Check out the examples of how to use and customize the MudCalendar component.
