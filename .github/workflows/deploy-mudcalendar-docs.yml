@@ -79,7 +79,7 @@ jobs:
       working-directory: './Heron.MudCalendar/Heron.MudCalendar.Docs'
 
     - name: Publish MudCalendar
-      run: dotnet public -c Release --no-restore
+      run: dotnet publish -c Release --no-restore
       working-directory: './Heron.MudCalendar/Heron.MudCalendar.Docs'
 
     # base href url value should be changed so that resources like CSS and scripts can load properly.
