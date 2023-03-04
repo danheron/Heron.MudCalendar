@@ -88,12 +88,12 @@ jobs:
       uses: SteveSandersonMS/ghaction-rewrite-base-href@v1.1.0
       with:
         html_path: ${{ env.PUBLISH_FOLDER }}/index.html
-        base_href: REPOSITORY_NAME
+        base_href: /${{ github.repository }}/
 
     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project.
     # Allow files and folders starting with an underscore.
     - name: Add .nojekyll file
-      run: touch ${{ env.PUBLISH_DIR }}/.nojekyll
+      run: touch ${{ env.PUBLISH_FOLDER }}/.nojekyll
 
     - name: Deploy to Github Pages
       uses: peaceiris/actions-gh-pages@v3
