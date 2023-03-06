@@ -16,8 +16,13 @@
         <PackageProjectUrl>https://danheron.github.io/Heron.MudCalendar</PackageProjectUrl>
         <RepositoryUrl>https://github.com/danheron/Heron.MudCalendar</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
+    <ItemGroup>
+        <None Include="..\README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+    
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
       <DocumentationFile>bin\Debug\net6.0\Heron.MudCalendar.xml</DocumentationFile>
       <NoWarn>1701;1702;IL2121;1591</NoWarn>
