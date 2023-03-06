@@ -37,9 +37,7 @@ jobs:
         run: dotnet test -c Release --no-build --no-restore --blame-hang --blame-hang-timeout 60s /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverageAttribute' /p:Include='[Heron.MudCalendar]*' /p:CoverletOutput='./TestResults/' --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
         working-directory: ./Heron.MudCalendar.UnitTests
 
-      - name: Upload dotnet test results
-        uses: actions/upload-artifact@v3
+      - name: Publish coverage
+        uses: codecov/codecov-action@v3
         with:
-          name: dotnet-results-${{ matrix.dotnet-version }}
-          path: ./Heron.MudCalendar.UnitTests/TestResults-${{ matrix.dotnet-version }}
-        if: ${{ always() }}
+          file: coverage.cobertura.xml
