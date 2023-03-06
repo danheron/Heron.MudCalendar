@@ -1,4 +1,8 @@
 # MudCalendar
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/danheron/Heron.MudCalendar/build-test-mudcalendar.yml?branch=dev&logo=github&style=flat-square)
+![Codecov](https://img.shields.io/codecov/c/github/danheron/Heron.MudCalendar?logo=codecov&logoColor=white&style=flat-square&token=EP53WKLLLX)
+[![GitHub](https://img.shields.io/github/license/danheron/Heron.MudCalendar?color=594ae2&logo=github&style=flat-square)](https://github.com/danheron/Heron.MudCalendar/blob/master/LICENSE)
+[![GitHub last commit](https://img.shields.io/github/last-commit/danheron/Heron.MudCalendar?color=594ae2&style=flat-square&logo=github)](https://github.com/danheron/Heron.MudCalendar)
 
 A simple but powerful calendar component for MudBlazor.
 
