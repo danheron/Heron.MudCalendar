@@ -1,12 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heron.MudCalendar", "Heron.MudCalendar\Heron.MudCalendar.csproj", "{BFC05DF8-8FE2-475D-A5CF-E706833EEEA3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heron.MudCalendar", "Heron.MudCalendar\Heron.MudCalendar.csproj", "{33A2A6EC-4F14-452A-B2A3-3FB2DF7CA564}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heron.MudCalendar.Docs", "Heron.MudCalendar.Docs\Heron.MudCalendar.Docs.csproj", "{B54AC046-A9FA-4901-9B90-87C56B9D1013}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heron.MudCalendar.UnitTests.Viewer", "Heron.MudCalendar.UnitTests.Viewer\Heron.MudCalendar.UnitTests.Viewer.csproj", "{C664B3C2-2536-4F5E-A46F-C5A6E31CBAAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heron.MudCalendar.UnitTests", "Heron.MudCalendar.UnitTests\Heron.MudCalendar.UnitTests.csproj", "{137A914A-40D7-4A04-8B99-A6E5C9626E26}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heron.MudCalendar.UnitTests.Viewer", "Heron.MudCalendar.UnitTests.Viewer\Heron.MudCalendar.UnitTests.Viewer.csproj", "{1758F5B2-7F14-4E61-80DC-845D7E6EE208}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heron.MudCalendar.UnitTests", "Heron.MudCalendar.UnitTests\Heron.MudCalendar.UnitTests.csproj", "{5536C336-05D5-4954-BA3C-71E2B0B2E844}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,21 +12,17 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BFC05DF8-8FE2-475D-A5CF-E706833EEEA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BFC05DF8-8FE2-475D-A5CF-E706833EEEA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BFC05DF8-8FE2-475D-A5CF-E706833EEEA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BFC05DF8-8FE2-475D-A5CF-E706833EEEA3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B54AC046-A9FA-4901-9B90-87C56B9D1013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B54AC046-A9FA-4901-9B90-87C56B9D1013}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B54AC046-A9FA-4901-9B90-87C56B9D1013}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B54AC046-A9FA-4901-9B90-87C56B9D1013}.Release|Any CPU.Build.0 = Release|Any CPU
-		{137A914A-40D7-4A04-8B99-A6E5C9626E26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{137A914A-40D7-4A04-8B99-A6E5C9626E26}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{137A914A-40D7-4A04-8B99-A6E5C9626E26}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{137A914A-40D7-4A04-8B99-A6E5C9626E26}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1758F5B2-7F14-4E61-80DC-845D7E6EE208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1758F5B2-7F14-4E61-80DC-845D7E6EE208}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1758F5B2-7F14-4E61-80DC-845D7E6EE208}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1758F5B2-7F14-4E61-80DC-845D7E6EE208}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33A2A6EC-4F14-452A-B2A3-3FB2DF7CA564}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33A2A6EC-4F14-452A-B2A3-3FB2DF7CA564}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33A2A6EC-4F14-452A-B2A3-3FB2DF7CA564}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33A2A6EC-4F14-452A-B2A3-3FB2DF7CA564}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C664B3C2-2536-4F5E-A46F-C5A6E31CBAAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C664B3C2-2536-4F5E-A46F-C5A6E31CBAAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C664B3C2-2536-4F5E-A46F-C5A6E31CBAAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C664B3C2-2536-4F5E-A46F-C5A6E31CBAAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5536C336-05D5-4954-BA3C-71E2B0B2E844}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5536C336-05D5-4954-BA3C-71E2B0B2E844}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5536C336-05D5-4954-BA3C-71E2B0B2E844}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5536C336-05D5-4954-BA3C-71E2B0B2E844}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

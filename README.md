@@ -13,6 +13,10 @@ A simple but powerful calendar component for MudBlazor.
 - Customizable events
 - Easy integration with your existing MudBlazor project
 
+## Documentation
+
+Documentation and examples are available [here](https://danheron.github.io/Heron.MudCalendar).
+
 ## Getting Started
 
 MudCalendar relies on MudBlazor. Follow the installation instructions for [MudBlazor](https://mudblazor.com/getting-started/installation)
@@ -40,4 +44,28 @@ Check out the examples of how to use and customize the MudCalendar component.
 ## Support
 
 For any issues or feature requests, please open a new issue on GitHub.
+
+## Building From Source
+
+The project includes 2 solution files:
+
+- Heron.MudCalendar.sln
+- Heron.MudCalendarWithDocs.sln
+
+The Heron.MudCalendar.sln solution contains the MudCalendar project and Unit Test projects.
+
+The Heron.MudCalendarWithDocs.sln solution also contains the Docs project.  Build this is a bit more complicated to compile because it uses the MudBlazor.Docs project.  To build this project you need to clone the [danheron/MudBlazor](https://github.com/danheron/MudBlazor/tree/mudcalendar) repo and checkout the mudcalendar branch.
+
+The repositories should be cloned into the same parent directory e.g.
+
+MyProjects  
+|-> MudBlazor  
+|-> Heron.MudCalendar
+
+Build the projects in the following order:
+
+1. Heron.MudCalendar (Debug)
+2. Heron.MudCalendar (Release)
+3. MudBlazor.Docs (Release)
+4. Heron.MudCalendar.Docs
 
