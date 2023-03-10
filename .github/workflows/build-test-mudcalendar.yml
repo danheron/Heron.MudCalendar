@@ -23,7 +23,7 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Restore
-        run: dotnet restore
+        run: dotnet restore Heron.MudCalendarWithDocs.sln
 
       - name: Build
         run: dotnet build -c Release --no-restore

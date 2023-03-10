@@ -58,7 +58,7 @@ jobs:
       working-directory: './MudBlazor/src'
 
     - name: Restore MudCalendar
-      run: dotnet restore
+      run: dotnet restore Heron.MudCalendarWithDocs.sln
       working-directory: './Heron.MudCalendar'
 
     # Need to build a debug version because MudBlazor.Docs.Compiler needs the xml attributes
