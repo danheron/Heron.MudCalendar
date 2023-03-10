@@ -151,6 +151,8 @@ public partial class MudCalendar : MudComponentBase
         set => CurrentDay = value ?? DateTime.Today;
     }
 
+    private CalendarDatePicker? _datePicker;
+
     /// <summary>
     /// Classes added to main div of component.
     /// </summary>
@@ -250,6 +252,11 @@ public partial class MudCalendar : MudComponentBase
         };
         
         return DateRangeChanged.InvokeAsync(new CalendarDateRange(CurrentDay, View));
+    }
+
+    private void OnDatePickerOpened()
+    {
+        _datePicker?.GoToDate(CurrentDay);
     }
 
     private List<CalendarView> AllowedViews()

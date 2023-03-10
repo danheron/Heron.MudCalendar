@@ -156,6 +156,19 @@ public class CalendarTests : BunitTest
         var today = comp.Find(
             "div.mud-cal-month-cell[style='border:1px solid var(--mud-palette-primary);'] div.mud-cal-month-cell-title");
         today.TextContent.Should().Be(DateTime.Today.Day.ToString());
+    }
 
+    [Test]
+    public void UpdateDatePicker()
+    {
+        var cut = Context.RenderComponent<CalendarTest>();
+        var comp = cut.FindComponent<MudCalendar>();
+        
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 2, 1));
+        comp.FindAll("div.mud-cal-toolbar button")[0].Click();
+
+        comp.Find("div.mud-picker button").Click();
+        cut.Find("button.mud-button-month").TextContent.Should()
+            .Be("January 2023");
     }
 }
