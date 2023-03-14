@@ -1,9 +1,11 @@
 @namespace Heron.MudCalendar.Docs.Examples
 
-<MudCalendar Outlined="_outlined" Color="_color" ButtonVariant="_buttonVariant" Style="height: 400px;" />
+<MudCalendar Outlined="_outlined" ShowPrevNextButtons="_prevNext" ShowDatePicker="_datePicker" Color="_color" ButtonVariant="_buttonVariant" Style="height: 400px;" />
 
 <MudToolBar Class="mt-4">
     <MudSwitch @bind-checked="@_outlined" Color="Color.Primary" T="bool">Outlined</MudSwitch>
+    <MudSwitch @bind-checked="@_prevNext" Color="Color.Primary" T="bool">Prev/Next Buttons</MudSwitch>
+    <MudSwitch @bind-checked="@_datePicker" Color="Color.Primary" T="bool">Date Picker</MudSwitch>
     <MudSelect @bind-Value="_color" T="Color" Label="Color" Placeholder="Select Color" Class="ml-4">
         <MudSelectItem Value="Color.Primary">Primary</MudSelectItem>
         <MudSelectItem Value="Color.Secondary">Secondary</MudSelectItem>
@@ -18,6 +20,8 @@
 
 @code {
     private bool _outlined;
+    private bool _prevNext = true;
+    private bool _datePicker = true;
     private Color _color = Color.Primary;
     private Variant _buttonVariant = Variant.Filled;
 }

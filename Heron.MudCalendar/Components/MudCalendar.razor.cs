@@ -98,6 +98,20 @@ public partial class MudCalendar : MudComponentBase
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowMonth { get; set; } = true;
+
+    /// <summary>
+    /// If false then the prev/next buttons are not shown.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public bool ShowPrevNextButtons { get; set; } = true;
+    
+    /// <summary>
+    /// If false the the Datepicker is not shown.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public bool ShowDatePicker { get; set; } = true;
     
     /// <summary>
     /// Defines the cell content for the Month view.

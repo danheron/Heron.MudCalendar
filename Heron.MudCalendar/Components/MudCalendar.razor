@@ -70,9 +70,15 @@
     protected virtual RenderFragment RenderToolbar =>
         @<div class="mud-cal-toolbar pa-4">
             <div>
-                <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" Color="@Color" OnClick="OnPreviousClicked" Class="mr-2"/>
-                <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" Color="@Color" OnClick="OnNextClicked" Class="mr-2"/>
-                <CalendarDatePicker @ref="_datePicker" @bind-Date="PickerDate" @bind-View="View" Variant="ButtonVariant" Color="Color" PickerOpened="OnDatePickerOpened"/>
+                @if (ShowPrevNextButtons)
+                {
+                    <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" Color="@Color" OnClick="OnPreviousClicked" Class="mr-2"/>
+                    <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" Color="@Color" OnClick="OnNextClicked" Class="mr-2"/>
+                }
+                @if (ShowDatePicker)
+                {
+                    <CalendarDatePicker @ref="_datePicker" @bind-Date="PickerDate" @bind-View="View" Variant="ButtonVariant" Color="Color" Class="ml-1" PickerOpened="OnDatePickerOpened"/>
+                }
             </div>
             <div>
                 <EnumSwitch Value="@View" T="CalendarView" Color="@Color" AllowedValues="AllowedViews()" ValueChanged="OnViewChanging"/>
