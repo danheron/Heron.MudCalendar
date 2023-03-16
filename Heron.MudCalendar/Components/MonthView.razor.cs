@@ -99,7 +99,7 @@ public partial class MonthView : CalendarViewBase
         {
             cell.Outside = true;
         }
-        cell.Items = Calendar.Items.Where(i => i.Start >= date && i.Start < date.AddDays(1)).ToList();
+        cell.Items = Calendar.Items.Where(i => i.Start >= date && i.Start < date.AddDays(1)).OrderBy(i => i.Start).ToList();
         return cell;
     }
 
