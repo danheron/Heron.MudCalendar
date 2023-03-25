@@ -1,7 +1,5 @@
 .mud-cal-month-view {
-  &.mud-cal-month-fixed-height {
-    height: 100%; 
-  }
+  height: 100%;
 }
 
 .mud-cal-month-fixed-height {
@@ -22,7 +20,7 @@
   &.mud-cal-month-outside {
     color: var(--mud-palette-text-disabled);
   }
-  
+
   .mud-link {
     color: inherit !important;
     cursor: pointer;
