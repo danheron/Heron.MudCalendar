@@ -2,7 +2,6 @@ using System;
 using FluentAssertions;
 using Heron.MudCalendar.UnitTests.Viewer.TestComponents.Calendar;
 using MudBlazor;
-using NUnit.Framework.Internal.Commands;
 
 namespace Heron.MudCalendar.UnitTests.Components;
 
@@ -180,5 +179,16 @@ public class CalendarTests : BunitTest
         var comp = cut.FindComponent<MudCalendar>();
         
         comp.Find("div.mud-cal-month-cell-events div.mud-cal-cell-template").TextContent.Should().Be("Event 1");
+    }
+
+    [Test]
+    [SetUICulture("de-DE")]
+    public void ViewNameLocalization()
+    {
+        var cut = Context.RenderComponent<CalendarTest>();
+        var comp = cut.FindComponent<MudCalendar>();
+
+        comp.Find("div.mud-button-group-root button.mud-button-root span.mud-button-label").TextContent.Should()
+            .Be("Monat");
     }
 }

@@ -7,7 +7,17 @@
         {
             if (AllowedValues == null || AllowedValues.Contains((T)Enum.ToObject(Type, value)))
             {
-                <MudButton Color="@Color" Variant="@(value == Convert.ToInt32(Value) ? Variant.Filled : Variant.Outlined)" OnClick="() => ButtonClicked((T)Enum.ToObject(Type, value))">@Enum.GetName(Type, value)</MudButton>
+                <MudButton Color="@Color" Variant="@(value == Convert.ToInt32(Value) ? Variant.Filled : Variant.Outlined)" OnClick="() => ButtonClicked((T)Enum.ToObject(Type, value))">
+                    @if (typeof(T) == typeof(CalendarView))
+                    {
+                        // Bit of a hack has generic types don't work with StringLocalizer
+                        <CalendarViewName CalendarView="(CalendarView)Enum.ToObject(Type, value)" />
+                    }
+                    else
+                    {
+                        @Enum.GetName(Type, value)
+                    }
+                </MudButton>
             }
         }
     </MudButtonGroup>

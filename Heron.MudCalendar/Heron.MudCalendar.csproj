@@ -20,7 +20,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\README.md" Pack="true" PackagePath="\"/>
+        <None Include="..\README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
     
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -38,10 +38,12 @@
 
     <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.11" />
+        <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.11" />
     </ItemGroup>
 
     <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.1" />
     </ItemGroup>
 
     <Target Name="ToolRestore">
@@ -69,6 +71,97 @@
 
     <ItemGroup>
       <PackageReference Include="MudBlazor" Version="6.1.9" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\CalendarView.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>CalendarView.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.de.resx">
+        <DependentUpon>CalendarViewClass.resx</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.cs.resx">
+        <LastGenOutput>CalendarView.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.bg.resx">
+        <LastGenOutput>CalendarView.bg.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.da.resx">
+        <LastGenOutput>CalendarView.da.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.nl.resx">
+        <LastGenOutput>CalendarView.nl.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.et.resx">
+        <LastGenOutput>CalendarView.et.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.fi.resx">
+        <LastGenOutput>CalendarView.fi.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.fr.resx">
+        <LastGenOutput>CalendarView.fr.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.el.resx">
+        <LastGenOutput>CalendarView.el.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.hu.resx">
+        <LastGenOutput>CalendarView.hu.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.id.resx">
+        <LastGenOutput>CalendarView.id.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.zh.resx">
+        <LastGenOutput>CalendarView.zh.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.it.resx">
+        <LastGenOutput>CalendarView.it.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.ja.resx">
+        <LastGenOutput>CalendarView.ja.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.ko.resx">
+        <LastGenOutput>CalendarView.ko.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.lv.resx">
+        <LastGenOutput>CalendarView.lv.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.lt.resx">
+        <LastGenOutput>CalendarView.lt.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.nb.resx">
+        <LastGenOutput>CalendarView.nb.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.pl.resx">
+        <LastGenOutput>CalendarView.pl.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.pt.resx">
+        <LastGenOutput>CalendarView.pt.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.ro.resx">
+        <LastGenOutput>CalendarView.ro.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.ru.resx">
+        <LastGenOutput>CalendarView.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.sk.resx">
+        <LastGenOutput>CalendarView.sk.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.sl.resx">
+        <LastGenOutput>CalendarView.sl.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.es.resx">
+        <LastGenOutput>CalendarView.es.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.sv.resx">
+        <LastGenOutput>CalendarView.sv.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.tr.resx">
+        <LastGenOutput>CalendarView.tr.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\CalendarView.uk.resx">
+        <LastGenOutput>CalendarView.uk.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
 </Project>
