@@ -1,0 +1,38 @@
+@namespace Heron.MudCalendar
+@using Microsoft.Extensions.Localization
+@using Microsoft.Extensions.Logging.Abstractions
+@using Microsoft.Extensions.Options
+@using System.Globalization
+
+@GetText()
+
+@code {
+
+    [Parameter]
+    public CalendarView CalendarView { get; set; }
+
+    private static Dictionary<CalendarView, string>? _viewNames;
+    private static CultureInfo? _uiCulture;
+
+    private string GetText()
+    {
+        if (_viewNames == null || _uiCulture == null || !Equals(_uiCulture, Thread.CurrentThread.CurrentUICulture)) ReadLocalizedNames();
+        return _viewNames == null ? string.Empty : _viewNames[CalendarView];
+    }
+
+    private void ReadLocalizedNames()
+    {
+        var options = Options.Create(new LocalizationOptions { ResourcesPath = "Resources" });
+        var factory = new ResourceManagerStringLocalizerFactory(options, NullLoggerFactory.Instance);
+        var localizer = new StringLocalizer<CalendarView>(factory);
+
+        _uiCulture = Thread.CurrentThread.CurrentUICulture;
+
+        _viewNames = new Dictionary<CalendarView, string>
+        {
+            [CalendarView.Month] = localizer["Month"],
+            [CalendarView.Week] = localizer["Week"],
+            [CalendarView.Day] = localizer["Day"]
+        };
+    }
+}

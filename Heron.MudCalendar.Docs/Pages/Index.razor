@@ -23,47 +23,56 @@
         </DocsPageSection>
 
         <DocsPageSection>
-            <SectionHeader Title="Getting Started">
-                <Description>
-                    <p class="my-4">
-                        MudCalendar relies on MudBlazor. Follow the installation instructions for
-                        <MudLink Href="https://mudblazor.com/getting-started/installation" Target="_blank">
-                            <b>MudBlazor</b>
-                        </MudLink>.
-                    </p>
-                    <p class="my-4">
-                        Once your project is setup with MudBlazor you can install the MudCalendar package.
-                    </p>
-                    <div class="docs-section-source my-4">
-                        <div class="mud-codeblock">
-                            dotnet add package Heron.MudCalendar
-                        </div>
-                    </div>
-                    <p class="my-4">
-                        Add the following to <CodeInline>_Imports.razor</CodeInline>
-                    </p>
-                    <div class="docs-section-source my-4">
-                        <div class="mud-codeblock">
-                            <div class="html">
-                                @@using Heron.MudCalendar
-                            </div>
-                            @using Heron.MudCalendar
-                        </div>
-                    </div>
-                    <p class="my-4">
-                        Add the MudCalendar component to your razor page/component.
-                    </p>
-                    <div class="docs-section-source my-4">
-                        <div class="mud-codeblock">
-                            <div class="html">
-                                <span class="htmlTagDelimiter">&lt;</span>
-                                <span class="htmlElementName">MudCalendar</span>
-                                <span class="htmlTagDelimiter">/&gt;</span>
-                            </div>
-                        </div>
-                    </div>
-                </Description>
-            </SectionHeader>
+            <SectionHeader Title="Getting Started"/>
+            <SectionSubGroups>
+
+                <DocsPageSection>
+                    <SectionHeader Title="Setup MudBlazor">
+                        <Description>
+                            <p class="my-4">
+                                MudCalendar relies on MudBlazor. Follow the installation instructions for
+                                <MudLink Href="https://mudblazor.com/getting-started/installation" Target="_blank">
+                                    <b>MudBlazor</b>
+                                </MudLink>.
+                            </p>
+                        </Description>
+                    </SectionHeader>
+                </DocsPageSection>
+
+                <DocsPageSection>
+                    <SectionHeader Title="Install the package">
+                        <Description>
+                            Once your project is setup with MudBlazor you can install the MudCalendar nuget package.
+                        </Description>
+                    </SectionHeader>
+                    <SectionCode>
+                        <pre>dotnet add package Heron.MudCalendar</pre>
+                    </SectionCode>
+                </DocsPageSection>
+
+                <DocsPageSection>
+                    <SectionHeader Title="Add Imports">
+                        <Description>
+                            Add the following to <CodeInline>_Imports.razor</CodeInline>.
+                        </Description>
+                    </SectionHeader>
+                    <SectionCode>
+                        <pre>@@using Heron.MudCalendar</pre>
+                    </SectionCode>
+                </DocsPageSection>
+
+                <DocsPageSection>
+                    <SectionHeader Title="Add to page">
+                        <Description>
+                            Add the MudCalendar component to your razor page/component.
+                        </Description>
+                    </SectionHeader>
+                    <SectionCode>
+                        <pre><span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MudCalendar</span><span class="htmlTagDelimiter">/&gt;</span></pre>
+                    </SectionCode>
+                </DocsPageSection>
+
+            </SectionSubGroups>
         </DocsPageSection>
 
     </DocsPageContent>

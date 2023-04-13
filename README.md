@@ -21,19 +21,19 @@ Documentation and examples are available [here](https://danheron.github.io/Heron
 
 MudCalendar relies on MudBlazor. Follow the installation instructions for [MudBlazor](https://mudblazor.com/getting-started/installation)
 
-Once your project is setup with MudBlazor you can install the MudCalendar package
+Once your project is setup with MudBlazor you can install the MudCalendar package.
 
 ```
 dotnet add package Heron.MudCalendar
 ```
 
-Add the following to `_Imports.razor`
+Add the following to `_Imports.razor`.
 
 ```razor
 @using Heron.MudCalendar
 ```
 
-Add the MudCalendar component to your razor page/component
+Add the MudCalendar component to your razor page/component.
 
 ```razor
 <MudCalendar />

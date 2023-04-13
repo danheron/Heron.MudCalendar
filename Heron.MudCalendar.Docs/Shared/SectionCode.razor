@@ -1,0 +1,19 @@
+<div class="docs-section-source show-code">
+    <div class="docs-section-source-container">
+        <div class="mud-codeblock">
+            <div class="@CodeType">
+                @ChildContent
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string CodeType { get; set; } = "html";
+
+}
