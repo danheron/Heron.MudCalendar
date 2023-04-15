@@ -64,10 +64,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Update="Resources\CalendarView.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>CalendarView.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\CalendarView.resx" />
         <EmbeddedResource Update="Resources\CalendarView.de.resx">
             <DependentUpon>CalendarViewClass.resx</DependentUpon>
         </EmbeddedResource>
@@ -166,7 +163,11 @@
     <Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler" BeforeTargets="BeforeBuild">
         <Error Condition="!Exists('wwwroot/Heron.MudCalendar.min.css')" Text="Missing Heron.MudCalendar.min.css in wwwroot" />
         <ItemGroup>
-            <Content Include="wwwroot/Heron.MudCalendar.min.css" />
+            <!--Include without duplication-->
+            <_NewCompiledCssFiles Include="wwwroot/Heron.MudCalendar.min.css" Exclude="@(Content)" />
+            <_NewCompiledJsFiles Include="wwwroot/Heron.MudCalendar.js" Exclude="@(Content)" />
+            <Content Include="@(_NewCompiledCssFiles)" />
+            <Content Include="@(_NewCompiledJsFiles)" />
         </ItemGroup>
     </Target>
 
