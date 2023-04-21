@@ -191,4 +191,46 @@ public class CalendarTests : BunitTest
         comp.Find("div.mud-button-group-root button.mud-button-root span.mud-button-label").TextContent.Should()
             .Be("Monat");
     }
+
+    [Test]
+    public void CellsClickable()
+    {
+        var cut = Context.RenderComponent<CalendarCellClickTest>();
+        var comp = cut.FindComponent<MudCalendar>();
+        
+        // Month View
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
+        comp.Find("div.mud-cal-month-cell-title a").Should().NotBeNull();
+
+        // Week View
+        comp.SetParam(x => x.View, CalendarView.Week);
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 13));
+        comp.Find("div.mud-cal-week-layer a").Should().NotBeNull();
+
+        // Day View
+        comp.SetParam(x => x.View, CalendarView.Day);
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 8));
+        comp.Find("div.mud-cal-week-layer a").Should().NotBeNull();
+    }
+
+    [Test]
+    public void CellsNotClickable()
+    {
+        var cut = Context.RenderComponent<CalendarTest>();
+        var comp = cut.FindComponent<MudCalendar>();
+        
+        // Month View
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
+        comp.FindAll("div.mud-cal-month-cell-title a").Count.Should().Be(0);
+
+        // Week View
+        comp.SetParam(x => x.View, CalendarView.Week);
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 13));
+        comp.FindAll("div.mud-cal-week-layer a").Count.Should().Be(0);
+
+        // Day View
+        comp.SetParam(x => x.View, CalendarView.Day);
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 8));
+        comp.FindAll("div.mud-cal-week-layer a").Count.Should().Be(0);
+    }
 }
