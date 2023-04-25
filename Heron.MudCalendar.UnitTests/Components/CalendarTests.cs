@@ -233,4 +233,17 @@ public class CalendarTests : BunitTest
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 8));
         comp.FindAll("div.mud-cal-week-layer a").Count.Should().Be(0);
     }
+
+    [Test]
+    public void OverlappingEvents()
+    {
+        var cut = Context.RenderComponent<CalendarOverlappingEventsTest>();
+        var comp = cut.FindComponent<MudCalendar>();
+        
+        comp.SetParam(x => x.View, CalendarView.Day);
+        var event2 = comp.FindAll("td.mud-cal-week-cell-holder > div")[1];
+        event2.Attributes["style"].Should().NotBeNull();
+        event2.Attributes["style"]?.Value.Should().Contain("left:33");
+        event2.Attributes["style"]?.Value.Should().Contain("width:33");
+    }
 }

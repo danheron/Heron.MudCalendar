@@ -136,6 +136,9 @@
             </table>
         </div>;
 
+    /// <summary>
+    /// Renders an individual cell.
+    /// </summary>
     protected virtual RenderFragment RenderCell(CalendarCell cell) =>
         @<td class="mud-cal-week-cell-holder">
             @if (Calendar.CellClicked.HasDelegate)
@@ -152,15 +155,18 @@
             }
             @RenderCellContents(cell)
         </td>;
-    
+
+    /// <summary>
+    /// Renders the contents of a cell.
+    /// </summary>
     protected virtual RenderFragment RenderCellContents(CalendarCell cell) => __builder =>
     {
-        foreach (var item in cell.Items)
+        var positions = CalcPositions(cell.Items);
+        foreach (var position in positions)
         {
-            <div style="@EventStyle(item)">
-                @CellTemplate?.Invoke(item)
+            <div style="@EventStyle(position)">
+                @CellTemplate?.Invoke(position.Item)
             </div>
         }
     };
-
 }
