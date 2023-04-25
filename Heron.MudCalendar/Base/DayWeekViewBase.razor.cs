@@ -36,15 +36,16 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             .AddStyle("border", $"1px solid var(--mud-palette-{Calendar.Color.ToDescriptionString()})", calendarCell.Today && Calendar.HighlightToday)
             .Build();
     }
-    
-    private string EventStyle(CalendarItem item)
+
+    private string EventStyle(ItemPosition position)
     {
         return new StyleBuilder()
             .AddStyle("position", "absolute")
-            .AddStyle("top", $"{CalcTop(item)}px")
-            .AddStyle("height", $"{CalcHeight(item)}px")
-            .AddStyle("width", "100%")
+            .AddStyle("top", $"{CalcTop(position.Item)}px")
+            .AddStyle("height", $"{CalcHeight(position.Item)}px")
             .AddStyle("overflow", "hidden")
+            .AddStyle("left", ((position.Position / (double)position.Total) - (1.0 / position.Total)) * 100 + "%")
+            .AddStyle("width", (100 / position.Total) + "%" )
             .Build();
     }
 
@@ -60,7 +61,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         return Calendar.CellClicked.InvokeAsync(date);
     }
 
-    private int CalcTop(CalendarItem item)
+    private static int CalcTop(CalendarItem item)
     {
         double minutes = item.Start.Hour * 60 + item.Start.Minute;
         var percent = minutes / MinutesInDay;
@@ -69,7 +70,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         return (int)top;
     }
 
-    private int CalcHeight(CalendarItem item)
+    private static int CalcHeight(CalendarItem item)
     {
         double minutes = 60;
         if (item.End.HasValue)
@@ -93,6 +94,56 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         await _jsService.Scroll(_scrollDiv, (int)scrollTo);
     }
 
+    protected virtual RenderFragment<CalendarItem> CellTemplate => Calendar.CellTemplate;
+
+    private static IEnumerable<ItemPosition> CalcPositions(IEnumerable<CalendarItem> items)
+    {
+        var positions = new List<ItemPosition>();
+        var overlaps = new List<ItemPosition>();
+        foreach (var item in items)
+        {
+            overlaps.RemoveAll(o => (o.Item.End ?? o.Item.Start.AddHours(0.5)) <= item.Start);
+
+            // Create new position object
+            var position = new ItemPosition { Item = item, Position = 0, Total = overlaps.Count + 1 };
+            positions.Add(position);
+
+            // Calculate the position
+            for (var i = 1; i <= overlaps.Count; i++)
+            {
+                if (overlaps.Any(o => o.Position == i) == false)
+                {
+                    position.Position = i;
+                }
+            }
+            if (position.Position == 0) position.Position = overlaps.Count + 1;
+            
+            overlaps.Add(position);
+            var maxPosition = overlaps.Max(o => o.Position);
+            foreach (var overlap in overlaps)
+            {
+                overlap.Total = maxPosition;
+            }
+        }
+        
+        // Calculate the total overlapping events
+        foreach (var position in positions)
+        {
+            var max = positions.Where(p => p.Item.Start < (position.Item.End ?? position.Item.Start.AddHours(0.5)) 
+                                            && (p.Item.End ?? p.Item.Start.AddHours(0.5)) > position.Item.Start).Max(p => p.Total);
+            position.Total = max;
+        }
+
+        return positions;
+    }
+
+    private class ItemPosition
+    {
+        public CalendarItem Item { get; set; } = new();
+        public int Position { get; set; }
+        public int Total { get; set; }
+    }
+    
     public async ValueTask DisposeAsync()
     {
         GC.SuppressFinalize(this);
@@ -102,6 +153,4 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             await _jsService.DisposeAsync();
         }
     }
-    
-    protected virtual RenderFragment<CalendarItem> CellTemplate => Calendar.CellTemplate;
 }

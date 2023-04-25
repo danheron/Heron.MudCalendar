@@ -1,0 +1,52 @@
+<MudCalendar Items="_events" Height="500" ShowMonth="false"/>
+
+@code {
+    public static string __description__ = "Calendar Overlapping Events Tests";
+
+    private List<CalendarItem> _events = new()
+    {
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(10),
+            End = DateTime.Today.AddHours(12),
+            Text = "Event 1"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(11),
+            End = DateTime.Today.AddHours(13),
+            Text = "Event 2"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(12),
+            End = DateTime.Today.AddHours(14),
+            Text = "Event 3"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(12),
+            End = DateTime.Today.AddHours(14),
+            Text = "Event 4"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(13),
+            End = DateTime.Today.AddHours(14),
+            Text = "Event 5"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(15),
+            End = DateTime.Today.AddHours(16.5),
+            Text = "Event 6"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(16),
+            End = DateTime.Today.AddHours(17),
+            Text = "Event 6"
+        }
+    };
+
+}
