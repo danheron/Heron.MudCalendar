@@ -61,8 +61,18 @@
     protected virtual RenderFragment RenderCell(CalendarCell cell) =>
         @<td>
             <div class="mud-cal-month-cell" style="@DayStyle(cell)">
-                @RenderCellDayNumber(cell)
-                @RenderCellContents(cell)
+                @if (Calendar.CellClicked.HasDelegate)
+                {
+                    <div @onclick="() => OnCellLinkClicked(cell)" Class="mud-cal-month-link">
+                        @RenderCellDayNumber(cell)
+                        @RenderCellContents(cell)
+                    </div>   
+                }
+                else
+                {
+                    @RenderCellDayNumber(cell)
+                    @RenderCellContents(cell)
+                }
             </div>
         </td>;
 
@@ -71,14 +81,7 @@
     /// </summary>
     protected virtual RenderFragment RenderCellDayNumber(CalendarCell cell) =>
         @<div class="@DayClassname(cell)">
-            @if (Calendar.CellClicked.HasDelegate)
-            {
-                <MudLink @onclick="() => OnCellLinkClicked(cell)">@cell.Date.Day</MudLink>
-            }
-            else
-            {
-                @cell.Date.Day
-            }
+            @cell.Date.Day
         </div>;
 
     /// <summary>

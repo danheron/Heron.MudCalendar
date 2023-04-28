@@ -30,3 +30,13 @@
 .mud-cal-month-cell-events {
   flex-grow: 1;
 }
+
+.mud-cal-month-link {
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+
+.mud-cal-month-link:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
