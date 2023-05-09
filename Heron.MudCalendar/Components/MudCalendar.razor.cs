@@ -268,6 +268,12 @@ public partial class MudCalendar : MudComponentBase
         return DateRangeChanged.InvokeAsync(new CalendarDateRange(CurrentDay, View));
     }
 
+    private Task DatePickerDateChanged(DateTime? dateTime)
+    {
+        PickerDate = dateTime;
+        return DateRangeChanged.InvokeAsync(new CalendarDateRange(dateTime ?? DateTime.Today, View));
+    }
+
     private void OnDatePickerOpened()
     {
         _datePicker?.GoToDate(CurrentDay);

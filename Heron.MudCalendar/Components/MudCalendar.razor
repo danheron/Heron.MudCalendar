@@ -77,7 +77,7 @@
                 }
                 @if (ShowDatePicker)
                 {
-                    <CalendarDatePicker @ref="_datePicker" @bind-Date="PickerDate" @bind-View="View" Variant="ButtonVariant" Color="Color" Class="ml-1" PickerOpened="OnDatePickerOpened"/>
+                    <CalendarDatePicker @ref="_datePicker" Date="PickerDate" DateChanged="DatePickerDateChanged" @bind-View="View" Variant="ButtonVariant" Color="Color" Class="ml-1" PickerOpened="OnDatePickerOpened"/>
                 }
             </div>
             <div>
