@@ -119,7 +119,7 @@ public class CalendarTests : BunitTest
         
         // Month View
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
-        comp.Find("div.mud-cal-month-cell > div.mud-cal-month-link").Click();
+        comp.Find("div.mud-cal-month-cell.mud-cal-month-link").Click();
         textField.Instance.Text.Should().Be("26");
         
         // Week View
@@ -200,7 +200,7 @@ public class CalendarTests : BunitTest
         
         // Month View
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
-        comp.Find("div.mud-cal-month-cell > div.mud-cal-month-link").Should().NotBeNull();
+        comp.Find("div.mud-cal-month-cell.mud-cal-month-link").Should().NotBeNull();
 
         // Week View
         comp.SetParam(x => x.View, CalendarView.Week);
