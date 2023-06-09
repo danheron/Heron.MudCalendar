@@ -12,10 +12,10 @@
         @<div class="@Classname">
             <table>
                 <thead>
-                    @RenderHeader
+                @RenderHeader
                 </thead>
                 <tbody>
-                    @RenderBody
+                @RenderBody
                 </tbody>
             </table>
         </div>;
@@ -60,20 +60,20 @@
     /// </summary>
     protected virtual RenderFragment RenderCell(CalendarCell cell) =>
         @<td>
-            <div class="mud-cal-month-cell" style="@DayStyle(cell)">
-                @if (Calendar.CellClicked.HasDelegate)
-                {
-                    <div @onclick="() => OnCellLinkClicked(cell)" Class="mud-cal-month-link">
-                        @RenderCellDayNumber(cell)
-                        @RenderCellContents(cell)
-                    </div>   
-                }
-                else
-                {
+            @if (Calendar.CellClicked.HasDelegate)
+            {
+                <div class="mud-cal-month-cell mud-cal-month-link" style="@DayStyle(cell)" @onclick="() => OnCellLinkClicked(cell)">
                     @RenderCellDayNumber(cell)
                     @RenderCellContents(cell)
-                }
-            </div>
+                </div>
+            }
+            else
+            {
+                <div class="mud-cal-month-cell" style="@DayStyle(cell)">
+                    @RenderCellDayNumber(cell)
+                    @RenderCellContents(cell)
+                </div>
+            }
         </td>;
 
     /// <summary>
@@ -90,9 +90,9 @@
     protected virtual RenderFragment RenderCellContents(CalendarCell cell) =>
         @<div class="mud-cal-month-cell-events">
             @foreach (var item in cell.Items)
-                {
-                    @CellTemplate?.Invoke(item)
-                }
+            {
+                @CellTemplate?.Invoke(item)
+            }
         </div>;
 
 }
