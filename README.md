@@ -1,4 +1,4 @@
-# MudCalendar
+# Heron.MudCalendar
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/danheron/Heron.MudCalendar/build-test-mudcalendar.yml?branch=dev&logo=github&style=flat-square)
 ![Codecov](https://img.shields.io/codecov/c/github/danheron/Heron.MudCalendar?logo=codecov&logoColor=white&style=flat-square&token=EP53WKLLLX)
 [![GitHub](https://img.shields.io/github/license/danheron/Heron.MudCalendar?color=594ae2&logo=github&style=flat-square)](https://github.com/danheron/Heron.MudCalendar/blob/master/LICENSE)
@@ -31,6 +31,14 @@ Add the following to `_Imports.razor`.
 
 ```razor
 @using Heron.MudCalendar
+```
+
+Add style and script references (optional). This step shouldn't be necessary as the component injects the references into the page as needed. However if you find that calendar is not displaying properly then add the following to your `index.html` or `_Layout.cshtml`/`_Host.cshtml`
+
+```html
+<link href="_content/Heron.MudCalendar/Heron.MudCalendar.min.css" rel="stylesheet" />
+...
+<script src="_content/Heron.MudCalendar/Heron.MudCalendar.js"></script>
 ```
 
 Add the MudCalendar component to your razor page/component.

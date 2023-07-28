@@ -60,6 +60,21 @@
                         <pre>@@using Heron.MudCalendar</pre>
                     </SectionCode>
                 </DocsPageSection>
+                
+                <DocsPageSection>
+                    <SectionHeader Title="Add style and script references (optional)">
+                        <Description>
+                            This step shouldn't be necessary as the component injects the references into the page as needed. However if you find
+                            that calendar is not displaying properly then add the following to your <CodeInline>index.html</CodeInline> or
+                            <CodeInline>_Layout.cshtml</CodeInline>/<CodeInline>_Host.cshtml</CodeInline>
+                        </Description>
+                    </SectionHeader>
+                    <SectionCode>
+                        <pre><span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">link</span> <span class="htmlAttributeName">href</span><span class="htmlOperator">=</span><span class="quot">"</span><span class="htmlAttributeValue">_content/Heron.MudCalendar/Heron.MudCalendar.min.css</span><span class="quot">"</span> <span class="htmlAttributeName">rel</span><span class="htmlOperator">=</span><span class="quot">"</span><span class="htmlAttributeValue">stylesheet</span><span class="quot">"</span> <span class="htmlTagDelimiter">/&gt;</span></pre>
+                        ...
+                        <pre><span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">script</span> <span class="htmlAttributeName">src</span><span class="htmlOperator">=</span><span class="quot">"</span><span class="htmlAttributeValue">_content/Heron.MudCalendar/Heron.MudCalendar.js</span><span class="quot">"</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">/script</span><span class="htmlTagDelimiter">&gt;</span></pre>
+                    </SectionCode>
+                </DocsPageSection>
 
                 <DocsPageSection>
                     <SectionHeader Title="Add to page">
