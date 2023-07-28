@@ -1,4 +1,5 @@
 using System;
+using AngleSharp.Dom;
 using FluentAssertions;
 using Heron.MudCalendar.UnitTests.Viewer.TestComponents.Calendar;
 using MudBlazor;
@@ -245,5 +246,44 @@ public class CalendarTests : BunitTest
         event2.Attributes["style"].Should().NotBeNull();
         event2.Attributes["style"]?.Value.Should().Contain("left:33");
         event2.Attributes["style"]?.Value.Should().Contain("width:33");
+    }
+
+    [Test]
+    public void MultiDayMonthView()
+    {
+        var cut = Context.RenderComponent<CalendarMultiDayEventTest>();
+        var comp = cut.FindComponent<MudCalendar>();
+        
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 2, 1));
+        comp.FindAll("div.mud-cal-month-cell > div.mud-cal-month-cell-title")[2].TextContent.Should().Be("1");
+        comp.FindAll("div.mud-cal-month-cell > div.mud-cal-month-cell-events")[2].Children.Length.Should().Be(1);
+        comp.FindAll("div.mud-cal-month-cell > div.mud-cal-month-cell-events")[3].Children.Length.Should().Be(1);
+    }
+
+    [Test]
+    public void MultiDayWeekView()
+    {
+        var cut = Context.RenderComponent<CalendarMultiDayEventTest>();
+        var comp = cut.FindComponent<MudCalendar>();
+        
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 2, 1));
+        comp.SetParam(x => x.View, CalendarView.Week);
+        comp.FindAll("td.mud-cal-week-cell-holder")[2].Children.Length.Should().Be(1);
+        comp.FindAll("td.mud-cal-week-cell-holder")[3].Children.Length.Should().Be(1);
+    }
+    
+    [Test]
+    public void MultiDayDayView()
+    {
+        var cut = Context.RenderComponent<CalendarMultiDayEventTest>();
+        var comp = cut.FindComponent<MudCalendar>();
+        
+        comp.SetParam(x => x.View, CalendarView.Day);
+        
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 2, 1));
+        comp.FindAll("td.mud-cal-week-cell-holder")[0].Children.Length.Should().Be(1);
+        
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 2, 2));
+        comp.FindAll("td.mud-cal-week-cell-holder")[0].Children.Length.Should().Be(1);
     }
 }

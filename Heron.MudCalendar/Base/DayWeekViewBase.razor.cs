@@ -41,8 +41,8 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
     {
         return new StyleBuilder()
             .AddStyle("position", "absolute")
-            .AddStyle("top", $"{CalcTop(position.Item)}px")
-            .AddStyle("height", $"{CalcHeight(position.Item)}px")
+            .AddStyle("top", $"{CalcTop(position)}px")
+            .AddStyle("height", $"{CalcHeight(position)}px")
             .AddStyle("overflow", "hidden")
             .AddStyle("left", (((position.Position / (double)position.Total) - (1.0 / position.Total)) * 100).ToInvariantString() + "%")
             .AddStyle("width", (100 / position.Total) + "%" )
@@ -61,24 +61,39 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         return Calendar.CellClicked.InvokeAsync(date);
     }
 
-    private static int CalcTop(CalendarItem item)
+    private static int CalcTop(ItemPosition position)
     {
-        double minutes = item.Start.Hour * 60 + item.Start.Minute;
+        double minutes = 0;
+        if (DateOnly.FromDateTime(position.Item.Start.Date) == position.Date)
+        {
+            minutes = position.Item.Start.Hour * 60 + position.Item.Start.Minute;
+        }
         var percent = minutes / MinutesInDay;
         var top = PixelsInDay * percent;
 
         return (int)top;
     }
 
-    private static int CalcHeight(CalendarItem item)
+    private static int CalcHeight(ItemPosition position)
     {
-        double minutes = 60;
-        if (item.End.HasValue)
+        double start = 0;
+        if (DateOnly.FromDateTime(position.Item.Start.Date) == position.Date)
         {
-            var start = item.Start.Hour * 60 + item.Start.Minute;
-            var end = item.End.Value.Hour * 60 + item.End.Value.Minute;
-            minutes = end - start;
+            start = position.Item.Start.Hour * 60 + position.Item.Start.Minute;
         }
+
+        var end = start + 60;
+        if (position.Item.End.HasValue)
+        {
+            end = 24 * 60;
+            if (DateOnly.FromDateTime(position.Item.End.Value.Date) == position.Date)
+            {
+                end = position.Item.End.Value.Hour * 60 + position.Item.End.Value.Minute;
+            }
+        }
+
+        if (end > 24 * 60) end = 24 * 60;
+        var minutes = end - start;
         var percent = minutes / MinutesInDay;
         var height = PixelsInDay * percent;
 
@@ -96,16 +111,16 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
 
     protected virtual RenderFragment<CalendarItem> CellTemplate => Calendar.CellTemplate;
 
-    private static IEnumerable<ItemPosition> CalcPositions(IEnumerable<CalendarItem> items)
+    private static IEnumerable<ItemPosition> CalcPositions(IEnumerable<CalendarItem> items, DateOnly date)
     {
         var positions = new List<ItemPosition>();
         var overlaps = new List<ItemPosition>();
         foreach (var item in items)
         {
-            overlaps.RemoveAll(o => (o.Item.End ?? o.Item.Start.AddHours(0.5)) <= item.Start);
+            overlaps.RemoveAll(o => (o.Item.End ?? o.Item.Start.AddHours(1)) <= item.Start);
 
             // Create new position object
-            var position = new ItemPosition { Item = item, Position = 0, Total = overlaps.Count + 1 };
+            var position = new ItemPosition { Item = item, Position = 0, Total = overlaps.Count + 1, Date = date };
             positions.Add(position);
 
             // Calculate the position
@@ -129,8 +144,8 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         // Calculate the total overlapping events
         foreach (var position in positions)
         {
-            var max = positions.Where(p => p.Item.Start < (position.Item.End ?? position.Item.Start.AddHours(0.5)) 
-                                            && (p.Item.End ?? p.Item.Start.AddHours(0.5)) > position.Item.Start).Max(p => p.Total);
+            var max = positions.Where(p => p.Item.Start < (position.Item.End ?? position.Item.Start.AddHours(1)) 
+                                            && (p.Item.End ?? p.Item.Start.AddHours(1)) > position.Item.Start).Max(p => p.Total);
             position.Total = max;
         }
 
@@ -142,6 +157,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         public CalendarItem Item { get; set; } = new();
         public int Position { get; set; }
         public int Total { get; set; }
+        public DateOnly Date { get; set; }
     }
     
     public async ValueTask DisposeAsync()
