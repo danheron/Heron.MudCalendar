@@ -161,7 +161,7 @@
     /// </summary>
     protected virtual RenderFragment RenderCellContents(CalendarCell cell) => __builder =>
     {
-        var positions = CalcPositions(cell.Items);
+        var positions = CalcPositions(cell.Items, DateOnly.FromDateTime(cell.Date));
         foreach (var position in positions)
         {
             <div style="@EventStyle(position)">
