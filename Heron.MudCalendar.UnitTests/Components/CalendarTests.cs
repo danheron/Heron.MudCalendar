@@ -286,4 +286,17 @@ public class CalendarTests : BunitTest
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 2, 2));
         comp.FindAll("td.mud-cal-week-cell-holder")[0].Children.Length.Should().Be(1);
     }
+
+    [Test]
+    public void DateChangedEvent()
+    {
+        var cut = Context.RenderComponent<CalendarEventsTest>();
+        var comp = cut.FindComponent<MudCalendar>();
+
+        var table = cut.Find("tbody.events-table");
+        table.Children.Length.Should().Be(1);
+        
+        comp.FindAll("button.mud-icon-button")[1].Click();
+        table.Children.Length.Should().Be(2);
+    }
 }

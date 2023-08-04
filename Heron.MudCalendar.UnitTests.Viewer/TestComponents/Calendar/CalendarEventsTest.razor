@@ -1,0 +1,36 @@
+<MudCalendar DateRangeChanged="DateRangeChanged" />
+
+<MudSimpleTable>
+    <thead>
+    <tr>
+            <th>Time</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+    </tr>
+    </thead>
+    <tbody class="events-table">
+    @foreach (var item in _events)
+    {
+        <tr>
+            @foreach (var x in item.Split())
+            {
+                <td>@x</td>
+            }
+        </tr>
+    }
+    </tbody>
+</MudSimpleTable>
+
+@code {
+
+    public static string __description__ = "Calendar Event Tests";
+
+    private readonly List<string> _events = new();
+
+    private void DateRangeChanged(DateRange dateRange)
+    {
+        var start = dateRange.Start.HasValue ? dateRange.Start.Value.Date.ToShortDateString() : string.Empty;
+        var end = dateRange.End.HasValue ? dateRange.End.Value.Date.ToShortDateString() : string.Empty;
+        _events.Add($"{DateTime.Now.ToLongTimeString()} {start} {end}");
+    }
+}
