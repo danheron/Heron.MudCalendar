@@ -22,7 +22,7 @@ public partial class CalendarDatePicker
                     var range = new CalendarDateRange(Date.Value, View);
                     return range.End != null && range.Start != null && range.Start.Value.Month == range.End.Value.Month ? 
                         $"{range.Start:dd} - {range.End:dd} {range.End.Value:MMM yyyy}" : 
-                        $"{range.Start:dd} {range.End:MMM} - {range.End:dd} {range.End?.ToString("MMM yyyy")}";
+                        $"{range.Start:dd} {range.Start:MMM} - {range.End:dd} {range.End?.ToString("MMM yyyy")}";
                 
                 case CalendarView.Month:
                 default:

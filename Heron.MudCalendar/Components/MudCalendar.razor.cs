@@ -165,6 +165,8 @@ public partial class MudCalendar : MudComponentBase
         set => CurrentDay = value ?? DateTime.Today;
     }
 
+    private CalendarDateRange? _currentDateRange;
+
     private CalendarDatePicker? _datePicker;
 
     /// <summary>
@@ -217,7 +219,8 @@ public partial class MudCalendar : MudComponentBase
 
         if (firstRender)
         {
-            await DateRangeChanged.InvokeAsync(new CalendarDateRange(CurrentDay, View));
+            //await DateRangeChanged.InvokeAsync(new CalendarDateRange(CurrentDay, View));
+            await ChangeDateRange();
         }
     }
 
@@ -230,7 +233,7 @@ public partial class MudCalendar : MudComponentBase
     {
         View = view;
         var viewTask = ViewChanged.InvokeAsync(View);
-        var dateRangeTask = DateRangeChanged.InvokeAsync(new CalendarDateRange(CurrentDay, View));
+        var dateRangeTask = ChangeDateRange();
         return Task.WhenAll(viewTask, dateRangeTask);
     }
 
@@ -247,8 +250,8 @@ public partial class MudCalendar : MudComponentBase
             CalendarView.Month => CurrentDay.AddMonths(1),
             _ => CurrentDay
         };
-
-        return DateRangeChanged.InvokeAsync(new CalendarDateRange(CurrentDay, View));
+        
+        return ChangeDateRange();
     }
 
     /// <summary>
@@ -265,18 +268,32 @@ public partial class MudCalendar : MudComponentBase
             _ => CurrentDay
         };
         
-        return DateRangeChanged.InvokeAsync(new CalendarDateRange(CurrentDay, View));
+        return ChangeDateRange();
     }
 
     private Task DatePickerDateChanged(DateTime? dateTime)
     {
         PickerDate = dateTime;
-        return DateRangeChanged.InvokeAsync(new CalendarDateRange(dateTime ?? DateTime.Today, View));
+        return ChangeDateRange(new CalendarDateRange(dateTime ?? DateTime.Today, View));
     }
 
     private void OnDatePickerOpened()
     {
         _datePicker?.GoToDate(CurrentDay);
+    }
+
+    private async Task ChangeDateRange()
+    {
+        await ChangeDateRange(new CalendarDateRange(CurrentDay, View));
+    }
+
+    private async Task ChangeDateRange(CalendarDateRange dateRange)
+    {
+        if (dateRange != _currentDateRange)
+        {
+            _currentDateRange = dateRange;
+            await DateRangeChanged.InvokeAsync(dateRange);
+        }
     }
 
     private List<CalendarView> AllowedViews()
