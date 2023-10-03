@@ -95,12 +95,12 @@
     /// Renders the week view.
     /// </summary>
     protected virtual RenderFragment RenderWeekView =>
-        @<WeekView />;
+        @<WeekView DayStartTime="DayStartTime" />;
 
     /// <summary>
     /// Renders the day view.
     /// </summary>
     protected virtual RenderFragment RenderDayView =>
-        @<DayView />;
+        @<DayView DayStartTime="DayStartTime" />;
 
 }
