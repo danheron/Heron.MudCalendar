@@ -1,0 +1,17 @@
+@namespace Heron.MudCalendar.Docs.Examples
+
+<MudCalendar ShowMonth="false" DayTimeInterval="_interval" />
+
+<MudToolBar Class="mt-4">
+    <MudSelect @bind-Value="_interval" T="CalendarTimeInterval">
+        <MudSelectItem Value="CalendarTimeInterval.Minutes15">15 Minutes</MudSelectItem>
+        <MudSelectItem Value="CalendarTimeInterval.Minutes30">30 Minutes</MudSelectItem>
+        <MudSelectItem Value="CalendarTimeInterval.Minutes60">1 Hour</MudSelectItem>
+    </MudSelect>
+</MudToolBar>
+
+@code {
+
+    private CalendarTimeInterval _interval = CalendarTimeInterval.Minutes30;
+
+}
