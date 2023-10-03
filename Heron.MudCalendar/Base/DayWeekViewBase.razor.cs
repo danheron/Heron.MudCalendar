@@ -10,10 +10,11 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
     private ElementReference _scrollDiv;
     private JsService? _jsService;
     
-    private const int DayStartTime = 8;
-    
     private const int MinutesInDay = 24 * 60;
     private const int PixelsInDay = 48 * 36;
+    
+    [Parameter]
+    public TimeOnly DayStartTime { get; set; } = new(8, 0);
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -102,8 +103,9 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
 
     private async Task ScrollToDay()
     {
-        const double percent = (double)(DayStartTime * 60) / MinutesInDay;
-        const double scrollTo = PixelsInDay * percent;
+        var startMinutes = (DayStartTime.Hour * 60) + DayStartTime.Minute;
+        var percent = (double)startMinutes / MinutesInDay;
+        var scrollTo = PixelsInDay * percent;
 
         _jsService ??= new JsService(JsRuntime);
         await _jsService.Scroll(_scrollDiv, (int)scrollTo);

@@ -112,6 +112,13 @@ public partial class MudCalendar : MudComponentBase
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowDatePicker { get; set; } = true;
+
+    /// <summary>
+    /// Set the day start time for week/day views.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public TimeOnly DayStartTime { get; set; } = new(8, 0);
     
     /// <summary>
     /// Defines the cell content for the Month view.
