@@ -71,13 +71,13 @@
                     <col class="mud-cal-time-column"/>
                 </colgroup>
                 <tbody>
-                @for (var i = 0; i < 48; i++)
+                @for (var i = 0; i < CellsInDay; i++)
                 {
                     <tr>
-                        @if (i % 2 == 0)
+                        @if (i % (60 / (int)Calendar.DayTimeInterval) == 0)
                         {
                             <td class="mud-cal-week-cell mud-cal-time-cell">
-                                @(i / 2):00
+                                @(i / (60 / (int)Calendar.DayTimeInterval)):00
                             </td>
                             <td class="mud-cal-week-cell"></td>
                         }
@@ -143,7 +143,7 @@
         @<td class="mud-cal-week-cell-holder">
             @if (Calendar.CellClicked.HasDelegate)
             {
-                for (var i = 0; i < 48; i++)
+                for (var i = 0; i < CellsInDay; i++)
                 {
                     var row = i;
                     <div class="mud-cal-week-height">
