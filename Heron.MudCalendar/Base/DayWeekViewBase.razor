@@ -76,15 +76,15 @@
                     <tr>
                         @if (i % (60 / (int)Calendar.DayTimeInterval) == 0)
                         {
-                            <td class="mud-cal-week-cell mud-cal-time-cell">
+                            <td class="mud-cal-week-cell mud-cal-time-cell" style="@CellHeightStyle()">
                                 @(i / (60 / (int)Calendar.DayTimeInterval)):00
                             </td>
-                            <td class="mud-cal-week-cell"></td>
+                            <td class="mud-cal-week-cell" style="@CellHeightStyle()"></td>
                         }
                         else
                         {
                             <td></td>
-                            <td class="mud-cal-week-cell mud-cal-week-cell-half"></td>
+                            <td class="mud-cal-week-cell mud-cal-week-cell-half" style="@CellHeightStyle()"></td>
                         }
                     </tr>
                 }
@@ -146,7 +146,7 @@
                 for (var i = 0; i < CellsInDay; i++)
                 {
                     var row = i;
-                    <div class="mud-cal-week-height">
+                    <div style="@CellHeightStyle()">
                         <MudLink @onclick="() => OnCellLinkClicked(cell, row)" Class="mud-cal-week-cell-link">
                             <div class="mud-cal-week-link"></div>
                         </MudLink>

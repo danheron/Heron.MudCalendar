@@ -121,11 +121,18 @@ public partial class MudCalendar : MudComponentBase
     public TimeOnly DayStartTime { get; set; } = new(8, 0);
 
     /// <summary>
-    /// Set the time interval of cells in day and week view
+    /// Set the time interval of cells in day and week view.
     /// </summary>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public CalendarTimeInterval DayTimeInterval { get; set; } = CalendarTimeInterval.Minutes30;
+
+    /// <summary>
+    /// Set the height of each cell in day and week view.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public int DayCellHeight { get; set; } = 36;
     
     /// <summary>
     /// Defines the cell content for the Month view.

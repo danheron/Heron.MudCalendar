@@ -12,15 +12,10 @@
 
 .mud-cal-week-cell {
   border-top: 1px solid var(--mud-palette-lines-default);
-  height: 36px;
 
   &.mud-cal-week-cell-half {
     border-top: 1px solid var(--mud-palette-divider);
   }
-}
-
-.mud-cal-week-height {
-  height: 36px;
 }
 
 .mud-cal-time-column {

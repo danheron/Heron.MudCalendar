@@ -11,7 +11,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
     private JsService? _jsService;
     
     private const int MinutesInDay = 24 * 60;
-    private const int PixelsInCell = 36;
+    private int PixelsInCell => Calendar.DayCellHeight;
 
     private int CellsInDay => MinutesInDay / (int)Calendar.DayTimeInterval;
     private int PixelsInDay => CellsInDay * PixelsInCell;
@@ -47,6 +47,13 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             .AddStyle("overflow", "hidden")
             .AddStyle("left", (((position.Position / (double)position.Total) - (1.0 / position.Total)) * 100).ToInvariantString() + "%")
             .AddStyle("width", (100 / position.Total) + "%" )
+            .Build();
+    }
+
+    private string CellHeightStyle()
+    {
+        return new StyleBuilder()
+            .AddStyle("height", $"{Calendar.DayCellHeight}px")
             .Build();
     }
 
