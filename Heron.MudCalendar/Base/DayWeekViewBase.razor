@@ -71,20 +71,20 @@
                     <col class="mud-cal-time-column"/>
                 </colgroup>
                 <tbody>
-                @for (var i = 0; i < 48; i++)
+                @for (var i = 0; i < CellsInDay; i++)
                 {
                     <tr>
-                        @if (i % 2 == 0)
+                        @if (i % (60 / (int)Calendar.DayTimeInterval) == 0)
                         {
-                            <td class="mud-cal-week-cell mud-cal-time-cell">
-                                @(i / 2):00
+                            <td class="mud-cal-week-cell mud-cal-time-cell" style="@CellHeightStyle()">
+                                @(i / (60 / (int)Calendar.DayTimeInterval)):00
                             </td>
-                            <td class="mud-cal-week-cell"></td>
+                            <td class="mud-cal-week-cell" style="@CellHeightStyle()"></td>
                         }
                         else
                         {
                             <td></td>
-                            <td class="mud-cal-week-cell mud-cal-week-cell-half"></td>
+                            <td class="mud-cal-week-cell mud-cal-week-cell-half" style="@CellHeightStyle()"></td>
                         }
                     </tr>
                 }
@@ -107,7 +107,12 @@
                     @foreach (var cell in Cells)
                     {
                         <td>
-                            <div class="mud-cal-week-day-holder" style="@DayStyle(cell)">&nbsp;</div>
+                            <div class="mud-cal-week-day-holder" style="@DayStyle(cell)">
+                                @if (cell.Today && Calendar.ShowCurrentTime)
+                                {
+                                    <hr class="mud-cal-current-time" style="@TimelineStyle()" />
+                                }
+                            </div>
                         </td>
                     }
                 </tr>
@@ -143,10 +148,10 @@
         @<td class="mud-cal-week-cell-holder">
             @if (Calendar.CellClicked.HasDelegate)
             {
-                for (var i = 0; i < 48; i++)
+                for (var i = 0; i < CellsInDay; i++)
                 {
                     var row = i;
-                    <div class="mud-cal-week-height">
+                    <div style="@CellHeightStyle()">
                         <MudLink @onclick="() => OnCellLinkClicked(cell, row)" Class="mud-cal-week-cell-link">
                             <div class="mud-cal-week-link"></div>
                         </MudLink>

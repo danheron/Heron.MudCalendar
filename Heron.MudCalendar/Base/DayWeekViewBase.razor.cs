@@ -1,5 +1,6 @@
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using MudBlazor.Extensions;
 using MudBlazor.Utilities;
 
@@ -10,10 +11,11 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
     private ElementReference _scrollDiv;
     private JsService? _jsService;
     
-    private const int DayStartTime = 8;
-    
     private const int MinutesInDay = 24 * 60;
-    private const int PixelsInDay = 48 * 36;
+    private int PixelsInCell => Calendar.DayCellHeight;
+
+    private int CellsInDay => MinutesInDay / (int)Calendar.DayTimeInterval;
+    private int PixelsInDay => CellsInDay * PixelsInCell;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -49,6 +51,23 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             .Build();
     }
 
+    private string CellHeightStyle()
+    {
+        return new StyleBuilder()
+            .AddStyle("height", $"{Calendar.DayCellHeight}px")
+            .Build();
+    }
+
+    private string TimelineStyle()
+    {
+        return new StyleBuilder()
+            .AddStyle("position", "absolute")
+            .AddStyle("width", "100%")
+            .AddStyle("border", "1px solid var(--mud-palette-grey-default)")
+            .AddStyle("top", $"{(int)((DateTime.Now.Subtract(DateTime.Today).TotalMinutes / MinutesInDay) * PixelsInDay)}px")
+            .Build();
+    }
+
     /// <summary>
     /// Method invoked when the user clicks on the hyper link in the cell.
     /// </summary>
@@ -57,11 +76,11 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
     /// <returns></returns>
     protected virtual Task OnCellLinkClicked(CalendarCell cell, int row)
     {
-        var date = cell.Date.AddHours(row / 2.0);
+        var date = cell.Date.AddHours(row / (60.0 / (int)Calendar.DayTimeInterval));
         return Calendar.CellClicked.InvokeAsync(date);
     }
 
-    private static int CalcTop(ItemPosition position)
+    private int CalcTop(ItemPosition position)
     {
         double minutes = 0;
         if (DateOnly.FromDateTime(position.Item.Start.Date) == position.Date)
@@ -74,7 +93,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         return (int)top;
     }
 
-    private static int CalcHeight(ItemPosition position)
+    private int CalcHeight(ItemPosition position)
     {
         double start = 0;
         if (DateOnly.FromDateTime(position.Item.Start.Date) == position.Date)
@@ -85,14 +104,14 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         var end = start + 60;
         if (position.Item.End.HasValue)
         {
-            end = 24 * 60;
+            end = MinutesInDay;
             if (DateOnly.FromDateTime(position.Item.End.Value.Date) == position.Date)
             {
                 end = position.Item.End.Value.Hour * 60 + position.Item.End.Value.Minute;
             }
         }
 
-        if (end > 24 * 60) end = 24 * 60;
+        if (end > MinutesInDay) end = MinutesInDay;
         var minutes = end - start;
         var percent = minutes / MinutesInDay;
         var height = PixelsInDay * percent;
@@ -102,8 +121,9 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
 
     private async Task ScrollToDay()
     {
-        const double percent = (double)(DayStartTime * 60) / MinutesInDay;
-        const double scrollTo = PixelsInDay * percent;
+        var startMinutes = (Calendar.DayStartTime.Hour * 60) + Calendar.DayStartTime.Minute;
+        var percent = (double)startMinutes / MinutesInDay;
+        var scrollTo = PixelsInDay * percent;
 
         _jsService ??= new JsService(JsRuntime);
         await _jsService.Scroll(_scrollDiv, (int)scrollTo);
