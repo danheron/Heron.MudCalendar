@@ -1,5 +1,6 @@
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using MudBlazor.Extensions;
 using MudBlazor.Utilities;
 
@@ -54,6 +55,16 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
     {
         return new StyleBuilder()
             .AddStyle("height", $"{Calendar.DayCellHeight}px")
+            .Build();
+    }
+
+    private string TimelineStyle()
+    {
+        return new StyleBuilder()
+            .AddStyle("position", "absolute")
+            .AddStyle("width", "100%")
+            .AddStyle("border", "1px solid var(--mud-palette-grey-default)")
+            .AddStyle("top", $"{(int)((DateTime.Now.Subtract(DateTime.Today).TotalMinutes / MinutesInDay) * PixelsInDay)}px")
             .Build();
     }
 

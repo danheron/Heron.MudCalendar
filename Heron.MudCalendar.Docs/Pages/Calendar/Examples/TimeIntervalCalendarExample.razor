@@ -1,19 +1,21 @@
 @namespace Heron.MudCalendar.Docs.Examples
 
-<MudCalendar ShowMonth="false" DayTimeInterval="_interval" DayCellHeight="_cellHeight" />
+<MudCalendar ShowMonth="false" DayTimeInterval="_interval" DayCellHeight="_cellHeight" ShowCurrentTime="_showCurrentTime" />
 
 <MudToolBar Class="mt-4">
-    <MudSelect @bind-Value="_interval" T="CalendarTimeInterval" Label="Time Interval">
+    <MudSwitch @bind-Checked="_showCurrentTime" T="bool" Color="Color.Primary" Label="Show Current Time" />
+    <MudSelect @bind-Value="_interval" T="CalendarTimeInterval" Label="Time Interval" class="ml-4">
         <MudSelectItem Value="CalendarTimeInterval.Minutes15">15 Minutes</MudSelectItem>
         <MudSelectItem Value="CalendarTimeInterval.Minutes30">30 Minutes</MudSelectItem>
         <MudSelectItem Value="CalendarTimeInterval.Minutes60">1 Hour</MudSelectItem>
     </MudSelect>
-    <MudNumericField @bind-Value="_cellHeight" T="int" Label="Cell Height" Class="ml-4" />
+    <MudNumericField @bind-Value="_cellHeight" T="int" Label="Cell Height" Class="ml-4"/>
 </MudToolBar>
 
 @code {
 
     private CalendarTimeInterval _interval = CalendarTimeInterval.Minutes30;
     private int _cellHeight = 50;
+    private bool _showCurrentTime = true;
 
 }

@@ -107,7 +107,12 @@
                     @foreach (var cell in Cells)
                     {
                         <td>
-                            <div class="mud-cal-week-day-holder" style="@DayStyle(cell)">&nbsp;</div>
+                            <div class="mud-cal-week-day-holder" style="@DayStyle(cell)">
+                                @if (cell.Today && Calendar.ShowCurrentTime)
+                                {
+                                    <hr class="mud-cal-current-time" style="@TimelineStyle()" />
+                                }
+                            </div>
                         </td>
                     }
                 </tr>
