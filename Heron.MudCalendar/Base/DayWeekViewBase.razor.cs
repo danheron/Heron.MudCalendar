@@ -1,6 +1,5 @@
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
 using MudBlazor.Extensions;
 using MudBlazor.Utilities;
 
@@ -39,7 +38,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             .Build();
     }
 
-    private string EventStyle(ItemPosition position)
+    protected virtual string EventStyle(ItemPosition position)
     {
         return new StyleBuilder()
             .AddStyle("position", "absolute")
@@ -51,14 +50,14 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             .Build();
     }
 
-    private string CellHeightStyle()
+    protected virtual string CellHeightStyle()
     {
         return new StyleBuilder()
             .AddStyle("height", $"{Calendar.DayCellHeight}px")
             .Build();
     }
 
-    private string TimelineStyle()
+    protected virtual string TimelineStyle()
     {
         return new StyleBuilder()
             .AddStyle("position", "absolute")
@@ -172,7 +171,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         return positions;
     }
 
-    private class ItemPosition
+    protected class ItemPosition
     {
         public CalendarItem Item { get; set; } = new();
         public int Position { get; set; }
