@@ -28,7 +28,7 @@
 }
 
 .mud-cal-month-cell-events {
-  flex-grow: 1;
+  overflow-y: scroll;
 }
 
 .mud-cal-month-link {
