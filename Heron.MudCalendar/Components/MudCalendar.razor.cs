@@ -216,7 +216,7 @@ public partial class MudCalendar : MudComponentBase
             .AddStyle(Style)
             .Build();
 
-    private string ViewClassname =>
+    protected virtual string ViewClassname =>
         new CssBuilder("flex-grow-1")
             .AddClass("d-none", AllowedViews().Count == 0)
             .Build();
