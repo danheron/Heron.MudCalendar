@@ -1,6 +1,7 @@
 @namespace Heron.MudCalendar
 @inherits CalendarViewBase
 @using Microsoft.JSInterop
+@using CategoryTypes = Heron.MudCalendar.Attributes.CategoryTypes
 @inject IJSRuntime JsRuntime
 
 @Render
@@ -74,10 +75,10 @@
                 @for (var i = 0; i < CellsInDay; i++)
                 {
                     <tr>
-                        @if (i % (60 / (int)Calendar.DayTimeInterval) == 0)
+                        @if ((int)Calendar.DayTimeInterval >= 60 || i % (60 / (int)Calendar.DayTimeInterval) == 0)
                         {
                             <td class="mud-cal-week-cell mud-cal-time-cell" style="@CellHeightStyle()">
-                                @(i / (60 / (int)Calendar.DayTimeInterval)):00
+                                @(i / (60 / (double)Calendar.DayTimeInterval)):00
                             </td>
                             <td class="mud-cal-week-cell" style="@CellHeightStyle()"></td>
                         }
