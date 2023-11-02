@@ -111,7 +111,7 @@
                             <div class="mud-cal-week-day-holder" style="@DayStyle(cell)">
                                 @if (cell.Today && Calendar.ShowCurrentTime)
                                 {
-                                    <hr class="mud-cal-current-time" style="@TimelineStyle()" />
+                                    <hr class="mud-cal-current-time" style="@TimelineStyle()"/>
                                 }
                             </div>
                         </td>
@@ -170,9 +170,19 @@
         var positions = CalcPositions(cell.Items, DateOnly.FromDateTime(cell.Date));
         foreach (var position in positions)
         {
-            <div style="@EventStyle(position)">
-                @CellTemplate?.Invoke(position.Item)
-            </div>
+            @if (Calendar.CalendarItemClicked.HasDelegate)
+            {
+                <div @onclick="() => OnCalendarItemClicked(position.Item)" style="@EventStyle(position)">
+                    @CellTemplate?.Invoke(position.Item)
+                </div>
+            }
+            else
+            {
+                <div style="@EventStyle(position)">
+                    @CellTemplate?.Invoke(position.Item)
+                </div>
+            }
         }
     };
+
 }

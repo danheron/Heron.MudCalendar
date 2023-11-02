@@ -186,6 +186,12 @@ public partial class MudCalendar : MudComponentBase
     /// </summary>
     [Parameter]
     public EventCallback<DateTime> CellClicked { get; set; }
+    
+    /// <summary>
+    /// Called when a CalendarItem is clicked.
+    /// </summary>
+    [Parameter]
+    public EventCallback<CalendarItem> CalendarItemClicked { get; set; }
 
     private DateTime? PickerDate
     {
