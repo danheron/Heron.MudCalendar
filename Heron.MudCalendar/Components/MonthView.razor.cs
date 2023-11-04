@@ -61,6 +61,16 @@ public partial class MonthView : CalendarViewBase
         return Calendar.CellClicked.InvokeAsync(cell.Date);
     }
     
+    /// <summary>
+    /// Method invoked when the user clicks on the calendar item.
+    /// </summary>
+    /// <param name="item">The calendar item that was clicked.</param>
+    /// <returns></returns>
+    protected virtual Task OnItemClicked(CalendarItem item)
+    {
+        return Calendar.ItemClicked.InvokeAsync(item);
+    }
+    
     protected override List<CalendarCell> BuildCells()
     {
         var cells = new List<CalendarCell>();

@@ -88,9 +88,9 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
     /// </summary>
     /// <param name="item">The calendar item that was clicked.</param>
     /// <returns></returns>
-    protected virtual Task OnCalendarItemClicked(CalendarItem item)
+    protected virtual Task OnItemClicked(CalendarItem item)
     {
-        return Calendar.CalendarItemClicked.InvokeAsync(item);
+        return Calendar.ItemClicked.InvokeAsync(item);
     }
 
     private int CalcTop(ItemPosition position)

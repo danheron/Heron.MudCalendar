@@ -136,6 +136,28 @@ public class CalendarTests : BunitTest
         comp.Find("div.mud-cal-week-layer a").Click();
         textField.Instance.Text.Should().Be("8");
     }
+    
+    [Test]
+    public void ItemsClick()
+    {
+        var cut = Context.RenderComponent<CalendarItemClickTest>();
+        var comp = cut.FindComponent<MudCalendar>();
+        var textField = cut.FindComponent<MudTextField<string>>();
+        
+        // Month View
+        comp.Find("div.mud-cal-cell-template").Click();
+        textField.Instance.Text.Should().Be("Event_Month");
+        
+        // Week View
+        comp.SetParam(x => x.View, CalendarView.Week);
+        comp.Find("div.mud-cal-cell-template").Click();
+        textField.Instance.Text.Should().Be("Event_Week");
+        
+        // Day View
+        comp.SetParam(x => x.View, CalendarView.Day);
+        comp.Find("div.mud-cal-cell-template").Click();
+        textField.Instance.Text.Should().Be("Event_Day");
+    }
 
     [Test]
     public void EnsureAllDays()

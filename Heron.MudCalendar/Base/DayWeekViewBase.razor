@@ -170,9 +170,9 @@
         var positions = CalcPositions(cell.Items, DateOnly.FromDateTime(cell.Date));
         foreach (var position in positions)
         {
-            @if (Calendar.CalendarItemClicked.HasDelegate)
+            @if (Calendar.ItemClicked.HasDelegate)
             {
-                <div @onclick="() => OnCalendarItemClicked(position.Item)" style="@EventStyle(position)">
+                <div @onclick="() => OnItemClicked(position.Item)" style="@EventStyle(position)" class="mud-cal-clickable">
                     @CellTemplate?.Invoke(position.Item)
                 </div>
             }

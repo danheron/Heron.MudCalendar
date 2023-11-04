@@ -1,0 +1,25 @@
+<MudCalendar @ref="_mudCalendar" Items="_events" ItemClicked="TestClick" Height="500" />
+<MudTextField @bind-Value="_value" />
+
+@code {
+    public static string __description__ = "Calendar Item Click Test";
+
+    private string _value = string.Empty;
+
+    private MudCalendar _mudCalendar;
+
+    private void TestClick(CalendarItem item)
+    {
+        _value = string.Concat(item.Text, "_", _mudCalendar.View.ToString());
+    }
+    
+    private List<CalendarItem> _events = new()
+    {
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(10),
+            End = DateTime.Today.AddHours(11),
+            Text = "Event"
+        }
+    };
+}
