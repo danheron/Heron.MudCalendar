@@ -93,6 +93,15 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         return Calendar.ItemClicked.InvokeAsync(item);
     }
 
+    protected virtual string DrawTime(int row)
+    {
+        var hour = row / (60.0 / (double)Calendar.DayTimeInterval);
+        var timeSpan = TimeSpan.FromHours(hour);
+        var time = TimeOnly.FromTimeSpan(timeSpan);
+        
+        return Calendar.Use24HourClock ? time.ToString("HH:mm") : time.ToString("h tt");
+    }
+
     private int CalcTop(ItemPosition position)
     {
         double minutes = 0;

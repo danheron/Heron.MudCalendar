@@ -322,4 +322,18 @@ public class CalendarTests : BunitTest
         comp.FindAll("button.mud-icon-button")[1].Click();
         table.Children.Length.Should().Be(2);
     }
+
+    [Test]
+    public void ClockType()
+    {
+        var cut = Context.RenderComponent<CalendarTimeIntervalTest>();
+        var comp = cut.FindComponent<MudCalendar>();
+        
+        // Check 24 hour clock
+        comp.FindAll("td.mud-cal-time-cell")[18].TextContent.Trim().Should().Be("18:00");
+
+        // Check 12 hour clock
+        comp.SetParam(x => x.Use24HourClock, false);
+        comp.FindAll("td.mud-cal-time-cell")[18].TextContent.Trim().Should().Be("6 pm");
+    }
 }

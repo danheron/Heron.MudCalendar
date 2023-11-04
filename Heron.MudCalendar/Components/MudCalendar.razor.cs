@@ -143,6 +143,13 @@ public partial class MudCalendar : MudComponentBase
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public bool ShowCurrentTime { get; set; } = false;
+
+    /// <summary>
+    /// If true then use 24 hour clock, otherwise use 12 hour format (am/pm).
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Appearance)]
+    public bool Use24HourClock { get; set; } = true;
     
     /// <summary>
     /// Defines the cell content for the Month view.
