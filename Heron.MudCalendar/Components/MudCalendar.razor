@@ -58,12 +58,16 @@
             <div>
                 @if (ShowPrevNextButtons)
                 {
-                    <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" Color="@Color" OnClick="OnPreviousClicked" Class="mr-2"/>
-                    <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" Color="@Color" OnClick="OnNextClicked" Class="mr-2"/>
+                    <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" Color="@Color" OnClick="OnPreviousClicked" Class="mx-1"/>
+                    <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" Color="@Color" OnClick="OnNextClicked" Class="mr-1"/>
                 }
                 @if (ShowDatePicker)
                 {
-                    <CalendarDatePicker @ref="_datePicker" Date="PickerDate" DateChanged="DatePickerDateChanged" @bind-View="View" Variant="ButtonVariant" Color="Color" Class="ml-1" PickerOpened="OnDatePickerOpened"/>
+                    <CalendarDatePicker @ref="_datePicker" Date="PickerDate" DateChanged="DatePickerDateChanged" @bind-View="View" Variant="ButtonVariant" Color="Color" Class="mx-1" PickerOpened="OnDatePickerOpened"/>
+                }
+                @if (ShowTodayButton)
+                {
+                    <MudButton Variant="@ButtonVariant" Color="@Color" OnClick="OnTodayClicked" Class="mx-1">@DrawTodayText()</MudButton>
                 }
             </div>
             <div>

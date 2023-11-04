@@ -1,6 +1,4 @@
 using System;
-using System.Threading;
-using AngleSharp.Dom;
 using FluentAssertions;
 using Heron.MudCalendar.UnitTests.Viewer.TestComponents.Calendar;
 using MudBlazor;
@@ -214,6 +212,8 @@ public class CalendarTests : BunitTest
 
         comp.Find("div.mud-button-group-root button.mud-button-root span.mud-button-label").TextContent.Should()
             .Be("Monat");
+
+        comp.FindAll("div.mud-cal-toolbar > div > button")[2].TextContent.Should().Be("Heute");
     }
 
     [Test]
