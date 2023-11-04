@@ -1,3 +1,4 @@
+using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
 using MudBlazor.Utilities;
 using MudBlazor;
@@ -8,6 +9,8 @@ namespace Heron.MudCalendar;
 
 public partial class MudCalendar : MudComponentBase
 {
+    private JsService? _jsService;
+    
     /// <summary>
     /// The higher the number, the heavier the drop-shadow. 0 for no shadow.
     /// </summary>
@@ -255,6 +258,8 @@ public partial class MudCalendar : MudComponentBase
         {
             //await DateRangeChanged.InvokeAsync(new CalendarDateRange(CurrentDay, View));
             await ChangeDateRange();
+
+            await SetLinks();
         }
     }
 
@@ -303,6 +308,17 @@ public partial class MudCalendar : MudComponentBase
         };
         
         return ChangeDateRange();
+    }
+
+    private async Task SetLinks()
+    {
+        // Check if link is already set
+        _jsService ??= new JsService(JsRuntime);
+        var head = await _jsService.GetHeadContent();
+        if (!string.IsNullOrEmpty(head) && head.Contains("Heron.MudCalendar.min.css")) return;
+
+        // Add link
+        await _jsService.AddLink("_content/Heron.MudCalendar/Heron.MudCalendar.min.css", "stylesheet");
     }
 
     private Task DatePickerDateChanged(DateTime? dateTime)

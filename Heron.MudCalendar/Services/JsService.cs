@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -17,6 +18,18 @@ internal class JsService : IAsyncDisposable
     {
         var module = await _moduleTask.Value;
         await module.InvokeVoidAsync("scroll", element, top);
+    }
+
+    public async Task<string> GetHeadContent()
+    {
+        var module = await _moduleTask.Value;
+        return await module.InvokeAsync<string>("getHeadContent");
+    }
+
+    public async Task AddLink(string href, string rel)
+    {
+        var module = await _moduleTask.Value;
+        await module.InvokeVoidAsync("addLink", href, rel);
     }
     
     public async ValueTask DisposeAsync()
