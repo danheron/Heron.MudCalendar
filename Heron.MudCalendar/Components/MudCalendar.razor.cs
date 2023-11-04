@@ -1,5 +1,9 @@
+using System.Globalization;
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using MudBlazor.Utilities;
 using MudBlazor;
 using CategoryAttribute = Heron.MudCalendar.Attributes.CategoryAttribute;
@@ -9,8 +13,6 @@ namespace Heron.MudCalendar;
 
 public partial class MudCalendar : MudComponentBase
 {
-    private JsService? _jsService;
-    
     /// <summary>
     /// The higher the number, the heavier the drop-shadow. 0 for no shadow.
     /// </summary>
@@ -117,6 +119,13 @@ public partial class MudCalendar : MudComponentBase
     public bool ShowDatePicker { get; set; } = true;
 
     /// <summary>
+    /// If true the Today button is shown.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public bool ShowTodayButton { get; set; } = false;
+
+    /// <summary>
     /// Set the day start time for week/day views.
     /// </summary>
     [Parameter]
@@ -212,6 +221,11 @@ public partial class MudCalendar : MudComponentBase
     private CalendarDateRange? _currentDateRange;
 
     private CalendarDatePicker? _datePicker;
+    
+    private JsService? _jsService;
+
+    private static CultureInfo? _uiCulture;
+    private static string? _todayText;
 
     /// <summary>
     /// Classes added to main div of component.
@@ -315,6 +329,31 @@ public partial class MudCalendar : MudComponentBase
         };
         
         return ChangeDateRange();
+    }
+
+    /// <summary>
+    /// Method invoked when the user clicks the today button.
+    /// </summary>
+    /// <returns></returns>
+    protected virtual Task OnTodayClicked()
+    {
+        CurrentDay = DateTime.Today;
+
+        return ChangeDateRange();
+    }
+    
+    protected string DrawTodayText()
+    {
+        if (_todayText != null && Equals(_uiCulture, Thread.CurrentThread.CurrentUICulture)) return _todayText;
+
+        var options = Options.Create(new LocalizationOptions { ResourcesPath = "Resources" });
+        var factory = new ResourceManagerStringLocalizerFactory(options, NullLoggerFactory.Instance);
+        var localizer = new StringLocalizer<MudCalendar>(factory);
+
+        _uiCulture = Thread.CurrentThread.CurrentUICulture;
+        _todayText = localizer["Today"];
+
+        return _todayText;
     }
 
     private async Task SetLinks()
