@@ -140,6 +140,13 @@ public partial class MudCalendar : MudComponentBase
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public bool ShowCurrentTime { get; set; } = false;
+
+    /// <summary>
+    /// If true then calendar items can be drag/dropped to different dates/times.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public bool EnableDragItems { get; set; } = false;
     
     /// <summary>
     /// Defines the cell content for the Month view.
@@ -247,9 +254,17 @@ public partial class MudCalendar : MudComponentBase
 
         if (firstRender)
         {
-            //await DateRangeChanged.InvokeAsync(new CalendarDateRange(CurrentDay, View));
             await ChangeDateRange();
         }
+    }
+    
+    /// <summary>
+    /// Forces the component to be redrawn.
+    /// </summary>
+    /// <returns></returns>
+    public void Refresh()
+    {
+        StateHasChanged();
     }
 
     /// <summary>

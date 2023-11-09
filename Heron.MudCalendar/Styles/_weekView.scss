@@ -2,6 +2,8 @@
   height: 100%;
   
   table {
+    border-collapse: separate;
+    
     * tr {
       > td {
         border-bottom: none;
@@ -51,6 +53,7 @@
 
 .mud-cal-week-cell-holder {
   position: relative;
+  border: none;
 }
 
 .mud-cal-week-link {
@@ -66,4 +69,13 @@
 .mud-cal-week-cell-link {
   cursor: pointer;
   z-index: 100;
+}
+
+.mud-cal-week-drop-item > .mud-drop-item {
+  height: 100%;
+  border: none;
+}
+
+.mud-cal-week-drop-ok {
+  background-color: var(--mud-cal-cell-hover);
 }

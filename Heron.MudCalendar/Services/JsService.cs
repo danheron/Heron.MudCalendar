@@ -18,6 +18,12 @@ internal class JsService : IAsyncDisposable
         var module = await _moduleTask.Value;
         await module.InvokeVoidAsync("scroll", element, top);
     }
+
+    public async Task AddDragHandler(string id)
+    {
+        var module = await _moduleTask.Value;
+        await module.InvokeVoidAsync("addDragHandler", id);
+    }
     
     public async ValueTask DisposeAsync()
     {

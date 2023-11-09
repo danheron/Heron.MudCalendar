@@ -9,4 +9,6 @@ public class CalendarItem
     public bool AllDay { get; set; }
 
     public string Text { get; set; } = string.Empty;
+
+    protected internal readonly string Id = Guid.NewGuid().ToString();
 }

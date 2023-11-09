@@ -42,7 +42,7 @@ namespace Heron.MudCalendar.Docs
 
         #region Docs
 
-        private static readonly Palette DocsLightPalette = new()
+        private static readonly PaletteLight DocsLightPalette = new()
         {
             Black = "#110e2d",
             AppbarText = "#424242",
@@ -52,7 +52,7 @@ namespace Heron.MudCalendar.Docs
             GrayLighter = "#f9f9f9"
         };
 
-        private static readonly Palette DocsDarkPalette  = new()
+        private static readonly PaletteDark DocsDarkPalette  = new()
         {
             Primary = "#7e6fff",
             Surface= "#1e1e2d",
@@ -144,7 +144,7 @@ namespace Heron.MudCalendar.Docs
                 TextTransform = "none"
             }
         };
-        private static readonly Palette LandingPageLightPalette = new()
+        private static readonly PaletteLight LandingPageLightPalette = new()
         {
             AppbarText = "#424242",
             AppbarBackground = "rgba(0,0,0,0)",
@@ -156,7 +156,7 @@ namespace Heron.MudCalendar.Docs
             GrayLight = "#9CA3AF",
             GrayLighter = "#adbdccff"
         };
-        private static readonly Palette LandingPageDarkPalette = new()
+        private static readonly PaletteDark LandingPageDarkPalette = new()
         {
             AppbarText = "#92929f",
             AppbarBackground = "rgba(0,0,0,0)",

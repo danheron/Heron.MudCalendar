@@ -56,17 +56,17 @@
     </Target>
 
     <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.11" />
-        <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.11" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.16" />
+        <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.16" />
     </ItemGroup>
 
     <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.1" />
-        <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
+        <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.5" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="MudBlazor" Version="6.1.9" />
+        <PackageReference Include="MudBlazor" Version="6.11.0" />
     </ItemGroup>
 
     <ItemGroup>
