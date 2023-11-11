@@ -16,3 +16,11 @@
   width: 100%;
   margin: 0;
 }
+
+.mud-cal-clickable {
+  cursor: pointer;
+  
+  .mud-chip {
+    cursor: inherit;
+  }
+}

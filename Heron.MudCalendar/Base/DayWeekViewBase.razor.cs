@@ -11,7 +11,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
 {
     private ElementReference _scrollDiv;
     private JsService? _jsService;
-    
+
     private const int MinutesInDay = 24 * 60;
     private int PixelsInCell => Calendar.DayCellHeight;
 
@@ -53,7 +53,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             .AddStyle("top", $"{CalcTop(position)}px")
             .AddStyle("height", $"{CalcHeight(position)}px")
             .AddStyle("overflow", "hidden")
-            .AddStyle("left", (((position.Position / (double)position.Total) - (1.0 / position.Total)) * 100).ToString(CultureInfo.InvariantCulture) + "%")
+            .AddStyle("left", (((position.Position / (double)position.Total) - (1.0 / position.Total)) * 100).ToInvariantString() + "%")
             .AddStyle("width", (100 / position.Total) + "%" )
             .Build();
     }
@@ -86,7 +86,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         return new StyleBuilder()
             .AddStyle("width", "100%")
             .AddStyle("border", "1px solid var(--mud-palette-grey-default)")
-            .AddStyle("top", $"{((DateTime.Now.Subtract(DateTime.Today).TotalMinutes - (TimelineRow() * (int)Calendar.DayTimeInterval)) / (int)Calendar.DayTimeInterval) * PixelsInCell}px")
+            .AddStyle("top", $"{(int)((DateTime.Now.Subtract(DateTime.Today).TotalMinutes / MinutesInDay) * PixelsInDay)}px")
             .Build();
     }
 
@@ -109,7 +109,17 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         var date = cell.Date.AddHours(row / (60.0 / (int)Calendar.DayTimeInterval));
         return Calendar.CellClicked.InvokeAsync(date);
     }
-
+    
+    /// <summary>
+    /// Method invoked when the user clicks on the calendar item.
+    /// </summary>
+    /// <param name="item">The calendar item that was clicked.</param>
+    /// <returns></returns>
+    protected virtual Task OnItemClicked(CalendarItem item)
+    {
+        return Calendar.ItemClicked.InvokeAsync(item);
+    }
+    
     protected virtual string DrawTime(int row)
     {
         return $"{row / (60 / (double)Calendar.DayTimeInterval)}:00";
@@ -131,6 +141,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         {
             minutes = position.Item.Start.Hour * 60 + position.Item.Start.Minute;
         }
+
         var percent = minutes / MinutesInDay;
         var top = PixelsInDay * percent;
 
@@ -195,8 +206,9 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
                     position.Position = i;
                 }
             }
+
             if (position.Position == 0) position.Position = overlaps.Count + 1;
-            
+
             overlaps.Add(position);
             var maxPosition = overlaps.Max(o => o.Position);
             foreach (var overlap in overlaps)
@@ -204,12 +216,13 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
                 overlap.Total = maxPosition;
             }
         }
-        
+
         // Calculate the total overlapping events
         foreach (var position in positions)
         {
-            var max = positions.Where(p => p.Item.Start < (position.Item.End ?? position.Item.Start.AddHours(1)) 
-                                            && (p.Item.End ?? p.Item.Start.AddHours(1)) > position.Item.Start).Max(p => p.Total);
+            var max = positions.Where(p => p.Item.Start < (position.Item.End ?? position.Item.Start.AddHours(1))
+                                           && (p.Item.End ?? p.Item.Start.AddHours(1)) > position.Item.Start)
+                .Max(p => p.Total);
             position.Total = max;
         }
 
@@ -252,11 +265,11 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         public int Total { get; set; }
         public DateOnly Date { get; set; }
     }
-    
+
     public async ValueTask DisposeAsync()
     {
         GC.SuppressFinalize(this);
-        
+
         if (_jsService != null)
         {
             await _jsService.DisposeAsync();

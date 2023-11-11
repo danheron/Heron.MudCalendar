@@ -82,7 +82,17 @@ public partial class MonthView : CalendarViewBase
         // Ensure that the order of items is correct
         _dropContainer?.Refresh();
     }
-
+    
+    /// <summary>
+    /// Method invoked when the user clicks on the calendar item.
+    /// </summary>
+    /// <param name="item">The calendar item that was clicked.</param>
+    /// <returns></returns>
+    protected virtual Task OnItemClicked(CalendarItem item)
+    {
+        return Calendar.ItemClicked.InvokeAsync(item);
+    }
+    
     protected override List<CalendarCell> BuildCells()
     {
         var cells = new List<CalendarCell>();

@@ -157,20 +157,20 @@
         foreach (var position in positions)
         {
             if (position.Item.Start.Date == cell.Date.Date)
-            {
-                <WeekDropZone Item="@position.Item" Style="@EventStyle(position)">
-                    @if (Calendar.EnableResizeItems && !position.Item.IsMultiDay)
-                    {
-                        <Resizer HeightChanged="@(newHeight => ItemHeightChanged(position.Item, newHeight))" />
-                    }
-                </WeekDropZone>
-            }
-            else
-            {
-                <div style="@EventStyle(position)">
-                    @CellTemplate?.Invoke(position.Item)
-                </div>
-            }
+                        {
+                            <WeekDropZone Item="@position.Item" Style="@EventStyle(position)">
+                                @if (Calendar.EnableResizeItems && !position.Item.IsMultiDay)
+                                {
+                                    <Resizer HeightChanged="@(newHeight => ItemHeightChanged(position.Item, newHeight))" />
+                                }
+                            </WeekDropZone>
+                        }
+                        else
+                        {
+                            <div style="@EventStyle(position)">
+                                @CellTemplate?.Invoke(position.Item)
+                            </div>
+                        }
         }
     };
 

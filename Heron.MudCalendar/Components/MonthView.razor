@@ -109,7 +109,18 @@
             <div class="mud-cal-month-cell-events">
                 @foreach (var item in cell.Items)
                 {
-                    @CellTemplate?.Invoke(item)
+                    @if (Calendar.ItemClicked.HasDelegate)
+                    {
+                        <div @onclick="() => OnItemClicked(item)" @onclick:stopPropagation="true" class="mud-cal-clickable">
+                            @CellTemplate?.Invoke(item)
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            @CellTemplate?.Invoke(item)
+                        </div>
+                    }
                 }
             </div>
         }
