@@ -1,16 +1,18 @@
 <MudPopoverProvider></MudPopoverProvider>
 
-<MudCalendar Items="_events" Height="500" EnableDragItems="true" EnableResizeItems="true" />
+<MudCalendar Items="_events" Height="1000" EnableDragItems="true" EnableResizeItems="true" ItemChanged="ItemChanged" />
+<MudTextField @bind-Value="_value" />
 
 @code {
-    public static string __description__ = "Basic Calendar Tests";
+    public static string __description__ = "Drag and Resize Calendar Tests";
+    
+    private string _value = string.Empty;
     
     private List<CalendarItem> _events = new()
     {
         new CalendarItem
         {
             Start = DateTime.Today.AddHours(10),
-            End = DateTime.Today.AddHours(11),
             Text = "Event today"
         },
         new CalendarItem
@@ -20,4 +22,9 @@
             Text = "Event tomorrow"
         }
     };
+
+    private void ItemChanged(CalendarItem item)
+    {
+        _value = $"Item Changed: {item.Text}, Start: {item.Start}, End: {item.End}";
+    }
 }

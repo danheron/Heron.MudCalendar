@@ -115,6 +115,15 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         return $"{row / (60 / (double)Calendar.DayTimeInterval)}:00";
     }
 
+    protected Task ItemHeightChanged(CalendarItem item, int newHeight)
+    {
+        // Calculate end time from height
+        var minutes = (newHeight / (double)PixelsInDay) * MinutesInDay;
+        item.End = item.Start.AddMinutes(minutes);
+
+        return Calendar.ItemChanged.InvokeAsync(item);
+    }
+
     private int CalcTop(ItemPosition position)
     {
         double minutes = 0;
@@ -207,7 +216,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         return positions;
     }
     
-    private void ItemDropped(MudItemDropInfo<CalendarItem> dropItem)
+    private async Task ItemDropped(MudItemDropInfo<CalendarItem> dropItem)
     {
         if (dropItem.Item == null) return;
         var item = dropItem.Item;
@@ -227,6 +236,8 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         }
         
         Calendar.Refresh();
+
+        await Calendar.ItemChanged.InvokeAsync(item);
     }
 
     private bool IsHourCell(int row)

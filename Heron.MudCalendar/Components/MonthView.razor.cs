@@ -129,7 +129,7 @@ public partial class MonthView : CalendarViewBase
         return cell;
     }
 
-    private void ItemDropped(MudItemDropInfo<CalendarItem> dropItem)
+    private async Task ItemDropped(MudItemDropInfo<CalendarItem> dropItem)
     {
         if (dropItem.Item == null) return;
         var item = dropItem.Item;
@@ -143,6 +143,8 @@ public partial class MonthView : CalendarViewBase
         }
         
         Calendar.Refresh();
+
+        await Calendar.ItemChanged.InvokeAsync(item);
     }
 
     private RenderFragment<CalendarItem> CellTemplate => Calendar.MonthTemplate ?? Calendar.CellTemplate;

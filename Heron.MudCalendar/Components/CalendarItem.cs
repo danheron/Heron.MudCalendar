@@ -10,5 +10,8 @@ public class CalendarItem
 
     public string Text { get; set; } = string.Empty;
 
+    protected internal bool IsMultiDay => (End == null && Start.TimeOfDay > TimeSpan.FromHours(23)) ||
+                                          (End.HasValue && End.Value.Date > Start.Date);
+
     protected internal readonly string Id = Guid.NewGuid().ToString();
 }

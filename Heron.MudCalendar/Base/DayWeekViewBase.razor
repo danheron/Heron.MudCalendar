@@ -158,7 +158,12 @@
         {
             if (position.Item.Start.Date == cell.Date.Date)
             {
-                <WeekDropZone Item="@position.Item" Style="@EventStyle(position)"/>
+                <WeekDropZone Item="@position.Item" Style="@EventStyle(position)">
+                    @if (Calendar.EnableResizeItems && !position.Item.IsMultiDay)
+                    {
+                        <Resizer HeightChanged="@(newHeight => ItemHeightChanged(position.Item, newHeight))" />
+                    }
+                </WeekDropZone>
             }
             else
             {

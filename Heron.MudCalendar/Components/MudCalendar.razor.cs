@@ -147,6 +147,13 @@ public partial class MudCalendar : MudComponentBase
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool EnableDragItems { get; set; } = false;
+
+    /// <summary>
+    /// If true then the user can change the duration of an item by resizing the item.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public bool EnableResizeItems { get; set; } = false;
     
     /// <summary>
     /// Defines the cell content for the Month view.
@@ -181,7 +188,13 @@ public partial class MudCalendar : MudComponentBase
     /// </summary>
     [Parameter]
     public EventCallback<DateRange> DateRangeChanged { get; set; }
-    
+
+    /// <summary>
+    /// Called when an item is changed, for example by dragging or resizing the item.
+    /// </summary>
+    [Parameter]
+    public EventCallback<CalendarItem> ItemChanged { get; set; }
+
     /// <summary>
     /// Called when the View is changed.
     /// </summary>

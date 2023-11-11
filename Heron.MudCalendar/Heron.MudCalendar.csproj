@@ -161,17 +161,30 @@
         <Exec Command="dotnet tool restore" StandardOutputImportance="high" />
     </Target>
     
-    <Target Name="WebCompiler" BeforeTargets="Build" DependsOnTargets="ToolRestore">
+    <Target Name="CombineJS">
+        <CreateItem Include="./Scripts/*.js">
+            <Output TaskParameter="Include" ItemName="jsFilesToCombine" />
+        </CreateItem>
+        <ReadLinesFromFile File="%(jsFilesToCombine.FullPath)">
+            <Output TaskParameter="Lines" ItemName="jsLines" />
+        </ReadLinesFromFile>
+        <WriteLinesToFile File="./Scripts/combined/Heron.MudCalendar.js" Lines="@(jsLines)" Overwrite="true" />
+    </Target>
+    
+    <Target Name="WebCompiler" BeforeTargets="Build" DependsOnTargets="ToolRestore;CombineJS">
         <!--compile and minify scss-->
         <Exec Command="dotnet webcompiler ./Styles/Heron.MudCalendar.scss -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
+        <!--minify js-->
+        <Exec Command="dotnet webcompiler ./Scripts/combined/Heron.MudCalendar.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
     </Target>
 
     <Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler" BeforeTargets="BeforeBuild">
-        <Error Condition="!Exists('wwwroot/Heron.MudCalendar.min.css')" Text="Missing Heron.MudCalendar.min.css in wwwroot" />
+        <Error Condition="!Exists('$(MSBuildProjectDirectory)/wwwroot/Heron.MudCalendar.min.css')" Text="Missing Heron.MudCalendar.min.css in wwwroot" />
+        <Error Condition="!Exists('$(MSBuildProjectDirectory)/wwwroot/Heron.MudCalendar.min.js')" Text="Missing Heron.MudCalendar.min.js in wwwroot" />
         <ItemGroup>
             <!--Include without duplication-->
             <_NewCompiledCssFiles Include="wwwroot/Heron.MudCalendar.min.css" Exclude="@(Content)" />
-            <_NewCompiledJsFiles Include="wwwroot/Heron.MudCalendar.js" Exclude="@(Content)" />
+            <_NewCompiledJsFiles Include="wwwroot/Heron.MudCalendar.min.js" Exclude="@(Content)" />
             <Content Include="@(_NewCompiledCssFiles)" />
             <Content Include="@(_NewCompiledJsFiles)" />
         </ItemGroup>

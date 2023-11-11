@@ -6,9 +6,15 @@ namespace Heron.MudCalendar;
 
 public partial class WeekDropZone : IAsyncDisposable
 {
+    [CascadingParameter]
+    public MudCalendar Calendar { get; set; } = new();
+    
     private string _id = Guid.NewGuid().ToString();
 
     private JsService? _jsService;
+    
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
     
     [Parameter]
     public CalendarItem? Item { get; set; }

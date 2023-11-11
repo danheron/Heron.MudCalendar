@@ -10,7 +10,7 @@ internal class JsService : IAsyncDisposable
     public JsService(IJSRuntime jsRuntime)
     {
         _moduleTask = new Lazy<Task<IJSObjectReference>>(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-            "import", "./_content/Heron.MudCalendar/Heron.MudCalendar.js").AsTask());
+            "import", "./_content/Heron.MudCalendar/Heron.MudCalendar.min.js").AsTask());
     }
 
     public async Task Scroll(ElementReference element, int top)
