@@ -7,6 +7,8 @@ namespace Heron.MudCalendar;
 
 public partial class MonthView : CalendarViewBase
 {
+    private MudDropContainer<CalendarItem>? _dropContainer;
+    
     /// <summary>
     /// Classes added to main div of component.
     /// </summary>
@@ -24,6 +26,15 @@ public partial class MonthView : CalendarViewBase
             .AddStyle("height", $"{100 / (Cells.Count / 7)}%", Calendar.MonthCellMinHeight == 0)
             .Build();
 
+    /// <summary>
+    /// Classes added to each month cell.
+    /// </summary>
+    protected virtual string CellClassname =>
+        new CssBuilder()
+            .AddClass("mud-cal-month-cell")
+            .AddClass("mud-cal-month-link", Calendar.CellClicked.HasDelegate)
+            .Build();
+    
     /// <summary>
     /// Classes added to the day number.
     /// </summary>
@@ -45,7 +56,7 @@ public partial class MonthView : CalendarViewBase
     protected virtual string DayStyle(CalendarCell calendarCell)
     {
         return new StyleBuilder()
-            .AddStyle("border", $"1px solid var(--mud-palette-{Calendar.Color.ToDescriptionString()})",
+            .AddStyle("border", $"1px solid var(--mud-palette-{Calendar.Color.ToDescriptionString()})", 
                 calendarCell.Today && Calendar.HighlightToday)
             .AddStyle("min-height", Calendar.MonthCellMinHeight + "px", Calendar.MonthCellMinHeight > 0)
             .Build();
@@ -56,9 +67,20 @@ public partial class MonthView : CalendarViewBase
     /// </summary>
     /// <param name="cell">The cell that was clicked.</param>
     /// <returns></returns>
-    protected virtual Task OnCellLinkClicked(CalendarCell cell)
+    protected virtual async Task OnCellLinkClicked(CalendarCell cell)
     {
-        return Calendar.CellClicked.InvokeAsync(cell.Date);
+        if (Calendar.CellClicked.HasDelegate)
+        {
+            await Calendar.CellClicked.InvokeAsync(cell.Date);
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        
+        // Ensure that the order of items is correct
+        _dropContainer?.Refresh();
     }
     
     /// <summary>
@@ -86,11 +108,11 @@ public partial class MonthView : CalendarViewBase
         {
             var cell = BuildCell(date, monthStart, monthEnd);
             cells.Add(cell);
-
+            
             // Next day
             date = date.AddDays(1);
         }
-
+        
         return cells;
     }
     
@@ -110,11 +132,29 @@ public partial class MonthView : CalendarViewBase
             cell.Outside = true;
         }
         cell.Items = Calendar.Items.Where(i =>
-            (i.Start.Date == date) || 
-            (i.Start.Date <= date && i.End.HasValue && i.End.Value.Date >= date))
-                .OrderBy(i => i.Start)
-                .ToList();
+                (i.Start.Date < date && i.End.HasValue && i.End.Value.Date >= date))
+            .OrderBy(i => i.Start)
+            .ToList();
+
         return cell;
+    }
+
+    private async Task ItemDropped(MudItemDropInfo<CalendarItem> dropItem)
+    {
+        if (dropItem.Item == null) return;
+        var item = dropItem.Item;
+        
+        // Update start and end time
+        var duration = item.End?.Subtract(item.Start) ?? TimeSpan.Zero;
+        item.Start = DateTime.Parse(dropItem.DropzoneIdentifier).Add(item.Start.TimeOfDay);
+        if (item.End.HasValue)
+        {
+            item.End = item.Start.Add(duration);
+        }
+        
+        Calendar.Refresh();
+
+        await Calendar.ItemChanged.InvokeAsync(item);
     }
 
     private RenderFragment<CalendarItem> CellTemplate => Calendar.MonthTemplate ?? Calendar.CellTemplate;

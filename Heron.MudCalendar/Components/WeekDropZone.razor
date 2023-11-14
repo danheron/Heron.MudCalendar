@@ -1,0 +1,8 @@
+@using Microsoft.JSInterop
+@using System.Globalization
+@namespace Heron.MudCalendar
+@inject IJSRuntime JsRuntime
+
+<MudDropZone T="CalendarItem" Identifier="@Item?.Id" Class="@Classname" Style="@Style">
+    @ChildContent
+</MudDropZone>

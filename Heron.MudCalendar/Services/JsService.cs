@@ -11,7 +11,7 @@ internal class JsService : IAsyncDisposable
     public JsService(IJSRuntime jsRuntime)
     {
         _moduleTask = new Lazy<Task<IJSObjectReference>>(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-            "import", "./_content/Heron.MudCalendar/Heron.MudCalendar.js").AsTask());
+            "import", "./_content/Heron.MudCalendar/Heron.MudCalendar.min.js").AsTask());
     }
 
     public async Task Scroll(ElementReference element, int top)
@@ -19,7 +19,7 @@ internal class JsService : IAsyncDisposable
         var module = await _moduleTask.Value;
         await module.InvokeVoidAsync("scroll", element, top);
     }
-
+    
     public async Task<string> GetHeadContent()
     {
         var module = await _moduleTask.Value;
@@ -30,6 +30,12 @@ internal class JsService : IAsyncDisposable
     {
         var module = await _moduleTask.Value;
         await module.InvokeVoidAsync("addLink", href, rel);
+    }
+    
+    public async Task AddDragHandler(string id)
+    {
+        var module = await _moduleTask.Value;
+        await module.InvokeVoidAsync("addDragHandler", id);
     }
     
     public async ValueTask DisposeAsync()

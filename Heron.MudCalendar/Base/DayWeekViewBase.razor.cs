@@ -1,7 +1,9 @@
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using MudBlazor.Extensions;
 using MudBlazor.Utilities;
+using EnumExtensions = Heron.MudCalendar.Extensions.EnumExtensions;
 
 namespace Heron.MudCalendar;
 
@@ -15,6 +17,8 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
 
     private int CellsInDay => MinutesInDay / (int)Calendar.DayTimeInterval;
     private int PixelsInDay => CellsInDay * PixelsInCell;
+    
+    private MudDropContainer<CalendarItem>? _dropContainer;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -30,15 +34,23 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
     /// Styles added to each day.
     /// </summary>
     /// <param name="calendarCell">The cell.</param>
+    /// <param name="row">The current row in the table being rendered.</param>
     /// <returns></returns>
-    protected virtual string DayStyle(CalendarCell calendarCell)
+    protected virtual string DayStyle(CalendarCell calendarCell, int row)
     {
         return new StyleBuilder()
-            .AddStyle("border", $"1px solid var(--mud-palette-{Calendar.Color.ToDescriptionString()})",
-                calendarCell.Today && Calendar.HighlightToday)
+            .AddStyle("border-left", $"1px solid var(--mud-palette-{EnumExtensions.ToDescriptionString(Calendar.Color)})", calendarCell.Today && Calendar.HighlightToday)
+            .AddStyle("border-right", $"1px solid var(--mud-palette-{EnumExtensions.ToDescriptionString(Calendar.Color)})", calendarCell.Today && Calendar.HighlightToday)
+            .AddStyle("border-top", $"1px solid var(--mud-palette-{EnumExtensions.ToDescriptionString(Calendar.Color)})", row == 0 && calendarCell.Today && Calendar.HighlightToday)
+            .AddStyle("border-bottom", $"1px solid var(--mud-palette-{EnumExtensions.ToDescriptionString(Calendar.Color)})", row + 1 == CellsInDay && calendarCell.Today && Calendar.HighlightToday)
             .Build();
     }
 
+    /// <summary>
+    /// Styles the position and height of the div containing an item.
+    /// </summary>
+    /// <param name="position">Position information for the div.</param>
+    /// <returns></returns>
     protected virtual string EventStyle(ItemPosition position)
     {
         return new StyleBuilder()
@@ -46,13 +58,41 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             .AddStyle("top", $"{CalcTop(position)}px")
             .AddStyle("height", $"{CalcHeight(position)}px")
             .AddStyle("overflow", "hidden")
-            .AddStyle("left",
-                (((position.Position / (double)position.Total) - (1.0 / position.Total)) * 100).ToInvariantString() +
-                "%")
-            .AddStyle("width", (100 / position.Total) + "%")
+            .AddStyle("left", (((position.Position / (double)position.Total) - (1.0 / position.Total)) * 100).ToInvariantString() + "%")
+            .AddStyle("width", (100 / position.Total) + "%" )
             .Build();
     }
 
+    /// <summary>
+    /// Styles for the cell where the time is displayed..
+    /// </summary>
+    /// <param name="row">The row being styled.</param>
+    /// <returns></returns>
+    protected virtual string TimeCellClassname(int row)
+    {
+        return new CssBuilder()
+            .AddClass("mud-cal-week-cell", IsHourCell(row))
+            .AddClass("mud-cal-time-cell", IsHourCell(row))
+            .Build();
+    }
+
+    /// <summary>
+    /// Styles for each cell in the view.
+    /// </summary>
+    /// <param name="row">The row being styled.</param>
+    /// <returns></returns>
+    protected virtual string DayCellClassname(int row)
+    {
+        return new CssBuilder()
+            .AddClass("mud-cal-week-cell")
+            .AddClass("mud-cal-week-cell-half", !IsHourCell(row))
+            .Build();
+    }
+
+    /// <summary>
+    /// Styles that set the height of each cell.
+    /// </summary>
+    /// <returns></returns>
     protected virtual string CellHeightStyle()
     {
         return new StyleBuilder()
@@ -60,14 +100,18 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             .Build();
     }
 
+    /// <summary>
+    /// The style of the line showing the current time.
+    /// </summary>
+    /// <returns></returns>
     protected virtual string TimelineStyle()
     {
         return new StyleBuilder()
             .AddStyle("position", "absolute")
             .AddStyle("width", "100%")
             .AddStyle("border", "1px solid var(--mud-palette-grey-default)")
-            .AddStyle("top",
-                $"{(int)((DateTime.Now.Subtract(DateTime.Today).TotalMinutes / MinutesInDay) * PixelsInDay)}px")
+            //.AddStyle("top", $"{(int)((DateTime.Now.Subtract(DateTime.Today).TotalMinutes / MinutesInDay) * PixelsInDay)}px")
+            .AddStyle("top", $"{TimelinePosition()}px")
             .Build();
     }
 
@@ -82,7 +126,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         var date = cell.Date.AddHours(row / (60.0 / (int)Calendar.DayTimeInterval));
         return Calendar.CellClicked.InvokeAsync(date);
     }
-
+    
     /// <summary>
     /// Method invoked when the user clicks on the calendar item.
     /// </summary>
@@ -92,7 +136,12 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
     {
         return Calendar.ItemClicked.InvokeAsync(item);
     }
-
+    
+    /// <summary>
+    /// Creates a string with the time to be displayed.
+    /// </summary>
+    /// <param name="row">The current row in the table.</param>
+    /// <returns></returns>
     protected virtual string DrawTime(int row)
     {
         var hour = row / (60.0 / (double)Calendar.DayTimeInterval);
@@ -100,6 +149,31 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         var time = TimeOnly.FromTimeSpan(timeSpan);
         
         return Calendar.Use24HourClock ? time.ToString("HH:mm") : time.ToString("h tt");
+    }
+    
+    protected int TimelineRow()
+    {
+        var minutes = DateTime.Now.Subtract(DateTime.Today).TotalMinutes;
+        var row = (int)Math.Floor(minutes / (int)Calendar.DayTimeInterval);
+
+        return row;
+    }
+
+    private double TimelinePosition()
+    {
+        var minutes = DateTime.Now.Subtract(DateTime.Today).TotalMinutes - (TimelineRow() * (int)Calendar.DayTimeInterval);
+        var position = (minutes / (int)Calendar.DayTimeInterval) * Calendar.DayCellHeight;
+
+        return position;
+    }
+
+    protected Task ItemHeightChanged(CalendarItem item, int newHeight)
+    {
+        // Calculate end time from height
+        var minutes = (newHeight / (double)PixelsInDay) * MinutesInDay;
+        item.End = item.Start.AddMinutes(minutes);
+
+        return Calendar.ItemChanged.InvokeAsync(item);
     }
 
     private int CalcTop(ItemPosition position)
@@ -195,6 +269,35 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         }
 
         return positions;
+    }
+    
+    private async Task ItemDropped(MudItemDropInfo<CalendarItem> dropItem)
+    {
+        if (dropItem.Item == null) return;
+        var item = dropItem.Item;
+        var duration = item.End?.Subtract(item.Start) ?? TimeSpan.Zero;
+        
+        var ids = dropItem.DropzoneIdentifier.Split("_");
+        if (!DateTime.TryParse(ids[0], out var date)) return;
+        var cell = int.Parse(ids[1]);
+        var minutes = ((double)cell / CellsInDay) * MinutesInDay;
+        date = date.AddMinutes(minutes);
+        
+        // Update start and end time
+        item.Start = date;
+        if (item.End.HasValue)
+        {
+            item.End = item.Start.Add(duration);
+        }
+        
+        Calendar.Refresh();
+
+        await Calendar.ItemChanged.InvokeAsync(item);
+    }
+
+    private bool IsHourCell(int row)
+    {
+        return (int)Calendar.DayTimeInterval >= 60 || row % (60 / (int)Calendar.DayTimeInterval) == 0;
     }
 
     protected class ItemPosition

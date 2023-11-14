@@ -55,7 +55,7 @@
     /// </summary>
     protected virtual RenderFragment RenderToolbar =>
         @<div class="mud-cal-toolbar pa-4">
-            <div>
+            <div class="d-flex">
                 @if (ShowPrevNextButtons)
                 {
                     <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" Color="@Color" OnClick="OnPreviousClicked" Class="mx-1"/>
