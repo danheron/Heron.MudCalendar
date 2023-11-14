@@ -14,6 +14,7 @@
 
 .mud-cal-week-cell {
   border-top: 1px solid var(--mud-palette-lines-default);
+  position: relative;
 
   &.mud-cal-week-cell-half {
     border-top: 1px solid var(--mud-palette-divider);
@@ -82,6 +83,10 @@
 
 .mud-cal-week-drop-ok {
   background-color: var(--mud-cal-cell-hover);
+}
+
+.mud-cal-week-template-holder {
+  height: 100%;
 }
 
 .mud-cal-resizer {

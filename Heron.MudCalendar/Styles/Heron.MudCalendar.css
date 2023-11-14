@@ -138,6 +138,7 @@
 
 .mud-cal-week-cell {
   border-top: 1px solid var(--mud-palette-lines-default);
+  position: relative;
 }
 .mud-cal-week-cell.mud-cal-week-cell-half {
   border-top: 1px solid var(--mud-palette-divider);
@@ -207,6 +208,10 @@
   background-color: var(--mud-cal-cell-hover);
 }
 
+.mud-cal-week-template-holder {
+  height: 100%;
+}
+
 .mud-cal-resizer {
   position: absolute;
   bottom: 0;
@@ -233,4 +238,11 @@
 .mud-cal-cell-template-chip {
   width: 100%;
   margin: 0;
+}
+
+.mud-cal-clickable {
+  cursor: pointer;
+}
+.mud-cal-clickable .mud-chip {
+  cursor: inherit;
 }

@@ -24,7 +24,7 @@ export class Resizer {
         
         document.addEventListener("mouseup", this.onMouseUp);
         document.addEventListener("mousemove", this.onMouseMove);
-    };
+    }
     
     onMouseUp = async () => {
         document.removeEventListener("mouseup", this.onMouseUp);

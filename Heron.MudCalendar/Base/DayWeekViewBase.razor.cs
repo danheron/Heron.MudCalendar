@@ -1,9 +1,9 @@
-using System.Globalization;
-using Heron.MudCalendar.Extensions;
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using MudBlazor.Extensions;
 using MudBlazor.Utilities;
+using EnumExtensions = Heron.MudCalendar.Extensions.EnumExtensions;
 
 namespace Heron.MudCalendar;
 
@@ -46,6 +46,11 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             .Build();
     }
 
+    /// <summary>
+    /// Styles the position and height of the div containing an item.
+    /// </summary>
+    /// <param name="position">Position information for the div.</param>
+    /// <returns></returns>
     protected virtual string EventStyle(ItemPosition position)
     {
         return new StyleBuilder()
@@ -58,6 +63,11 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             .Build();
     }
 
+    /// <summary>
+    /// Styles for the cell where the time is displayed..
+    /// </summary>
+    /// <param name="row">The row being styled.</param>
+    /// <returns></returns>
     protected virtual string TimeCellClassname(int row)
     {
         return new CssBuilder()
@@ -66,6 +76,11 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             .Build();
     }
 
+    /// <summary>
+    /// Styles for each cell in the view.
+    /// </summary>
+    /// <param name="row">The row being styled.</param>
+    /// <returns></returns>
     protected virtual string DayCellClassname(int row)
     {
         return new CssBuilder()
@@ -74,6 +89,10 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             .Build();
     }
 
+    /// <summary>
+    /// Styles that set the height of each cell.
+    /// </summary>
+    /// <returns></returns>
     protected virtual string CellHeightStyle()
     {
         return new StyleBuilder()
@@ -81,21 +100,19 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             .Build();
     }
 
+    /// <summary>
+    /// The style of the line showing the current time.
+    /// </summary>
+    /// <returns></returns>
     protected virtual string TimelineStyle()
     {
         return new StyleBuilder()
+            .AddStyle("position", "absolute")
             .AddStyle("width", "100%")
             .AddStyle("border", "1px solid var(--mud-palette-grey-default)")
-            .AddStyle("top", $"{(int)((DateTime.Now.Subtract(DateTime.Today).TotalMinutes / MinutesInDay) * PixelsInDay)}px")
+            //.AddStyle("top", $"{(int)((DateTime.Now.Subtract(DateTime.Today).TotalMinutes / MinutesInDay) * PixelsInDay)}px")
+            .AddStyle("top", $"{TimelinePosition()}px")
             .Build();
-    }
-
-    protected int TimelineRow()
-    {
-        var minutes = DateTime.Now.Subtract(DateTime.Today).TotalMinutes;
-        var row = (int)Math.Floor(minutes / (int)Calendar.DayTimeInterval);
-
-        return row;
     }
 
     /// <summary>
@@ -120,9 +137,34 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         return Calendar.ItemClicked.InvokeAsync(item);
     }
     
+    /// <summary>
+    /// Creates a string with the time to be displayed.
+    /// </summary>
+    /// <param name="row">The current row in the table.</param>
+    /// <returns></returns>
     protected virtual string DrawTime(int row)
     {
-        return $"{row / (60 / (double)Calendar.DayTimeInterval)}:00";
+        var hour = row / (60.0 / (double)Calendar.DayTimeInterval);
+        var timeSpan = TimeSpan.FromHours(hour);
+        var time = TimeOnly.FromTimeSpan(timeSpan);
+        
+        return Calendar.Use24HourClock ? time.ToString("HH:mm") : time.ToString("h tt");
+    }
+    
+    protected int TimelineRow()
+    {
+        var minutes = DateTime.Now.Subtract(DateTime.Today).TotalMinutes;
+        var row = (int)Math.Floor(minutes / (int)Calendar.DayTimeInterval);
+
+        return row;
+    }
+
+    private double TimelinePosition()
+    {
+        var minutes = DateTime.Now.Subtract(DateTime.Today).TotalMinutes - (TimelineRow() * (int)Calendar.DayTimeInterval);
+        var position = (minutes / (int)Calendar.DayTimeInterval) * Calendar.DayCellHeight;
+
+        return position;
     }
 
     protected Task ItemHeightChanged(CalendarItem item, int newHeight)

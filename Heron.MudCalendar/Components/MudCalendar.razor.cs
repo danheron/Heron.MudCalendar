@@ -123,7 +123,7 @@ public partial class MudCalendar : MudComponentBase
     /// </summary>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
-    public bool ShowTodayButton { get; set; } = false;
+    public bool ShowTodayButton { get; set; }
 
     /// <summary>
     /// Set the day start time for week/day views.
@@ -151,21 +151,21 @@ public partial class MudCalendar : MudComponentBase
     /// </summary>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
-    public bool ShowCurrentTime { get; set; } = false;
+    public bool ShowCurrentTime { get; set; }
 
     /// <summary>
     /// If true then calendar items can be drag/dropped to different dates/times.
     /// </summary>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
-    public bool EnableDragItems { get; set; } = false;
+    public bool EnableDragItems { get; set; }
 
     /// <summary>
     /// If true then the user can change the duration of an item by resizing the item.
     /// </summary>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
-    public bool EnableResizeItems { get; set; } = false;
+    public bool EnableResizeItems { get; set; }
 
     /// <summary>
     /// If true then use 24 hour clock, otherwise use 12 hour format (am/pm).

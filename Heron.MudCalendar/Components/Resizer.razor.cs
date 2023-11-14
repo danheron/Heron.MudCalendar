@@ -10,6 +10,9 @@ public partial class Resizer : IAsyncDisposable
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
     private IJSObjectReference? _resizer;
     private DotNetObjectReference<Resizer>? _this;
+
+    [Parameter]
+    public int IntervalSize { get; set; } = 36;
     
     [Parameter]
     public EventCallback<int> HeightChanged { get; set; }
@@ -42,7 +45,7 @@ public partial class Resizer : IAsyncDisposable
     {
         _this ??= DotNetObjectReference.Create(this);
         var module = await _moduleTask.Value;
-        _resizer = await module.InvokeAsync<IJSObjectReference>("newResizer", _id, 36, _this);
+        _resizer = await module.InvokeAsync<IJSObjectReference>("newResizer", _id, IntervalSize, _this);
     }
 
     public async ValueTask DisposeAsync()

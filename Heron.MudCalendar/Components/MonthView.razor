@@ -29,9 +29,10 @@
                 </table>
             </ChildContent>
             <ItemRenderer>
-                <div style="z-index: 100000;">
-                @CellTemplate.Invoke(context)
-                </div>
+                @* <div style="z-index: 100000;"> *@
+                @*     @CellTemplate.Invoke(context) *@
+                @* </div> *@
+                @RenderTemplate(context)
             </ItemRenderer>
         </MudDropContainer>;
 
@@ -109,22 +110,30 @@
             <div class="mud-cal-month-cell-events">
                 @foreach (var item in cell.Items)
                 {
-                    @if (Calendar.ItemClicked.HasDelegate)
-                    {
-                        <div @onclick="() => OnItemClicked(item)" @onclick:stopPropagation="true" class="mud-cal-clickable">
-                            @CellTemplate?.Invoke(item)
-                        </div>
-                    }
-                    else
-                    {
-                        <div>
-                            @CellTemplate?.Invoke(item)
-                        </div>
-                    }
+                    @RenderTemplate(item)
                 }
             </div>
         }
         <MudDropZone T="CalendarItem" Identifier="@cell.Date.Date.ToString("d")" Class="mud-cal-month-cell-events"/>
+    };
+
+    /// <summary>
+    /// Renders the CellTemplate with a click handler if required.
+    /// </summary>
+    protected virtual RenderFragment RenderTemplate(CalendarItem item) => __builder =>
+    {
+        @if (Calendar.ItemClicked.HasDelegate)
+        {
+            <div @onclick="() => OnItemClicked(item)" @onclick:stopPropagation="true" class="mud-cal-clickable">
+                @CellTemplate?.Invoke(item)
+            </div>
+        }
+        else
+        {
+            <div>
+                @CellTemplate?.Invoke(item)
+            </div>
+        }
     };
 
 }
