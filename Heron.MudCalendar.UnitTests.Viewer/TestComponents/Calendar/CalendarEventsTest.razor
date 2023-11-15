@@ -1,36 +1,66 @@
-<MudCalendar DateRangeChanged="DateRangeChanged" />
+<MudCalendar DateRangeChanged="DateRangeChanged" CurrentDayChanged="CurrentDayChanged" />
 
-<MudSimpleTable>
-    <thead>
-    <tr>
+<div class="d-flex">
+    
+    <MudSimpleTable>
+        <thead>
+        <tr>
             <th>Time</th>
             <th>Start Date</th>
             <th>End Date</th>
-    </tr>
-    </thead>
-    <tbody class="events-table">
-    @foreach (var item in _events)
-    {
-        <tr>
-            @foreach (var x in item.Split())
-            {
-                <td>@x</td>
-            }
         </tr>
-    }
-    </tbody>
-</MudSimpleTable>
+        </thead>
+        <tbody class="daterange-events-table">
+        @foreach (var item in _dateRangeEvents)
+        {
+            <tr>
+                @foreach (var x in item.Split())
+                {
+                    <td>@x</td>
+                }
+            </tr>
+        }
+        </tbody>
+    </MudSimpleTable>
+
+    <MudSimpleTable>
+        <thead>
+        <tr>
+            <th>Time</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody class="currentday-events-table">
+        @foreach (var item in _currentDayEvents)
+        {
+            <tr>
+                @foreach (var x in item.Split())
+                {
+                    <td>@x</td>
+                }
+            </tr>
+        }
+        </tbody>
+    </MudSimpleTable>
+    
+</div>
 
 @code {
 
     public static string __description__ = "Calendar Event Tests";
 
-    private readonly List<string> _events = new();
+    private readonly List<string> _dateRangeEvents = new();
+    private readonly List<string> _currentDayEvents = new();
 
     private void DateRangeChanged(DateRange dateRange)
     {
         var start = dateRange.Start.HasValue ? dateRange.Start.Value.Date.ToShortDateString() : string.Empty;
         var end = dateRange.End.HasValue ? dateRange.End.Value.Date.ToShortDateString() : string.Empty;
-        _events.Add($"{DateTime.Now.ToLongTimeString()} {start} {end}");
+        _dateRangeEvents.Add($"{DateTime.Now.ToLongTimeString()} {start} {end}");
+    }
+
+    private void CurrentDayChanged(DateTime date)
+    {
+        _currentDayEvents.Add($"{DateTime.Now.ToLongTimeString()} {date}");
     }
 }

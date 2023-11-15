@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Heron.MudCalendar.UnitTests.Viewer.TestComponents.Calendar;
 using MudBlazor;
@@ -337,10 +338,31 @@ public class CalendarTests : BunitTest
         var cut = Context.RenderComponent<CalendarEventsTest>();
         var comp = cut.FindComponent<MudCalendar>();
 
-        var table = cut.Find("tbody.events-table");
-        table.Children.Length.Should().Be(1);
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
+        
+        var table = cut.Find("tbody.daterange-events-table");
+        table.Children.Length.Should().Be(2);
         
         comp.FindAll("button.mud-icon-button")[1].Click();
+        table.Children.Length.Should().Be(3);
+    }
+
+    [Test]
+    public void CurrentDayChangedEvent()
+    {
+        var cut = Context.RenderComponent<CalendarEventsTest>();
+        var comp = cut.FindComponent<MudCalendar>();
+
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
+        
+        var table = cut.Find("tbody.currentday-events-table");
+        table.Children.Length.Should().Be(0);
+        
+        comp.FindAll("button.mud-icon-button")[1].Click();
+        table.Children.Length.Should().Be(1);
+
+        var picker = cut.FindComponent<MudDatePicker>();
+        picker.SetParam(p => p.Date!, new DateTime(2023, 1, 2));
         table.Children.Length.Should().Be(2);
     }
 
