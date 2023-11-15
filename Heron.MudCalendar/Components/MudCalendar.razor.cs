@@ -207,6 +207,12 @@ public partial class MudCalendar : MudComponentBase
     /// </summary>
     [Parameter]
     public EventCallback<DateRange> DateRangeChanged { get; set; }
+    
+    /// <summary>
+    /// Called when the current day changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<DateTime> CurrentDayChanged { get; set; }
 
     /// <summary>
     /// Called when an item is changed, for example by dragging or resizing the item.
@@ -329,7 +335,7 @@ public partial class MudCalendar : MudComponentBase
     /// Method invoked when the user clicks the next button.
     /// </summary>
     /// <returns></returns>
-    protected virtual Task OnNextClicked()
+    protected virtual async Task OnNextClicked()
     {
         CurrentDay = View switch
         {
@@ -339,14 +345,16 @@ public partial class MudCalendar : MudComponentBase
             _ => CurrentDay
         };
         
-        return ChangeDateRange();
+        await CurrentDayChanged.InvokeAsync(CurrentDay);
+        
+        await ChangeDateRange();
     }
 
     /// <summary>
     /// Method invoked when the user clicks the previous button.
     /// </summary>
     /// <returns></returns>
-    protected virtual Task OnPreviousClicked()
+    protected virtual async Task OnPreviousClicked()
     {
         CurrentDay = View switch
         {
@@ -355,19 +363,25 @@ public partial class MudCalendar : MudComponentBase
             CalendarView.Month => CurrentDay.AddMonths(-1),
             _ => CurrentDay
         };
+
+        await CurrentDayChanged.InvokeAsync(CurrentDay);
         
-        return ChangeDateRange();
+        await ChangeDateRange();
     }
 
     /// <summary>
     /// Method invoked when the user clicks the today button.
     /// </summary>
     /// <returns></returns>
-    protected virtual Task OnTodayClicked()
+    protected virtual async Task OnTodayClicked()
     {
+        if (CurrentDay == DateTime.Today) return;
+        
         CurrentDay = DateTime.Today;
 
-        return ChangeDateRange();
+        await CurrentDayChanged.InvokeAsync(CurrentDay);
+        
+        await ChangeDateRange();
     }
     
     protected string DrawTodayText()
@@ -395,10 +409,15 @@ public partial class MudCalendar : MudComponentBase
         await _jsService.AddLink("_content/Heron.MudCalendar/Heron.MudCalendar.min.css", "stylesheet");
     }
 
-    private Task DatePickerDateChanged(DateTime? dateTime)
+    private async Task DatePickerDateChanged(DateTime? dateTime)
     {
+        var dateChanged = dateTime.HasValue && dateTime != CurrentDay;
+        
         PickerDate = dateTime;
-        return ChangeDateRange(new CalendarDateRange(dateTime ?? DateTime.Today, View));
+        
+        if (dateChanged) await CurrentDayChanged.InvokeAsync(CurrentDay);
+        
+        await ChangeDateRange(new CalendarDateRange(dateTime ?? DateTime.Today, View));
     }
 
     private void OnDatePickerOpened()
