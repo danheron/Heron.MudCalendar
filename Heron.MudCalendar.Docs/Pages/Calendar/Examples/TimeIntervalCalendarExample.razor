@@ -5,9 +5,13 @@
 <MudToolBar Class="mt-4">
     <MudSwitch @bind-Checked="_showCurrentTime" T="bool" Color="Color.Primary" Label="Show Current Time" />
     <MudSelect @bind-Value="_interval" T="CalendarTimeInterval" Label="Time Interval" class="ml-4">
+        <MudSelectItem Value="CalendarTimeInterval.Minutes10">10 Minutes</MudSelectItem>
         <MudSelectItem Value="CalendarTimeInterval.Minutes15">15 Minutes</MudSelectItem>
+        <MudSelectItem Value="CalendarTimeInterval.Minutes20">20 Minutes</MudSelectItem>
         <MudSelectItem Value="CalendarTimeInterval.Minutes30">30 Minutes</MudSelectItem>
         <MudSelectItem Value="CalendarTimeInterval.Minutes60">1 Hour</MudSelectItem>
+        <MudSelectItem Value="CalendarTimeInterval.Minutes120">2 Hours</MudSelectItem>
+        <MudSelectItem Value="CalendarTimeInterval.Minutes180">3 Hours</MudSelectItem>
     </MudSelect>
     <MudNumericField @bind-Value="_cellHeight" T="int" Label="Cell Height" Class="ml-4"/>
 </MudToolBar>

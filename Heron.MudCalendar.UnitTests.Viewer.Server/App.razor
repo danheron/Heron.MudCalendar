@@ -1,0 +1,11 @@
+﻿<Router AppAssembly="@typeof(Heron.MudCalendar.UnitTests.Viewer.Pages.Index).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(Heron.MudCalendar.UnitTests.Viewer.Shared.MainLayout)"/>
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(Heron.MudCalendar.UnitTests.Viewer.Shared.MainLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>

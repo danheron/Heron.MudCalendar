@@ -9,16 +9,32 @@
     /// Renders the component.
     /// </summary>
     protected virtual RenderFragment Render =>
-        @<div class="@Classname">
-            <table>
-                <thead>
-                @RenderHeader
-                </thead>
-                <tbody>
-                @RenderBody
-                </tbody>
-            </table>
-        </div>;
+        @<MudDropContainer
+             @ref="_dropContainer"
+             T="CalendarItem"
+             Items="Calendar.Items.OrderBy(i => i.Start)"
+             ItemsSelector="@((item, dropzone) => item.Start.Date.ToString("d") == dropzone)"
+             ItemIsDisabled="@((_) => !Calendar.EnableDragItems)"
+             ItemDropped="ItemDropped"
+             CanDropClass="mud-cal-month-drop-ok"
+             Class="@Classname">
+            <ChildContent>
+                <table>
+                    <thead>
+                    @RenderHeader
+                    </thead>
+                    <tbody>
+                    @RenderBody
+                    </tbody>
+                </table>
+            </ChildContent>
+            <ItemRenderer>
+                @* <div style="z-index: 100000;"> *@
+                @*     @CellTemplate.Invoke(context) *@
+                @* </div> *@
+                @RenderTemplate(context)
+            </ItemRenderer>
+        </MudDropContainer>;
 
     /// <summary>
     /// Renders the header of the component that contains the day names.
@@ -60,20 +76,20 @@
     /// </summary>
     protected virtual RenderFragment RenderCell(CalendarCell cell) =>
         @<td>
-            @if (Calendar.CellClicked.HasDelegate)
-            {
-                <div class="mud-cal-month-cell mud-cal-month-link" style="@DayStyle(cell)" @onclick="() => OnCellLinkClicked(cell)">
+            <div class="@CellClassname" style="@DayStyle(cell)" @onclick="() => OnCellLinkClicked(cell)">
+                <MudDropZone T="CalendarItem" Identifier="@cell.Date.Date.ToString("d")" Class="mud-cal-month-dropzone">
                     @RenderCellDayNumber(cell)
-                    @RenderCellContents(cell)
-                </div>
-            }
-            else
-            {
-                <div class="mud-cal-month-cell" style="@DayStyle(cell)">
-                    @RenderCellDayNumber(cell)
-                    @RenderCellContents(cell)
-                </div>
-            }
+                    @if (cell.Items.Any())
+                    {
+                        <div class="mud-cal-month-cell-events">
+                            @foreach (var item in cell.Items)
+                            {
+                                @CellTemplate?.Invoke(item)
+                            }
+                        </div>
+                    }
+                </MudDropZone>
+            </div>
         </td>;
 
     /// <summary>
@@ -87,12 +103,37 @@
     /// <summary>
     /// Renders the contents of the cell.
     /// </summary>
-    protected virtual RenderFragment RenderCellContents(CalendarCell cell) =>
-        @<div class="mud-cal-month-cell-events">
-            @foreach (var item in cell.Items)
-            {
+    protected virtual RenderFragment RenderCellContents(CalendarCell cell) => __builder =>
+    {
+        if (cell.Items.Any())
+        {
+            <div class="mud-cal-month-cell-events">
+                @foreach (var item in cell.Items)
+                {
+                    @RenderTemplate(item)
+                }
+            </div>
+        }
+        <MudDropZone T="CalendarItem" Identifier="@cell.Date.Date.ToString("d")" Class="mud-cal-month-cell-events"/>
+    };
+
+    /// <summary>
+    /// Renders the CellTemplate with a click handler if required.
+    /// </summary>
+    protected virtual RenderFragment RenderTemplate(CalendarItem item) => __builder =>
+    {
+        @if (Calendar.ItemClicked.HasDelegate)
+        {
+            <div @onclick="() => OnItemClicked(item)" @onclick:stopPropagation="true" class="mud-cal-clickable">
                 @CellTemplate?.Invoke(item)
-            }
-        </div>;
+            </div>
+        }
+        else
+        {
+            <div>
+                @CellTemplate?.Invoke(item)
+            </div>
+        }
+    };
 
 }

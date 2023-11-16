@@ -2,6 +2,8 @@
   height: 100%;
   
   table {
+    border-collapse: separate;
+    
     * tr {
       > td {
         border-bottom: none;
@@ -12,6 +14,7 @@
 
 .mud-cal-week-cell {
   border-top: 1px solid var(--mud-palette-lines-default);
+  position: relative;
 
   &.mud-cal-week-cell-half {
     border-top: 1px solid var(--mud-palette-divider);
@@ -51,6 +54,7 @@
 
 .mud-cal-week-cell-holder {
   position: relative;
+  border: none;
 }
 
 .mud-cal-week-link {
@@ -66,4 +70,30 @@
 .mud-cal-week-cell-link {
   cursor: pointer;
   z-index: 100;
+}
+
+.mud-cal-week-drop-item {
+  transition: none;
+}
+
+.mud-cal-week-drop-item > .mud-drop-item {
+  height: 100%;
+  border: none;
+}
+
+.mud-cal-week-drop-ok {
+  background-color: var(--mud-cal-cell-hover);
+}
+
+.mud-cal-week-template-holder {
+  height: 100%;
+}
+
+.mud-cal-resizer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-bottom: 10px solid transparent;
+  z-index: 1;
+  cursor: ns-resize;
 }

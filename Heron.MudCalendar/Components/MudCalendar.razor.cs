@@ -1,4 +1,9 @@
+using System.Globalization;
+using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using MudBlazor.Utilities;
 using MudBlazor;
 using CategoryAttribute = Heron.MudCalendar.Attributes.CategoryAttribute;
@@ -114,6 +119,13 @@ public partial class MudCalendar : MudComponentBase
     public bool ShowDatePicker { get; set; } = true;
 
     /// <summary>
+    /// If true the Today button is shown.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public bool ShowTodayButton { get; set; }
+
+    /// <summary>
     /// Set the day start time for week/day views.
     /// </summary>
     [Parameter]
@@ -139,7 +151,28 @@ public partial class MudCalendar : MudComponentBase
     /// </summary>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
-    public bool ShowCurrentTime { get; set; } = false;
+    public bool ShowCurrentTime { get; set; }
+
+    /// <summary>
+    /// If true then calendar items can be drag/dropped to different dates/times.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public bool EnableDragItems { get; set; }
+
+    /// <summary>
+    /// If true then the user can change the duration of an item by resizing the item.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public bool EnableResizeItems { get; set; }
+
+    /// <summary>
+    /// If true then use 24 hour clock, otherwise use 12 hour format (am/pm).
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Appearance)]
+    public bool Use24HourClock { get; set; } = true;
     
     /// <summary>
     /// Defines the cell content for the Month view.
@@ -176,6 +209,18 @@ public partial class MudCalendar : MudComponentBase
     public EventCallback<DateRange> DateRangeChanged { get; set; }
     
     /// <summary>
+    /// Called when the current day changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<DateTime> CurrentDayChanged { get; set; }
+
+    /// <summary>
+    /// Called when an item is changed, for example by dragging or resizing the item.
+    /// </summary>
+    [Parameter]
+    public EventCallback<CalendarItem> ItemChanged { get; set; }
+
+    /// <summary>
     /// Called when the View is changed.
     /// </summary>
     [Parameter]
@@ -186,6 +231,12 @@ public partial class MudCalendar : MudComponentBase
     /// </summary>
     [Parameter]
     public EventCallback<DateTime> CellClicked { get; set; }
+    
+    /// <summary>
+    /// Called when a CalendarItem is clicked.
+    /// </summary>
+    [Parameter]
+    public EventCallback<CalendarItem> ItemClicked { get; set; }
 
     private DateTime? PickerDate
     {
@@ -196,6 +247,11 @@ public partial class MudCalendar : MudComponentBase
     private CalendarDateRange? _currentDateRange;
 
     private CalendarDatePicker? _datePicker;
+    
+    private JsService? _jsService;
+
+    private static CultureInfo? _uiCulture;
+    private static string? _todayText;
 
     /// <summary>
     /// Classes added to main div of component.
@@ -216,7 +272,7 @@ public partial class MudCalendar : MudComponentBase
             .AddStyle(Style)
             .Build();
 
-    private string ViewClassname =>
+    protected virtual string ViewClassname =>
         new CssBuilder("flex-grow-1")
             .AddClass("d-none", AllowedViews().Count == 0)
             .Build();
@@ -247,9 +303,19 @@ public partial class MudCalendar : MudComponentBase
 
         if (firstRender)
         {
-            //await DateRangeChanged.InvokeAsync(new CalendarDateRange(CurrentDay, View));
             await ChangeDateRange();
+
+            await SetLinks();
         }
+    }
+    
+    /// <summary>
+    /// Forces the component to be redrawn.
+    /// </summary>
+    /// <returns></returns>
+    public void Refresh()
+    {
+        StateHasChanged();
     }
 
     /// <summary>
@@ -269,7 +335,7 @@ public partial class MudCalendar : MudComponentBase
     /// Method invoked when the user clicks the next button.
     /// </summary>
     /// <returns></returns>
-    protected virtual Task OnNextClicked()
+    protected virtual async Task OnNextClicked()
     {
         CurrentDay = View switch
         {
@@ -279,14 +345,16 @@ public partial class MudCalendar : MudComponentBase
             _ => CurrentDay
         };
         
-        return ChangeDateRange();
+        await CurrentDayChanged.InvokeAsync(CurrentDay);
+        
+        await ChangeDateRange();
     }
 
     /// <summary>
     /// Method invoked when the user clicks the previous button.
     /// </summary>
     /// <returns></returns>
-    protected virtual Task OnPreviousClicked()
+    protected virtual async Task OnPreviousClicked()
     {
         CurrentDay = View switch
         {
@@ -295,14 +363,61 @@ public partial class MudCalendar : MudComponentBase
             CalendarView.Month => CurrentDay.AddMonths(-1),
             _ => CurrentDay
         };
+
+        await CurrentDayChanged.InvokeAsync(CurrentDay);
         
-        return ChangeDateRange();
+        await ChangeDateRange();
     }
 
-    private Task DatePickerDateChanged(DateTime? dateTime)
+    /// <summary>
+    /// Method invoked when the user clicks the today button.
+    /// </summary>
+    /// <returns></returns>
+    protected virtual async Task OnTodayClicked()
     {
+        if (CurrentDay == DateTime.Today) return;
+        
+        CurrentDay = DateTime.Today;
+
+        await CurrentDayChanged.InvokeAsync(CurrentDay);
+        
+        await ChangeDateRange();
+    }
+    
+    protected string DrawTodayText()
+    {
+        if (_todayText != null && Equals(_uiCulture, Thread.CurrentThread.CurrentUICulture)) return _todayText;
+
+        var options = Options.Create(new LocalizationOptions { ResourcesPath = "Resources" });
+        var factory = new ResourceManagerStringLocalizerFactory(options, NullLoggerFactory.Instance);
+        var localizer = new StringLocalizer<MudCalendar>(factory);
+
+        _uiCulture = Thread.CurrentThread.CurrentUICulture;
+        _todayText = localizer["Today"];
+
+        return _todayText;
+    }
+
+    private async Task SetLinks()
+    {
+        // Check if link is already set
+        _jsService ??= new JsService(JsRuntime);
+        var head = await _jsService.GetHeadContent();
+        if (!string.IsNullOrEmpty(head) && head.Contains("Heron.MudCalendar.min.css")) return;
+
+        // Add link
+        await _jsService.AddLink("_content/Heron.MudCalendar/Heron.MudCalendar.min.css", "stylesheet");
+    }
+
+    private async Task DatePickerDateChanged(DateTime? dateTime)
+    {
+        var dateChanged = dateTime.HasValue && dateTime != CurrentDay;
+        
         PickerDate = dateTime;
-        return ChangeDateRange(new CalendarDateRange(dateTime ?? DateTime.Today, View));
+        
+        if (dateChanged) await CurrentDayChanged.InvokeAsync(CurrentDay);
+        
+        await ChangeDateRange(new CalendarDateRange(dateTime ?? DateTime.Today, View));
     }
 
     private void OnDatePickerOpened()

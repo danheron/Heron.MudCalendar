@@ -1,0 +1,16 @@
+@namespace Heron.MudCalendar.Docs.Examples
+
+<MudCalendar Items="_events" EnableDragItems="true" EnableResizeItems="true" />
+
+@code {
+
+    private readonly List<CalendarItem> _events = new()
+    {
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(10),
+            End = DateTime.Today.AddHours(12),
+            Text = "Event today"
+        }
+    };
+}

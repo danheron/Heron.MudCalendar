@@ -1,6 +1,6 @@
 @namespace Heron.MudCalendar.Docs.Examples
 
-<MudCalendar CellClicked="CellClicked" DayTimeInterval="CalendarTimeInterval.Minutes15" />
+<MudCalendar Items="_events" CellClicked="CellClicked" ItemClicked="ItemClicked" DayTimeInterval="CalendarTimeInterval.Minutes15" />
 
 @code {
 
@@ -9,7 +9,27 @@
 
     private Task CellClicked(DateTime dateTime)
     {
-        return DialogService.ShowMessageBox("Click", dateTime.ToString(Thread.CurrentThread.CurrentCulture));
+        return DialogService.ShowMessageBox("Cell Clicked", dateTime.ToString(Thread.CurrentThread.CurrentCulture));
     }
 
+    private Task ItemClicked(CalendarItem item)
+    {
+        return DialogService.ShowMessageBox("Item Clicked", item.Text);
+    }
+
+    private List<CalendarItem> _events = new()
+    {
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(10),
+            End = DateTime.Today.AddHours(11),
+            Text = "Event today"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddDays(1).AddHours(11),
+            End = DateTime.Today.AddDays(1).AddHours(12.5),
+            Text = "Event tomorrow"
+        }
+    };
 }

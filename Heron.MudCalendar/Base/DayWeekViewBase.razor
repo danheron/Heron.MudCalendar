@@ -19,8 +19,22 @@
                         <div @ref="_scrollDiv" class="mud-cal-week-scroll">
                             <div class="d-block relative">
                                 @RenderTimes
-                                @RenderDays
-                                @RenderCells
+                                @* @RenderDays *@
+                                <MudDropContainer
+                                    @ref="_dropContainer"
+                                    T="CalendarItem"
+                                    Items="Calendar.Items"
+                                    ItemsSelector="@((item, dropzone) => item.Id == dropzone)"
+                                    ItemIsDisabled="@((_) => !Calendar.EnableDragItems)"
+                                    ItemDropped="ItemDropped"
+                                    CanDropClass="mud-cal-week-drop-ok">
+                                    <ChildContent>
+                                        @RenderCells
+                                    </ChildContent>
+                                    <ItemRenderer>
+                                        @RenderTemplate(context)
+                                    </ItemRenderer>
+                                </MudDropContainer>
                             </div>
                         </div>
                     </div>
@@ -62,7 +76,7 @@
     };
 
     /// <summary>
-    /// Renders the times of day.
+    /// Renders the day/week structure.
     /// </summary>
     protected virtual RenderFragment RenderTimes =>
         @<div class="d-block relative">
@@ -71,51 +85,26 @@
                     <col class="mud-cal-time-column"/>
                 </colgroup>
                 <tbody>
-                @for (var i = 0; i < CellsInDay; i++)
+                @for (var row = 0; row < CellsInDay; row++)
                 {
                     <tr>
-                        @if (i % (60 / (int)Calendar.DayTimeInterval) == 0)
+                        <td class="@TimeCellClassname(row)" style="@CellHeightStyle()">
+                            @if (IsHourCell(row))
+                            {
+                                @DrawTime(row)
+                            }
+                        </td>
+                        @foreach (var cell in Cells)
                         {
-                            <td class="mud-cal-week-cell mud-cal-time-cell" style="@CellHeightStyle()">
-                                @(i / (60 / (int)Calendar.DayTimeInterval)):00
+                            <td class="@DayCellClassname(row)" style="@DayStyle(cell, row)">
+                                @if (Calendar.ShowCurrentTime && TimelineRow() == row)
+                                {
+                                    <hr class="mud-cal-current-time" style="@TimelineStyle()"/>
+                                }
                             </td>
-                            <td class="mud-cal-week-cell" style="@CellHeightStyle()"></td>
-                        }
-                        else
-                        {
-                            <td></td>
-                            <td class="mud-cal-week-cell mud-cal-week-cell-half" style="@CellHeightStyle()"></td>
                         }
                     </tr>
                 }
-                </tbody>
-            </table>
-        </div>;
-
-    /// <summary>
-    /// Renders each day.
-    /// </summary>
-    protected virtual RenderFragment RenderDays =>
-        @<div class="mud-cal-week-layer">
-            <table>
-                <colgroup>
-                    <col style="width: 60px;"/>
-                </colgroup>
-                <tbody>
-                <tr>
-                    <td></td>
-                    @foreach (var cell in Cells)
-                    {
-                        <td>
-                            <div class="mud-cal-week-day-holder" style="@DayStyle(cell)">
-                                @if (cell.Today && Calendar.ShowCurrentTime)
-                                {
-                                    <hr class="mud-cal-current-time" style="@TimelineStyle()" />
-                                }
-                            </div>
-                        </td>
-                    }
-                </tr>
                 </tbody>
             </table>
         </div>;
@@ -145,18 +134,19 @@
     /// Renders an individual cell.
     /// </summary>
     protected virtual RenderFragment RenderCell(CalendarCell cell) =>
-        @<td class="mud-cal-week-cell-holder">
-            @if (Calendar.CellClicked.HasDelegate)
+        @<td class="mud-cal-week-cell-holder" style="border: none;">
+            @for (var i = 0; i < CellsInDay; i++)
             {
-                for (var i = 0; i < CellsInDay; i++)
-                {
-                    var row = i;
-                    <div style="@CellHeightStyle()">
+                var row = i;
+                <MudDropZone T="CalendarItem" OnlyZone="true" Style="@CellHeightStyle()" Identifier="@string.Concat(cell.Date.Date.ToString("d"), "_", row.ToString())">
+                    @if (Calendar.CellClicked.HasDelegate)
+                    {
                         <MudLink @onclick="() => OnCellLinkClicked(cell, row)" Class="mud-cal-week-cell-link">
                             <div class="mud-cal-week-link"></div>
                         </MudLink>
-                    </div>
-                }
+                    }
+                    &nbsp;
+                </MudDropZone>
             }
             @RenderCellContents(cell)
         </td>;
@@ -169,9 +159,41 @@
         var positions = CalcPositions(cell.Items, DateOnly.FromDateTime(cell.Date));
         foreach (var position in positions)
         {
-            <div style="@EventStyle(position)">
-                @CellTemplate?.Invoke(position.Item)
+            if (position.Item.Start.Date == cell.Date.Date)
+            {
+                <WeekDropZone Item="@position.Item" Style="@EventStyle(position)">
+                    @if (Calendar.EnableResizeItems && !position.Item.IsMultiDay)
+                    {
+                        <Resizer IntervalSize="Calendar.DayCellHeight" HeightChanged="@(newHeight => ItemHeightChanged(position.Item, newHeight))"/>
+                    }
+                </WeekDropZone>
+            }
+            else
+            {
+                <div style="@EventStyle(position)">
+                    @RenderTemplate(position.Item)
+                </div>
+            }
+        }
+    };
+    
+    /// <summary>
+    /// Renders the CellTemplate with a click handler if required.
+    /// </summary>
+    protected virtual RenderFragment RenderTemplate(CalendarItem item) => __builder =>
+    {
+        @if (Calendar.ItemClicked.HasDelegate)
+        {
+            <div @onclick="() => OnItemClicked(item)" @onclick:stopPropagation="true" class="mud-cal-week-template-holder mud-cal-clickable">
+                @CellTemplate.Invoke(item)
+            </div>
+        }
+        else
+        {
+            <div class="mud-cal-week-template-holder">
+                @CellTemplate.Invoke(item)
             </div>
         }
     };
+
 }
