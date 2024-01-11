@@ -1,87 +1,42 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
-  "name": "DevContainer for MudCalendar",
+	"name": "Heron.MudCalendar Dev Container",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/dotnet:1-7.0-bullseye",
+	"features": {
+		"ghcr.io/devcontainers/features/dotnet:2": {
+			"version": "latest"
+		}
+	},
 
-  "build": {
-    "dockerfile": "./Dockerfile",
-    "context": ".",
-    "args": {
-      // version: 7.0, 7.0-bullseye-slim, 7.0-jammy, 6.0, 6.0-bullseye-slim, 6.0-jammy, 6.0-focal
-      "VARIANT": "7.0"
-    }
-  },
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	//"features": { }
 
-  // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [
-    // ASP.NET Core Web/API App, Blazor App
-    5000, 5001
-  ],
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [5000, 5001],
+	// "portsAttributes": {
+	//		"5001": {
+	//			"protocol": "https"
+	//		}
+	// }
 
-  "features": {
-    // GitHub CLI
-    "ghcr.io/devcontainers/features/github-cli:1": {
-      "version": "latest"
-    },
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-dotnettools.csdevkit",
+				"PKief.material-icon-theme"
+			],
+			"settings": {
+				"editor.minimap.enabled": false
+			}
+		}
+	},
 
-    // Install common utilities
-    "ghcr.io/devcontainers/features/common-utils:1": {
-      "installZsh": true,
-      "installOhMyZsh": true,
-      "upgradePackages": true,
-      "username": "vscode",
-      "uid": "1000",
-      "gid": "1000"
-    }
-  },
+  // Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "/bin/bash ./.devcontainer/post-create.sh > ~/post-create.log",
 
-  "overrideFeatureInstallOrder": [
-    "ghcr.io/devcontainers/features/common-utils"
-  ],
-
-  // Configure tool-specific properties.
-  "customizations": {
-    "codespaces": {
-      "repositories": {
-        "danheron/MudBlazor": {
-          "permissions": {
-            "contents": "write",
-            "pull_requests": "write"
-          }
-        },
-        "danheron/Heron.MudCalendar": {
-          "permissions": {
-            "contents": "write",
-            "pull_requests": "write"
-          }
-        }
-      }
-    },
-
-    // Configure properties specific to VS Code.
-    "vscode": {
-      // Add the IDs of extensions you want installed when the container is created.
-      "extensions": [
-        "ms-dotnettools.csharp",
-        "fernandoescolar.vscode-solution-explorer",
-        "VisualStudioExptTeam.vscodeintellicode"
-      ],
-      "settings": {
-        // Uncomment if you want to disable the minimap view
-        "editor.minimap.enabled": false,
-
-        // Recommended settings for the explorer pane
-        "explorer.sortOrder": "type",
-        "explorer.fileNesting.enabled": true,
-        "explorer.fileNesting.patterns": {
-          "*.js": "${capture}.js.map",
-          "*.razor": "${capture}.razor.cs,${capture}.razor.css"
-        }
-      }
-    }
-  },
-
-  // Uncomment if you want to use bash in 'postCreateCommand' after the container is created
-  "postCreateCommand": "/bin/bash ./.devcontainer/post-create.sh > ~/post-create.log",
-
-  // Uncomment if you want to connect other than 'root'. More info: https://aka.ms/vscode-remote/containers/non-root.
-  "remoteUser": "vscode"
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	"remoteUser": "vscode"
 }
