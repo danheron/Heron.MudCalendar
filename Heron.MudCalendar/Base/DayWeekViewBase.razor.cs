@@ -110,8 +110,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             .AddStyle("position", "absolute")
             .AddStyle("width", "100%")
             .AddStyle("border", "1px solid var(--mud-palette-grey-default)")
-            //.AddStyle("top", $"{(int)((DateTime.Now.Subtract(DateTime.Today).TotalMinutes / MinutesInDay) * PixelsInDay)}px")
-            .AddStyle("top", $"{TimelinePosition()}px")
+            .AddStyle("top", $"{TimelinePosition().ToInvariantString()}px")
             .Build();
     }
 
