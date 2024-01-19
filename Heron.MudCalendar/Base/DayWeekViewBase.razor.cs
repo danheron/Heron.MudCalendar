@@ -233,6 +233,12 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         var overlaps = new List<ItemPosition>();
         foreach (var item in items)
         {
+            // Check that the end date is valid
+            if (item.End.HasValue && item.End <= item.Start)
+            {
+                throw new ApplicationException("End date of calendar item must be after start date");
+            }
+            
             overlaps.RemoveAll(o => (o.Item.End ?? o.Item.Start.AddHours(1)) <= item.Start);
 
             // Create new position object
