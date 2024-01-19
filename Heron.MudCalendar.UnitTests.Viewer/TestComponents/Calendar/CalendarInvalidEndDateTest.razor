@@ -1,0 +1,16 @@
+<MudCalendar Items="_events" Height="500"/>
+
+@code {
+    public static string __description__ = "Calendar Invalid End Date Tests";
+
+    private List<CalendarItem> _events = new()
+    {
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(10),
+            End = DateTime.Today.AddHours(10),
+            Text = "Event 1"
+        }
+    };
+
+}
