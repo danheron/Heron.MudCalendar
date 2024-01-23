@@ -81,6 +81,8 @@
 
 .mud-cal-month-cell {
   height: 100%;
+  width: 100%;
+  display: inline-table;
 }
 
 .mud-cal-month-cell-title {
@@ -124,6 +126,20 @@
 }
 .mud-cal-month-drop-ok .mud-cal-month-cell-title {
   background-color: var(--mud-cal-cell-hover);
+}
+
+.mud-cal-month-table-holder {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.mud-calendar table.mud-cal-month-table-header {
+  height: 0;
+}
+
+.mud-cal-month-table-body {
+  flex-grow: 1;
 }
 
 .mud-cal-week-view {

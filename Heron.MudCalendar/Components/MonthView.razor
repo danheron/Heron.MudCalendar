@@ -19,22 +19,23 @@
              CanDropClass="mud-cal-month-drop-ok"
              Class="@Classname">
             <ChildContent>
-                <table>
-                    <thead>
-                    @RenderHeader
-                    </thead>
-                    <tbody>
-                    @RenderBody
-                    </tbody>
-                </table>
+                <div class="mud-cal-month-table-holder">
+                    <table class="mud-cal-month-table-header">
+                        <thead>
+                        @RenderHeader
+                        </thead>
+                    </table>
+                    <table class="mud-cal-month-table-body">
+                        <tbody>
+                        @RenderBody
+                        </tbody>
+                    </table>
+                </div>
             </ChildContent>
             <ItemRenderer>
-                @* <div style="z-index: 100000;"> *@
-                @*     @CellTemplate.Invoke(context) *@
-                @* </div> *@
                 @RenderTemplate(context)
-            </ItemRenderer>
-        </MudDropContainer>;
+    </ItemRenderer>
+    </MudDropContainer>;
 
     /// <summary>
     /// Renders the header of the component that contains the day names.
@@ -47,7 +48,7 @@
                     @RenderDayTitle(i)
                 </th>
             }
-        </tr>;
+    </tr>;
 
     /// <summary>
     /// Renders the day name.
@@ -88,9 +89,9 @@
                             }
                         </div>
                     }
-                </MudDropZone>
-            </div>
-        </td>;
+    </MudDropZone>
+    </div>
+    </td>;
 
     /// <summary>
     /// Renders the day number of the cell.
@@ -98,7 +99,7 @@
     protected virtual RenderFragment RenderCellDayNumber(CalendarCell cell) =>
         @<div class="@DayClassname(cell)">
             @cell.Date.Day
-        </div>;
+    </div>;
 
     /// <summary>
     /// Renders the contents of the cell.
@@ -114,6 +115,7 @@
                 }
             </div>
         }
+
         <MudDropZone T="CalendarItem" Identifier="@cell.Date.Date.ToString("d")" Class="mud-cal-month-cell-events"/>
     };
 
