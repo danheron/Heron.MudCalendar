@@ -2,9 +2,9 @@ using System.ComponentModel;
 
 namespace Heron.MudCalendar.Extensions;
 
-public static class EnumExtensions
+internal static class EnumExtensions
 {
-    public static string ToDescriptionString(this Enum value)
+    internal static string ToDescriptionString(this Enum value)
     {
         var field = value.GetType().GetField(value.ToString());
         if (field is null)

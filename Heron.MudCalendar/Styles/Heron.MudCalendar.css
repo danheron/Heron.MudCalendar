@@ -239,6 +239,9 @@
   width: 100%;
   margin: 0;
 }
+.mud-cal-cell-template-chip .mud-chip-content {
+  overflow: hidden;
+}
 
 .mud-cal-clickable {
   cursor: pointer;
