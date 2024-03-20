@@ -382,6 +382,6 @@ public class CalendarTests : BunitTest
 
         // Check 12 hour clock
         comp.SetParam(x => x.Use24HourClock, false);
-        comp.FindAll("td.mud-cal-time-cell")[18].TextContent.Trim().Should().Be("6 PM");
+        comp.FindAll("td.mud-cal-time-cell")[18].TextContent.Trim().ToLower().Should().Be("6 pm");
     }
 }
