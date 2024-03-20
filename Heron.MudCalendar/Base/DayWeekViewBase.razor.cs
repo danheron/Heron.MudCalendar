@@ -122,7 +122,8 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
     /// <returns></returns>
     protected virtual Task OnCellLinkClicked(CalendarCell cell, int row)
     {
-        var date = cell.Date.AddHours(row / (60.0 / (int)Calendar.DayTimeInterval));
+        //var date = cell.Date.AddHours(row / (60.0 / (int)Calendar.DayTimeInterval));
+        var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
         return Calendar.CellClicked.InvokeAsync(date);
     }
     
