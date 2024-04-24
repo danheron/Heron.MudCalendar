@@ -61,14 +61,28 @@ public partial class MudCalendar : MudComponentBase
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public int MonthCellMinHeight { get; set; }
-    
+
+    private DateTime _currentDay;
     /// <summary>
     /// Gets or sets the day that the calendar is showing.
     /// </summary>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
-    public DateTime CurrentDay { get; set; }
-    
+    public DateTime CurrentDay
+    {
+        get
+        {
+            return _currentDay;
+        }
+        set
+        {
+            if (value == _currentDay) return;
+            _currentDay = value;
+            if (value == DateTime.MinValue) return;
+
+        }
+    }
+
     /// <summary>
     /// Gets or sets the view (day, week, month) being shown.
     /// </summary>
@@ -279,7 +293,8 @@ public partial class MudCalendar : MudComponentBase
 
     protected override void OnInitialized()
     {
-        CurrentDay = DateTime.Today;
+        if (CurrentDay.Equals(DateTime.MinValue))
+            CurrentDay = DateTime.Today;
     }
 
     protected override void OnParametersSet()
