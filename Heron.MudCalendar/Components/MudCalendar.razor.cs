@@ -279,7 +279,10 @@ public partial class MudCalendar : MudComponentBase
 
     protected override void OnInitialized()
     {
-        CurrentDay = DateTime.Today;
+        if (CurrentDay == default)
+        {
+            CurrentDay = DateTime.Today;   
+        }
     }
 
     protected override void OnParametersSet()

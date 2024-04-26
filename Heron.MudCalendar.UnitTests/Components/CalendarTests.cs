@@ -384,4 +384,14 @@ public class CalendarTests : BunitTest
         comp.SetParam(x => x.Use24HourClock, false);
         comp.FindAll("td.mud-cal-time-cell")[18].TextContent.Trim().ToLower().Should().Be("6 pm");
     }
+
+    [Test]
+    public void CurrentDayTest()
+    {
+        var cut = Context.RenderComponent<CalendarCurrentDayTest>();
+        var comp = cut.FindComponent<MudCalendar>();
+        
+        // Check that current month is Feb 2024
+        comp.FindAll(".mud-cal-month-dropzone")[0].Attributes["identifier"]!.TextContent.Should().Be("29/01/2024");
+    }
 }
