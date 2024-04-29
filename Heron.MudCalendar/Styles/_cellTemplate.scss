@@ -15,6 +15,10 @@
 .mud-cal-cell-template-chip {
   width: 100%;
   margin: 0;
+
+  .mud-chip-content {
+    overflow: hidden;
+  }
 }
 
 .mud-cal-clickable {

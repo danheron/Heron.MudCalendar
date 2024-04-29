@@ -46,7 +46,7 @@ jobs:
           7.0.x
 
     - name: Pack nuget package
-      run: dotnet pack -c Release --output nupkgs /p:PackageVersion=${{ needs.get-version.outputs.VERSION }} /p:AssemblyVersion=${{ needs.get-version.outputs.VERSION }} /p:Version=${{ needs.get-version.outputs.VERSION }}
+      run: dotnet pack -c Release -m:1 --output nupkgs /p:PackageVersion=${{ needs.get-version.outputs.VERSION }} /p:AssemblyVersion=${{ needs.get-version.outputs.VERSION }} /p:Version=${{ needs.get-version.outputs.VERSION }}
       working-directory: './Heron.MudCalendar'
 
     - name: Publish nuget package
