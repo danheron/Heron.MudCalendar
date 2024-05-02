@@ -274,6 +274,11 @@ public class CalendarTests : BunitTest
         var comp = cut.FindComponent<MudCalendar>();
         
         comp.SetParam(x => x.View, CalendarView.Day);
+        var event1 = comp.FindAll("td.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[0];
+        event1.Attributes["style"].Should().NotBeNull();
+        event1.Attributes["style"]?.Value.Should().Contain("left:0");
+        event1.Attributes["style"]?.Value.Should().Contain("width:33");
+        
         var event2 = comp.FindAll("td.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[1];
         event2.Attributes["style"].Should().NotBeNull();
         event2.Attributes["style"]?.Value.Should().Contain("left:33");
