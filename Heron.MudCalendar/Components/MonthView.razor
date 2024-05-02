@@ -5,10 +5,21 @@
 
 @code {
 
+    protected virtual RenderFragment Render =>
+        @<div class="mud-cal-month-table-holder mud-cal-month-view">
+            @RenderHeaderGrid
+            @RenderBodyGrid
+    </div>;
+
+    protected virtual RenderFragment RenderHeaderGrid =>
+        @<div class="mud-cal-month-grid-header">
+            @RenderHeader
+    </div>;
+
     /// <summary>
     /// Renders the component.
     /// </summary>
-    protected virtual RenderFragment Render =>
+    protected virtual RenderFragment RenderBodyGrid =>
         @<MudDropContainer
              @ref="_dropContainer"
              T="CalendarItem"
@@ -19,17 +30,8 @@
              CanDropClass="mud-cal-month-drop-ok"
              Class="@Classname">
             <ChildContent>
-                <div class="mud-cal-month-table-holder">
-                    <table class="mud-cal-month-table-header">
-                        <thead>
-                        @RenderHeader
-                        </thead>
-                    </table>
-                    <table class="mud-cal-month-table-body">
-                        <tbody>
-                        @RenderBody
-                        </tbody>
-                    </table>
+                <div class="mud-cal-month-grid" style="@GridStyle">
+                    @RenderBody
                 </div>
             </ChildContent>
             <ItemRenderer>
@@ -40,15 +42,15 @@
     /// <summary>
     /// Renders the header of the component that contains the day names.
     /// </summary>
-    protected virtual RenderFragment RenderHeader =>
-        @<tr>
-            @for (var i = 0; i < 7; i++)
-            {
-                <th>
-                    @RenderDayTitle(i)
-                </th>
-            }
-    </tr>;
+    protected virtual RenderFragment RenderHeader => __builder =>
+    {
+        for (var i = 0; i < 7; i++)
+        {
+            <div class="mud-cal-month-header">
+                @RenderDayTitle(i)
+            </div>
+        }
+    };
 
     /// <summary>
     /// Renders the day name.
@@ -62,13 +64,11 @@
     {
         for (var week = 0; week < Cells.Count / 7; week++)
         {
-            <tr style="@RowStyle">
-                @for (var i = week * 7; i < (week + 1) * 7; i++)
-                {
-                    var cell = Cells[i];
-                    @RenderCell(cell)
-                }
-            </tr>
+            @for (var i = week * 7; i < (week + 1) * 7; i++)
+            {
+                var cell = Cells[i];
+                @RenderCell(cell)
+            }
         }
     };
 
@@ -76,22 +76,14 @@
     /// Renders an individual cell.
     /// </summary>
     protected virtual RenderFragment RenderCell(CalendarCell cell) =>
-        @<td>
+        @<div class="@RowStyle">
             <div class="@CellClassname" style="@DayStyle(cell)" @onclick="() => OnCellLinkClicked(cell)">
-                <MudDropZone T="CalendarItem" Identifier="@cell.Date.Date.ToString("d")" Class="mud-cal-month-dropzone">
+                <MudDropZone T="CalendarItem" Identifier="@cell.Date.Date.ToString("d")" Class="mud-cal-month-dropzone" Style="@CellStyle">
                     @RenderCellDayNumber(cell)
-                    @if (cell.Items.Any())
-                    {
-                        <div class="mud-cal-month-cell-events">
-                            @foreach (var item in cell.Items)
-                            {
-                                @CellTemplate?.Invoke(item)
-                            }
-                        </div>
-                    }
+                    @RenderCellContents(cell)
     </MudDropZone>
     </div>
-    </td>;
+    </div>;
 
     /// <summary>
     /// Renders the day number of the cell.
@@ -111,12 +103,10 @@
             <div class="mud-cal-month-cell-events">
                 @foreach (var item in cell.Items)
                 {
-                    @RenderTemplate(item)
+                    @CellTemplate?.Invoke(item)
                 }
             </div>
         }
-
-        <MudDropZone T="CalendarItem" Identifier="@cell.Date.Date.ToString("d")" Class="mud-cal-month-cell-events"/>
     };
 
     /// <summary>
