@@ -55,8 +55,8 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
     {
         return new StyleBuilder()
             .AddStyle("position", "absolute")
-            .AddStyle("top", $"{CalcTop(position)}px")
-            .AddStyle("height", $"{CalcHeight(position)}px")
+            .AddStyle("top", $"{position.Top}px")
+            .AddStyle("height", $"{position.Height}px")
             .AddStyle("overflow", "hidden")
             .AddStyle("left", (((position.Position / (double)position.Total) - (1.0 / position.Total)) * 100).ToInvariantString() + "%")
             .AddStyle("width", (100f / position.Total) + "%" )
@@ -213,6 +213,11 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         var percent = minutes / MinutesInDay;
         var height = PixelsInDay * percent;
 
+        if (height < Calendar.DayItemMinHeight)
+        {
+            height = Calendar.DayItemMinHeight;
+        }
+
         return (int)height;
     }
 
@@ -228,7 +233,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
 
     protected virtual RenderFragment<CalendarItem> CellTemplate => Calendar.CellTemplate;
 
-    private static IEnumerable<ItemPosition> CalcPositions(IEnumerable<CalendarItem> items, DateOnly date)
+    private IEnumerable<ItemPosition> CalcPositions(IEnumerable<CalendarItem> items, DateOnly date)
     {
         var positions = new List<ItemPosition>();
         var overlaps = new List<ItemPosition>();
@@ -239,11 +244,18 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             {
                 throw new ApplicationException("End date of calendar item must be after start date");
             }
-            
-            overlaps.RemoveAll(o => (o.Item.End ?? o.Item.Start.AddHours(1)) <= item.Start);
 
             // Create new position object
             var position = new ItemPosition { Item = item, Position = 0, Total = overlaps.Count + 1, Date = date };
+            position.Top = CalcTop(position);
+            position.Height = CalcHeight(position);
+            if (position.Bottom > PixelsInDay)
+            {
+                position.Height = PixelsInDay - position.Top;
+            }
+            
+            // Remove overlaps that are not relevant
+            overlaps.RemoveAll(o => o.Bottom <= position.Top);
             positions.Add(position);
 
             // Calculate the position
@@ -268,18 +280,22 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         // Calculate the total overlapping events
         foreach (var position in positions)
         {
-            var max = positions.Where(p => p.Item.Start < (position.Item.End ?? position.Item.Start.AddHours(1))
-                                           && (p.Item.End ?? p.Item.Start.AddHours(1)) > position.Item.Start)
-                .Max(p => p.Total);
+            // var max = positions.Where(p => p.Item.Start < (position.Item.End ?? position.Item.Start.AddHours(1))
+            //                                && (p.Item.End ?? p.Item.Start.AddHours(1)) > position.Item.Start)
+            //     .Max(p => p.Total);
+            
+            var max = positions.Where(p => p.Top < position.Bottom && p.Bottom > position.Top).Max(p => p.Total);
 
             if (max > position.Total)
             {
                 position.Total = max;
                 
                 // Need to update overlapping events
-                var overlappingPositions = positions.Where(p =>
-                    p.Item.Start < (position.Item.End ?? position.Item.Start.AddHours(1))
-                    && (p.Item.End ?? p.Item.Start.AddHours(1)) > position.Item.Start);
+                // var overlappingPositions = positions.Where(p =>
+                //     p.Item.Start < (position.Item.End ?? position.Item.Start.AddHours(1))
+                //     && (p.Item.End ?? p.Item.Start.AddHours(1)) > position.Item.Start);
+
+                var overlappingPositions = positions.Where(p => p.Top < position.Bottom && p.Bottom > position.Top);
                 foreach (var overlappedPosition in overlappingPositions)
                 {
                     if (overlappedPosition.Total < max)
@@ -328,6 +344,9 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         public int Position { get; set; }
         public int Total { get; set; }
         public DateOnly Date { get; set; }
+        public int Top { get; set; }
+        public int Height { get; set; }
+        public int Bottom => Top + Height;
     }
 
     public async ValueTask DisposeAsync()

@@ -399,4 +399,32 @@ public class CalendarTests : BunitTest
         // Check that current month is Feb 2024
         comp.FindAll(".mud-cal-month-dropzone")[0].Attributes["identifier"]!.TextContent.Should().Be("29/01/2024");
     }
+
+    [Test]
+    public void DayItemMinHeightTest()
+    {
+        var cut = Context.RenderComponent<CalendarMinItemHeightTest>();
+        var comp = cut.FindComponent<MudCalendar>();
+        
+        comp.SetParam(x => x.View, CalendarView.Day);
+        var event1 = comp.FindAll("td.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[0];
+        event1.Attributes["style"].Should().NotBeNull();
+        event1.Attributes["style"]?.Value.Should().Contain("height:90");
+        
+        var event3 = comp.FindAll("td.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[2];
+        event3.Attributes["style"].Should().NotBeNull();
+        event3.Attributes["style"]?.Value.Should().Contain("width:50");
+        
+        var event4 = comp.FindAll("td.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[3];
+        event3.Attributes["style"].Should().NotBeNull();
+        event3.Attributes["style"]?.Value.Should().Contain("width:50");
+        
+        var event5 = comp.FindAll("td.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[4];
+        event5.Attributes["style"].Should().NotBeNull();
+        event5.Attributes["style"]?.Value.Should().Contain("height:50");
+        
+        var event6 = comp.FindAll("td.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[5];
+        event6.Attributes["style"].Should().NotBeNull();
+        event6.Attributes["style"]?.Value.Should().Contain("height:50");
+    }
 }
