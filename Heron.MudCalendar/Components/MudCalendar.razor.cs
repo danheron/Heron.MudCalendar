@@ -147,6 +147,14 @@ public partial class MudCalendar : MudComponentBase
     public int DayCellHeight { get; set; } = 36;
 
     /// <summary>
+    /// Set a minimum height for calendar items in day/week views.
+    /// This can be helpful if there are items with a very short duration.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public int DayItemMinHeight { get; set; }
+
+    /// <summary>
     /// If true then a line indicating the current time is shown in day and week view.
     /// </summary>
     [Parameter]
@@ -279,7 +287,10 @@ public partial class MudCalendar : MudComponentBase
 
     protected override void OnInitialized()
     {
-        CurrentDay = DateTime.Today;
+        if (CurrentDay == default)
+        {
+            CurrentDay = DateTime.Today;   
+        }
     }
 
     protected override void OnParametersSet()

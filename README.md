@@ -38,7 +38,7 @@ Add style and script references (optional). This step shouldn't be necessary as 
 ```html
 <link href="_content/Heron.MudCalendar/Heron.MudCalendar.min.css" rel="stylesheet" />
 ...
-<script src="_content/Heron.MudCalendar/Heron.MudCalendar.js"></script>
+<script src="_content/Heron.MudCalendar/Heron.MudCalendar.min.js"></script>
 ```
 
 Add the MudCalendar component to your razor page/component.
