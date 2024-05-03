@@ -1,0 +1,44 @@
+<MudCalendar Items="_events" ShowMonth="false" DayTimeInterval="CalendarTimeInterval.Minutes60" DayCellHeight="100" DayItemMinHeight="90" />
+
+@code {
+    public static string __description__ = "Calendar MinItem Height Tests";
+
+    private List<CalendarItem> _events = new()
+    {
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(9),
+            End = DateTime.Today.AddHours(9.5),
+            Text = "Event 1"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(9),
+            End = DateTime.Today.AddHours(10),
+            Text = "Event 2"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(10),
+            End = DateTime.Today.AddHours(10.25),
+            Text = "Event 3"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(10.5),
+            End = DateTime.Today.AddHours(12.5),
+            Text = "Event 4"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(23.5),
+            End = DateTime.Today.AddHours(24.5),
+            Text = "Event 5"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(23.5),
+            Text = "Event 6"
+        }
+    };
+}
