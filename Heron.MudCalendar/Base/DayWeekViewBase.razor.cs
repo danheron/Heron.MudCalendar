@@ -78,7 +78,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             .AddStyle("height", $"{position.Height}px")
             .AddStyle("overflow", "hidden")
             .AddStyle("left", (((position.Position / (double)position.Total) - (1.0 / position.Total)) * 100).ToInvariantString() + "%")
-            .AddStyle("width", (100f / position.Total) + "%" )
+            .AddStyle("width", (100d / position.Total).ToInvariantString() + "%" )
             .Build();
     }
 
