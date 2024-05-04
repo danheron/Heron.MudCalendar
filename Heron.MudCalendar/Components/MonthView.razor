@@ -12,7 +12,7 @@
     </div>;
 
     protected virtual RenderFragment RenderHeaderGrid =>
-        @<div class="mud-cal-month-grid-header">
+        @<div class="mud-cal-grid-header mud-cal-month-grid-header">
             @RenderHeader
     </div>;
 
@@ -30,7 +30,7 @@
              CanDropClass="mud-cal-month-drop-ok"
              Class="@Classname">
             <ChildContent>
-                <div class="mud-cal-month-grid" style="@GridStyle">
+                <div class="mud-cal-grid mud-cal-month-grid" style="@GridStyle">
                     @RenderBody
                 </div>
             </ChildContent>
@@ -117,13 +117,13 @@
         @if (Calendar.ItemClicked.HasDelegate)
         {
             <div @onclick="() => OnItemClicked(item)" @onclick:stopPropagation="true" class="mud-cal-clickable">
-                @CellTemplate?.Invoke(item)
+                @CellTemplate(item)
             </div>
         }
         else
         {
             <div>
-                @CellTemplate?.Invoke(item)
+                @CellTemplate(item)
             </div>
         }
     };

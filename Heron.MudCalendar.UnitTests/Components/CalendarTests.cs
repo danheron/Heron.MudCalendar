@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Heron.MudCalendar.UnitTests.Viewer.TestComponents.Calendar;
 using MudBlazor;
@@ -74,14 +73,14 @@ public class CalendarTests : BunitTest
         comp.SetParam(x => x.View, CalendarView.Week);
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
         comp.FindAll("button.mud-icon-button")[1].Click();
-        var day = comp.FindAll("div.mud-cal-week-view th")[1].TextContent;
+        var day = comp.FindAll("div.mud-cal-grid.mud-cal-grid-header.mud-cal-week-header div")[1].TextContent;
         day.Substring(day.Length - 1, 1).Should().Be("2");
         
         // Day View
         comp.SetParam(x => x.View, CalendarView.Day);
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 4));
         comp.FindAll("button.mud-icon-button")[1].Click();
-        day = comp.FindAll("div.mud-cal-week-view th")[1].TextContent;
+        day = comp.FindAll("div.mud-cal-grid.mud-cal-grid-header.mud-cal-day-header div")[1].TextContent;
         day.Substring(day.Length - 1, 1).Should().Be("5");
     }
 
@@ -100,14 +99,14 @@ public class CalendarTests : BunitTest
         comp.SetParam(x => x.View, CalendarView.Week);
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 13));
         comp.FindAll("button.mud-icon-button")[0].Click();
-        var day = comp.FindAll("div.mud-cal-week-view th")[1].TextContent;
+        var day = comp.FindAll("div.mud-cal-grid.mud-cal-grid-header.mud-cal-week-header div")[1].TextContent;
         day.Substring(day.Length - 1, 1).Should().Be("2");
         
         // Day View
         comp.SetParam(x => x.View, CalendarView.Day);
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 8));
         comp.FindAll("button.mud-icon-button")[0].Click();
-        day = comp.FindAll("div.mud-cal-week-view th")[1].TextContent;
+        day = comp.FindAll("div.mud-cal-grid.mud-cal-grid-header.mud-cal-day-header div")[1].TextContent;
         day.Substring(day.Length - 1, 1).Should().Be("7");
     }
 
@@ -274,7 +273,7 @@ public class CalendarTests : BunitTest
         var comp = cut.FindComponent<MudCalendar>();
         
         comp.SetParam(x => x.View, CalendarView.Day);
-        var event2 = comp.FindAll("td.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[1];
+        var event2 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[1];
         event2.Attributes["style"].Should().NotBeNull();
         event2.Attributes["style"]?.Value.Should().Contain("left:33");
         event2.Attributes["style"]?.Value.Should().Contain("width:33");
@@ -305,12 +304,12 @@ public class CalendarTests : BunitTest
         
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 2, 1));
         comp.SetParam(x => x.View, CalendarView.Week);
-        comp.FindAll("div.mud-cal-week-layer tr td:nth-child(4) div.mud-cal-cell-template").Count.Should().Be(1);
-        comp.FindAll("div.mud-cal-week-layer tr td:nth-child(5) div.mud-cal-cell-template").Count.Should().Be(1);
+        comp.FindAll("div.mud-cal-week-layer div:nth-child(4) div.mud-cal-cell-template").Count.Should().Be(1);
+        comp.FindAll("div.mud-cal-week-layer div:nth-child(5) div.mud-cal-cell-template").Count.Should().Be(1);
         
         comp.SetParam(x => x.EnableDragItems, true);
-        comp.FindAll("div.mud-cal-week-layer tr td:nth-child(4) div.mud-cal-cell-template").Count.Should().Be(1);
-        comp.FindAll("div.mud-cal-week-layer tr td:nth-child(5) div.mud-cal-cell-template").Count.Should().Be(1);
+        comp.FindAll("div.mud-cal-week-layer div:nth-child(4) div.mud-cal-cell-template").Count.Should().Be(1);
+        comp.FindAll("div.mud-cal-week-layer div:nth-child(5) div.mud-cal-cell-template").Count.Should().Be(1);
     }
     
     [Test]
@@ -322,19 +321,19 @@ public class CalendarTests : BunitTest
         comp.SetParam(x => x.View, CalendarView.Day);
         
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 2, 1));
-        comp.FindAll("td.mud-cal-week-cell-holder div.mud-drop-item").Count.Should().Be(1);
+        comp.FindAll("div.mud-cal-week-cell-holder div.mud-drop-item").Count.Should().Be(1);
         
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 2, 2));
-        comp.FindAll("td.mud-cal-week-cell-holder div.mud-drop-item").Count.Should().Be(0);
-        comp.FindAll("td.mud-cal-week-cell-holder div.mud-cal-cell-template").Count.Should().Be(1);
+        comp.FindAll("div.mud-cal-week-cell-holder div.mud-drop-item").Count.Should().Be(0);
+        comp.FindAll("div.mud-cal-week-cell-holder div.mud-cal-cell-template").Count.Should().Be(1);
         
         comp.SetParam(x => x.EnableDragItems, true);
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 2, 1));
-        comp.FindAll("td.mud-cal-week-cell-holder div.mud-drop-item").Count.Should().Be(1);
+        comp.FindAll("div.mud-cal-week-cell-holder div.mud-drop-item").Count.Should().Be(1);
         
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 2, 2));
-        comp.FindAll("td.mud-cal-week-cell-holder div.mud-drop-item").Count.Should().Be(0);
-        comp.FindAll("td.mud-cal-week-cell-holder div.mud-cal-cell-template").Count.Should().Be(1);
+        comp.FindAll("div.mud-cal-week-cell-holder div.mud-drop-item").Count.Should().Be(0);
+        comp.FindAll("div.mud-cal-week-cell-holder div.mud-cal-cell-template").Count.Should().Be(1);
     }
 
     [Test]
@@ -377,12 +376,12 @@ public class CalendarTests : BunitTest
         var cut = Context.RenderComponent<CalendarTimeIntervalTest>();
         var comp = cut.FindComponent<MudCalendar>();
         
-        // Check 24 hour clock
-        comp.FindAll("td.mud-cal-time-cell")[18].TextContent.Trim().Should().Be("18:00");
+        // Check 24-hour clock
+        comp.FindAll("div.mud-cal-time-cell")[18].TextContent.Trim().Should().Be("18:00");
 
-        // Check 12 hour clock
+        // Check 12-hour clock
         comp.SetParam(x => x.Use24HourClock, false);
-        comp.FindAll("td.mud-cal-time-cell")[18].TextContent.Trim().ToLower().Should().Be("6 pm");
+        comp.FindAll("div.mud-cal-time-cell")[18].TextContent.Trim().ToLower().Should().Be("6 pm");
     }
 
     [Test]

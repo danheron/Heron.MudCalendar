@@ -28,7 +28,6 @@ public partial class MonthView : CalendarViewBase
     protected virtual string RowStyle =>
         new StyleBuilder()
             .AddStyle("min-height", Calendar.MonthCellMinHeight + "px", Calendar.MonthCellMinHeight > 0)
-            //.AddStyle("height", $"{100 / (Cells.Count / 7)}%", Calendar.MonthCellMinHeight == 0)
             .Build();
 
     protected virtual string CellStyle =>

@@ -4,6 +4,8 @@ namespace Heron.MudCalendar;
 
 public class DayView : DayWeekViewBase
 {
+    protected override int DaysInView => 1;
+
     protected override List<CalendarCell> BuildCells()
     {
         var cell = new CalendarCell { Date = Calendar.CurrentDay };
