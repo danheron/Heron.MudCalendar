@@ -17,9 +17,9 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
 
     private int CellsInDay => MinutesInDay / (int)Calendar.DayTimeInterval;
     private int PixelsInDay => CellsInDay * PixelsInCell;
-    
-    private MudDropContainer<CalendarItem>? _dropContainer;
 
+    protected virtual int DaysInView => 7;
+    
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -29,6 +29,25 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             await ScrollToDay();
         }
     }
+
+    /// <summary>
+    /// Styles the header grid
+    /// </summary>
+    protected virtual string HeaderClass =>
+        new CssBuilder("mud-cal-grid")
+            .AddClass("mud-cal-grid-header")
+            .AddClass("mud-cal-week-header", DaysInView == 7)
+            .AddClass("mud-cal-day-header", DaysInView == 1)
+            .Build();
+
+    /// <summary>
+    /// Styles the main grid
+    /// </summary>
+    protected virtual string GridClass =>
+        new CssBuilder("mud-cal-grid")
+            .AddClass("mud-cal-week-grid", DaysInView == 7)
+            .AddClass("mud-cal-day-grid", DaysInView == 1)
+            .Build();
 
     /// <summary>
     /// Styles added to each day.
@@ -59,7 +78,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             .AddStyle("height", $"{position.Height}px")
             .AddStyle("overflow", "hidden")
             .AddStyle("left", (((position.Position / (double)position.Total) - (1.0 / position.Total)) * 100).ToInvariantString() + "%")
-            .AddStyle("width", (100f / position.Total) + "%" )
+            .AddStyle("width", (100d / position.Total).ToInvariantString() + "%" )
             .Build();
     }
 
@@ -73,19 +92,22 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         return new CssBuilder()
             .AddClass("mud-cal-week-cell", IsHourCell(row))
             .AddClass("mud-cal-time-cell", IsHourCell(row))
+            .AddClass("mud-cal-week-not-today")
             .Build();
     }
 
     /// <summary>
     /// Styles for each cell in the view.
     /// </summary>
+    /// <param name="cell">The cell being styled.</param>
     /// <param name="row">The row being styled.</param>
     /// <returns></returns>
-    protected virtual string DayCellClassname(int row)
+    protected virtual string DayCellClassname(CalendarCell cell, int row)
     {
         return new CssBuilder()
             .AddClass("mud-cal-week-cell")
             .AddClass("mud-cal-week-cell-half", !IsHourCell(row))
+            .AddClass("mud-cal-week-not-today", !cell.Today || !Calendar.HighlightToday)
             .Build();
     }
 

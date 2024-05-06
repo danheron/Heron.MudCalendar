@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using MudBlazor.Extensions;
 using MudBlazor.Utilities;
 
 namespace Heron.MudCalendar;
@@ -13,8 +12,14 @@ public partial class MonthView : CalendarViewBase
     /// Classes added to main div of component.
     /// </summary>
     protected virtual string Classname =>
-        new CssBuilder("mud-cal-month-view")
+        new CssBuilder("mud-cal-month-table-body")
             .AddClass("mud-cal-month-fixed-height", Calendar.MonthCellMinHeight == 0)
+            .Build();
+
+    protected virtual string GridStyle =>
+        new StyleBuilder()
+            .AddStyle("grid-template-rows", $"repeat({Cells.Count / 7}, {100 / (Cells.Count / 7)}%)",
+                Calendar.MonthCellMinHeight == 0)
             .Build();
 
     /// <summary>
@@ -23,7 +28,11 @@ public partial class MonthView : CalendarViewBase
     protected virtual string RowStyle =>
         new StyleBuilder()
             .AddStyle("min-height", Calendar.MonthCellMinHeight + "px", Calendar.MonthCellMinHeight > 0)
-            .AddStyle("height", $"{100 / (Cells.Count / 7)}%", Calendar.MonthCellMinHeight == 0)
+            .Build();
+
+    protected virtual string CellStyle =>
+        new StyleBuilder()
+            .AddStyle("overflow-y", "scroll", Calendar.MonthCellMinHeight == 0)
             .Build();
 
     /// <summary>
@@ -63,7 +72,7 @@ public partial class MonthView : CalendarViewBase
     }
 
     /// <summary>
-    /// Method invoked when the user clicks on the hyper link in the cell.
+    /// Method invoked when the user clicks on the hyperlink in the cell.
     /// </summary>
     /// <param name="cell">The cell that was clicked.</param>
     /// <returns></returns>

@@ -6,6 +6,27 @@
   height: 100%;
 }
 
+.mud-cal-month-grid-header {
+  grid-template-columns: repeat(7, 1fr);
+
+  .mud-cal-month-header {
+    border-right: none;
+  }
+}
+
+.mud-cal-month-grid {
+  grid-template-columns: repeat(7, 1fr);
+  
+  > div {
+    border-right: 1px solid var(--mud-palette-table-lines);
+    border-top: 1px solid var(--mud-palette-table-lines);
+  }
+  
+  > div:nth-child(7n) {
+    border-right: none;
+  }
+}
+
 .mud-cal-month-fixed-height {
   .mud-cal-month-cell {
     overflow-y: auto;
@@ -14,6 +35,7 @@
 
 .mud-cal-month-cell {
   height: 100%;
+  width: 100%;
 }
 
 .mud-cal-month-cell-title {
@@ -52,7 +74,6 @@
 .mud-cal-month-dropzone {
   height: 100%;
   min-height: inherit;
-  overflow-y: scroll;
 }
 
 .mud-cal-month-drop-ok {
@@ -61,4 +82,18 @@
   .mud-cal-month-cell-title {
     background-color: var(--mud-cal-cell-hover);
   }
+}
+
+.mud-cal-month-table-holder {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.mud-calendar table.mud-cal-month-table-header {
+  height: 0;
+}
+
+.mud-cal-month-table-body {
+  flex-grow: 1;
 }

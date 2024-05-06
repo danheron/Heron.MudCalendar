@@ -16,12 +16,11 @@
                 @RenderHeader
                 <div class="flex-grow-1">
                     <div class="d-block relative mud-height-full">
-                        <div @ref="_scrollDiv" class="mud-cal-week-scroll">
+                        <div @ref="_scrollDiv" class="mud-cal-week-scroll" style="width: 100%;">
                             <div class="d-block relative">
                                 @RenderTimes
                                 @* @RenderDays *@
                                 <MudDropContainer
-                                    @ref="_dropContainer"
                                     T="CalendarItem"
                                     Items="Calendar.Items"
                                     ItemsSelector="@((item, dropzone) => item.Id == dropzone)"
@@ -47,23 +46,16 @@
     /// </summary>
     protected virtual RenderFragment RenderHeader =>
         @<div>
-            <table>
-                <colgroup>
-                    <col class="mud-cal-time-column"/>
-                </colgroup>
-                <thead>
-                <tr>
-                    <th></th>
-                    @foreach (var cell in Cells)
-                    {
-                        <th>
-                            @RenderDayTitle(cell)
-                        </th>
-                    }
-                </tr>
-                </thead>
-            </table>
-        </div>;
+            <div class="@HeaderClass">
+                <div></div>
+                @foreach (var cell in Cells)
+                {
+                    <div>
+                        @RenderDayTitle(cell)
+                    </div>
+                }
+            </div>
+    </div>;
 
     /// <summary>
     /// Renders the title of a day.
@@ -80,33 +72,26 @@
     /// </summary>
     protected virtual RenderFragment RenderTimes =>
         @<div class="d-block relative">
-            <table>
-                <colgroup>
-                    <col class="mud-cal-time-column"/>
-                </colgroup>
-                <tbody>
+            <div class="@GridClass">
                 @for (var row = 0; row < CellsInDay; row++)
                 {
-                    <tr>
-                        <td class="@TimeCellClassname(row)" style="@CellHeightStyle()">
-                            @if (IsHourCell(row))
-                            {
-                                @DrawTime(row)
-                            }
-                        </td>
-                        @foreach (var cell in Cells)
+                    <div class="@TimeCellClassname(row)" style="@CellHeightStyle()">
+                        @if (IsHourCell(row))
                         {
-                            <td class="@DayCellClassname(row)" style="@DayStyle(cell, row)">
-                                @if (Calendar.ShowCurrentTime && TimelineRow() == row)
-                                {
-                                    <hr class="mud-cal-current-time" style="@TimelineStyle()"/>
-                                }
-                            </td>
+                            @DrawTime(row)
                         }
-                    </tr>
+                    </div>
+                    @foreach (var cell in Cells)
+                    {
+                        <div class="@DayCellClassname(cell, row)" style="@DayStyle(cell, row)">
+                            @if (Calendar.ShowCurrentTime && TimelineRow() == row)
+                            {
+                                <hr class="mud-cal-current-time" style="@TimelineStyle()"/>
+                            }
+                        </div>
+                    }
                 }
-                </tbody>
-            </table>
+            </div>
         </div>;
 
     /// <summary>
@@ -114,27 +99,20 @@
     /// </summary>
     protected virtual RenderFragment RenderCells =>
         @<div class="mud-cal-week-layer">
-            <table>
-                <colgroup>
-                    <col class="mud-cal-time-column"/>
-                </colgroup>
-                <tbody>
-                <tr>
-                    <td></td>
-                    @foreach (var cell in Cells)
-                    {
-                        @RenderCell(cell)
-                    }
-                </tr>
-                </tbody>
-            </table>
+            <div class="@GridClass">
+                <div></div>
+                @foreach (var cell in Cells)
+                {
+                    @RenderCell(cell)
+                }
+            </div>
         </div>;
 
     /// <summary>
     /// Renders an individual cell.
     /// </summary>
     protected virtual RenderFragment RenderCell(CalendarCell cell) =>
-        @<td class="mud-cal-week-cell-holder" style="border: none;">
+        @<div class="mud-cal-week-cell-holder">
             @for (var i = 0; i < CellsInDay; i++)
             {
                 var row = i;
@@ -149,7 +127,7 @@
                 </MudDropZone>
             }
             @RenderCellContents(cell)
-        </td>;
+        </div>;
 
     /// <summary>
     /// Renders the contents of a cell.
