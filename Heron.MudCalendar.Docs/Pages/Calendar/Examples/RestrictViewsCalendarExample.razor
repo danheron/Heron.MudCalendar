@@ -3,9 +3,9 @@
 <MudCalendar Style="height: 400px;" ShowDay="_showDay" ShowWeek="_showWeek" ShowMonth="_showMonth" />
 
 <MudToolBar Class="mt-4">
-    <MudSwitch @bind-checked="@_showDay" Color="Color.Primary" T="bool">Show Day View</MudSwitch>
-    <MudSwitch @bind-checked="@_showWeek" Color="Color.Primary" T="bool">Show Week View</MudSwitch>
-    <MudSwitch @bind-checked="@_showMonth" Color="Color.Primary" T="bool">Show Month View</MudSwitch>
+    <MudSwitch @bind-Value="@_showDay" Color="Color.Primary" T="bool">Show Day View</MudSwitch>
+    <MudSwitch @bind-Value="@_showWeek" Color="Color.Primary" T="bool">Show Week View</MudSwitch>
+    <MudSwitch @bind-Value="@_showMonth" Color="Color.Primary" T="bool">Show Month View</MudSwitch>
 </MudToolBar>
 
 @code {

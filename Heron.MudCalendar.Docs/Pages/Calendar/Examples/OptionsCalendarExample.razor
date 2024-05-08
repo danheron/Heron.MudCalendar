@@ -3,10 +3,10 @@
 <MudCalendar Outlined="_outlined" ShowPrevNextButtons="_prevNext" ShowDatePicker="_datePicker" ShowTodayButton="_todayButton" Color="_color" ButtonVariant="_buttonVariant" Style="height: 400px;" />
 
 <MudToolBar Class="mt-4">
-    <MudSwitch @bind-checked="@_outlined" Color="Color.Primary" T="bool">Outlined</MudSwitch>
-    <MudSwitch @bind-checked="@_prevNext" Color="Color.Primary" T="bool">Prev/Next Buttons</MudSwitch>
-    <MudSwitch @bind-checked="@_datePicker" Color="Color.Primary" T="bool">Date Picker</MudSwitch>
-    <MudSwitch @bind-checked="@_todayButton" Color="Color.Primary" T="bool">Today Button</MudSwitch>
+    <MudSwitch @bind-Value="@_outlined" Color="Color.Primary" T="bool">Outlined</MudSwitch>
+    <MudSwitch @bind-Value="@_prevNext" Color="Color.Primary" T="bool">Prev/Next Buttons</MudSwitch>
+    <MudSwitch @bind-Value="@_datePicker" Color="Color.Primary" T="bool">Date Picker</MudSwitch>
+    <MudSwitch @bind-Value="@_todayButton" Color="Color.Primary" T="bool">Today Button</MudSwitch>
     <MudSelect @bind-Value="_color" T="Color" Label="Color" Placeholder="Select Color" Class="ml-4">
         <MudSelectItem Value="Color.Primary">Primary</MudSelectItem>
         <MudSelectItem Value="Color.Secondary">Secondary</MudSelectItem>

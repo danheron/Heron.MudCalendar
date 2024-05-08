@@ -47,7 +47,7 @@
     public RenderFragment<CalendarItem> CellTemplate { get; set; } =
         calendarItem =>
             @<div class="mud-cal-cell-template">
-                <MudChip Label="true" Color="Color.Primary" Class="mud-cal-cell-template-chip">@calendarItem.Text</MudChip>
+                <MudChip T="string" Label="true" Color="Color.Primary" Class="mud-cal-cell-template-chip">@calendarItem.Text</MudChip>
             </div>;
 
     /// <summary>

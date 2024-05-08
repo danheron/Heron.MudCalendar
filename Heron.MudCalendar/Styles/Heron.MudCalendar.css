@@ -57,7 +57,7 @@
 }
 
 .mud-cal-month-grid {
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(10px, 1fr));
 }
 .mud-cal-month-grid > div {
   border-right: 1px solid var(--mud-palette-table-lines);
