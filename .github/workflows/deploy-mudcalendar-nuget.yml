@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        descrption: 'Tag to publish v[0-9]+.[0-9]+.[0-9]+*'
+        description: 'Tag to publish v[0-9]+.[0-9]+.[0-9]+*'
         required: true
         default: ''
         type: string
@@ -42,8 +42,8 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: |
-          6.0.x
           7.0.x
+          8.0.x
 
     - name: Pack nuget package
       run: dotnet pack -c Release -m:1 --output nupkgs /p:PackageVersion=${{ needs.get-version.outputs.VERSION }} /p:AssemblyVersion=${{ needs.get-version.outputs.VERSION }} /p:Version=${{ needs.get-version.outputs.VERSION }}

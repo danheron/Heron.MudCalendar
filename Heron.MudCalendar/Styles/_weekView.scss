@@ -1,15 +1,35 @@
 .mud-cal-week-view {
   height: 100%;
-  
-  table {
-    border-collapse: separate;
-    
-    * tr {
-      > td {
-        border-bottom: none;
-      }
-    }
+}
+
+.mud-cal-week-grid {
+  grid-template-columns: 60px repeat(7, 1fr);
+  > div.mud-cal-week-not-today {
+    border-right: 1px solid var(--mud-palette-table-lines);
   }
+  > div:nth-child(8n) {
+    border-right: none;
+  }
+}
+
+.mud-cal-day-grid {
+  grid-template-columns: 60px 1fr;
+  > div {
+    border-right: 1px solid var(--mud-palette-table-lines);
+  }
+  > div:nth-child(2n) {
+    border-right: none;
+  }
+}
+
+.mud-cal-week-header {
+  grid-template-columns: 60px repeat(7, 1fr);
+  border-bottom: 1px solid var(--mud-palette-table-lines);
+}
+
+.mud-cal-day-header {
+  grid-template-columns: 60px 1fr;
+  border-bottom: 1px solid var(--mud-palette-table-lines);
 }
 
 .mud-cal-week-cell {
