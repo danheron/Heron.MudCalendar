@@ -1,18 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>disable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Blazor-Analytics" Version="3.11.0" />
-		<PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
+		<PackageReference Include="Blazor-Analytics" Version="3.12.0" />
+		<PackageReference Include="BytexDigital.Blazor.Components.CookieConsent" Version="1.2.0-preview.1698872627" />
+		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
 		<PackageReference Include="Heron.MudTotalCalendar" Version="1.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.5" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.5" PrivateAssets="all" />
-		<PackageReference Include="MudBlazor" Version="6.11.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.3" PrivateAssets="all" />
+		<PackageReference Include="MudBlazor" Version="7.0.0-preview.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -26,10 +27,10 @@
 
 	<ItemGroup>
 		<Reference Include="MudBlazor.Docs">
-			<HintPath>..\..\MudBlazor\src\MudBlazor.Docs\bin\Release\net7.0\MudBlazor.Docs.dll</HintPath>
+			<HintPath>..\..\MudBlazor\src\MudBlazor.Docs\bin\Release\net8.0\MudBlazor.Docs.dll</HintPath>
 		</Reference>
 		<Reference Include="MudBlazor.Examples.Data">
-			<HintPath>..\..\MudBlazor\src\MudBlazor.Docs\bin\Release\net7.0\MudBlazor.Examples.Data.dll</HintPath>
+			<HintPath>..\..\MudBlazor\src\MudBlazor.Docs\bin\Release\net8.0\MudBlazor.Examples.Data.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 
