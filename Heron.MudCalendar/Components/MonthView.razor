@@ -25,7 +25,7 @@
              T="CalendarItem"
              Items="Calendar.Items.OrderBy(i => i.Start)"
              ItemsSelector="@((item, dropzone) => item.Start.Date.ToString("d") == dropzone)"
-             ItemIsDisabled="@((_) => !Calendar.EnableDragItems)"
+             ItemDisabled="@((_) => !Calendar.EnableDragItems)"
              ItemDropped="ItemDropped"
              CanDropClass="mud-cal-month-drop-ok"
              Class="@Classname">
