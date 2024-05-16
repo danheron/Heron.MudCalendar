@@ -22,7 +22,7 @@ public class WeekView : DayWeekViewBase
             
             cell.Items = Calendar.Items.Where(i =>
                     (i.Start.Date == date) || 
-                    (i.Start.Date <= date && i.End.HasValue && i.End.Value.Date >= date))
+                    (i.Start.Date <= date && i.End.HasValue && i.End.Value > date))
                 .OrderBy(i => i.Start)
                 .ToList();
             

@@ -282,6 +282,19 @@ public class CalendarTests : BunitTest
         event2.Attributes["style"].Should().NotBeNull();
         event2.Attributes["style"]?.Value.Should().Contain("left:33");
         event2.Attributes["style"]?.Value.Should().Contain("width:33");
+        
+        // Make sure no error thrown on the event ending at midnight when go to next day
+        comp.FindAll("button.mud-icon-button")[1].Click();
+        
+        var event16 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[0];
+        event16.Attributes["style"].Should().NotBeNull();
+        event16.Attributes["style"]?.Value.Should().Contain("left:0");
+        event16.Attributes["style"]?.Value.Should().Contain("width:100");
+        
+        var event17 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[1];
+        event17.Attributes["style"].Should().NotBeNull();
+        event17.Attributes["style"]?.Value.Should().Contain("left:0");
+        event17.Attributes["style"]?.Value.Should().Contain("width:100");
     }
 
     [Test]
