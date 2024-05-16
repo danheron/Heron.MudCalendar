@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Heron.MudCalendar.UnitTests.Viewer.TestComponents.Calendar;
 using MudBlazor;
@@ -25,7 +24,7 @@ public class CalendarTests : BunitTest
 
         var comp = cut.FindComponent<EnumSwitch<CalendarView>>();
         var buttons = comp.FindAll("button");
-        Assert.AreEqual(3, buttons.Count);
+        Assert.That(3, Is.EqualTo(buttons.Count));
         
         buttons[1].Click();
         cut.FindAll("div.mud-cal-week-view").Count.Should().Be(1);
@@ -416,8 +415,8 @@ public class CalendarTests : BunitTest
         event3.Attributes["style"]?.Value.Should().Contain("width:50");
         
         var event4 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[3];
-        event3.Attributes["style"].Should().NotBeNull();
-        event3.Attributes["style"]?.Value.Should().Contain("width:50");
+        event4.Attributes["style"].Should().NotBeNull();
+        event4.Attributes["style"]?.Value.Should().Contain("width:50");
         
         var event5 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[4];
         event5.Attributes["style"].Should().NotBeNull();
