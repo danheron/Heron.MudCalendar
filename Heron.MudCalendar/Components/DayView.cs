@@ -13,7 +13,7 @@ public class DayView : DayWeekViewBase
         
         cell.Items = Calendar.Items.Where(i =>
                 (i.Start.Date == Calendar.CurrentDay) || 
-                (i.Start.Date <= Calendar.CurrentDay && i.End.HasValue && i.End.Value.Date >= Calendar.CurrentDay))
+                (i.Start.Date <= Calendar.CurrentDay && i.End.HasValue && i.End.Value > Calendar.CurrentDay))
             .OrderBy(i => i.Start)
             .ToList();
         

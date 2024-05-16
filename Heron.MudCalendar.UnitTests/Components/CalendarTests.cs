@@ -282,6 +282,9 @@ public class CalendarTests : BunitTest
         event2.Attributes["style"].Should().NotBeNull();
         event2.Attributes["style"]?.Value.Should().Contain("left:33");
         event2.Attributes["style"]?.Value.Should().Contain("width:33");
+        
+        // Make sure no error thrown on the event ending at midnight when go to next day
+        comp.FindAll("button.mud-icon-button")[1].Click();
     }
 
     [Test]

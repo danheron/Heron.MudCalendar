@@ -301,10 +301,6 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         // Calculate the total overlapping events
         foreach (var position in positions)
         {
-            // var max = positions.Where(p => p.Item.Start < (position.Item.End ?? position.Item.Start.AddHours(1))
-            //                                && (p.Item.End ?? p.Item.Start.AddHours(1)) > position.Item.Start)
-            //     .Max(p => p.Total);
-            
             var max = positions.Where(p => p.Top < position.Bottom && p.Bottom > position.Top).Max(p => p.Total);
 
             if (max > position.Total)
@@ -312,10 +308,6 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
                 position.Total = max;
                 
                 // Need to update overlapping events
-                // var overlappingPositions = positions.Where(p =>
-                //     p.Item.Start < (position.Item.End ?? position.Item.Start.AddHours(1))
-                //     && (p.Item.End ?? p.Item.Start.AddHours(1)) > position.Item.Start);
-
                 var overlappingPositions = positions.Where(p => p.Top < position.Bottom && p.Bottom > position.Top);
                 foreach (var overlappedPosition in overlappingPositions)
                 {
