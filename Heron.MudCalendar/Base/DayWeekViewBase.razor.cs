@@ -208,7 +208,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         var percent = minutes / MinutesInDay;
         var top = PixelsInDay * percent;
 
-        return (int)top;
+        return (int)Math.Round(top);
     }
 
     private int CalcHeight(ItemPosition position)
@@ -239,7 +239,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             height = Calendar.DayItemMinHeight;
         }
 
-        return (int)height;
+        return (int)Math.Round(height);
     }
 
     private async Task ScrollToDay()
