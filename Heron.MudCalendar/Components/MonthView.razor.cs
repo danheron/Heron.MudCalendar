@@ -7,6 +7,8 @@ namespace Heron.MudCalendar;
 public partial class MonthView : CalendarViewBase
 {
     private MudDropContainer<CalendarItem>? _dropContainer;
+
+    protected virtual int Columns => 7;
     
     /// <summary>
     /// Classes added to main div of component.
@@ -18,16 +20,9 @@ public partial class MonthView : CalendarViewBase
 
     protected virtual string GridStyle =>
         new StyleBuilder()
-            .AddStyle("grid-template-rows", $"repeat({Cells.Count / 7}, {100 / (Cells.Count / 7)}%)",
+            .AddStyle("grid-template-columns", $"repeat({Columns}, minmax(10px, 1fr))")
+            .AddStyle("grid-template-rows", $"repeat({Cells.Count / Columns}, {100 / (Cells.Count / Columns)}%)",
                 Calendar.MonthCellMinHeight == 0)
-            .Build();
-
-    /// <summary>
-    /// Styles added to each row of the component.
-    /// </summary>
-    protected virtual string RowStyle =>
-        new StyleBuilder()
-            .AddStyle("min-height", Calendar.MonthCellMinHeight + "px", Calendar.MonthCellMinHeight > 0)
             .Build();
 
     protected virtual string CellStyle =>
@@ -61,10 +56,12 @@ public partial class MonthView : CalendarViewBase
     /// Styles added to each cell.
     /// </summary>
     /// <param name="calendarCell">The cell.</param>
+    /// <param name="index">The cell index.</param>
     /// <returns></returns>
-    protected virtual string DayStyle(CalendarCell calendarCell)
+    protected virtual string DayStyle(CalendarCell calendarCell, int index)
     {
         return new StyleBuilder()
+            .AddStyle("border-right", "none", (index + 1) % Columns == 0 && !(calendarCell.Today && Calendar.HighlightToday))
             .AddStyle("border", $"1px solid var(--mud-palette-{Calendar.Color.ToDescriptionString()})", 
                 calendarCell.Today && Calendar.HighlightToday)
             .AddStyle("min-height", Calendar.MonthCellMinHeight + "px", Calendar.MonthCellMinHeight > 0)

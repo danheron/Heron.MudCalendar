@@ -1,10 +1,9 @@
-using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace Heron.MudCalendar.Services;
 
-internal class JsService : IAsyncDisposable
+public class JsService : IAsyncDisposable
 {
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
 
