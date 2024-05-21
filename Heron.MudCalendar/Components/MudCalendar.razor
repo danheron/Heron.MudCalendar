@@ -28,6 +28,9 @@
                             case CalendarView.Week:
                                 @RenderWeekView
                                 break;
+                            case CalendarView.WorkWeek:
+                                @RenderWorkWeekView
+                                break;
                             case CalendarView.Month:
                             default:
                                 @RenderMonthView
@@ -63,7 +66,7 @@
                 }
                 @if (ShowDatePicker)
                 {
-                    <CalendarDatePicker @ref="_datePicker" Date="PickerDate" DateChanged="DatePickerDateChanged" @bind-View="View" Variant="ButtonVariant" Color="Color" Class="mx-1" PickerOpened="OnDatePickerOpened"/>
+                    <CalendarDatePicker @ref="_datePicker" Date="PickerDate" DateChanged="DatePickerDateChanged" @bind-View="View" @bind-FirstDayOfWeek="FirstDayOfWeek" Variant="ButtonVariant" Color="Color" Class="mx-1" PickerOpened="OnDatePickerOpened"/>
                 }
                 @if (ShowTodayButton)
                 {
@@ -86,6 +89,13 @@
     /// </summary>
     protected virtual RenderFragment RenderWeekView =>
         @<WeekView />;
+
+
+    /// <summary>
+    /// Renders the work week view.
+    /// </summary>
+    protected virtual RenderFragment RenderWorkWeekView =>
+        @<WorkWeekView />;
 
     /// <summary>
     /// Renders the day view.

@@ -37,6 +37,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         new CssBuilder("mud-cal-grid")
             .AddClass("mud-cal-grid-header")
             .AddClass("mud-cal-week-header", DaysInView == 7)
+            .AddClass("mud-cal-work-week-header", DaysInView == 5)
             .AddClass("mud-cal-day-header", DaysInView == 1)
             .Build();
 
@@ -46,6 +47,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
     protected virtual string GridClass =>
         new CssBuilder("mud-cal-grid")
             .AddClass("mud-cal-week-grid", DaysInView == 7)
+            .AddClass("mud-cal-work-week-grid", DaysInView == 5)
             .AddClass("mud-cal-day-grid", DaysInView == 1)
             .Build();
 

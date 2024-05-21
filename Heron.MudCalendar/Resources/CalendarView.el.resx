@@ -8,4 +8,7 @@
     <data name="Week" xml:space="preserve">
         <value>Εβδομάδα</value>
     </data>
+    <data name="WorkWeek" xml:space="preserve">
+        <value>Εργάσιμη εβδομάδα</value>
+    </data>
 </root>

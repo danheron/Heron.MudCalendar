@@ -1,10 +1,10 @@
-<MudPopoverProvider></MudPopoverProvider>
+@namespace Heron.MudCalendar.Docs.Examples
 
-<MudCalendar Items="_events" Height="500" ShowTodayButton="true" ShowWorkWeek="true" />
+<MudCalendar Items="_events" FirstDayOfWeek="_firstDayOfWeek" ShowMonth="false" ShowDay="false" ShowWorkWeek />
 
 @code {
-    public static string __description__ = "Basic Calendar Tests";
-    
+    private DayOfWeek _firstDayOfWeek = DayOfWeek.Tuesday;
+
     private List<CalendarItem> _events = new()
     {
         new CalendarItem
