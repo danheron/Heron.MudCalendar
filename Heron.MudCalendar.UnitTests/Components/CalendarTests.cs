@@ -151,7 +151,7 @@ public class CalendarTests : BunitTest
         comp.SetParam(x => x.View, CalendarView.Week);
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 13));
         comp.Find("div.mud-cal-week-layer a").Click();
-        textField.Instance.Text.Should().Be("8");
+        textField.Instance.Text.Should().Be("9");
         
         // Day View
         comp.SetParam(x => x.View, CalendarView.Day);
@@ -348,12 +348,12 @@ public class CalendarTests : BunitTest
 
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 2, 1));
         comp.SetParam(x => x.View, CalendarView.WorkWeek);
+        comp.FindAll("div.mud-cal-week-layer div:nth-child(4) div.mud-cal-cell-template").Count.Should().Be(1);
         comp.FindAll("div.mud-cal-week-layer div:nth-child(5) div.mud-cal-cell-template").Count.Should().Be(1);
-        comp.FindAll("div.mud-cal-week-layer div:nth-child(6) div.mud-cal-cell-template").Count.Should().Be(1);
 
         comp.SetParam(x => x.EnableDragItems, true);
+        comp.FindAll("div.mud-cal-week-layer div:nth-child(4) div.mud-cal-cell-template").Count.Should().Be(1);
         comp.FindAll("div.mud-cal-week-layer div:nth-child(5) div.mud-cal-cell-template").Count.Should().Be(1);
-        comp.FindAll("div.mud-cal-week-layer div:nth-child(6) div.mud-cal-cell-template").Count.Should().Be(1);
     }
 
     [Test]
@@ -364,12 +364,12 @@ public class CalendarTests : BunitTest
         
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 2, 1));
         comp.SetParam(x => x.View, CalendarView.Week);
+        comp.FindAll("div.mud-cal-week-layer div:nth-child(4) div.mud-cal-cell-template").Count.Should().Be(1);
         comp.FindAll("div.mud-cal-week-layer div:nth-child(5) div.mud-cal-cell-template").Count.Should().Be(1);
-        comp.FindAll("div.mud-cal-week-layer div:nth-child(6) div.mud-cal-cell-template").Count.Should().Be(1);
         
         comp.SetParam(x => x.EnableDragItems, true);
+        comp.FindAll("div.mud-cal-week-layer div:nth-child(4) div.mud-cal-cell-template").Count.Should().Be(1);
         comp.FindAll("div.mud-cal-week-layer div:nth-child(5) div.mud-cal-cell-template").Count.Should().Be(1);
-        comp.FindAll("div.mud-cal-week-layer div:nth-child(6) div.mud-cal-cell-template").Count.Should().Be(1);
     }
     
     [Test]

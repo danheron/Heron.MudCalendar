@@ -94,19 +94,12 @@ public class CalendarDateRange : DateRange
     public static int GetDayOfWeek(DateTime date, DayOfWeek? firstDayOfWeek = null)
     {
         // Get day as integer - first day of week = 0 .. last day = 6
-        var firstDay = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+        var firstDay = firstDayOfWeek ?? CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
         var day = (int)date.DayOfWeek;
         day -= (int)firstDay;
         if (day < 0)
         {
             day = 7 + day;
-        }
-
-        if (firstDayOfWeek != null)
-        {
-            return firstDay == 0
-                ? day - (int)firstDayOfWeek 
-                : day - (int)firstDayOfWeek + 1;
         }
 
         return day;

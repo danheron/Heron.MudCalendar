@@ -74,7 +74,7 @@ public partial class MudCalendar : MudComponentBase
     /// </summary>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
-    public DayOfWeek FirstDayOfWeek { get; set; }
+    public DayOfWeek? FirstDayOfWeek { get; set; } = null;
 
     /// <summary>
     /// Gets or sets the view (day, week, month) being shown.
