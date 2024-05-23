@@ -4,5 +4,6 @@ public enum CalendarView
 {
     Month,
     Week,
-    Day
+    WorkWeek,
+    Day,
 }

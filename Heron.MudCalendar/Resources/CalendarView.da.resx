@@ -8,4 +8,7 @@
     <data name="Week" xml:space="preserve">
         <value>Uge</value>
     </data>
+    <data name="WorkWeek" xml:space="preserve">
+        <value>Arbejdsuge</value>
+    </data>
 </root>

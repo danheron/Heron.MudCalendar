@@ -28,6 +28,9 @@
                             case CalendarView.Week:
                                 @RenderWeekView
                                 break;
+                            case CalendarView.WorkWeek:
+                                @RenderWorkWeekView
+                                break;
                             case CalendarView.Month:
                             default:
                                 @RenderMonthView
@@ -86,6 +89,13 @@
     /// </summary>
     protected virtual RenderFragment RenderWeekView =>
         @<WeekView />;
+
+
+    /// <summary>
+    /// Renders the work week view.
+    /// </summary>
+    protected virtual RenderFragment RenderWorkWeekView =>
+        @<WorkWeekView />;
 
     /// <summary>
     /// Renders the day view.

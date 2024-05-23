@@ -9,16 +9,16 @@ public class CalendarDateRange : DateRange
 
     private readonly DateTime _currentDay;
 
-    public CalendarDateRange(DateTime currentDay, CalendarView view)
+    public CalendarDateRange(DateTime currentDay, CalendarView view, DayOfWeek? firstDayOfWeek = null)
     {
         _currentDay = currentDay;
         View = view;
         
-        SetStart();
-        SetEnd();
+        SetStart(firstDayOfWeek);
+        SetEnd(firstDayOfWeek);
     }
 
-    private void SetStart()
+    private void SetStart(DayOfWeek? firstDayOfWeek)
     {
         switch (View)
         {
@@ -26,7 +26,8 @@ public class CalendarDateRange : DateRange
                 Start = _currentDay.Date;
                 break;
             case CalendarView.Week:
-                Start = GetFirstWeekDate(_currentDay);
+            case CalendarView.WorkWeek:
+                Start = GetFirstWeekDate(_currentDay, firstDayOfWeek);
                 break;
             case CalendarView.Month:
             default:
@@ -35,7 +36,7 @@ public class CalendarDateRange : DateRange
         }
     }
 
-    private void SetEnd()
+    private void SetEnd(DayOfWeek? firstDayOfWeek)
     {
         switch (View)
         {
@@ -43,7 +44,10 @@ public class CalendarDateRange : DateRange
                 End = _currentDay.Date;
                 break;
             case CalendarView.Week:
-                End = GetLastWeekDate(_currentDay);
+                End = GetLastWeekDate(_currentDay, firstDayOfWeek);
+                break;
+            case CalendarView.WorkWeek:
+                End = GetLastWorkWeekDate(_currentDay, firstDayOfWeek);
                 break;
             case CalendarView.Month:
             default:
@@ -69,22 +73,28 @@ public class CalendarDateRange : DateRange
         return date;
     }
 
-    public static DateTime GetFirstWeekDate(DateTime day)
+    public static DateTime GetFirstWeekDate(DateTime day, DayOfWeek? firstDayOfWeek)
     {
         // Get first day of the week
-        return day.AddDays(GetDayOfWeek(day) * -1);
+        return day.AddDays(GetDayOfWeek(day, firstDayOfWeek) * -1);
     }
 
-    public static DateTime GetLastWeekDate(DateTime day)
+    public static DateTime GetLastWeekDate(DateTime day, DayOfWeek? firstDayOfWeek)
     {
         // Get last day of the week
-        return day.AddDays(6 - GetDayOfWeek(day));
+        return day.AddDays(6 - GetDayOfWeek(day, firstDayOfWeek));
     }
 
-    public static int GetDayOfWeek(DateTime date)
+    public static DateTime GetLastWorkWeekDate(DateTime day, DayOfWeek? firstDayOfWeek)
+    {
+        // Get last day of the work week
+        return day.AddDays(4 - GetDayOfWeek(day, firstDayOfWeek));
+    }
+
+    public static int GetDayOfWeek(DateTime date, DayOfWeek? firstDayOfWeek = null)
     {
         // Get day as integer - first day of week = 0 .. last day = 6
-        var firstDay = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+        var firstDay = firstDayOfWeek ?? CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
         var day = (int)date.DayOfWeek;
         day -= (int)firstDay;
         if (day < 0)

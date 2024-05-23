@@ -137,6 +137,16 @@
   border-right: none;
 }
 
+.mud-cal-work-week-grid {
+  grid-template-columns: 60px repeat(5, 1fr);
+}
+.mud-cal-work-week-grid > div.mud-cal-week-not-today {
+  border-right: 1px solid var(--mud-palette-table-lines);
+}
+.mud-cal-work-week-grid > div:nth-child(6n) {
+  border-right: none;
+}
+
 .mud-cal-day-grid {
   grid-template-columns: 60px 1fr;
 }
@@ -145,6 +155,11 @@
 }
 .mud-cal-day-grid > div:nth-child(2n) {
   border-right: none;
+}
+
+.mud-cal-work-week-header {
+  grid-template-columns: 60px repeat(5, 1fr);
+  border-bottom: 1px solid var(--mud-palette-table-lines);
 }
 
 .mud-cal-week-header {

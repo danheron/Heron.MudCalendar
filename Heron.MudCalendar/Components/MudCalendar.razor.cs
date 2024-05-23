@@ -68,7 +68,14 @@ public partial class MudCalendar : MudComponentBase
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public DateTime CurrentDay { get; set; }
-    
+
+    /// <summary>
+    /// Gets or sets the first day of the week that the calendar is showing in Week View or Work Week View.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public DayOfWeek? FirstDayOfWeek { get; set; } = null;
+
     /// <summary>
     /// Gets or sets the view (day, week, month) being shown.
     /// </summary>
@@ -96,6 +103,13 @@ public partial class MudCalendar : MudComponentBase
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowWeek { get; set; } = true;
+
+    /// <summary>
+    /// If false the work week view is not shown.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public bool ShowWorkWeek { get; set; } = false;
 
     /// <summary>
     /// If false the month view is not shown.
@@ -300,10 +314,12 @@ public partial class MudCalendar : MudComponentBase
         // Ensure that current view is allowed
         if ((View == CalendarView.Day && !ShowDay)
             || (View == CalendarView.Week && !ShowWeek)
+            || (View == CalendarView.WorkWeek && !ShowWorkWeek)
             || (View == CalendarView.Month && !ShowMonth))
         {
             if (ShowMonth) View = CalendarView.Month;
             if (ShowWeek) View = CalendarView.Week;
+            if (ShowWorkWeek) View = CalendarView.WorkWeek;
             if (ShowDay) View = CalendarView.Day;
         }
     }
@@ -352,6 +368,7 @@ public partial class MudCalendar : MudComponentBase
         {
             CalendarView.Day => CurrentDay.AddDays(1),
             CalendarView.Week => CurrentDay.AddDays(7),
+            CalendarView.WorkWeek => CurrentDay.AddDays(5),
             CalendarView.Month => CurrentDay.AddMonths(1),
             _ => CurrentDay
         };
@@ -371,6 +388,7 @@ public partial class MudCalendar : MudComponentBase
         {
             CalendarView.Day => CurrentDay.AddDays(-1),
             CalendarView.Week => CurrentDay.AddDays(-7),
+            CalendarView.WorkWeek => CurrentDay.AddDays(-5),
             CalendarView.Month => CurrentDay.AddMonths(-1),
             _ => CurrentDay
         };
@@ -428,7 +446,7 @@ public partial class MudCalendar : MudComponentBase
         
         if (dateChanged) await CurrentDayChanged.InvokeAsync(CurrentDay);
         
-        await ChangeDateRange(new CalendarDateRange(dateTime ?? DateTime.Today, View));
+        await ChangeDateRange(new CalendarDateRange(dateTime ?? DateTime.Today, View, FirstDayOfWeek));
     }
 
     private void OnDatePickerOpened()
@@ -438,7 +456,7 @@ public partial class MudCalendar : MudComponentBase
 
     private async Task ChangeDateRange()
     {
-        await ChangeDateRange(new CalendarDateRange(CurrentDay, View));
+        await ChangeDateRange(new CalendarDateRange(CurrentDay, View, FirstDayOfWeek));
     }
 
     private async Task ChangeDateRange(CalendarDateRange dateRange)
@@ -455,6 +473,7 @@ public partial class MudCalendar : MudComponentBase
         var list = new List<CalendarView>();
         if (ShowDay) list.Add(CalendarView.Day);
         if (ShowWeek) list.Add(CalendarView.Week);
+        if (ShowWorkWeek) list.Add(CalendarView.WorkWeek);
         if (ShowMonth) list.Add(CalendarView.Month);
         return list;
     }
