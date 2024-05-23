@@ -20,7 +20,7 @@ public partial class CalendarDatePicker
                 case CalendarView.Week:
                 case CalendarView.WorkWeek:
                     if (!Date.HasValue) return null;
-                    var range = new CalendarDateRange(Date.Value, View, FirstDayOfWeek);
+                    var range = new CalendarDateRange(Date.Value, View);
                     return range.End != null && range.Start != null && range.Start.Value.Month == range.End.Value.Month ? 
                         $"{range.Start:dd} - {range.End:dd} {range.End.Value:MMM yyyy}" : 
                         $"{range.Start:dd} {range.Start:MMM} - {range.End:dd} {range.End?.ToString("MMM yyyy")}";

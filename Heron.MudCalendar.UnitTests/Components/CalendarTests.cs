@@ -64,7 +64,7 @@ public class CalendarTests : BunitTest
     {
         var cut = Context.RenderComponent<CalendarTest>();
         var comp = cut.FindComponent<MudCalendar>();
-        comp.SetParam(x => x.FirstDayOfWeek, DayOfWeek.Monday);
+        comp.SetParam(x => x.FirstDayOfWeek!, DayOfWeek.Monday);
 
         // Month View
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
@@ -98,7 +98,7 @@ public class CalendarTests : BunitTest
     {
         var cut = Context.RenderComponent<CalendarTest>();
         var comp = cut.FindComponent<MudCalendar>();
-        comp.SetParam(x => x.FirstDayOfWeek, DayOfWeek.Monday);
+        comp.SetParam(x => x.FirstDayOfWeek!, DayOfWeek.Monday);
 
         // Month View
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
