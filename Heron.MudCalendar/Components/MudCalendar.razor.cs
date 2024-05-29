@@ -216,6 +216,13 @@ public partial class MudCalendar : MudComponentBase
     [Category(CategoryTypes.Calendar.Template)]
     [Parameter]
     public RenderFragment<CalendarItem>? DayTemplate { get; set; }
+    
+    /// <summary>
+    /// Custom content to appear in the toolbar of the component.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public RenderFragment? ToolbarContent { get; set; }
 
     /// <summary>
     /// The data to display in the Calendar.
