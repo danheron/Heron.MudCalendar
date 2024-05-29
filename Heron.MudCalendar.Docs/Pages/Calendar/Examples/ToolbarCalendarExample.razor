@@ -1,0 +1,19 @@
+@namespace Heron.MudCalendar.Docs.Examples
+
+<MudCalendar>
+    <ToolbarContent>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" Class="mx-1" OnClick="MyButtonClick">My Button</MudButton>
+    </ToolbarContent>
+</MudCalendar>
+
+@code {
+    
+    [Inject]
+    private IDialogService DialogService { get; set; }
+
+    private Task MyButtonClick()
+    {
+        return DialogService.ShowMessageBox("My Button", "Click");
+    }
+    
+}

@@ -72,6 +72,10 @@
                 {
                     <MudButton Variant="@ButtonVariant" Color="@Color" OnClick="OnTodayClicked" Class="mx-1">@DrawTodayText()</MudButton>
                 }
+                @if (ToolbarContent != null)
+                {
+                    @ToolbarContent
+                }
             </div>
             <div>
                 <EnumSwitch Value="@View" T="CalendarView" Color="@Color" AllowedValues="AllowedViews()" ValueChanged="OnViewChanging"/>
