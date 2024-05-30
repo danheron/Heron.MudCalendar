@@ -7,7 +7,7 @@ using EnumExtensions = Heron.MudCalendar.Extensions.EnumExtensions;
 
 namespace Heron.MudCalendar;
 
-public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposable
+public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
 {
     private ElementReference _scrollDiv;
     private JsService? _jsService;
@@ -364,13 +364,10 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         public int Bottom => Top + Height;
     }
 
-    public async ValueTask DisposeAsync()
+    public void Dispose()
     {
         GC.SuppressFinalize(this);
 
-        if (_jsService != null)
-        {
-            await _jsService.DisposeAsync();
-        }
+        _jsService?.Dispose();
     }
 }
