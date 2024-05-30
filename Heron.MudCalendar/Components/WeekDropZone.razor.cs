@@ -4,7 +4,7 @@ using MudBlazor.Utilities;
 
 namespace Heron.MudCalendar;
 
-public partial class WeekDropZone : IAsyncDisposable
+public partial class WeekDropZone : IDisposable
 {
     [CascadingParameter]
     public MudCalendar Calendar { get; set; } = new();
@@ -38,13 +38,10 @@ public partial class WeekDropZone : IAsyncDisposable
         }
     }
 
-    public async ValueTask DisposeAsync()
+    public void Dispose()
     {
         GC.SuppressFinalize(this);
-        
-        if (_jsService != null)
-        {
-            await _jsService.DisposeAsync();
-        }
+
+        _jsService?.Dispose();
     }
 }
