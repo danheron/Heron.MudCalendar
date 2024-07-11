@@ -21,16 +21,16 @@
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="FluentAssertions" Version="6.12.0" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
 		<PackageReference Include="coverlet.collector" Version="6.0.2">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="ReportGenerator" Version="5.2.4" />
+		<PackageReference Include="ReportGenerator" Version="5.3.7" />
 	</ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="MudBlazor" Version="7.0.0-preview.3" />
+		<PackageReference Include="MudBlazor" Version="7.0.0" />
 		<PackageReference Include="NUnit" Version="4.1.0" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
 	</ItemGroup>
