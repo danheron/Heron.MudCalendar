@@ -7,7 +7,7 @@ using EnumExtensions = Heron.MudCalendar.Extensions.EnumExtensions;
 
 namespace Heron.MudCalendar;
 
-public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposable
+public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
 {
     private ElementReference _scrollDiv;
     private JsService? _jsService;
@@ -37,6 +37,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         new CssBuilder("mud-cal-grid")
             .AddClass("mud-cal-grid-header")
             .AddClass("mud-cal-week-header", DaysInView == 7)
+            .AddClass("mud-cal-work-week-header", DaysInView == 5)
             .AddClass("mud-cal-day-header", DaysInView == 1)
             .Build();
 
@@ -46,6 +47,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
     protected virtual string GridClass =>
         new CssBuilder("mud-cal-grid")
             .AddClass("mud-cal-week-grid", DaysInView == 7)
+            .AddClass("mud-cal-work-week-grid", DaysInView == 5)
             .AddClass("mud-cal-day-grid", DaysInView == 1)
             .Build();
 
@@ -208,7 +210,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         var percent = minutes / MinutesInDay;
         var top = PixelsInDay * percent;
 
-        return (int)top;
+        return (int)Math.Round(top);
     }
 
     private int CalcHeight(ItemPosition position)
@@ -239,7 +241,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
             height = Calendar.DayItemMinHeight;
         }
 
-        return (int)height;
+        return (int)Math.Round(height);
     }
 
     private async Task ScrollToDay()
@@ -301,10 +303,6 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         // Calculate the total overlapping events
         foreach (var position in positions)
         {
-            // var max = positions.Where(p => p.Item.Start < (position.Item.End ?? position.Item.Start.AddHours(1))
-            //                                && (p.Item.End ?? p.Item.Start.AddHours(1)) > position.Item.Start)
-            //     .Max(p => p.Total);
-            
             var max = positions.Where(p => p.Top < position.Bottom && p.Bottom > position.Top).Max(p => p.Total);
 
             if (max > position.Total)
@@ -312,10 +310,6 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
                 position.Total = max;
                 
                 // Need to update overlapping events
-                // var overlappingPositions = positions.Where(p =>
-                //     p.Item.Start < (position.Item.End ?? position.Item.Start.AddHours(1))
-                //     && (p.Item.End ?? p.Item.Start.AddHours(1)) > position.Item.Start);
-
                 var overlappingPositions = positions.Where(p => p.Top < position.Bottom && p.Bottom > position.Top);
                 foreach (var overlappedPosition in overlappingPositions)
                 {
@@ -370,13 +364,10 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IAsyncDisposab
         public int Bottom => Top + Height;
     }
 
-    public async ValueTask DisposeAsync()
+    public void Dispose()
     {
         GC.SuppressFinalize(this);
 
-        if (_jsService != null)
-        {
-            await _jsService.DisposeAsync();
-        }
+        _jsService?.Dispose();
     }
 }

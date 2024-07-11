@@ -1,4 +1,5 @@
 .mud-calendar {
+  --mud-cal-cell-hover: color-mix(in srgb, var(--mud-palette-surface) 90%, black);
   color: var(--mud-palette-text-primary);
   background-color: var(--mud-palette-surface);
   border-radius: var(--mud-default-borderradius);

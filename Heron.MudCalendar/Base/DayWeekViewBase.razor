@@ -24,7 +24,7 @@
                                     T="CalendarItem"
                                     Items="Calendar.Items"
                                     ItemsSelector="@((item, dropzone) => item.Id == dropzone)"
-                                    ItemIsDisabled="@((_) => !Calendar.EnableDragItems)"
+                                    ItemDisabled="@((_) => !Calendar.EnableDragItems)"
                                     ItemDropped="ItemDropped"
                                     CanDropClass="mud-cal-week-drop-ok">
                                     <ChildContent>
@@ -123,7 +123,6 @@
                             <div class="mud-cal-week-link"></div>
                         </MudLink>
                     }
-                    &nbsp;
                 </MudDropZone>
             }
             @RenderCellContents(cell)

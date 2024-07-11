@@ -1,10 +1,11 @@
 @namespace Heron.MudCalendar.Docs.Examples
 
-<MudCalendar Style="height: 400px;" ShowDay="_showDay" ShowWeek="_showWeek" ShowMonth="_showMonth" />
+<MudCalendar Style="height: 400px;" ShowDay="_showDay" ShowWeek="_showWeek" ShowMonth="_showMonth" ShowWorkWeek="_showWorkWeek" />
 
 <MudToolBar Class="mt-4">
     <MudSwitch @bind-Value="@_showDay" Color="Color.Primary" T="bool">Show Day View</MudSwitch>
     <MudSwitch @bind-Value="@_showWeek" Color="Color.Primary" T="bool">Show Week View</MudSwitch>
+    <MudSwitch @bind-Value="@_showWorkWeek" Color="Color.Primary" T="bool">Show Work Week View</MudSwitch>
     <MudSwitch @bind-Value="@_showMonth" Color="Color.Primary" T="bool">Show Month View</MudSwitch>
 </MudToolBar>
 
@@ -12,4 +13,5 @@
     private bool _showDay = true;
     private bool _showWeek = true;
     private bool _showMonth = true;
+    private bool _showWorkWeek = true;
 }

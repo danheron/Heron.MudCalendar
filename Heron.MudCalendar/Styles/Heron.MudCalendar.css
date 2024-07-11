@@ -1,4 +1,5 @@
 ﻿.mud-calendar {
+  --mud-cal-cell-hover: color-mix(in srgb, var(--mud-palette-surface) 90%, black);
   color: var(--mud-palette-text-primary);
   background-color: var(--mud-palette-surface);
   border-radius: var(--mud-default-borderradius);
@@ -41,30 +42,17 @@
   justify-content: space-between;
 }
 
-:root {
-  --mud-cal-cell-hover: color-mix(in srgb, var(--mud-palette-surface) 90%, black);
-}
-
 .mud-cal-month-view {
   height: 100%;
 }
 
-.mud-cal-month-grid-header {
-  grid-template-columns: repeat(7, 1fr);
-}
 .mud-cal-month-grid-header .mud-cal-month-header {
   border-right: none;
 }
 
-.mud-cal-month-grid {
-  grid-template-columns: repeat(7, minmax(10px, 1fr));
-}
 .mud-cal-month-grid > div {
   border-right: 1px solid var(--mud-palette-table-lines);
   border-top: 1px solid var(--mud-palette-table-lines);
-}
-.mud-cal-month-grid > div:nth-child(7n) {
-  border-right: none;
 }
 
 .mud-cal-month-fixed-height .mud-cal-month-cell {
@@ -74,6 +62,9 @@
 .mud-cal-month-cell {
   height: 100%;
   width: 100%;
+}
+.mud-cal-month-cell .mud-drop-item.disabled {
+  cursor: inherit;
 }
 
 .mud-cal-month-cell-title {
@@ -146,6 +137,16 @@
   border-right: none;
 }
 
+.mud-cal-work-week-grid {
+  grid-template-columns: 60px repeat(5, 1fr);
+}
+.mud-cal-work-week-grid > div.mud-cal-week-not-today {
+  border-right: 1px solid var(--mud-palette-table-lines);
+}
+.mud-cal-work-week-grid > div:nth-child(6n) {
+  border-right: none;
+}
+
 .mud-cal-day-grid {
   grid-template-columns: 60px 1fr;
 }
@@ -154,6 +155,11 @@
 }
 .mud-cal-day-grid > div:nth-child(2n) {
   border-right: none;
+}
+
+.mud-cal-work-week-header {
+  grid-template-columns: 60px repeat(5, 1fr);
+  border-bottom: 1px solid var(--mud-palette-table-lines);
 }
 
 .mud-cal-week-header {

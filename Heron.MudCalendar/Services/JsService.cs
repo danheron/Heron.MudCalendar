@@ -1,10 +1,9 @@
-using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace Heron.MudCalendar.Services;
 
-internal class JsService : IAsyncDisposable
+public class JsService : IDisposable
 {
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
 
@@ -38,14 +37,13 @@ internal class JsService : IAsyncDisposable
         await module.InvokeVoidAsync("addDragHandler", id);
     }
     
-    public async ValueTask DisposeAsync()
+    public void Dispose()
     {
         GC.SuppressFinalize(this);
         
         if (_moduleTask.IsValueCreated)
         {
-            var module = await _moduleTask.Value;
-            await module.DisposeAsync();
+            _moduleTask.Value.Dispose();
         }
     }
 }

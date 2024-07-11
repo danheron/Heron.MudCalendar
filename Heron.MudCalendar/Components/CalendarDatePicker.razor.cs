@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
 
 namespace Heron.MudCalendar;
 
@@ -7,7 +6,7 @@ public partial class CalendarDatePicker
 {
     [Parameter]
     public CalendarView View { get; set; }
-
+    
     protected virtual string? DateRangeText
     {
         get
@@ -18,6 +17,7 @@ public partial class CalendarDatePicker
                     return Date?.ToString("dd MMM yyyy");
 
                 case CalendarView.Week:
+                case CalendarView.WorkWeek:
                     if (!Date.HasValue) return null;
                     var range = new CalendarDateRange(Date.Value, View);
                     return range.End != null && range.Start != null && range.Start.Value.Month == range.End.Value.Month ? 

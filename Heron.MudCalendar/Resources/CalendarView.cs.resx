@@ -8,4 +8,7 @@
     <data name="Week" xml:space="preserve">
         <value>Týden</value>
     </data>
+    <data name="WorkWeek" xml:space="preserve">
+        <value>Pracovní týden</value>
+    </data>
 </root>

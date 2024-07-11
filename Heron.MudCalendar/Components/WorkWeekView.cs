@@ -2,14 +2,14 @@ using Microsoft.AspNetCore.Components;
 
 namespace Heron.MudCalendar;
 
-public class WeekView : DayWeekViewBase
+public class WorkWeekView : DayWeekViewBase
 {
-    protected override int DaysInView => 7;
+    protected override int DaysInView => 5;
     
     protected override List<CalendarCell> BuildCells()
     {
         var cells = new List<CalendarCell>();
-        var range = new CalendarDateRange(Calendar.CurrentDay, CalendarView.Week, Calendar.FirstDayOfWeek);
+        var range = new CalendarDateRange(Calendar.CurrentDay, CalendarView.WorkWeek, Calendar.FirstDayOfWeek);
         
         if (range.Start == null || range.End == null) return cells;
         
