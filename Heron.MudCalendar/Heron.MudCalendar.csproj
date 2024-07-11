@@ -157,6 +157,9 @@
         <EmbeddedResource Update="Resources\CalendarView.uk.resx">
             <LastGenOutput>CalendarView.uk.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+		<EmbeddedResource Update="Resources\CalendarView.hr.resx">
+			<LastGenOutput>CalendarView.hr.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
     </ItemGroup>
 
     <Target Name="ToolRestore">
