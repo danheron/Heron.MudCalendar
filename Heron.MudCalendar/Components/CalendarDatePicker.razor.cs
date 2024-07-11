@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
 
 namespace Heron.MudCalendar;
 
@@ -7,7 +6,7 @@ public partial class CalendarDatePicker
 {
     [Parameter]
     public CalendarView View { get; set; }
-
+    
     protected virtual string? DateRangeText
     {
         get
