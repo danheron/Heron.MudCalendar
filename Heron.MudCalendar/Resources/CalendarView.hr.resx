@@ -1,0 +1,14 @@
+<root>
+    <data name="Day" xml:space="preserve">
+        <value>Dan</value>
+    </data>
+    <data name="Month" xml:space="preserve">
+        <value>Mjesec</value>
+    </data>
+    <data name="Week" xml:space="preserve">
+        <value>Tjedan</value>
+    </data>
+    <data name="WorkWeek" xml:space="preserve">
+        <value>Radni tjedan</value>
+    </data>
+</root>
