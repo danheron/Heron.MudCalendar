@@ -11,25 +11,37 @@ using CategoryTypes = Heron.MudCalendar.Attributes.CategoryTypes;
 
 namespace Heron.MudCalendar;
 
+/// <summary>
+///  Calendar component for MudBlazor.
+/// </summary>
 public partial class MudCalendar : MudComponentBase
 {
     /// <summary>
-    /// The higher the number, the heavier the drop-shadow. 0 for no shadow.
+    /// The size of the drop shadow.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>1</c>.  A higher number creates a heavier drop shadow.  Use a value of <c>0</c> for no shadow.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public int Elevation { get; set; } = 1;
     
     /// <summary>
-    /// If true, border-radius is set to 0.
+    /// Disables rounded corners.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>false</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public bool Square { get; set; }
     
     /// <summary>
-    /// If true, table will be outlined.
+    /// Shows an outline around the calendar.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>false</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public bool Outlined { get; set; }
@@ -37,6 +49,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// The color of the buttons and other items.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>Color.Primary</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public Color Color { get; set; } = Color.Primary;
@@ -44,6 +59,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// The variant to use for buttons.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>Variant.Filled</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public Variant ButtonVariant { get; set; } = Variant.Filled;
@@ -51,13 +69,19 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// The height of the calendar component.
     /// </summary>
+    /// /// <remarks>
+    /// Defaults to <c>700</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public int Height { get; set; } = 700;
 
     /// <summary>
-    /// If 0 the calendar will be fixed height. If set the month view will exapnd when necessary with this being the minimum height of each cell.
+    /// Gets or sets the minimum height of a cell.
     /// </summary>
+    /// /// <remarks>
+    /// Defaults to <c>0</c>. If 0 the calendar will be fixed height. If set the month view will expand when necessary with this being the minimum height of each cell.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public int MonthCellMinHeight { get; set; }
@@ -65,6 +89,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// Gets or sets the day that the calendar is showing.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>Today</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public DateTime CurrentDay { get; set; }
@@ -72,6 +99,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// Gets or sets the first day of the week that the calendar is showing in Week View or Work Week View.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public DayOfWeek? FirstDayOfWeek { get; set; } = null;
@@ -79,6 +109,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// Gets or sets the view (day, week, month) being shown.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>CalendarView.Month</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public CalendarView View { get; set; } = CalendarView.Month;
@@ -86,6 +119,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// If true highlights today.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>true</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool HighlightToday { get; set; } = true;
@@ -93,6 +129,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// If false the day view is not shown.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>true</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowDay { get; set; } = true;
@@ -100,6 +139,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// If false the week view is not shown.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>true</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowWeek { get; set; } = true;
@@ -107,6 +149,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// If false the work week view is not shown.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>false</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowWorkWeek { get; set; } = false;
@@ -114,6 +159,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// If false the month view is not shown.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>true</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowMonth { get; set; } = true;
@@ -121,6 +169,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// If false then the prev/next buttons are not shown.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>true</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowPrevNextButtons { get; set; } = true;
@@ -128,6 +179,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// If false the the Datepicker is not shown.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>true</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowDatePicker { get; set; } = true;
@@ -135,6 +189,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// If true the Today button is shown.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>false</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowTodayButton { get; set; }
@@ -142,6 +199,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// Set the day start time for week/day views.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>08:00</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public TimeOnly DayStartTime { get; set; } = new(8, 0);
@@ -149,6 +209,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// Set the time interval of cells in day and week view.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>CalendarTimeInterval.Minutes30</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public CalendarTimeInterval DayTimeInterval { get; set; } = CalendarTimeInterval.Minutes30;
@@ -156,14 +219,19 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// Set the height of each cell in day and week view.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>36</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public int DayCellHeight { get; set; } = 36;
 
     /// <summary>
     /// Set a minimum height for calendar items in day/week views.
-    /// This can be helpful if there are items with a very short duration.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>0</c>. This property can be helpful if there are items with a very short duration.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public int DayItemMinHeight { get; set; }
@@ -171,6 +239,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// If true then a line indicating the current time is shown in day and week view.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>false</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public bool ShowCurrentTime { get; set; }
@@ -178,6 +249,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// If true then calendar items can be drag/dropped to different dates/times.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>false</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool EnableDragItems { get; set; }
@@ -185,6 +259,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// If true then the user can change the duration of an item by resizing the item.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>false</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool EnableResizeItems { get; set; }
@@ -192,6 +269,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// If true then use 24 hour clock, otherwise use 12 hour format (am/pm).
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>true</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public bool Use24HourClock { get; set; } = true;
@@ -199,6 +279,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// Defines the cell content for the Month view.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
     [Category(CategoryTypes.Calendar.Template)]
     [Parameter]
     public RenderFragment<CalendarItem>? MonthTemplate { get; set; }
@@ -206,6 +289,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// Defines the cell content for the Week view.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
     [Category(CategoryTypes.Calendar.Template)]
     [Parameter]
     public RenderFragment<CalendarItem>? WeekTemplate { get; set; }
@@ -213,6 +299,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// Defines the cell content for the Day view.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
     [Category(CategoryTypes.Calendar.Template)]
     [Parameter]
     public RenderFragment<CalendarItem>? DayTemplate { get; set; }
@@ -220,6 +309,9 @@ public partial class MudCalendar : MudComponentBase
     /// <summary>
     /// Custom content to appear in the toolbar of the component.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public RenderFragment? ToolbarContent { get; set; }

@@ -1,14 +1,14 @@
 name: deploy-mudcalendar-docs
 env:
-  PUBLISH_FOLDER: './Heron.MudCalendar/Heron.MudCalendar.Docs/bin/Release/net7.0/publish/wwwroot'
+  PUBLISH_FOLDER: "./Heron.MudCalendar/Heron.MudCalendar.Docs/bin/Release/net8.0/publish/wwwroot"
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Tag to publish v[0-9]+.[0-9]+.[0-9]+*'
+        description: "Tag to publish v[0-9]+.[0-9]+.[0-9]+*"
         required: true
-        default: ''
+        default: ""
         type: string
 
 jobs:
@@ -20,87 +20,87 @@ jobs:
     outputs:
       VERSION: ${{ steps.output-version.outputs.VERSION }}
     steps:
-    - name: Set tag from input
-      env:
-        TAG: ${{ github.event.inputs.version }}
-      run: echo "VERSION=${TAG#v}" >> $GITHUB_ENV
+      - name: Set tag from input
+        env:
+          TAG: ${{ github.event.inputs.version }}
+        run: echo "VERSION=${TAG#v}" >> $GITHUB_ENV
 
-    - name: VERSION to job output
-      id: output-version
-      run: |
-        echo "VERSION=${{ env.VERSION }}" >> $GITHUB_OUTPUT
+      - name: VERSION to job output
+        id: output-version
+        run: |
+          echo "VERSION=${{ env.VERSION }}" >> $GITHUB_OUTPUT
 
   deploy-docs:
     name: Deploy Docs to Github Pages
     needs: get-version
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout MudBlazor
-      uses: actions/checkout@v3
-      with:
-        repository: danheron/MudBlazor
-        ref: mudcalendar
-        path: './MudBlazor'
+      - name: Checkout MudBlazor
+        uses: actions/checkout@v3
+        with:
+          repository: danheron/MudBlazor
+          ref: mudcalendar
+          path: "./MudBlazor"
 
-    - name: Checkout mudcalendar
-      uses: actions/checkout@v3
-      with:
-        ref: 'refs/tags/v${{ needs.get-version.outputs.VERSION }}'
-        path: './Heron.MudCalendar'
+      - name: Checkout mudcalendar
+        uses: actions/checkout@v3
+        with:
+          ref: "refs/tags/v${{ needs.get-version.outputs.VERSION }}"
+          path: "./Heron.MudCalendar"
 
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 8.0.x
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
 
-    - name: Restore MudBlazor
-      run: dotnet restore
-      working-directory: './MudBlazor/src'
+      - name: Restore MudBlazor
+        run: dotnet restore
+        working-directory: "./MudBlazor/src"
 
-    - name: Restore MudCalendar
-      run: dotnet restore Heron.MudCalendarWithDocs.sln
-      working-directory: './Heron.MudCalendar'
+      - name: Restore MudCalendar
+        run: dotnet restore Heron.MudCalendarWithDocs.sln
+        working-directory: "./Heron.MudCalendar"
 
-    # Need to build a debug version because MudBlazor.Docs.Compiler needs the xml attributes
-    - name: Build MudCalendar (Debug)
-      run: dotnet build -c Debug -m:1 --no-restore
-      working-directory: './Heron.MudCalendar/Heron.MudCalendar'
+      # Need to build a debug version because MudBlazor.Docs.Compiler needs the xml attributes
+      - name: Build MudCalendar (Debug)
+        run: dotnet build -c Debug -m:1 --no-restore
+        working-directory: "./Heron.MudCalendar/Heron.MudCalendar"
 
-    - name: Build MudCalendar (Release)
-      run: dotnet build -c Release -m:1 --no-restore
-      working-directory: './Heron.MudCalendar/Heron.MudCalendar'
+      - name: Build MudCalendar (Release)
+        run: dotnet build -c Release -m:1 --no-restore
+        working-directory: "./Heron.MudCalendar/Heron.MudCalendar"
 
-    - name: Build MudBlazor Docs
-      run: dotnet build -c Release --no-restore
-      working-directory: './MudBlazor/src/MudBlazor.Docs'
+      - name: Build MudBlazor Docs
+        run: dotnet build -c Release --no-restore
+        working-directory: "./MudBlazor/src/MudBlazor.Docs"
 
-    - name: Build MudCalendar Docs
-      run: dotnet build -c Release --no-restore
-      working-directory: './Heron.MudCalendar/Heron.MudCalendar.Docs'
+      - name: Build MudCalendar Docs
+        run: dotnet build -c Release --no-restore
+        working-directory: "./Heron.MudCalendar/Heron.MudCalendar.Docs"
 
-    - name: Publish MudCalendar
-      run: dotnet publish -c Release --no-restore
-      working-directory: './Heron.MudCalendar/Heron.MudCalendar.Docs'
+      - name: Publish MudCalendar
+        run: dotnet publish -c Release --no-restore
+        working-directory: "./Heron.MudCalendar/Heron.MudCalendar.Docs"
 
-    # base href url value should be changed so that resources like CSS and scripts can load properly.
-    - name: Rewrite base href
-      if: success()
-      uses: SteveSandersonMS/ghaction-rewrite-base-href@v1.1.0
-      with:
-        html_path: ${{ env.PUBLISH_FOLDER }}/index.html
-        base_href: /Heron.MudCalendar/
+      # base href url value should be changed so that resources like CSS and scripts can load properly.
+      - name: Rewrite base href
+        if: success()
+        uses: SteveSandersonMS/ghaction-rewrite-base-href@v1.1.0
+        with:
+          html_path: ${{ env.PUBLISH_FOLDER }}/index.html
+          base_href: /Heron.MudCalendar/
 
-    # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project.
-    # Allow files and folders starting with an underscore.
-    - name: Add .nojekyll file
-      run: touch ${{ env.PUBLISH_FOLDER }}/.nojekyll
+      # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project.
+      # Allow files and folders starting with an underscore.
+      - name: Add .nojekyll file
+        run: touch ${{ env.PUBLISH_FOLDER }}/.nojekyll
 
-    - name: Deploy to Github Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch: gh-pages
-        publish_dir: ${{ env.PUBLISH_FOLDER }}
-        allow_empty_commit: false
-        keep_files: false
-        force_orphan: true
+      - name: Deploy to Github Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ${{ env.PUBLISH_FOLDER }}
+          allow_empty_commit: false
+          keep_files: false
+          force_orphan: true
