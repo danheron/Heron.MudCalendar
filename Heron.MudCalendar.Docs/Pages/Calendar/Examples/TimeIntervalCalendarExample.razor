@@ -5,6 +5,7 @@
 <MudToolBar Class="mt-4">
     <MudSwitch @bind-Value="_showCurrentTime" T="bool" Color="Color.Primary" Label="Show Current Time" />
     <MudSelect @bind-Value="_interval" T="CalendarTimeInterval" Label="Time Interval" class="ml-4">
+        <MudSelectItem Value="CalendarTimeInterval.Minutes5">5 Minutes</MudSelectItem>
         <MudSelectItem Value="CalendarTimeInterval.Minutes10">10 Minutes</MudSelectItem>
         <MudSelectItem Value="CalendarTimeInterval.Minutes15">15 Minutes</MudSelectItem>
         <MudSelectItem Value="CalendarTimeInterval.Minutes20">20 Minutes</MudSelectItem>
