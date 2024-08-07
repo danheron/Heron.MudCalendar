@@ -9,7 +9,7 @@ A simple but powerful calendar component for MudBlazor.
 
 ## Features
 
-- Multiple views (month, week, day)
+- Multiple views (month, week, work week, and day)
 - Customizable events
 - Easy integration with your existing MudBlazor project
 
@@ -62,7 +62,7 @@ The project includes 2 solution files:
 
 The Heron.MudCalendar.sln solution contains the MudCalendar project and Unit Test projects.
 
-The Heron.MudCalendarWithDocs.sln solution also contains the Docs project.  Build this is a bit more complicated to compile because it uses the MudBlazor.Docs project.  To build this project you need to clone the [danheron/MudBlazor](https://github.com/danheron/MudBlazor/tree/mudcalendar) repo and checkout the mudcalendar branch.
+The Heron.MudCalendarWithDocs.sln solution also contains the Docs project. This is a bit more complicated to compile because it uses the MudBlazor.Docs project. To build this project you need to clone the [danheron/MudBlazor](https://github.com/danheron/MudBlazor/tree/mudcalendar) repo and checkout the mudcalendar branch.
 
 The repositories should be cloned into the same parent directory e.g.
 
