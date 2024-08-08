@@ -240,6 +240,10 @@
   border: none;
 }
 
+.mud-cal-week-drop-item > .mud-drop-item.disabled {
+  cursor: inherit;
+}
+
 .mud-cal-week-drop-ok {
   background-color: var(--mud-cal-cell-hover);
 }
