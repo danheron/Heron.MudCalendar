@@ -467,7 +467,7 @@ public partial class MudCalendar : MudComponentBase
         {
             CalendarView.Day => CurrentDay.AddDays(1),
             CalendarView.Week => CurrentDay.AddDays(7),
-            CalendarView.WorkWeek => CurrentDay.AddDays(5),
+            CalendarView.WorkWeek => CurrentDay.AddDays(7),
             CalendarView.Month => CurrentDay.AddMonths(1),
             _ => CurrentDay
         };
@@ -487,7 +487,7 @@ public partial class MudCalendar : MudComponentBase
         {
             CalendarView.Day => CurrentDay.AddDays(-1),
             CalendarView.Week => CurrentDay.AddDays(-7),
-            CalendarView.WorkWeek => CurrentDay.AddDays(-5),
+            CalendarView.WorkWeek => CurrentDay.AddDays(-7),
             CalendarView.Month => CurrentDay.AddMonths(-1),
             _ => CurrentDay
         };
