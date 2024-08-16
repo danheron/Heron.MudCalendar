@@ -8,7 +8,7 @@ public class DayView : DayWeekViewBase
 
     protected override List<CalendarCell> BuildCells()
     {
-        var cell = new CalendarCell { Date = Calendar.CurrentDay };
+        var cell = new CalendarCell { Date = Calendar.CurrentDay.Date };
         if (Calendar.CurrentDay.Date == DateTime.Today) cell.Today = true;
         
         cell.Items = Calendar.Items.Where(i =>

@@ -140,12 +140,26 @@ public class CalendarTests : BunitTest
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
         comp.Find("div.mud-cal-month-cell.mud-cal-month-link").Click();
         textField.Instance.Text.Should().Be("26");
+        timeField.Instance.Text.Should().Be("00:00");
+        
+        // Month View set with time
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1, 9, 30, 0));
+        comp.Find("div.mud-cal-month-cell.mud-cal-month-link").Click();
+        textField.Instance.Text.Should().Be("26");
+        timeField.Instance.Text.Should().Be("00:00");
 
         // Work Week View
         comp.SetParam(x => x.View, CalendarView.WorkWeek);
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 13));
         comp.Find("div.mud-cal-week-layer a").Click();
         textField.Instance.Text.Should().Be("13");
+        
+        // Work Week View set with time
+        comp.SetParam(x => x.View, CalendarView.WorkWeek);
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 13, 9, 30, 0));
+        comp.FindAll("div.mud-cal-week-layer a")[55].Click();
+        textField.Instance.Text.Should().Be("13");
+        timeField.Instance.Text.Should().Be("09:10");
 
         // Week View
         comp.SetParam(x => x.View, CalendarView.Week);
@@ -153,15 +167,24 @@ public class CalendarTests : BunitTest
         comp.Find("div.mud-cal-week-layer a").Click();
         textField.Instance.Text.Should().Be("9");
         
+        // Week View set with time
+        comp.SetParam(x => x.View, CalendarView.Week);
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 13, 9, 30, 0));
+        comp.FindAll("div.mud-cal-week-layer a")[55].Click();
+        textField.Instance.Text.Should().Be("9");
+        timeField.Instance.Text.Should().Be("09:10");
+        
         // Day View
         comp.SetParam(x => x.View, CalendarView.Day);
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 8));
-        comp.Find("div.mud-cal-week-layer a").Click();
-        textField.Instance.Text.Should().Be("8");
-        
-        // Check that time is correct
         comp.FindAll("div.mud-cal-week-layer a")[55].Click();
         timeField.Instance.Text.Should().Be("09:10");
+        
+        // Day View set with time
+        comp.SetParam(x => x.View, CalendarView.Day);
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 8, 9, 30, 0));
+        comp.FindAll("div.mud-cal-week-layer a")[55].Click();
+        timeField.Instance.Text.Should().Be("09:10");   
     }
     
     [Test]
