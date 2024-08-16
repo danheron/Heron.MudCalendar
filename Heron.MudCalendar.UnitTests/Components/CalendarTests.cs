@@ -73,17 +73,17 @@ public class CalendarTests : BunitTest
         
         // Week View
         comp.SetParam(x => x.View, CalendarView.Week);
-        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 2));
         comp.FindAll("button.mud-icon-button")[1].Click();
         var day = comp.FindAll("div.mud-cal-grid.mud-cal-grid-header.mud-cal-week-header div")[1].TextContent;
-        day.Substring(day.Length - 1, 1).Should().Be("2");
+        day.Substring(day.Length - 1, 1).Should().Be("9");
 
         // Work Week View
         comp.SetParam(x => x.View, CalendarView.WorkWeek);
-        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 2));
         comp.FindAll("button.mud-icon-button")[1].Click();
         day = comp.FindAll("div.mud-cal-grid.mud-cal-grid-header.mud-cal-work-week-header div")[1].TextContent;
-        day.Substring(day.Length - 1, 1).Should().Be("2");
+        day.Substring(day.Length - 1, 1).Should().Be("9");
 
         // Day View
         comp.SetParam(x => x.View, CalendarView.Day);
@@ -107,7 +107,7 @@ public class CalendarTests : BunitTest
 
         // Week View
         comp.SetParam(x => x.View, CalendarView.Week);
-        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 13));
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 14));
         comp.FindAll("button.mud-icon-button")[0].Click();
         var day = comp.FindAll("div.mud-cal-grid.mud-cal-grid-header.mud-cal-week-header div")[1].TextContent;
         day.Substring(day.Length - 1, 1).Should().Be("2");
@@ -115,7 +115,7 @@ public class CalendarTests : BunitTest
         // Work Week View
         comp.SetParam(x => x.ShowWorkWeek, true);
         comp.SetParam(x => x.View, CalendarView.WorkWeek);
-        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 13));
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 14));
         comp.FindAll("button.mud-icon-button")[0].Click();
         day = comp.FindAll("div.mud-cal-grid.mud-cal-grid-header.mud-cal-work-week-header div")[1].TextContent;
         day.Substring(day.Length - 1, 1).Should().Be("2");
