@@ -105,7 +105,7 @@ public partial class MonthView : CalendarViewBase
         var monthStart = new DateTime(Calendar.CurrentDay.Year, Calendar.CurrentDay.Month, 1);
         var monthEnd = new DateTime(Calendar.CurrentDay.AddMonths(1).Year, Calendar.CurrentDay.AddMonths(1).Month, 1).AddDays(-1);
 
-        var range = new CalendarDateRange(Calendar.CurrentDay, CalendarView.Month);
+        var range = new CalendarDateRange(Calendar.CurrentDay.Date, CalendarView.Month);
         if (range.Start == null || range.End == null) return cells;
         
         var date = range.Start.Value;

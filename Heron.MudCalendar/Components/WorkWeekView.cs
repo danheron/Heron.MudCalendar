@@ -9,7 +9,7 @@ public class WorkWeekView : DayWeekViewBase
     protected override List<CalendarCell> BuildCells()
     {
         var cells = new List<CalendarCell>();
-        var range = new CalendarDateRange(Calendar.CurrentDay, CalendarView.WorkWeek, Calendar.FirstDayOfWeek);
+        var range = new CalendarDateRange(Calendar.CurrentDay.Date, CalendarView.WorkWeek, Calendar.FirstDayOfWeek);
         
         if (range.Start == null || range.End == null) return cells;
         
