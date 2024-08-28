@@ -237,7 +237,8 @@ public class CalendarTests : BunitTest
     {
         var cut = Context.RenderComponent<CalendarTest>();
         var comp = cut.FindComponent<MudCalendar>();
-        
+
+        comp.SetParam(x => x.View, CalendarView.Week);
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 2, 1));
         comp.FindAll("div.mud-cal-toolbar button")[0].Click();
 
