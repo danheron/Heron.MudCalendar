@@ -1,10 +1,9 @@
 @namespace Heron.MudCalendar.Docs.Examples
 
-<MudCalendar Items="_events" FirstDayOfWeek="_firstDayOfWeek" FirstDayOfWorkWeek="_firstDayOfWorkfWeek" ShowMonth="false" ShowDay="false" ShowWorkWeek />
+<MudCalendar Items="_events" FirstDayOfWeek="_firstDayOfWeek" ShowMonth="false" ShowDay="false" />
 
 @code {
-    private DayOfWeek _firstDayOfWeek = DayOfWeek.Sunday;
-    private DayOfWeek _firstDayOfWorkfWeek = DayOfWeek.Monday;
+    private DayOfWeek _firstDayOfWeek = DayOfWeek.Tuesday;
 
     private List<CalendarItem> _events = new()
     {

@@ -97,7 +97,8 @@ public partial class MudCalendar : MudComponentBase
     public DateTime CurrentDay { get; set; }
 
     /// <summary>
-    /// Gets or sets the first day of the week that the calendar is showing in Week View or Work Week View.
+    /// Gets or sets the first day of the week that the calendar is showing in Week View.
+    /// This value is also used for the Work Week View if <see cref="FirstDayOfWorkWeek"/> is not set.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>null</c>.
@@ -105,6 +106,16 @@ public partial class MudCalendar : MudComponentBase
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public DayOfWeek? FirstDayOfWeek { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets the first day of the week that the calendar is showing in Work Week View.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public DayOfWeek? FirstDayOfWorkWeek { get; set; } = null;
 
     /// <summary>
     /// Gets or sets the view (day, week, month) being shown.
@@ -445,6 +456,18 @@ public partial class MudCalendar : MudComponentBase
     }
 
     /// <summary>
+    /// Method to return the first day of the week based on the current view and parameters set on the component.
+    /// </summary>
+    /// <returns>DayOfWeek or null</returns>
+    /// <inheritdoc cref="GetFirstDayOfWeekByCalendarView(CalendarView)"/>
+    public DayOfWeek? GetFirstDayOfWeekByCalendarView(CalendarView view)
+    {
+        return view == CalendarView.WorkWeek
+            ? (FirstDayOfWorkWeek ?? FirstDayOfWeek)
+            : FirstDayOfWeek;
+    }
+
+    /// <summary>
     /// Method invoked when the user changes the view.
     /// </summary>
     /// <param name="view">The new view that is being shown.</param>
@@ -545,7 +568,7 @@ public partial class MudCalendar : MudComponentBase
         
         if (dateChanged) await CurrentDayChanged.InvokeAsync(CurrentDay);
         
-        await ChangeDateRange(new CalendarDateRange(dateTime ?? DateTime.Today, View, FirstDayOfWeek));
+        await ChangeDateRange(new CalendarDateRange(dateTime ?? DateTime.Today, View, GetFirstDayOfWeekByCalendarView(View)));
     }
 
     private void OnDatePickerOpened()
@@ -555,7 +578,7 @@ public partial class MudCalendar : MudComponentBase
 
     private async Task ChangeDateRange()
     {
-        await ChangeDateRange(new CalendarDateRange(CurrentDay, View, FirstDayOfWeek));
+        await ChangeDateRange(new CalendarDateRange(CurrentDay, View, GetFirstDayOfWeekByCalendarView(View)));
     }
 
     private async Task ChangeDateRange(CalendarDateRange dateRange)

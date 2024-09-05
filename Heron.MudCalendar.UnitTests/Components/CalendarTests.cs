@@ -65,6 +65,7 @@ public class CalendarTests : BunitTest
         var cut = Context.RenderComponent<CalendarTest>();
         var comp = cut.FindComponent<MudCalendar>();
         comp.SetParam(x => x.FirstDayOfWeek!, DayOfWeek.Monday);
+        comp.SetParam(x => x.FirstDayOfWorkWeek!, DayOfWeek.Sunday);
 
         // Month View
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
@@ -83,7 +84,7 @@ public class CalendarTests : BunitTest
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 2));
         comp.FindAll("button.mud-icon-button")[1].Click();
         day = comp.FindAll("div.mud-cal-grid.mud-cal-grid-header.mud-cal-work-week-header div")[1].TextContent;
-        day.Substring(day.Length - 1, 1).Should().Be("9");
+        day.Substring(day.Length - 1, 1).Should().Be("8");
 
         // Day View
         comp.SetParam(x => x.View, CalendarView.Day);
@@ -99,6 +100,7 @@ public class CalendarTests : BunitTest
         var cut = Context.RenderComponent<CalendarTest>();
         var comp = cut.FindComponent<MudCalendar>();
         comp.SetParam(x => x.FirstDayOfWeek!, DayOfWeek.Monday);
+        comp.SetParam(x => x.FirstDayOfWorkWeek!, DayOfWeek.Sunday);
 
         // Month View
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
@@ -118,7 +120,7 @@ public class CalendarTests : BunitTest
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 14));
         comp.FindAll("button.mud-icon-button")[0].Click();
         day = comp.FindAll("div.mud-cal-grid.mud-cal-grid-header.mud-cal-work-week-header div")[1].TextContent;
-        day.Substring(day.Length - 1, 1).Should().Be("2");
+        day.Substring(day.Length - 1, 1).Should().Be("1");
 
         // Day View
         comp.SetParam(x => x.View, CalendarView.Day);

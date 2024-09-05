@@ -134,9 +134,24 @@
         </DocsPageSection>
 
         <DocsPageSection>
-            <SectionHeader Title="Week/Work Week View Options">
+            <SectionHeader Title="Week View Options">
                 <Description>
                     Set the starting day of the week with the <CodeInline>FirstDayOfWeek</CodeInline> property.
+                    Example shows how to set the starting day to Tuesday.
+                </Description>
+            </SectionHeader>
+            <SectionContent DarkenBackground="true" Code="WeekCalendarExample" ShowCode="false" Block="true" FullWidth="true" Assembly="typeof(CalendarPage).Assembly" AllowRunCode="false">
+                <WeekCalendarExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Work Week View Options">
+                <Description>
+                    Allow the user to select Work View with the <CodeInline>ShowWorkWeek</CodeInline> property.
+                    Set the starting day of the week with the <CodeInline>FirstDayOfWeek</CodeInline> property.
+                    Set the starting day of the work week with the <CodeInline>FirstDayOfWorkWeek</CodeInline> property.
+                    Example shows how to set the starting day of the to Sunday and the starting day of the work week to Monday.
                 </Description>
             </SectionHeader>
             <SectionContent DarkenBackground="true" Code="WorkWeekCalendarExample" ShowCode="false" Block="true" FullWidth="true" Assembly="typeof(CalendarPage).Assembly" AllowRunCode="false">
