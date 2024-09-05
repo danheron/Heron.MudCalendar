@@ -8,12 +8,12 @@
 
 	<ItemGroup>
 		<PackageReference Include="Blazor-Analytics" Version="3.12.0" />
-		<PackageReference Include="BytexDigital.Blazor.Components.CookieConsent" Version="1.2.0-preview.1698872627" />
+		<PackageReference Include="BytexDigital.Blazor.Components.CookieConsent" Version="1.2.1" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
 		<PackageReference Include="Heron.MudTotalCalendar" Version="2.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.6" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.6" PrivateAssets="all" />
-		<PackageReference Include="MudBlazor" Version="7.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.8" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.8" PrivateAssets="all" />
+		<PackageReference Include="MudBlazor" Version="7.7.0" />
 	</ItemGroup>
 
 	<ItemGroup>
