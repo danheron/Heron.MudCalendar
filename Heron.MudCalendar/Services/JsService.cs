@@ -6,11 +6,12 @@ namespace Heron.MudCalendar.Services;
 public class JsService : IDisposable
 {
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
+    private readonly CancellationTokenSource _cancellationTokenSource = new();
 
     public JsService(IJSRuntime jsRuntime)
     {
         _moduleTask = new Lazy<Task<IJSObjectReference>>(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-            "import", "./_content/Heron.MudCalendar/Heron.MudCalendar.min.js").AsTask());
+            "import", _cancellationTokenSource.Token, "./_content/Heron.MudCalendar/Heron.MudCalendar.min.js").AsTask());
     }
 
     public async Task Scroll(ElementReference element, int top)
@@ -40,10 +41,9 @@ public class JsService : IDisposable
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        
-        if (_moduleTask.IsValueCreated)
-        {
-            _moduleTask.Value.Dispose();
-        }
+
+        if (!_moduleTask.IsValueCreated) return;
+        _cancellationTokenSource.Cancel();
+        _moduleTask.Value.Dispose();
     }
 }
