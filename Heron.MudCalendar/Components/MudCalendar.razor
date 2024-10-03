@@ -61,8 +61,8 @@
             <div class="d-flex align-center">
                 @if (ShowPrevNextButtons)
                 {
-                    <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" Color="@Color" OnClick="OnPreviousClicked" Class="mx-1"/>
-                    <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" Color="@Color" OnClick="OnNextClicked" Class="mr-1"/>
+                    <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" aria-label="@PrevAriaLabel" Color="@Color" OnClick="OnPreviousClicked" Class="mx-1"/>
+                    <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" aria-label="@NextAriaLabel" Color="@Color" OnClick="OnNextClicked" Class="mr-1"/>
                 }
                 @if (ShowDatePicker)
                 {

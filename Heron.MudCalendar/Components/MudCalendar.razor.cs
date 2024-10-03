@@ -408,6 +408,42 @@ public partial class MudCalendar : MudComponentBase
         new CssBuilder("flex-grow-1")
             .AddClass("d-none", AllowedViews().Count == 0)
             .Build();
+    
+    protected virtual string PrevAriaLabel
+    {
+        get
+        {
+            var label = "Previous ";
+            label += View switch
+            {
+                CalendarView.Day => "Day",
+                CalendarView.Week => "Week",
+                CalendarView.WorkWeek => "Work Week",
+                CalendarView.Month => "Month",
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            return label;
+        }
+    }
+    
+    protected virtual string NextAriaLabel
+    {
+        get
+        {
+            var label = "Next ";
+            label += View switch
+            {
+                CalendarView.Day => "Day",
+                CalendarView.Week => "Week",
+                CalendarView.WorkWeek => "Work Week",
+                CalendarView.Month => "Month",
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            
+            return label;
+        }
+    }
 
     protected override void OnInitialized()
     {
