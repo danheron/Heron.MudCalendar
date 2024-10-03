@@ -50,7 +50,7 @@
                 <div></div>
                 @foreach (var cell in Cells)
                 {
-                    <div>
+                    <div aria-label="@($"{cell.Date:dddd} {cell.Date.Day}")">
                         @RenderDayTitle(cell)
                     </div>
                 }

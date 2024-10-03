@@ -50,7 +50,7 @@
     {
         for (var i = 0; i < Columns; i++)
         {
-            <div class="mud-cal-month-header">
+            <div class="mud-cal-month-header" aria-label="@Cells[i].Date.ToString("dddd")">
                 @RenderDayTitle(i)
             </div>
         }
