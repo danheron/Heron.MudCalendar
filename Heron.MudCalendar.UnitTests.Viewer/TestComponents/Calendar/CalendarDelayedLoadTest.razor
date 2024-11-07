@@ -1,0 +1,20 @@
+@using Heron.MudCalendar.UnitTests.Viewer.Services
+@inject EventService EventService
+
+<MudPopoverProvider />
+
+<MudCalendar Items="_events" Height="1000" DateRangeChanged="DateRangeChanged" EnableDragItems="true" EnableResizeItems="true" />
+
+@code {
+    public static string __description__ = "Calendar Delayed Load Tests";
+
+    private List<CalendarItem> _events = new();
+
+    private async Task DateRangeChanged(DateRange dateRange)
+    {
+        await Task.Delay(1000);
+        
+        // Load events from service
+        _events = EventService.GetEvents(dateRange);
+    }
+}
