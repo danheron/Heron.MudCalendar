@@ -8,21 +8,20 @@ public partial class Resizer : IAsyncDisposable
     private readonly string _id = Guid.NewGuid().ToString();
 
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
+    private readonly CancellationTokenSource _cancellationTokenSource = new();
     private IJSObjectReference? _resizer;
     private DotNetObjectReference<Resizer>? _this;
 
     [Parameter]
     public int IntervalSize { get; set; } = 36;
-    
+
     [Parameter]
     public EventCallback<int> HeightChanged { get; set; }
 
     public Resizer()
     {
-        _moduleTask = new Lazy<Task<IJSObjectReference>>(
-            () =>
-                JsRuntime.InvokeAsync<IJSObjectReference>("import",
-                    "./_content/Heron.MudCalendar/Heron.MudCalendar.min.js").AsTask());
+        _moduleTask = new Lazy<Task<IJSObjectReference>>(() => JsRuntime.InvokeAsync<IJSObjectReference>(
+            "import", _cancellationTokenSource.Token, "./_content/Heron.MudCalendar/Heron.MudCalendar.min.js").AsTask());
     }
 
     [JSInvokable]
@@ -53,14 +52,17 @@ public partial class Resizer : IAsyncDisposable
         GC.SuppressFinalize(this);
 
         _this?.Dispose();
+        _this = null;
         if (_resizer != null)
         {
             await _resizer.DisposeAsync();
+            _resizer = null;
         }
+
         if (_moduleTask.IsValueCreated)
         {
-            var module = await _moduleTask.Value;
-            await module.DisposeAsync();
+            _cancellationTokenSource.Cancel();
+            _moduleTask.Value.Dispose();
         }
     }
 }
