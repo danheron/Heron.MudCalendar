@@ -1,5 +1,7 @@
 @namespace Heron.MudCalendar
+@using Microsoft.JSInterop
 @inherits CalendarViewBase
+@inject IJSRuntime JsRuntime
 
 @Render
 
@@ -89,7 +91,7 @@
     /// </summary>
     protected virtual RenderFragment RenderCellContainer(CalendarCell cell, int index) =>
         @<div class="@CellClassname" style="@DayStyle(cell, index)" @onclick="() => OnCellLinkClicked(cell)">
-            <MudDropZone T="CalendarItem" Identifier="@cell.Date.Date.ToString("d")" Class="mud-cal-month-dropzone" Style="@CellStyle">
+            <MudDropZone T="CalendarItem" Identifier="@cell.Date.Date.ToString("d")" Class="mud-cal-month-dropzone">
                 @RenderCell(cell)
     </MudDropZone>
     </div>;
