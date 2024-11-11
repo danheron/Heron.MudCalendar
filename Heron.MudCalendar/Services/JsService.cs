@@ -37,6 +37,12 @@ public class JsService : IDisposable
         var module = await _moduleTask.Value;
         await module.InvokeVoidAsync("addDragHandler", id);
     }
+
+    public async Task HideOverflows(string className, string moreText)
+    {
+        var module = await _moduleTask.Value;
+        await module.InvokeVoidAsync("hideOverflows", className, moreText);
+    }
     
     public void Dispose()
     {

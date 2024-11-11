@@ -47,5 +47,17 @@
     display: flex;
     justify-content: space-between;
   }
+  
+  .mud-cal-overflow-message {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 4px;
+    padding-left: 8px;
+  }
+  
+  .mud-cal-overflow-hidden {
+    visibility: hidden;
+  }
 }
-

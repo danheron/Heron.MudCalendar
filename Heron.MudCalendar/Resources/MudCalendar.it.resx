@@ -2,4 +2,7 @@
     <data name="Today" xml:space="preserve">
         <value>Oggi</value>
     </data>
+    <data name="More" xml:space="preserve">
+        <value>Di più</value>
+    </data>
 </root>

@@ -1,12 +1,22 @@
+using System.Globalization;
+using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using MudBlazor;
 using MudBlazor.Utilities;
 
 namespace Heron.MudCalendar;
 
-public partial class MonthView : CalendarViewBase
+public partial class MonthView : CalendarViewBase, IDisposable
 {
     private MudDropContainer<CalendarItem>? _dropContainer;
+
+    private JsService? _jsService;
+    
+    private static CultureInfo? _uiCulture;
+    private static string? _moreText;
 
     protected virtual int Columns => 7;
     
@@ -23,11 +33,6 @@ public partial class MonthView : CalendarViewBase
             .AddStyle("grid-template-columns", $"repeat({Columns}, minmax(10px, 1fr))")
             .AddStyle("grid-template-rows", $"repeat({Cells.Count / Columns}, {100 / (Cells.Count / Columns)}%)",
                 Calendar.MonthCellMinHeight == 0)
-            .Build();
-
-    protected virtual string CellStyle =>
-        new StyleBuilder()
-            .AddStyle("overflow-y", "scroll", Calendar.MonthCellMinHeight == 0)
             .Build();
 
     /// <summary>
@@ -87,6 +92,12 @@ public partial class MonthView : CalendarViewBase
         
         // Ensure that the order of items is correct
         _dropContainer?.Refresh();
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        // Truncate overflowing calendar items
+        return TruncateOverflows();
     }
     
     /// <summary>
@@ -162,6 +173,37 @@ public partial class MonthView : CalendarViewBase
 
         await Calendar.ItemChanged.InvokeAsync(item);
     }
+    
+    private async Task TruncateOverflows()
+    {
+        // Load localized text
+        var moreText = LoadText();
+        
+        // Truncate overflowing calendar items
+        _jsService ??= new JsService(JsRuntime);
+        await _jsService.HideOverflows("mud-cal-month-dropzone", moreText);
+    }
+
+    private string LoadText()
+    {
+        if (_moreText != null && Equals(_uiCulture, Thread.CurrentThread.CurrentUICulture)) return _moreText;
+
+        var options = Options.Create(new LocalizationOptions { ResourcesPath = "Resources" });
+        var factory = new ResourceManagerStringLocalizerFactory(options, NullLoggerFactory.Instance);
+        var localizer = new StringLocalizer<MudCalendar>(factory);
+
+        _uiCulture = Thread.CurrentThread.CurrentUICulture;
+        _moreText = localizer["More"];
+
+        return _moreText;
+    }
 
     private RenderFragment<CalendarItem> CellTemplate => Calendar.MonthTemplate ?? Calendar.CellTemplate;
+
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+        
+        _jsService?.Dispose();
+    }
 }
