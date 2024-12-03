@@ -138,6 +138,16 @@ public partial class MudCalendar : MudComponentBase
     public bool HighlightToday { get; set; } = true;
 
     /// <summary>
+    /// If false the toolbar is not shown.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>true</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public bool ShowToolbar { get; set; } = true;
+    
+    /// <summary>
     /// If false the day view is not shown.
     /// </summary>
     /// <remarks>
