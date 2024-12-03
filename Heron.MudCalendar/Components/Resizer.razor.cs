@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using MudBlazor.Utilities;
 
 namespace Heron.MudCalendar;
 
@@ -13,10 +14,22 @@ public partial class Resizer : IAsyncDisposable
     private DotNetObjectReference<Resizer>? _this;
 
     [Parameter]
-    public int IntervalSize { get; set; } = 36;
+    public bool ResizeX { get; set; }
 
     [Parameter]
-    public EventCallback<int> HeightChanged { get; set; }
+    public string ContainerClass { get; set; } = string.Empty;
+    
+    [Parameter]
+    public int CellCount { get; set; }
+
+    [Parameter]
+    public EventCallback<int> SizeChanged { get; set; }
+
+    private string Classname =>
+        new CssBuilder()
+            .AddClass("mud-cal-resizer-x", ResizeX)
+            .AddClass("mud-cal-resizer-y", !ResizeX)
+            .Build();
 
     public Resizer()
     {
@@ -25,9 +38,9 @@ public partial class Resizer : IAsyncDisposable
     }
 
     [JSInvokable]
-    public Task ResizeFinished(int newHeight)
+    public Task ResizeFinished(int newSize)
     {
-        return HeightChanged.InvokeAsync(newHeight);
+        return SizeChanged.InvokeAsync(newSize);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -44,7 +57,7 @@ public partial class Resizer : IAsyncDisposable
     {
         _this ??= DotNetObjectReference.Create(this);
         var module = await _moduleTask.Value;
-        _resizer = await module.InvokeAsync<IJSObjectReference>("newResizer", _id, IntervalSize, _this);
+        _resizer = await module.InvokeAsync<IJSObjectReference>("newResizer", _id, ContainerClass, CellCount, ResizeX, _this);
     }
 
     public async ValueTask DisposeAsync()

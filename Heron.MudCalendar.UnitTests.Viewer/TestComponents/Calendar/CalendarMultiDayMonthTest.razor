@@ -1,0 +1,74 @@
+<MudPopoverProvider/>
+
+<MudCalendar Items="_events" Height="1000" EnableDragItems="true" EnableResizeItems="true" CellClicked="TestClick"/>
+<MudTextField @bind-Value="_value"/>
+<MudTextField @bind-Value="_timeValue"/>
+
+@code {
+    public static string __description__ = "Calendar Multi-Day Month Tests";
+
+    private string _value = string.Empty;
+    private string _timeValue = string.Empty;
+
+    private List<CalendarItem> _events = new()
+    {
+        new CalendarItem
+        {
+            Start = new DateTime(2024, 11, 12, 9, 0, 0),
+            End = new DateTime(2024, 11, 12, 10, 0, 0),
+            Text = "Event 1"
+        },
+        new CalendarItem
+        {
+            Start = new DateTime(2024, 11, 12, 13, 0, 0),
+            End = new DateTime(2024, 11, 14, 13, 0, 0),
+            Text = "Event 2"
+        },
+        new CalendarItem
+        {
+            Start = new DateTime(2024, 11, 12, 12, 0, 0),
+            End = new DateTime(2024, 11, 13, 12, 0, 0),
+            Text = "Event 3"
+        },
+        new CalendarItem
+        {
+            Start = new DateTime(2024, 11, 13, 12, 30, 0),
+            End = new DateTime(2024, 11, 14, 12, 0, 0),
+            Text = "Event 4"
+        },
+        new CalendarItem
+        {
+            Start = new DateTime(2024, 11, 14, 9, 0, 0),
+            Text = "Event 5"
+        },
+        new CalendarItem
+        {
+            Start = new DateTime(2024, 11, 16, 9, 0, 0),
+            End = new DateTime(2024, 11, 20, 12, 0, 0),
+            Text = "Event 6"
+        },
+        new CalendarItem
+        {
+            Start = new DateTime(2024, 11, 17, 9, 0, 0),
+            End = new DateTime(2024, 11, 19, 12, 0, 0),
+            Text = "Event 7"
+        },
+        new CalendarItem
+        {
+            Start = new DateTime(2024, 11, 18, 9, 0, 0),
+            Text = "Event 8"
+        },
+        new CalendarItem
+        {
+            Start = new DateTime(2024, 11, 18, 11, 0, 0),
+            Text = "Event 9"
+        }
+    };
+
+    private void TestClick(DateTime dateTime)
+    {
+        _value = dateTime.Day.ToString();
+        _timeValue = dateTime.ToShortTimeString();
+    }
+
+}

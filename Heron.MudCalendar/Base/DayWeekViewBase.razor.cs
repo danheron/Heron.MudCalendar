@@ -19,7 +19,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
     private int PixelsInDay => CellsInDay * PixelsInCell;
 
     protected virtual int DaysInView => 7;
-    
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -60,10 +60,18 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
     protected virtual string DayStyle(CalendarCell calendarCell, int row)
     {
         return new StyleBuilder()
-            .AddStyle("border-left", $"1px solid var(--mud-palette-{EnumExtensions.ToDescriptionString(Calendar.Color)})", calendarCell.Today && Calendar.HighlightToday)
-            .AddStyle("border-right", $"1px solid var(--mud-palette-{EnumExtensions.ToDescriptionString(Calendar.Color)})", calendarCell.Today && Calendar.HighlightToday)
-            .AddStyle("border-top", $"1px solid var(--mud-palette-{EnumExtensions.ToDescriptionString(Calendar.Color)})", row == 0 && calendarCell.Today && Calendar.HighlightToday)
-            .AddStyle("border-bottom", $"1px solid var(--mud-palette-{EnumExtensions.ToDescriptionString(Calendar.Color)})", row + 1 == CellsInDay && calendarCell.Today && Calendar.HighlightToday)
+            .AddStyle("border-left",
+                $"1px solid var(--mud-palette-{EnumExtensions.ToDescriptionString(Calendar.Color)})",
+                calendarCell.Today && Calendar.HighlightToday)
+            .AddStyle("border-right",
+                $"1px solid var(--mud-palette-{EnumExtensions.ToDescriptionString(Calendar.Color)})",
+                calendarCell.Today && Calendar.HighlightToday)
+            .AddStyle("border-top",
+                $"1px solid var(--mud-palette-{EnumExtensions.ToDescriptionString(Calendar.Color)})",
+                row == 0 && calendarCell.Today && Calendar.HighlightToday)
+            .AddStyle("border-bottom",
+                $"1px solid var(--mud-palette-{EnumExtensions.ToDescriptionString(Calendar.Color)})",
+                row + 1 == CellsInDay && calendarCell.Today && Calendar.HighlightToday)
             .Build();
     }
 
@@ -79,8 +87,10 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
             .AddStyle("top", $"{position.Top}px")
             .AddStyle("height", $"{position.Height}px")
             .AddStyle("overflow", "hidden")
-            .AddStyle("left", (((position.Position / (double)position.Total) - (1.0 / position.Total)) * 100).ToInvariantString() + "%")
-            .AddStyle("width", (100d / position.Total).ToInvariantString() + "%" )
+            .AddStyle("left",
+                (((position.Position / (double)position.Total) - (1.0 / position.Total)) * 100).ToInvariantString() +
+                "%")
+            .AddStyle("width", (100d / position.Total).ToInvariantString() + "%")
             .Build();
     }
 
@@ -149,7 +159,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
         var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
         return Calendar.CellClicked.InvokeAsync(date);
     }
-    
+
     /// <summary>
     /// Method invoked when the user clicks on the calendar item.
     /// </summary>
@@ -159,7 +169,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
     {
         return Calendar.ItemClicked.InvokeAsync(item);
     }
-    
+
     /// <summary>
     /// Creates a string with the time to be displayed.
     /// </summary>
@@ -170,10 +180,14 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
         var hour = row / (60.0 / (double)Calendar.DayTimeInterval);
         var timeSpan = TimeSpan.FromHours(hour);
         var time = TimeOnly.FromTimeSpan(timeSpan);
-        
+
         return Calendar.Use24HourClock ? time.ToString("HH:mm") : time.ToString("h tt");
     }
-    
+
+    /// <summary>
+    /// Calculates the row of the timeline for the current time.
+    /// </summary>
+    /// <returns>The row of the timeline.</returns>
     protected int TimelineRow()
     {
         var minutes = DateTime.Now.Subtract(DateTime.Today).TotalMinutes;
@@ -181,22 +195,29 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
 
         return row;
     }
-
-    private double TimelinePosition()
-    {
-        var minutes = DateTime.Now.Subtract(DateTime.Today).TotalMinutes - (TimelineRow() * (int)Calendar.DayTimeInterval);
-        var position = (minutes / (int)Calendar.DayTimeInterval) * Calendar.DayCellHeight;
-
-        return position;
-    }
-
-    protected Task ItemHeightChanged(CalendarItem item, int newHeight)
+    
+    /// <summary>
+    /// Adjusts the end time of a calendar item based on the specified number of intervals.
+    /// </summary>
+    /// <param name="item">The calendar item whose height is changing.</param>
+    /// <param name="intervals">The number of intervals by which the item's end time should be extended.</param>
+    /// <returns>A task representing the asynchronous operation of invoking the item changed event.</returns>
+    protected Task ItemHeightChanged(CalendarItem item, int intervals)
     {
         // Calculate end time from height
-        var minutes = (newHeight / (double)PixelsInDay) * MinutesInDay;
+        var minutes = intervals * (int)Calendar.DayTimeInterval;
         item.End = item.Start.AddMinutes(minutes);
 
         return Calendar.ItemChanged.InvokeAsync(item);
+    }
+    
+    private double TimelinePosition()
+    {
+        var minutes = DateTime.Now.Subtract(DateTime.Today).TotalMinutes -
+                      (TimelineRow() * (int)Calendar.DayTimeInterval);
+        var position = (minutes / (int)Calendar.DayTimeInterval) * Calendar.DayCellHeight;
+
+        return position;
     }
 
     private int CalcTop(ItemPosition position)
@@ -276,7 +297,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
             {
                 position.Height = PixelsInDay - position.Top;
             }
-            
+
             // Remove overlaps that are not relevant
             overlaps.RemoveAll(o => o.Bottom <= position.Top);
             positions.Add(position);
@@ -308,7 +329,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
             if (max > position.Total)
             {
                 position.Total = max;
-                
+
                 // Need to update overlapping events
                 var overlappingPositions = positions.Where(p => p.Top < position.Bottom && p.Bottom > position.Top);
                 foreach (var overlappedPosition in overlappingPositions)
@@ -323,26 +344,26 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
 
         return positions;
     }
-    
+
     private async Task ItemDropped(MudItemDropInfo<CalendarItem> dropItem)
     {
         if (dropItem.Item == null) return;
         var item = dropItem.Item;
         var duration = item.End?.Subtract(item.Start) ?? TimeSpan.Zero;
-        
+
         var ids = dropItem.DropzoneIdentifier.Split("_");
         if (!DateTime.TryParse(ids[0], out var date)) return;
         var cell = int.Parse(ids[1]);
         var minutes = ((double)cell / CellsInDay) * MinutesInDay;
         date = date.AddMinutes(minutes);
-        
+
         // Update start and end time
         item.Start = date;
         if (item.End.HasValue)
         {
             item.End = item.Start.Add(duration);
         }
-        
+
         Calendar.Refresh();
 
         await Calendar.ItemChanged.InvokeAsync(item);
@@ -351,17 +372,6 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
     private bool IsHourCell(int row)
     {
         return (int)Calendar.DayTimeInterval >= 60 || row % (60 / (int)Calendar.DayTimeInterval) == 0;
-    }
-
-    protected class ItemPosition
-    {
-        public CalendarItem Item { get; set; } = new();
-        public int Position { get; set; }
-        public int Total { get; set; }
-        public DateOnly Date { get; set; }
-        public int Top { get; set; }
-        public int Height { get; set; }
-        public int Bottom => Top + Height;
     }
 
     public void Dispose()

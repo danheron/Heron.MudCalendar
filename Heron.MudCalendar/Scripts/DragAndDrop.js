@@ -1,8 +1,8 @@
-export function addDragHandler(id) {
+export function addDragHandler(id, width) {
     if (document.getElementsByClassName(id).length === 0) return;
     const dragZone = document.getElementsByClassName(id)[0];
     if (dragZone.children.length === 0) return;
     const dragItem = dragZone.getElementsByClassName("mud-drop-item")[0];
-    const xPos = dragItem.offsetWidth / 2;
+    const xPos = dragItem.offsetWidth / (width * 2);
     document.getElementsByClassName(id)[0].addEventListener("dragstart", (e) => e.dataTransfer.setDragImage(dragItem, xPos, 18));
 }

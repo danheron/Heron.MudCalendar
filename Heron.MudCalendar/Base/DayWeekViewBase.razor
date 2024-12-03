@@ -19,14 +19,13 @@
                         <div @ref="_scrollDiv" class="mud-cal-week-scroll" style="width: 100%;">
                             <div class="d-block relative">
                                 @RenderTimes
-                                @* @RenderDays *@
                                 <MudDropContainer
                                     T="CalendarItem"
                                     Items="Calendar.Items"
                                     ItemsSelector="@((item, dropzone) => item.Id == dropzone)"
-                                    ItemDisabled="@((_) => !Calendar.EnableDragItems)"
+                                    ItemDisabled="@(_ => !Calendar.EnableDragItems)"
                                     ItemDropped="ItemDropped"
-                                    CanDropClass="mud-cal-week-drop-ok">
+                                    CanDropClass="mud-cal-drop-ok">
                                     <ChildContent>
                                         @RenderCells
                                     </ChildContent>
@@ -138,10 +137,10 @@
         {
             if (position.Item.Start.Date == cell.Date.Date)
             {
-                <WeekDropZone Item="@position.Item" Style="@EventStyle(position)">
+                <WeekDropZone Position="position" Style="@EventStyle(position)" @key="position.Item.Id">
                     @if (Calendar.EnableResizeItems && !position.Item.IsMultiDay)
                     {
-                        <Resizer IntervalSize="Calendar.DayCellHeight" HeightChanged="@(newHeight => ItemHeightChanged(position.Item, newHeight))"/>
+                        <Resizer ContainerClass="mud-cal-week-grid" CellCount="CellsInDay" ResizeX="false" SizeChanged="@(newHeight => ItemHeightChanged(position.Item, newHeight))"/>
                     }
                 </WeekDropZone>
             }

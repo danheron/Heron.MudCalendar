@@ -12,115 +12,150 @@
     /// </summary>
     protected virtual RenderFragment Render =>
         @<div class="mud-cal-month-table-holder mud-cal-month-view">
-            @RenderHeaderGrid
-            @RenderBodyContainer
-    </div>;
+            @RenderHeader
+            <div style="height: 100%;" class="d-block relative">
+                @RenderDays
+                <MudDropContainer
+                    @ref="_dropContainer"
+                    T="CalendarItem"
+                    Items="Calendar.Items.OrderBy(i => i.Start)"
+                    ItemsSelector="@((item, dropzone) => item.Id == dropzone)"
+                    ItemDisabled="@(_ => !Calendar.EnableDragItems)"
+                    ItemDropped="ItemDropped"
+                    CanDropClass="mud-cal-drop-ok"
+                    Class="@Classname">
+                    <ChildContent>
+                        @RenderCells
+                    </ChildContent>
+                    <ItemRenderer>
+                        @RenderTemplate(context)
+                    </ItemRenderer>
+                </MudDropContainer>
+            </div>
+        </div>;
 
     /// <summary>
     /// Renders the header of the grid.
     /// </summary>
-    protected virtual RenderFragment RenderHeaderGrid =>
+    protected virtual RenderFragment RenderHeader =>
         @<div class="mud-cal-grid-header mud-cal-month-grid-header" style="@GridStyle">
-            @RenderHeader
-    </div>;
-
-    /// <summary>
-    /// Renders the container for the main body of the calendar.
-    /// </summary>
-    protected virtual RenderFragment RenderBodyContainer =>
-        @<MudDropContainer
-             @ref="_dropContainer"
-             T="CalendarItem"
-             Items="Calendar.Items.OrderBy(i => i.Start)"
-             ItemsSelector="@((item, dropzone) => item.Start.Date.ToString("d") == dropzone)"
-             ItemDisabled="@((_) => !Calendar.EnableDragItems)"
-             ItemDropped="ItemDropped"
-             CanDropClass="mud-cal-month-drop-ok"
-             Class="@Classname">
-            <ChildContent>
-                @RenderBodyGrid
-            </ChildContent>
-            <ItemRenderer>
-                @RenderTemplate(context)
-    </ItemRenderer>
-    </MudDropContainer>;
-
-    /// <summary>
-    /// Renders the header of the component that contains the day names.
-    /// </summary>
-    protected virtual RenderFragment RenderHeader => __builder =>
-    {
-        for (var i = 0; i < Columns; i++)
-        {
-            <div class="mud-cal-month-header" aria-label="@Cells[i].Date.ToString("dddd")">
-                @RenderDayTitle(i)
-            </div>
-        }
-    };
+            @for (var i = 0; i < Columns; i++)
+            {
+                <div class="mud-cal-month-header" aria-label="@Cells[i].Date.ToString("dddd")">
+                    @RenderDayTitle(i)
+                </div>
+            }
+        </div>;
 
     /// <summary>
     /// Renders the day name.
     /// </summary>
-    protected virtual RenderFragment RenderDayTitle(int day) => __builder => { __builder.AddContent(1, Cells[day].Date.ToString("ddd")); };
+    protected virtual RenderFragment RenderDayTitle(int day) => __builder =>
+    {
+        __builder.AddContent(1, Cells[day].Date.ToString("ddd"));
+    };
 
     /// <summary>
     /// Renders the grid that holds the body of the calendar.
     /// </summary>
-    protected virtual RenderFragment RenderBodyGrid =>
+    protected virtual RenderFragment RenderDays =>
         @<div class="mud-cal-grid mud-cal-month-grid" style="@GridStyle">
-            @RenderBody
-    </div>;
+            @for (var week = 0; week < Cells.Count / Columns; week++)
+            {
+                @for (var i = week * Columns; i < (week + 1) * Columns; i++)
+                {
+                    var cell = Cells[i];
+                    <div class="@CellClassname" style="@DayStyle(cell, i)"></div>
+                }
+            }
+        </div>;
 
     /// <summary>
-    /// Renders the main body of the month view.
+    /// Renders the cells of the grid.
     /// </summary>
-    protected virtual RenderFragment RenderBody => __builder =>
+    protected virtual RenderFragment RenderCells =>
+        @<div class="mud-cal-month-layer">
+            <div class="mud-cal-grid" style="@ContentGridStyle">
+                @RenderContents
+            </div>
+        </div>;
+
+    /// <summary>
+    /// Renders the contents of the cells.
+    /// </summary>
+    protected virtual RenderFragment RenderContents => __builder =>
     {
-        for (var week = 0; week < Cells.Count / Columns; week++)
+        for (var row = 0; row < Rows; row++)
         {
-            @for (var i = week * Columns; i < (week + 1) * Columns; i++)
-            {
-                var cell = Cells[i];
-                @RenderCellContainer(cell, i)
-            }
+            <div class="mud-cal-month-row-holder">
+                @for (var cell = row * Columns; cell < (row * Columns) + Columns; cell++)
+                {
+                    var currentCell = Cells[cell];
+                    <MudDropZone T="CalendarItem" OnlyZone="true" Identifier="@currentCell.Date.Date.ToString("d")"
+                                 Style="@DropZoneStyle">
+                        @if (Calendar.CellClicked.HasDelegate)
+                        {
+                            <a @onclick="() => OnCellLinkClicked(currentCell)" class="mud-cal-month-cell-link">
+                                <div class="mud-cal-month-link">
+                                    @RenderCellDayNumber(currentCell)
+                                </div>
+                            </a>
+                        }
+                        else
+                        {
+                            @RenderCellDayNumber(currentCell)
+                        }
+                    </MudDropZone>
+                }
+                @RenderCellContents(row)
+            </div>
         }
     };
-
-    /// <summary>
-    /// Renders the container for an individual cell.
-    /// </summary>
-    protected virtual RenderFragment RenderCellContainer(CalendarCell cell, int index) =>
-        @<div class="@CellClassname" style="@DayStyle(cell, index)" @onclick="() => OnCellLinkClicked(cell)">
-            <MudDropZone T="CalendarItem" Identifier="@cell.Date.Date.ToString("d")" Class="mud-cal-month-dropzone">
-                @RenderCell(cell)
-    </MudDropZone>
-    </div>;
-
-    /// <summary>
-    /// Renders an individual cell.
-    /// </summary>
-    protected virtual RenderFragment RenderCell(CalendarCell cell) => __builder =>
-    {
-        @RenderCellDayNumber(cell)
-        @RenderCellContents(cell)
-    };
-
+    
     /// <summary>
     /// Renders the day number of the cell.
     /// </summary>
     protected virtual RenderFragment RenderCellDayNumber(CalendarCell cell) =>
         @<div class="@DayClassname(cell)">
             @cell.Date.Day
-    </div>;
+        </div>;
 
     /// <summary>
     /// Renders the contents of the cell.
     /// </summary>
-    protected virtual RenderFragment RenderCellContents(CalendarCell cell) => __builder =>
+    protected virtual RenderFragment RenderCellContents(int row) => __builder =>
     {
-        foreach (var item in cell.Items)
+        for (var cell = row * Columns; cell < (row * Columns) + Columns; cell++)
         {
-            @RenderTemplate(item)
+            var currentCell = Cells[cell];
+            var positions = CalcPositions(currentCell.Items, DateOnly.FromDateTime(currentCell.Date), cell);
+            foreach (var position in positions)
+            {
+                if (position.Item.Start.Date == currentCell.Date.Date)
+                {
+                    <WeekDropZone Position="position" Style="@EventStyle(position)" @key="position.Item.Id">
+                        @RenderResizer(position, currentCell)
+                    </WeekDropZone>
+                    }
+                else
+                {
+                    <div style="@EventStyle(position)" class="mud-cal-drop-item">
+                        @RenderResizer(position, currentCell)
+                        @RenderTemplate(position.Item)
+                    </div>
+                }
+            }
+        }
+    };
+
+    /// <summary>
+    /// Renders the resizer for the item if necessary.
+    /// </summary>
+    protected virtual RenderFragment RenderResizer(ItemPosition position, CalendarCell cell) => __builder =>
+    {
+        @if (Calendar.EnableResizeItems)
+        {
+            <Resizer ContainerClass="mud-cal-grid" CellCount="Columns" ResizeX="true" SizeChanged="@(days => ItemWidthChanged(position.Item, days, cell))"/>
         }
     };
 
