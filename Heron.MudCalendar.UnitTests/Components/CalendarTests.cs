@@ -1,4 +1,5 @@
 using System;
+using AngleSharp.Dom;
 using FluentAssertions;
 using Heron.MudCalendar.UnitTests.Viewer.TestComponents.Calendar;
 using MudBlazor;
@@ -140,13 +141,13 @@ public class CalendarTests : BunitTest
         
         // Month View
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
-        comp.Find("div.mud-cal-month-cell.mud-cal-month-link").Click();
+        comp.Find("div.mud-drop-zone a").Click();
         textField.Instance.Text.Should().Be("26");
         timeField.Instance.Text.Should().Be("00:00");
         
         // Month View set with time
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1, 9, 30, 0));
-        comp.Find("div.mud-cal-month-cell.mud-cal-month-link").Click();
+        comp.Find("div.mud-drop-zone a").Click();
         textField.Instance.Text.Should().Be("26");
         timeField.Instance.Text.Should().Be("00:00");
 
@@ -228,10 +229,9 @@ public class CalendarTests : BunitTest
         var cut = Context.RenderComponent<CalendarTest>();
         var comp = cut.FindComponent<MudCalendar>();
 
-        // Gets the highlighted day
-        var today = comp.Find(
-            "div.mud-cal-month-cell[style='border:1px solid var(--mud-palette-primary);'] div.mud-cal-month-cell-title");
-        today.TextContent.Should().Be(DateTime.Today.Day.ToString());
+        // Check that the first day is a Sunday
+        var firstDayDate = comp.FindAll("div.mud-drop-zone")[0].Attributes["identifier"]!.TextContent;
+        DateTime.Parse(firstDayDate).DayOfWeek.Should().Be(DayOfWeek.Sunday);
     }
 
     [Test]
@@ -255,10 +255,10 @@ public class CalendarTests : BunitTest
         var cut = Context.RenderComponent<CalendarSameDayEventsTest>();
         var comp = cut.FindComponent<MudCalendar>();
         
-        comp.Find("div.mud-cal-month-dropzone div.mud-cal-cell-template").TextContent.Should().Be("Event 1");
+        comp.Find("div.mud-cal-drop-item div.mud-cal-cell-template").TextContent.Should().Be("Event 1");
         
         cut.Find("button.add-item").Click();
-        comp.FindAll("div.mud-cal-month-dropzone div.mud-cal-cell-template")[2].TextContent.Should().Be("Event 2.5");
+        comp.FindAll("div.mud-cal-drop-item div.mud-cal-cell-template")[2].TextContent.Should().Be("Event 2.5");
     }
 
     [Test]
@@ -323,12 +323,12 @@ public class CalendarTests : BunitTest
         var comp = cut.FindComponent<MudCalendar>();
         
         comp.SetParam(x => x.View, CalendarView.Day);
-        var event1 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[0];
+        var event1 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-drop-item")[0];
         event1.Attributes["style"].Should().NotBeNull();
         event1.Attributes["style"]?.Value.Should().Contain("left:0");
         event1.Attributes["style"]?.Value.Should().Contain("width:33");
         
-        var event2 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[1];
+        var event2 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-drop-item")[1];
         event2.Attributes["style"].Should().NotBeNull();
         event2.Attributes["style"]?.Value.Should().Contain("left:33");
         event2.Attributes["style"]?.Value.Should().Contain("width:33");
@@ -336,32 +336,15 @@ public class CalendarTests : BunitTest
         // Make sure no error thrown on the event ending at midnight when go to next day
         comp.FindAll("button.mud-icon-button")[1].Click();
         
-        var event16 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[0];
+        var event16 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-drop-item")[0];
         event16.Attributes["style"].Should().NotBeNull();
         event16.Attributes["style"]?.Value.Should().Contain("left:0");
         event16.Attributes["style"]?.Value.Should().Contain("width:100");
         
-        var event17 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[1];
+        var event17 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-drop-item")[1];
         event17.Attributes["style"].Should().NotBeNull();
         event17.Attributes["style"]?.Value.Should().Contain("left:0");
         event17.Attributes["style"]?.Value.Should().Contain("width:100");
-    }
-
-    [Test]
-    public void MultiDayMonthView()
-    {
-        var cut = Context.RenderComponent<CalendarMultiDayEventTest>();
-        var comp = cut.FindComponent<MudCalendar>();
-        
-        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 2, 1));
-        comp.FindAll("div.mud-cal-month-cell > div.mud-drop-zone > div.mud-cal-month-cell-title")[2].TextContent.Should().Be("1");
-        comp.FindAll("div.mud-cal-month-cell > div.mud-drop-zone")[2].Children.Length.Should().Be(2);
-        comp.FindAll("div.mud-cal-month-cell > div.mud-drop-zone")[3].Children.Length.Should().Be(2);
-        
-        comp.SetParam(x => x.EnableDragItems, true);
-        comp.FindAll("div.mud-cal-month-cell > div.mud-drop-zone > div.mud-cal-month-cell-title")[2].TextContent.Should().Be("1");
-        comp.FindAll("div.mud-cal-month-cell > div.mud-drop-zone")[2].Children.Length.Should().Be(2);
-        comp.FindAll("div.mud-cal-month-cell > div.mud-drop-zone")[3].Children.Length.Should().Be(2);
     }
 
     [Test]
@@ -423,6 +406,23 @@ public class CalendarTests : BunitTest
     }
 
     [Test]
+    public void MultiDayMonthView()
+    {
+        var cut = Context.RenderComponent<CalendarMultiDayMonthTest>();
+        var comp = cut.FindComponent<MudCalendar>();
+        
+        comp.SetParam(x => x.CurrentDay, new DateTime(2024, 11, 1));
+        // Should be event 3
+        comp.FindAll("div.mud-cal-drop-item")[0].Attributes["style"]!.TextContent.Contains("top:36px").Should().BeTrue();
+        comp.FindAll("div.mud-cal-drop-item")[0].Attributes["style"]!.TextContent.Contains("left:14.2").Should().BeTrue();
+        comp.FindAll("div.mud-cal-drop-item")[0].Attributes["style"]!.TextContent.Contains("width:28.5").Should().BeTrue();
+        
+        // Should be event 7
+        comp.FindAll("div.mud-cal-drop-item")[8].Attributes["style"]!.TextContent.Contains("left:0").Should().BeTrue();
+        comp.FindAll("div.mud-cal-drop-item")[8].Attributes["style"]!.TextContent.Contains("width:28.5").Should().BeTrue();
+    }
+
+    [Test]
     public void DateChangedEvent()
     {
         var cut = Context.RenderComponent<CalendarEventsTest>();
@@ -477,7 +477,7 @@ public class CalendarTests : BunitTest
         var comp = cut.FindComponent<MudCalendar>();
         
         // Check that current month is Feb 2024
-        comp.FindAll(".mud-cal-month-dropzone")[0].Attributes["identifier"]!.TextContent.Should().Be("29/01/2024");
+        comp.FindAll(".mud-drop-zone")[0].Attributes["identifier"]!.TextContent.Should().Be("29/01/2024");
     }
 
     [Test]
@@ -487,23 +487,23 @@ public class CalendarTests : BunitTest
         var comp = cut.FindComponent<MudCalendar>();
         
         comp.SetParam(x => x.View, CalendarView.Day);
-        var event1 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[0];
+        var event1 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-drop-item")[0];
         event1.Attributes["style"].Should().NotBeNull();
         event1.Attributes["style"]?.Value.Should().Contain("height:90");
         
-        var event3 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[2];
+        var event3 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-drop-item")[2];
         event3.Attributes["style"].Should().NotBeNull();
         event3.Attributes["style"]?.Value.Should().Contain("width:50");
         
-        var event4 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[3];
+        var event4 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-drop-item")[3];
         event4.Attributes["style"].Should().NotBeNull();
         event4.Attributes["style"]?.Value.Should().Contain("width:50");
         
-        var event5 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[4];
+        var event5 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-drop-item")[4];
         event5.Attributes["style"].Should().NotBeNull();
         event5.Attributes["style"]?.Value.Should().Contain("height:50");
         
-        var event6 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-week-drop-item")[5];
+        var event6 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-drop-item")[5];
         event6.Attributes["style"].Should().NotBeNull();
         event6.Attributes["style"]?.Value.Should().Contain("height:50");
     }

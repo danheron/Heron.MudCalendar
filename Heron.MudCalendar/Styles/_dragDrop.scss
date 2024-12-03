@@ -1,0 +1,34 @@
+.mud-cal-drop-item {
+  transition: none;
+}
+
+.mud-cal-drop-item > .mud-drop-item {
+  height: 100%;
+  border: none;
+}
+
+.mud-cal-drop-item > .mud-drop-item.disabled {
+  cursor: inherit;
+}
+
+.mud-cal-drop-ok {
+  background-color: var(--mud-cal-cell-hover);
+}
+
+.mud-cal-resizer-x {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  border-right: 10px solid transparent;
+  z-index: 1;
+  cursor: ew-resize;
+}
+
+.mud-cal-resizer-y {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-bottom: 10px solid transparent;
+  z-index: 1;
+  cursor: ns-resize;
+}

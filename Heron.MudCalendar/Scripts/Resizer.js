@@ -2,15 +2,21 @@ export class Resizer {
     
     _obj;
     _handle;
+    _container;
+    _cellCount;
     _intervalSize;
     _item;
-    _startHeight;
-    _startY;
+    _startSize;
+    _startPos;
+    _resizeX;
+    _position;
     
-    constructor(handleId, intervalSize, obj) {
+    constructor(handleId, containerClass, cellCount, resizeX, obj) {
         this._obj = obj;
+        this._resizeX = resizeX;
         this._handle = document.getElementById(handleId);
-        this._intervalSize = intervalSize;
+        this._container = document.getElementsByClassName(containerClass)[0];
+        this._cellCount = cellCount;
         this._item = this._handle.parentElement;
         
         this._handle.addEventListener("mousedown", this.onMouseDown);
@@ -19,8 +25,18 @@ export class Resizer {
     onMouseDown = (e) => {
         e.stopPropagation();
         
-        this._startHeight = this._item.clientHeight;
-        this._startY = e.clientY;
+        if (this._resizeX)
+        {
+            this._intervalSize = this._container.clientWidth / this._cellCount;
+            this._startSize = this._item.clientWidth;
+            this._startPos = e.clientX;
+        }
+        else
+        {
+            this._intervalSize = this._container.clientHeight / this._cellCount;
+            this._startSize = this._item.clientHeight;
+            this._startPos = e.clientY;   
+        }
         
         document.addEventListener("mouseup", this.onMouseUp);
         document.addEventListener("mousemove", this.onMouseMove);
@@ -30,31 +46,49 @@ export class Resizer {
         document.removeEventListener("mouseup", this.onMouseUp);
         document.removeEventListener("mousemove", this.onMouseMove);
         
-        const newHeight = this.update();
+        const newSize = this.update();
         
-        await this._obj.invokeMethodAsync("ResizeFinished", newHeight);
+        await this._obj.invokeMethodAsync("ResizeFinished", newSize);
     }
     
     onMouseMove = (e) => {
-        this._position = e.clientY;
+        this._position = this._resizeX ? e.clientX : e.clientY;
         
         this.update();
     }
     
     update() {
-        const movement = this._position - this._startY;
-        let height = this._startHeight + movement;
-        if (height < this._intervalSize) height = this._intervalSize;
+        const movement = this._position - this._startPos;
+        let size = this._startSize + movement;
         
-        // Find closest interval
-        height = Math.round(height / this._intervalSize) * this._intervalSize;
+        // Check that item is not too big
+        if (this._resizeX)
+        {
+            if (this._item.offsetLeft + size > this._container.clientWidth) size = this._container.clientWidth - this._item.offsetLeft;
+        }
+        else
+        {
+            if (this._item.offsetTop + size > this._container.clientHeight) size = this._container.clientHeight - this._item.offsetTop;
+        }
         
-        this._item.style.height = height + "px";
+        // Check that item is not too small
+        if (size < this._intervalSize) size = this._intervalSize;
         
-        return height;
+        // Resize to the closest interval
+        size = Math.round(size / this._intervalSize) * this._intervalSize;
+        if (this._resizeX)
+        {
+            this._item.style.width = size + "px";
+        }
+        else
+        {
+            this._item.style.height = size + "px";   
+        }
+        
+        return size / this._intervalSize;
     }
 }
 
-export function newResizer(handleId, intervalSize, obj) {
-    return new Resizer(handleId, intervalSize, obj);
+export function newResizer(handleId, containerClass, cellCount, resizeX, obj) {
+    return new Resizer(handleId, containerClass, cellCount, resizeX, obj);
 }

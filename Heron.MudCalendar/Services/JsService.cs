@@ -29,19 +29,19 @@ public class JsService : IDisposable
     public async Task AddLink(string href, string rel)
     {
         var module = await _moduleTask.Value;
-        await module.InvokeVoidAsync("addLink", href, rel);
+        await module.InvokeVoidAsync("addLink", href, rel, true);
     }
     
-    public async Task AddDragHandler(string id)
+    public async Task AddDragHandler(string id, int width)
     {
         var module = await _moduleTask.Value;
-        await module.InvokeVoidAsync("addDragHandler", id);
+        await module.InvokeVoidAsync("addDragHandler", id, width);
     }
 
-    public async Task HideOverflows(string className, string moreText)
+    public async Task PositionMonthItems(string moreText)
     {
         var module = await _moduleTask.Value;
-        await module.InvokeVoidAsync("hideOverflows", className, moreText);
+        await module.InvokeVoidAsync("positionMonthItems", moreText);
     }
     
     public void Dispose()
