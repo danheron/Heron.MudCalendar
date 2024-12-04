@@ -29,7 +29,7 @@ public class JsService : IDisposable
     public async Task AddLink(string href, string rel)
     {
         var module = await _moduleTask.Value;
-        await module.InvokeVoidAsync("addLink", href, rel, true);
+        await module.InvokeVoidAsync("addLink", href, rel);
     }
     
     public async Task AddDragHandler(string id, int width)
@@ -38,10 +38,10 @@ public class JsService : IDisposable
         await module.InvokeVoidAsync("addDragHandler", id, width);
     }
 
-    public async Task PositionMonthItems(string moreText)
+    public async Task PositionMonthItems(ElementReference element, string moreText, bool fixedHeight)
     {
         var module = await _moduleTask.Value;
-        await module.InvokeVoidAsync("positionMonthItems", moreText);
+        await module.InvokeVoidAsync("positionMonthItems", element, moreText, fixedHeight);
     }
     
     public void Dispose()

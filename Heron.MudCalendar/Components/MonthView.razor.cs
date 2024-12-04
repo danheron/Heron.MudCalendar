@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Globalization;
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
@@ -13,6 +14,7 @@ namespace Heron.MudCalendar;
 public partial class MonthView : CalendarViewBase, IDisposable
 {
     private MudDropContainer<CalendarItem>? _dropContainer;
+    private ElementReference _monthGrid;
 
     private JsService? _jsService;
 
@@ -27,6 +29,7 @@ public partial class MonthView : CalendarViewBase, IDisposable
     /// </summary>
     protected virtual string Classname =>
         new CssBuilder("mud-cal-month-table-body")
+            .AddClass("mud-cal-month-layer")
             .AddClass("mud-cal-month-fixed-height", Calendar.MonthCellMinHeight == 0)
             .Build();
 
@@ -110,9 +113,14 @@ public partial class MonthView : CalendarViewBase, IDisposable
                 (index + 1) % Columns == 0 && !(calendarCell.Today && Calendar.HighlightToday))
             .AddStyle("border", $"1px solid var(--mud-palette-{Calendar.Color.ToDescriptionString()})",
                 calendarCell.Today && Calendar.HighlightToday)
-            .AddStyle("min-height", Calendar.MonthCellMinHeight + "px", Calendar.MonthCellMinHeight > 0)
+            .AddStyle("width", $"{(100.0 / Columns).ToInvariantString()}%")
             .Build();
     }
+
+    protected virtual string RowStyle =>
+        new StyleBuilder()
+            .AddStyle("min-height", Calendar.MonthCellMinHeight + "px", Calendar.MonthCellMinHeight > 0)
+            .Build();
 
     /// <summary>
     /// Method invoked when the user clicks on the hyperlink in the cell.
@@ -126,7 +134,7 @@ public partial class MonthView : CalendarViewBase, IDisposable
             await Calendar.CellClicked.InvokeAsync(cell.Date);
         }
     }
-    
+
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -247,7 +255,7 @@ public partial class MonthView : CalendarViewBase, IDisposable
         var moreText = LoadText();
 
         _jsService ??= new JsService(JsRuntime);
-        return _jsService.PositionMonthItems(moreText);
+        return _jsService.PositionMonthItems(_monthGrid, moreText, Calendar.MonthCellMinHeight == 0);
     }
 
     private string LoadText()
@@ -294,9 +302,9 @@ public partial class MonthView : CalendarViewBase, IDisposable
             // Create new position object
             var position = new ItemPosition
             {
-                Item = item, 
-                Position = 0, 
-                Total = 1, 
+                Item = item,
+                Position = 0,
+                Total = 1,
                 Date = date,
                 Top = 36,
                 Left = cellIndex % Columns
