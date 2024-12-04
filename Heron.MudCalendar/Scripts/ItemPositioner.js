@@ -1,9 +1,9 @@
 let _moreText = "";
 
-export function positionMonthItems(moreText) {
+export function positionMonthItems(element, moreText, fixedHeight) {
     if (moreText) _moreText = moreText;
     
-    document.querySelectorAll(".mud-cal-month-row-holder").forEach(function(container) {
+    element.querySelectorAll(".mud-cal-month-row-holder").forEach(function(container) {
         // Remove any existing messages
         container.querySelectorAll(".mud-cal-overflow-message").forEach(function (message) {
             message.remove();
@@ -47,14 +47,25 @@ export function positionMonthItems(moreText) {
             overlaps.push(position);
         });
         
-        // Find overflows
-        const lefts = [];
-        positions.forEach((position) => {
-            if (!lefts.includes(position.Left)) lefts.push(position.Left);
-        });
-        lefts.forEach((left) => {
-            hideOverflows(container, positions.filter(p => p.Left === left), left, moreText);
-        });
+        if (fixedHeight) {
+            // Find overflows
+            const lefts = [];
+            positions.forEach((position) => {
+                if (!lefts.includes(position.Left)) lefts.push(position.Left);
+            });
+            lefts.forEach((left) => {
+                hideOverflows(container, positions.filter(p => p.Left === left), left, moreText);
+            });
+        }
+        else
+        {
+            // Calculate height of the row
+            let rowMaxBottom = 0;
+            positions.forEach((position) => {
+                if (position.Bottom > rowMaxBottom) rowMaxBottom = position.Bottom;
+            })
+            container.style.height = rowMaxBottom + "px";
+        }
         
         // Update positions
         positions.forEach((position) => {
@@ -64,7 +75,7 @@ export function positionMonthItems(moreText) {
             }
             else
             {
-                position.Item.style.top = position.Top + "px";   
+                position.Item.style.top = position.Top + "px";
             }
         });
     });
