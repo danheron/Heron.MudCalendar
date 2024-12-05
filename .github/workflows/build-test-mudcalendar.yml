@@ -14,6 +14,13 @@ jobs:
         dotnet-version: [ '8.0.x', '9.0.x' ]
 
     steps:
+      - name: Install .NET 9
+        run: |
+          wget -O dotnet-install.sh https://dot.net/v1/dotnet-install.sh
+          chmod +x dotnet-install.sh
+          ./dotnet-install.sh --channel 9.0 --install-dir /usr/share/dotnet
+          ln -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet
+
       - name: Checkout MudCalendar repository
         uses: actions/checkout@v4
 
