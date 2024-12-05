@@ -30,6 +30,7 @@ public class CalendarTests : BunitTest
         buttons[1].Click();
         cut.FindAll("div.mud-cal-week-view").Count.Should().Be(1);
 
+        buttons = comp.FindAll("button");
         buttons[2].Click();
         cut.FindAll("div.mud-cal-week-view").Count.Should().Be(1);
     }
