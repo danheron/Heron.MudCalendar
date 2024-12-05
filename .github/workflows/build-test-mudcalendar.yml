@@ -24,7 +24,7 @@ jobs:
 
       - name: Create temporary global.json
         run: |
-          echo '{"sdk":{"version": "9.0.x"}}' > ./global.json
+          echo '{"sdk":{"version": "9.0.100"}}' > ./global.json
 
       - name: Restore
         run: dotnet restore Heron.MudCalendarWithDocs.sln
