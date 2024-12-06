@@ -8,6 +8,7 @@
   display: grid;
   user-select: none;
   width: 100%;
+  overflow: hidden;
 }
 .mud-calendar.mud-cal-square {
   border-radius: 0;
@@ -152,12 +153,14 @@
 }
 
 .mud-cal-work-week-header {
-  grid-template-columns: 60px repeat(5, 1fr);
+  grid-template-columns: 52px repeat(5, 1fr);
   border-bottom: 1px solid var(--mud-palette-table-lines);
 }
 
 .mud-cal-week-header {
-  grid-template-columns: 60px repeat(7, 1fr);
+  grid-template-columns: 52px repeat(7, 1fr);
+  white-space: nowrap;
+  overflow: hidden;
   border-bottom: 1px solid var(--mud-palette-table-lines);
 }
 

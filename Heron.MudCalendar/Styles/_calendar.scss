@@ -8,6 +8,7 @@
   display: grid;
   user-select: none;
   width: 100%;
+  overflow: hidden;
 
   &.mud-cal-square {
     border-radius: 0;

@@ -81,7 +81,14 @@
                 }
             </div>
             <div>
-                <EnumSwitch Value="@View" T="CalendarView" Color="@Color" AllowedValues="AllowedViews()" ValueChanged="OnViewChanging"/>
+                @if (ShowDropdownViewSelector)
+                {
+                    <EnumMenu Value="@View" T="CalendarView" Color="@Color" Variant="ButtonVariant" AllowedValues="AllowedViews()" ValueChanged="OnViewChanging"/>
+                }
+                else
+                {
+                    <EnumSwitch Value="@View" T="CalendarView" Color="@Color" AllowedValues="AllowedViews()" ValueChanged="OnViewChanging"/>
+                }
             </div>
         </div>;
 

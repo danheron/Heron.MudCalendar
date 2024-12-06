@@ -1,26 +1,22 @@
-@namespace Heron.MudCalendar
-@using Microsoft.Extensions.Localization
-@using Microsoft.Extensions.Logging.Abstractions
-@using Microsoft.Extensions.Options
-@using System.Globalization
+using System.Globalization;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 
-@GetText()
+namespace Heron.MudCalendar.Enums;
 
-@code {
-
-    [Parameter]
-    public CalendarView CalendarView { get; set; }
-
+public static class CalendarViewName
+{
     private static Dictionary<CalendarView, string>? _viewNames;
     private static CultureInfo? _uiCulture;
 
-    private string GetText()
+    public static string GetText(CalendarView view)
     {
         if (_viewNames == null || _uiCulture == null || !Equals(_uiCulture, Thread.CurrentThread.CurrentUICulture)) ReadLocalizedNames();
-        return _viewNames == null ? string.Empty : _viewNames[CalendarView];
+        return _viewNames == null ? string.Empty : _viewNames[view];
     }
 
-    private void ReadLocalizedNames()
+    private static void ReadLocalizedNames()
     {
         var options = Options.Create(new LocalizationOptions { ResourcesPath = "Resources" });
         var factory = new ResourceManagerStringLocalizerFactory(options, NullLoggerFactory.Instance);

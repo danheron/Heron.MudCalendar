@@ -216,6 +216,17 @@ public partial class MudCalendar : MudComponentBase
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowTodayButton { get; set; }
+    
+    /// <summary>
+    /// If true a dropdown list instead of buttons is used for selecting the view.
+    /// This can be useful on mobile devices where space is limited.
+    /// </summary>
+    /// /// <remarks>
+    /// Defaults to <c>false</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public bool ShowDropdownViewSelector { get; set; }
 
     /// <summary>
     /// Set the day start time for week/day views.
@@ -266,6 +277,8 @@ public partial class MudCalendar : MudComponentBase
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public bool ShowCurrentTime { get; set; }
+    
+    
 
     /// <summary>
     /// If true then calendar items can be drag/dropped to different dates/times.
