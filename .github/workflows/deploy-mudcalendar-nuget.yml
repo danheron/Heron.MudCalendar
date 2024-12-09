@@ -42,8 +42,8 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: |
-          7.0.x
           8.0.x
+          9.0.x
 
     - name: Pack nuget package
       run: dotnet pack -c Release -m:1 --output nupkgs /p:PackageVersion=${{ needs.get-version.outputs.VERSION }} /p:AssemblyVersion=${{ needs.get-version.outputs.VERSION }} /p:Version=${{ needs.get-version.outputs.VERSION }}
@@ -51,4 +51,8 @@ jobs:
 
     - name: Publish nuget package
       run: dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json
+      working-directory: './Heron.MudCalendar'
+
+    - name: Publish nuget package symbols
+      run: dotnet nuget push nupkgs/*.snupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json
       working-directory: './Heron.MudCalendar'
