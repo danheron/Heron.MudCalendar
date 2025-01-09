@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Runtime.Loader;
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
@@ -105,7 +106,7 @@ public partial class MudCalendar : MudComponentBase
     /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
-    public DayOfWeek? FirstDayOfWeek { get; set; } = null;
+    public DayOfWeek? FirstDayOfWeek { get; set; }
 
     /// <summary>
     /// Gets or sets the first day of the week that the calendar is showing in Work Week View.
@@ -115,7 +116,7 @@ public partial class MudCalendar : MudComponentBase
     /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
-    public DayOfWeek? FirstDayOfWorkWeek { get; set; } = null;
+    public DayOfWeek? FirstDayOfWorkWeek { get; set; }
 
     /// <summary>
     /// Gets or sets the view (day, week, month) being shown.
@@ -175,7 +176,7 @@ public partial class MudCalendar : MudComponentBase
     /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
-    public bool ShowWorkWeek { get; set; } = false;
+    public bool ShowWorkWeek { get; set; }
 
     /// <summary>
     /// If false the month view is not shown.
@@ -616,6 +617,7 @@ public partial class MudCalendar : MudComponentBase
         if (!string.IsNullOrEmpty(head) && head.Contains("Heron.MudCalendar.min.css")) return;
 
         // Add link
+        _jsService.OnLinkLoaded += (_, _) => Refresh();
         await _jsService.AddLink("_content/Heron.MudCalendar/Heron.MudCalendar.min.css", "stylesheet");
     }
 

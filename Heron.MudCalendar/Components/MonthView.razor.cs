@@ -40,7 +40,7 @@ public partial class MonthView : CalendarViewBase, IDisposable
         new StyleBuilder()
             .AddStyle("grid-template-columns", $"repeat({Columns}, minmax(10px, 1fr))")
             .AddStyle("grid-template-rows",
-                $"repeat({Cells.Count / Columns}, {(100.0 / (Cells.Count / (double)Columns)).ToInvariantString()}%)",
+                $"repeat({Rows}, {(100.0 / Rows).ToInvariantString()}%)",
                 Calendar.MonthCellMinHeight == 0)
             .Build();
 
@@ -50,7 +50,7 @@ public partial class MonthView : CalendarViewBase, IDisposable
     protected virtual string ContentGridStyle =>
         new StyleBuilder()
             .AddStyle("grid-template-rows",
-                $"repeat({Cells.Count / Columns}, {(100.0 / (Cells.Count / (double)Columns)).ToInvariantString()}%)",
+                $"repeat({Rows}, {(100.0 / Rows).ToInvariantString()}%)",
                 Calendar.MonthCellMinHeight == 0)
             .Build();
 
@@ -96,6 +96,7 @@ public partial class MonthView : CalendarViewBase, IDisposable
     {
         return new CssBuilder()
             .AddClass("mud-cal-month-cell-title")
+            .AddClass("mud-cal-month-cell-header")
             .AddClass("mud-cal-month-outside", calendarCell.Outside)
             .Build();
     }

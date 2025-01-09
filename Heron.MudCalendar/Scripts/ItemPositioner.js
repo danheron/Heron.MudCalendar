@@ -8,6 +8,16 @@ export function positionMonthItems(element, moreText, fixedHeight) {
         container.querySelectorAll(".mud-cal-overflow-message").forEach(function (message) {
             message.remove();
         });
+
+        // Find the height of the header part  
+        let headerHeight = 0;
+        container.querySelectorAll(".mud-cal-month-cell").forEach(function(cell) {
+            let height = 0;
+            cell.querySelectorAll(".mud-cal-month-cell-header").forEach(function(item) {
+                height += item.clientHeight;
+            });
+            if (height > headerHeight) headerHeight = height;
+        });
         
         const positions = [];
         const overlaps = [];
@@ -18,7 +28,7 @@ export function positionMonthItems(element, moreText, fixedHeight) {
             // Create new position object
             const position = new ItemPosition();
             position.Item = item;
-            position.Top = 36;
+            position.Top = headerHeight;
             position.Height = item.clientHeight;
             position.Left = item.offsetLeft;
             position.Width = item.clientWidth;
@@ -60,7 +70,7 @@ export function positionMonthItems(element, moreText, fixedHeight) {
         else
         {
             // Calculate height of the row
-            let rowMaxBottom = 0;
+            let rowMaxBottom = headerHeight;
             positions.forEach((position) => {
                 if (position.Bottom > rowMaxBottom) rowMaxBottom = position.Bottom;
             })

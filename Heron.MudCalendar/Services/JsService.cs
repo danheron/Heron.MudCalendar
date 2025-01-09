@@ -7,6 +7,9 @@ public class JsService : IDisposable
 {
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
     private readonly CancellationTokenSource _cancellationTokenSource = new();
+    private DotNetObjectReference<JsService>? _this;
+
+    public event EventHandler? OnLinkLoaded;
 
     public JsService(IJSRuntime jsRuntime)
     {
@@ -28,8 +31,19 @@ public class JsService : IDisposable
 
     public async Task AddLink(string href, string rel)
     {
+        if (OnLinkLoaded != null)
+        {
+            _this ??= DotNetObjectReference.Create(this);
+        }
+        
         var module = await _moduleTask.Value;
-        await module.InvokeVoidAsync("addLink", href, rel);
+        await module.InvokeVoidAsync("addLink", href, rel, _this);
+    }
+
+    [JSInvokable]
+    public void LinkLoaded()
+    {
+        OnLinkLoaded?.Invoke(this, EventArgs.Empty);
     }
     
     public async Task AddDragHandler(string id, int width)
