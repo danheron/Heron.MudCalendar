@@ -4,7 +4,6 @@
   background-color: var(--mud-palette-surface);
   border-radius: var(--mud-default-borderradius);
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  padding-top: 8px;
   display: grid;
   user-select: none;
   width: 100%;
@@ -28,9 +27,14 @@
   letter-spacing: 0.01071em;
   vertical-align: inherit;
 }
+.mud-calendar .mud-calendar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
 .mud-calendar .mud-cal-grid-header {
   display: grid;
-  padding: 8px;
   text-align: center;
   font-weight: 500;
   line-height: 1.5rem;
@@ -41,6 +45,16 @@
 .mud-calendar .mud-cal-toolbar {
   display: flex;
   justify-content: space-between;
+  column-gap: 4px;
+  overflow-x: scroll;
+}
+.mud-calendar .mud-cal-toolbar .mud-button-label {
+  white-space: nowrap;
+}
+.mud-calendar .mud-cal-toolbar-nav {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 4px;
 }
 .mud-calendar .mud-cal-overflow-message {
   position: absolute;
@@ -153,12 +167,12 @@
 }
 
 .mud-cal-work-week-header {
-  grid-template-columns: 52px repeat(5, 1fr);
+  grid-template-columns: 60px repeat(5, 1fr);
   border-bottom: 1px solid var(--mud-palette-table-lines);
 }
 
 .mud-cal-week-header {
-  grid-template-columns: 52px repeat(7, 1fr);
+  grid-template-columns: 60px repeat(7, 1fr);
   white-space: nowrap;
   overflow: hidden;
   border-bottom: 1px solid var(--mud-palette-table-lines);
