@@ -16,7 +16,7 @@
         <CascadingValue IsFixed="false" Value="this">
             <div class="@Classname" style="@Styles">
 
-                <div class="d-flex flex-column mud-height-full">
+                <div class="mud-calendar-container">
                     @if (ShowToolbar)
                     {
                         @RenderToolbar
@@ -60,37 +60,39 @@
     /// Renders the toolbar of the component including prev/next buttons, date picker and view switcher.
     /// </summary>
     protected virtual RenderFragment RenderToolbar =>
-        @<div class="mud-cal-toolbar pa-4">
-            <div class="d-flex align-center">
-                @if (ShowPrevNextButtons)
-                {
-                    <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" aria-label="@PrevAriaLabel" Color="@Color" OnClick="OnPreviousClicked" Class="mx-1"/>
-                    <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" aria-label="@NextAriaLabel" Color="@Color" OnClick="OnNextClicked" Class="mr-1"/>
-                }
-                @if (ShowDatePicker)
-                {
-                    <CalendarDatePicker @ref="_datePicker" OpenTo="@(View == CalendarView.Month ? OpenTo.Month : OpenTo.Date)" FirstDayOfWeek="@GetFirstDayOfWeekByCalendarView(View)" FixDay="@(View == CalendarView.Month ? PickerDate?.Day : null)" Date="PickerDate" DateChanged="DatePickerDateChanged" View="View" Variant="ButtonVariant" Color="Color" Class="mx-1" PickerOpened="OnDatePickerOpened"/>
-                }
-                @if (ShowTodayButton)
-                {
-                    <MudButton Variant="@ButtonVariant" Color="@Color" OnClick="OnTodayClicked" Class="mx-1">@DrawTodayText()</MudButton>
-                }
-                @if (ToolbarContent != null)
-                {
-                    @ToolbarContent
-                }
-            </div>
-            <div>
-                @if (ShowDropdownViewSelector)
-                {
-                    <EnumMenu Value="@View" T="CalendarView" Color="@Color" Variant="ButtonVariant" AllowedValues="AllowedViews()" ValueChanged="OnViewChanging"/>
-                }
-                else
-                {
-                    <EnumSwitch Value="@View" T="CalendarView" Color="@Color" AllowedValues="AllowedViews()" ValueChanged="OnViewChanging"/>
-                }
-            </div>
-        </div>;
+        @<div class="mud-cal-toolbar" style="@ToolbarStyle">
+                <div class="mud-cal-toolbar-nav">
+                    @if (ShowPrevNextButtons)
+                    {
+                            <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" aria-label="@PrevAriaLabel" Color="@Color" OnClick="OnPreviousClicked" />
+                            <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" aria-label="@NextAriaLabel" Color="@Color" OnClick="OnNextClicked" />
+                    }
+                    @if (ShowDatePicker)
+                    {
+                        <CalendarDatePicker @ref="_datePicker" OpenTo="@(View == CalendarView.Month ? OpenTo.Month : OpenTo.Date)" FirstDayOfWeek="@GetFirstDayOfWeekByCalendarView(View)" FixDay="@(View == CalendarView.Month ? PickerDate?.Day : null)" Date="PickerDate" DateChanged="DatePickerDateChanged" View="View" Variant="ButtonVariant" Color="Color" PickerOpened="OnDatePickerOpened"/>
+                    }
+                    @if (ShowTodayButton)
+                    {
+                        <MudButton Variant="@ButtonVariant" Color="@Color" OnClick="OnTodayClicked">@DrawTodayText()</MudButton>
+                    }
+                    @if (ToolbarContent != null)
+                    {
+                        <div>
+                            @ToolbarContent
+                        </div>
+                    }
+                </div>
+                <div>
+                    @if (ShowDropdownViewSelector)
+                    {
+                        <EnumMenu Value="@View" T="CalendarView" Color="@Color" Variant="ButtonVariant" AllowedValues="AllowedViews()" ValueChanged="OnViewChanging"/>
+                    }
+                    else
+                    {
+                        <EnumSwitch Value="@View" T="CalendarView" Color="@Color" AllowedValues="AllowedViews()" ValueChanged="OnViewChanging"/>
+                    }
+                </div>
+            </div>;
 
     /// <summary>
     /// Renders the month view.

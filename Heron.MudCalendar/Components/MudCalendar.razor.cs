@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Runtime.Loader;
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
@@ -230,6 +229,16 @@ public partial class MudCalendar : MudComponentBase
     public bool ShowDropdownViewSelector { get; set; }
 
     /// <summary>
+    /// Set the padding of the toolbar.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>16</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Appearance)]
+    public int ToolbarPadding { get; set; } = 16;
+
+    /// <summary>
     /// Set the day start time for week/day views.
     /// </summary>
     /// <remarks>
@@ -431,6 +440,11 @@ public partial class MudCalendar : MudComponentBase
     protected virtual string ViewClassname =>
         new CssBuilder("flex-grow-1")
             .AddClass("d-none", AllowedViews().Count == 0)
+            .Build();
+
+    protected virtual string ToolbarStyle =>
+        new StyleBuilder()
+            .AddStyle("padding", $"{ToolbarPadding}px")
             .Build();
     
     protected virtual string PrevAriaLabel
