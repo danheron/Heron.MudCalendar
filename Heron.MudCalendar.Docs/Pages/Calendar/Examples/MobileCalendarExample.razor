@@ -1,0 +1,36 @@
+@namespace Heron.MudCalendar.Docs.Examples
+
+<div style="width: 350px; margin-left: auto; margin-right: auto;">
+    <MudCalendar Items="_events" Height="600" ShowDropdownViewSelector="true" ShowPrevNextButtons="false" ToolbarPadding="4" Outlined="true">
+        <MonthTemplate>
+            <div class="d-flex gap-1">
+                <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Primary" Size="Size.Small"/>
+            </div>
+        </MonthTemplate>
+        <WeekTemplate>
+            <div class="d-flex gap-1">
+                <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Primary" Size="Size.Small"/>
+            </div>
+        </WeekTemplate>
+    </MudCalendar>
+</div>
+
+@code {
+    
+    private List<CalendarItem> _events = new()
+    {
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(10),
+            End = DateTime.Today.AddHours(11),
+            Text = "Event today"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddDays(1).AddHours(11),
+            End = DateTime.Today.AddDays(1).AddHours(12.5),
+            Text = "Event tomorrow"
+        }
+    };
+    
+}

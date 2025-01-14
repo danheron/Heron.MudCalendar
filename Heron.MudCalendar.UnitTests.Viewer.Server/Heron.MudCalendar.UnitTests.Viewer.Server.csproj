@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="MudBlazor" Version="8.0.0-preview.5" />
+      <PackageReference Include="MudBlazor" Version="8.0.0-rc.2" />
     </ItemGroup>
 
 </Project>
