@@ -1,0 +1,135 @@
+@namespace Heron.MudCalendar.Docs.Examples
+
+<MudStack Row="true" AlignItems="AlignItems.Center">
+  <MudCalendar CurrentDay="@_currentDate" Items="_events" ButtonVariant="@_buttonVariant" Elevation="@_elevation" Outlined="@_outlined" Color="@_color" ShowWorkWeek="@_workWeek" ShowToolbar="@_showToolbar" ShowPrevNextButtons="@_prevNext" ShowDatePicker="@_datePicker" ShowTodayButton="@_todayButton" MonthCellMinHeight="@(_fixedHeight ? 0 : 115)" Square="@_square" EnableDragItems="@_dragItems">
+    <ToolbarContent>
+      <MudButton Variant="Variant.Filled" Color="Color.Info" Class="mx-1" OnClick="GotoRandomDay">Random Day</MudButton>
+
+      <MudButton Variant="Variant.Filled" Color="Color.Warning" Class="mx-1" OnClick="AddRandomEvent">Random Event</MudButton>
+    </ToolbarContent>
+  </MudCalendar>
+
+  <MudStack>
+
+    <MudSlider @bind-Value="_elevation" Size="Size.Small" ValueLabel="true" Min="0" Max="25" Color="Color.Primary"><b>Elevation</b></MudSlider>
+
+    <MudSelect @bind-Value="_buttonVariant" T="Variant" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Label="Button Variant">
+      <MudSelectItem Value="Variant.Filled">Filled</MudSelectItem>
+      <MudSelectItem Value="Variant.Outlined">Outlined</MudSelectItem>
+      <MudSelectItem Value="Variant.Text">Text</MudSelectItem>
+    </MudSelect>
+
+    <MudSelect @bind-Value="_color" T="Color" Variant="Variant.Outlined" Dense="true" Margin="Margin.Dense" Label="Color">
+      <MudSelectItem Value="Color.Primary">Primary</MudSelectItem>
+      <MudSelectItem Value="Color.Secondary">Secondary</MudSelectItem>
+      <MudSelectItem Value="Color.Tertiary">Tertiary</MudSelectItem>
+    </MudSelect>
+
+    <MudSwitch @bind-Value="@_showToolbar" Size="Size.Medium" Color="Color.Primary" T="bool"><b>Show Toolbar</b></MudSwitch>
+    <MudSwitch @bind-Value="@_outlined" Size="Size.Medium" Color="Color.Primary" T="bool"><b>Outlined</b></MudSwitch>
+    <MudSwitch @bind-Value="@_square" Size="Size.Medium" Color="Color.Primary" T="bool"><b>Square</b></MudSwitch>
+    <MudSwitch @bind-Value="@_prevNext" Size="Size.Medium" Color="Color.Primary" T="bool"><b>Prev/Next Buttons</b></MudSwitch>
+    <MudSwitch @bind-Value="@_datePicker" Size="Size.Medium" Color="Color.Primary" T="bool"><b>Date Picker</b></MudSwitch>
+    <MudSwitch @bind-Value="@_workWeek" Size="Size.Medium" Color="Color.Primary" T="bool"><b>Work Week</b></MudSwitch>
+    <MudSwitch @bind-Value="@_todayButton" Size="Size.Medium" Color="Color.Primary" T="bool"><b>Today Button</b></MudSwitch>
+    <MudSwitch @bind-Value="@_fixedHeight" Size="Size.Medium" Color="Color.Primary" T="bool"><b>Fixed Height</b></MudSwitch>
+    <MudSwitch @bind-Value="@_dragItems" Size="Size.Medium" Color="Color.Primary" T="bool"><b>Drag/drop</b></MudSwitch>
+
+  </MudStack>
+</MudStack>
+
+@code {
+
+  private DateTime _currentDate = DateTime.Now;
+
+  private void GotoRandomDay()
+  {
+    var rnd = new Random();
+
+    int year = rnd.Next(2000, DateTime.Now.Year + 10);
+    int month = rnd.Next(1, 13);
+    int day = rnd.Next(1, DateTime.DaysInMonth(year, month) + 1);
+
+    _currentDate = new DateTime(year, month, day);
+  }
+
+  private void AddRandomEvent()
+  {
+    var rnd = new Random();
+
+    DateTime currentDate = _currentDate;
+
+    int daysInMonth = DateTime.DaysInMonth(currentDate.Year, currentDate.Month);
+
+    int randomDay = rnd.Next(1, daysInMonth + 1);
+
+    DateTime randomDate = new DateTime(currentDate.Year, currentDate.Month, randomDay);
+
+    _events.Add(new CalendarItem
+      {
+        Start = randomDate.AddHours(10),
+        End = randomDate.AddHours(11),
+        Text = $"Event {_events.Count + 1}"
+      });
+  }
+
+  private List<CalendarItem> _events = new()
+    {
+new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(10),
+            End = DateTime.Today.AddHours(11),
+            Text = "Event 1"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(11),
+            End = DateTime.Today.AddHours(12),
+            Text = "Event 2"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(13),
+            End = DateTime.Today.AddHours(14),
+            Text = "Event 3"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(14),
+            End = DateTime.Today.AddHours(15),
+            Text = "Event 4"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(17),
+            End = DateTime.Today.AddHours(18),
+            Text = "Event 5"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(17),
+            End = DateTime.Today.AddHours(18),
+            Text = "Event 6"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddDays(1).AddHours(11),
+            End = DateTime.Today.AddDays(1).AddHours(12.5),
+            Text = "Event 7"
+        }
+    };
+
+  private Variant _buttonVariant { get; set; } = Variant.Filled;
+  private int _elevation { get; set; } = 5;
+  private bool _outlined { get; set; } = false;
+  private bool _workWeek { get; set; } = false;
+  private bool _dragItems { get; set; } = false;
+  private bool _square { get; set; } = false;
+  private bool _fixedHeight { get; set; } = false;
+  private bool _prevNext { get; set; } = true;
+  private bool _datePicker { get; set; } = true;
+  private bool _todayButton { get; set; } = false;
+  private bool _showToolbar { get; set; } = true;
+  private Color _color { get; set; } = Color.Primary;
+
+}
