@@ -1,0 +1,63 @@
+@using Heron.MudCalendar
+@using MudBlazor.Extensions
+@using MudBlazor.Utilities
+@inherits MonthView
+
+@Render
+
+@code {
+
+  protected override string DayStyle(CalendarCell calendarCell, int index)
+  {
+    return new StyleBuilder()
+    .AddStyle("border-right", "none",
+    (index + 1) % Columns == 0 && !(calendarCell.Today && Calendar.HighlightToday))
+    .AddStyle("border", $"1px solid var(--mud-palette-{Calendar.Color.ToDescriptionString()})",
+    calendarCell.Today && Calendar.HighlightToday)
+    .AddStyle("width", $"{(100.0 / Columns).ToInvariantString()}%")
+    // If weekend color cells with --mud-palette-background-gray
+    .AddStyle("background-color", "var(--mud-palette-background-gray)", calendarCell.Date.DayOfWeek == DayOfWeek.Sunday || calendarCell.Date.DayOfWeek == DayOfWeek.Saturday)
+    // If day is outside of current month, color cells with --mud-palette-skeleton
+    .AddStyle("background-color", "var(--mud-palette-skeleton)", calendarCell.Outside)
+    .Build();
+  }
+
+  protected override RenderFragment RenderCellDayNumber(CalendarCell cell) =>
+  @<MudStack Class="py-0 px-1 ma-0" Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween">
+    @if(!cell.Outside) {
+      // Make Wednesdays red
+      if(cell.Date.DayOfWeek == DayOfWeek.Wednesday){
+        <MudText Typo="Typo.body2" Color="Color.Error"><b>@cell.Date.Day</b> <i>@(cell.Today ? "(Today)" : string.Empty)</i></MudText>
+      } else {
+        // Regular day and today styling
+        <MudText Typo="Typo.body2"><b>@cell.Date.Day</b> <i>@(cell.Today ? "(Today)" : string.Empty)</i></MudText>
+      }
+    } else {
+      int daysInMonth = DateTime.DaysInMonth(cell.Date.Year, cell.Date.Month);
+
+      if(cell.Date.Day == daysInMonth){
+        // Style last day of of previous month
+        <MudStack Style="width:100%" Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+          <MudText Typo="Typo.caption" Style="font-weight:300;font-style:italic">@cell.Date.Day</MudText>
+          <MudText Typo="Typo.caption" Style="font-weight:300;font-style:italic">@($"< {cell.Date.ToString("MMMM")}")</MudText>
+        </MudStack>
+      }
+      else if(cell.Date.Day == 1){
+        // Style first day of next month
+        <MudStack Style="width:100%" Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+          <MudText Typo="Typo.caption" Style="font-weight:300;font-style:italic">@($"{cell.Date.ToString("MMMM")} >")</MudText>
+          <MudText Typo="Typo.caption" Style="font-weight:300;font-style:italic">@cell.Date.Day</MudText>
+        </MudStack>
+      } else if(cell.Date.Day > 1 && cell.Date.Day < 7){
+        // Style days in next month
+        <MudStack Style="width:100%" Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+          <MudSpacer />
+          <MudText Typo="Typo.caption" Style="font-weight:300;font-style:italic">@cell.Date.Day (Future)</MudText>
+        </MudStack>
+      } else{
+        // Style days in previous month
+        <MudText Typo="Typo.caption" Style="font-weight:300;font-style:italic">@cell.Date.Day (Past)</MudText>
+      }
+  }
+  </MudStack>;
+}
