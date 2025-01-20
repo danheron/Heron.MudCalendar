@@ -1,46 +1,65 @@
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
 
 <MudRTLProvider RightToLeft="_isRtl">
-    <MudThemeProvider Theme="_theme" @bind-IsDarkMode="_darkMode"/>
-    <MudPopoverProvider />
-    <MudDialogProvider FullWidth="true" MaxWidth="MaxWidth.ExtraSmall" />
-    <MudSnackbarProvider/>
+  <MudThemeProvider Theme="_theme" @bind-IsDarkMode="_darkMode" />
+  <MudPopoverProvider />
+  <MudDialogProvider FullWidth="true" MaxWidth="MaxWidth.ExtraSmall" />
+  <MudSnackbarProvider />
 
-    <MudLayout Class="mudblazor-docs">
-        <MudAppBar Class="docs-appbar-filter" Color="Color.Transparent" Elevation="0"></MudAppBar>
-        <MudAppBar Class="docs-appbar" Elevation="0">
-            <MudSpacer/>
-            <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Href="https://mudblazor.com/" Target="_blank"/>
-            <MudIconButton Icon="@(_isRtl ? @Icons.Material.Filled.FormatTextdirectionLToR : @Icons.Material.Filled.FormatTextdirectionRToL)" OnClick="RtlToggle" Color="Color.Inherit"/>
-            <MudIconButton Icon="@(_darkMode ? @Icons.Material.Rounded.LightMode : @Icons.Material.Outlined.DarkMode)" Color="Color.Inherit" OnClick="DarkModeToggle"/>
-            <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Href="https://github.com/danheron/Heron.MudCalendar/" Target="_blank"/>
-        </MudAppBar>
-        <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
-            <MudDrawerHeader>
-                <MudText Typo="Typo.h6">MudCalendar</MudText>
-            </MudDrawerHeader>
-            <NavMenu/>
-        </MudDrawer>
-        @Body
-        <MudScrollToTop TopOffset="400" Style="z-index:2000;">
-            <MudFab StartIcon="@Icons.Material.Filled.KeyboardArrowUp" Color="Color.Primary"/>
-        </MudScrollToTop>
-    </MudLayout>
+  <MudLayout Class="mudblazor-docs">
+    <MudAppBar Class="docs-appbar" Color="Color.Dark" Elevation="1" Dense="true">
+      <MudTooltip Text="@(_drawerOpen ? "Close Navigation" : "Open Navigation")">
+        <MudIconButton Style="@GetDrawerIconStyle()" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+      </MudTooltip>
+      <MudText Typo="Typo.h6">MudCalendar</MudText>
+      <MudSpacer />
+      <MudTooltip Text="MudBlazor">
+        <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Href="https://mudblazor.com/" Target="_blank" />
+      </MudTooltip>
+      <MudTooltip Text="@(_isRtl ? "Left-to-right" : "Right-to-left")">
+        <MudIconButton Icon="@(_isRtl ? @Icons.Material.Filled.FormatTextdirectionLToR : @Icons.Material.Filled.FormatTextdirectionRToL)" OnClick="RtlToggle" Color="Color.Inherit" />
+      </MudTooltip>
+      <MudTooltip Text="@(_darkMode ? "Light Mode" : "Dark Mode")">
+        <MudIconButton Icon="@(_darkMode ? @Icons.Material.Rounded.LightMode : @Icons.Material.Rounded.DarkMode)" Color="Color.Inherit" OnClick="DarkModeToggle" />
+      </MudTooltip>
+      <MudTooltip Text="MudCalendar Github">
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Href="https://github.com/danheron/Heron.MudCalendar/" Target="_blank" />
+      </MudTooltip>
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" Variant="DrawerVariant.Persistent" ClipMode="DrawerClipMode.Always" Elevation="1">
+      <NavMenu />
+    </MudDrawer>
+    @Body
+    <MudScrollToTop TopOffset="400" Style="z-index:2000;">
+      <MudFab StartIcon="@Icons.Material.Filled.KeyboardArrowUp" Color="Color.Primary" />
+    </MudScrollToTop>
+  </MudLayout>
 </MudRTLProvider>
 
 @code {
-    private bool _darkMode = true;
-    private bool _isRtl;
-    private bool _drawerOpen = true;
-    readonly MudTheme _theme = Theme.DocsTheme();
+  private bool _darkMode = true;
+  private bool _isRtl;
+  private bool _drawerOpen = true;
+  private const string IconHorizontalFlip = "transform: rotate(180deg)";
+  readonly MudTheme _theme = Theme.DocsTheme();
 
-    void DarkModeToggle()
-    {
-        _darkMode = !_darkMode;
-    }
+  void DarkModeToggle()
+  {
+    _darkMode = !_darkMode;
+  }
 
-    void RtlToggle()
-    {
-        _isRtl = !_isRtl;
-    }
+  void RtlToggle()
+  {
+    _isRtl = !_isRtl;
+  }
+
+  void DrawerToggle()
+  {
+    _drawerOpen = !_drawerOpen;
+  }
+
+  string GetDrawerIconStyle()
+  {
+    return (_drawerOpen == _isRtl) ? IconHorizontalFlip : string.Empty;
+  }
 }
