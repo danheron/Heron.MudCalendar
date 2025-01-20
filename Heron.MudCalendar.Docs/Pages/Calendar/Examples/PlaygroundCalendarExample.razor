@@ -2,11 +2,12 @@
 
 <MudStack Row="true" AlignItems="AlignItems.Center">
   <MudCalendar CurrentDay="@_currentDate" Items="_events" ButtonVariant="@_buttonVariant" Elevation="@_elevation" Outlined="@_outlined" Color="@_color" ShowWorkWeek="@_workWeek" ShowToolbar="@_showToolbar" ShowPrevNextButtons="@_prevNext" ShowDatePicker="@_datePicker" ShowTodayButton="@_todayButton" MonthCellMinHeight="@(_fixedHeight ? 0 : 115)" Square="@_square" EnableDragItems="@_dragItems">
-    <ToolbarContent>
-      <MudButton Variant="Variant.Filled" Color="Color.Info" Class="mx-1" OnClick="GotoRandomDay">Random Day</MudButton>
-
-      <MudButton Variant="Variant.Filled" Color="Color.Warning" Class="mx-1" OnClick="AddRandomEvent">Random Event</MudButton>
-    </ToolbarContent>
+      <ToolbarContent>
+          <div class="d-flex">
+              <MudButton Variant="Variant.Filled" Color="Color.Info" Class="mx-1" OnClick="GotoRandomDay">Random Day</MudButton>
+              <MudButton Variant="Variant.Filled" Color="Color.Warning" Class="mx-1" OnClick="AddRandomEvent">Random Event</MudButton>
+          </div>
+      </ToolbarContent>
   </MudCalendar>
 
   <MudStack>
