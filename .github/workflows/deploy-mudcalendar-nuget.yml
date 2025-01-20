@@ -33,26 +33,33 @@ jobs:
     needs: get-version
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        ref: 'refs/tags/v${{ needs.get-version.outputs.VERSION }}'
-
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: |
-          8.0.x
-          9.0.x
-
-    - name: Pack nuget package
-      run: dotnet pack -c Release -m:1 --output nupkgs /p:PackageVersion=${{ needs.get-version.outputs.VERSION }} /p:AssemblyVersion=${{ needs.get-version.outputs.VERSION }} /p:Version=${{ needs.get-version.outputs.VERSION }}
-      working-directory: './Heron.MudCalendar'
-
-    - name: Publish nuget package
-      run: dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json
-      working-directory: './Heron.MudCalendar'
-
-    - name: Publish nuget package symbols
-      run: dotnet nuget push nupkgs/*.snupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json
-      working-directory: './Heron.MudCalendar'
+      - name: Install .NET 9
+        run: |
+          wget -O dotnet-install.sh https://dot.net/v1/dotnet-install.sh
+          chmod +x dotnet-install.sh
+          ./dotnet-install.sh --channel 9.0 --install-dir /usr/share/dotnet
+          ln -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet
+          
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: 'refs/tags/v${{ needs.get-version.outputs.VERSION }}'
+  
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            
+      - name: Create temporary global.json
+        run: |
+          echo '{"sdk":{"version": "9.0"}}' > ./global.json
+  
+      - name: Pack nuget package
+        run: dotnet pack -c Release -m:1 --output nupkgs /p:PackageVersion=${{ needs.get-version.outputs.VERSION }} /p:AssemblyVersion=${{ needs.get-version.outputs.VERSION }} /p:Version=${{ needs.get-version.outputs.VERSION }}
+        working-directory: './Heron.MudCalendar'
+  
+      - name: Publish nuget package
+        run: dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json
+        working-directory: './Heron.MudCalendar'

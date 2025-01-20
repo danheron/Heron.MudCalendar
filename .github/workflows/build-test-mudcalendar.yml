@@ -18,7 +18,7 @@ jobs:
         run: |
           wget -O dotnet-install.sh https://dot.net/v1/dotnet-install.sh
           chmod +x dotnet-install.sh
-          ./dotnet-install.sh --version 9.0.101 --install-dir /usr/share/dotnet
+          ./dotnet-install.sh --channel 9.0 --install-dir /usr/share/dotnet
           ln -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet
 
       - name: Checkout MudCalendar repository
@@ -32,7 +32,7 @@ jobs:
 
       - name: Create temporary global.json
         run: |
-          echo '{"sdk":{"version": "9.0.101"}}' > ./global.json
+          echo '{"sdk":{"version": "9.0"}}' > ./global.json
 
       - name: Restore
         run: dotnet restore Heron.MudCalendarWithDocs.sln
