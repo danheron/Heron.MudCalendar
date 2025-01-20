@@ -1,6 +1,6 @@
 name: deploy-mudcalendar-docs
 env:
-  PUBLISH_FOLDER: "./Heron.MudCalendar/Heron.MudCalendar.Docs/bin/Release/net8.0/publish/wwwroot"
+  PUBLISH_FOLDER: "./Heron.MudCalendar/Heron.MudCalendar.Docs/bin/Release/net9.0/publish/wwwroot"
 
 on:
   workflow_dispatch:
