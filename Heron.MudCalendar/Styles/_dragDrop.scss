@@ -2,12 +2,12 @@
   transition: none;
 }
 
-.mud-cal-drop-item > .mud-drop-item {
+.mud-cal-drop-item .mud-drop-item {
   height: 100%;
   border: none;
 }
 
-.mud-cal-drop-item > .mud-drop-item.disabled {
+.mud-cal-drop-item .mud-drop-item.disabled {
   cursor: inherit;
 }
 
