@@ -1,7 +1,9 @@
 let _moreText = "";
+let _obj = null;
 
-export function positionMonthItems(element, moreText, fixedHeight) {
+export function positionMonthItems(element, moreText, fixedHeight, obj) {
     if (moreText) _moreText = moreText;
+    if (obj) _obj = obj;
     
     element.querySelectorAll(".mud-cal-month-row-holder").forEach(function(container) {
         // Remove any existing messages
@@ -9,14 +11,21 @@ export function positionMonthItems(element, moreText, fixedHeight) {
             message.remove();
         });
 
-        // Find the height of the header part  
+        // Find the height of the header part
+        const datePositions = new Map();
+        const totalWidth = container.clientWidth;
+        const cellCount = container.querySelectorAll(".mud-cal-month-cell").length;
         let headerHeight = 0;
+        let index = 0;
         container.querySelectorAll(".mud-cal-month-cell").forEach(function(cell) {
             let height = 0;
             cell.querySelectorAll(".mud-cal-month-cell-header").forEach(function(item) {
                 height += item.clientHeight;
             });
             if (height > headerHeight) headerHeight = height;
+            
+            datePositions.set(Math.round(totalWidth / cellCount * index), cell.attributes["Identifier"].textContent);
+            index++;
         });
         
         const positions = [];
@@ -64,7 +73,7 @@ export function positionMonthItems(element, moreText, fixedHeight) {
                 if (!lefts.includes(position.Left)) lefts.push(position.Left);
             });
             lefts.forEach((left) => {
-                hideOverflows(container, positions.filter(p => p.Left === left), left, moreText);
+                hideOverflows(container, positions.filter(p => p.Left === left), left, datePositions);
             });
         }
         else
@@ -91,7 +100,7 @@ export function positionMonthItems(element, moreText, fixedHeight) {
     });
 }
 
-function hideOverflows(container, positions, position, moreText) {
+function hideOverflows(container, positions, position, datePositions) {
     // Get the lowest position
     let maxBottom = 0;
     positions.forEach((position) => {
@@ -120,6 +129,17 @@ function hideOverflows(container, positions, position, moreText) {
     // Update overflow message with count of hidden elements
     div.textContent = "+" + hiddenElements + " " + _moreText;
     div.style.top = (container.clientHeight - div.clientHeight) + "px";
+    
+    // Add click event if required
+    if (_obj) {
+        div.classList.add("mud-cal-clickable");
+        div.addEventListener("click", async () => {
+            const date = datePositions.get(Math.round(position));
+            if (date) {
+                await _obj.invokeMethodAsync("MoreClicked", date);
+            }
+        });
+    }
 }
 
 class ItemPosition {

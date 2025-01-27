@@ -64,6 +64,9 @@
   padding-bottom: 4px;
   padding-left: 8px;
 }
+.mud-calendar .mud-cal-overflow-message .mud-cal-clickable {
+  cursor: pointer;
+}
 .mud-calendar .mud-cal-overflow-hidden {
   visibility: hidden;
 }

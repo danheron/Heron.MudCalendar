@@ -1,4 +1,3 @@
-using System.Collections.Immutable;
 using System.Globalization;
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
@@ -255,7 +254,14 @@ public partial class MonthView : CalendarViewBase, IDisposable
         // Load localized text
         var moreText = LoadText();
 
-        _jsService ??= new JsService(JsRuntime);
+        if (_jsService == null)
+        {
+            _jsService = new JsService(JsRuntime);
+            if (Calendar.MoreClicked.HasDelegate)
+            {
+                _jsService.OnMoreClicked += (_, date) => Calendar.MoreClicked.InvokeAsync(date);
+            }
+        }
         return _jsService.PositionMonthItems(_monthGrid, moreText, Calendar.MonthCellMinHeight == 0);
     }
 

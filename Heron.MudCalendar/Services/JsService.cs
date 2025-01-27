@@ -11,6 +11,8 @@ public class JsService : IDisposable
 
     public event EventHandler? OnLinkLoaded;
 
+    public event EventHandler<DateTime>? OnMoreClicked;
+
     public JsService(IJSRuntime jsRuntime)
     {
         _moduleTask = new Lazy<Task<IJSObjectReference>>(() => jsRuntime.InvokeAsync<IJSObjectReference>(
@@ -54,8 +56,20 @@ public class JsService : IDisposable
 
     public async Task PositionMonthItems(ElementReference element, string moreText, bool fixedHeight)
     {
+        if (OnMoreClicked != null)
+        {
+            _this ??= DotNetObjectReference.Create(this);
+        }
+        
         var module = await _moduleTask.Value;
-        await module.InvokeVoidAsync("positionMonthItems", element, moreText, fixedHeight);
+        await module.InvokeVoidAsync("positionMonthItems", element, moreText, fixedHeight, _this);
+    }
+
+    [JSInvokable]
+    public void MoreClicked(string date)
+    {
+        var moreDate = DateTime.Parse(date);
+        OnMoreClicked?.Invoke(this, moreDate);
     }
     
     public void Dispose()
