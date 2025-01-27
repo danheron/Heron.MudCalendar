@@ -402,6 +402,12 @@ public partial class MudCalendar : MudComponentBase
     /// </summary>
     [Parameter]
     public EventCallback<CalendarItem> ItemClicked { get; set; }
+    
+    /// <summary>
+    /// Called when the '+x more' label is clicked in the month view.
+    /// </summary>
+    [Parameter]
+    public EventCallback<DateTime> MoreClicked { get; set; }
 
     private DateTime? PickerDate
     {

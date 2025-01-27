@@ -40,7 +40,6 @@
 
   .mud-cal-grid-header {
     display: grid;
-    //padding: 8px;
     text-align: center;
     font-weight: 500;
     line-height: 1.5rem;
@@ -74,6 +73,10 @@
     padding-top: 0;
     padding-bottom: 4px;
     padding-left: 8px;
+    
+    .mud-cal-clickable {
+      cursor: pointer;
+    }
   }
   
   .mud-cal-overflow-hidden {
