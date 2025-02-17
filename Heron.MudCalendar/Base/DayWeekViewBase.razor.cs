@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using MudBlazor.Extensions;
 using MudBlazor.Utilities;
+using System.Diagnostics.CodeAnalysis;
 using EnumExtensions = Heron.MudCalendar.Extensions.EnumExtensions;
 
 namespace Heron.MudCalendar;
 
-public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
+public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : CalendarViewBase<T>, IDisposable where T:CalendarItem
 {
     private ElementReference _scrollDiv;
     private JsService? _jsService;
@@ -57,7 +58,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
     /// <param name="calendarCell">The cell.</param>
     /// <param name="row">The current row in the table being rendered.</param>
     /// <returns></returns>
-    protected virtual string DayStyle(CalendarCell calendarCell, int row)
+    protected virtual string DayStyle(CalendarCell<T> calendarCell, int row)
     {
         return new StyleBuilder()
             .AddStyle("border-left",
@@ -80,7 +81,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
     /// </summary>
     /// <param name="position">Position information for the div.</param>
     /// <returns></returns>
-    protected virtual string EventStyle(ItemPosition position)
+    protected virtual string EventStyle(ItemPosition<T> position)
     {
         return new StyleBuilder()
             .AddStyle("position", "absolute")
@@ -113,7 +114,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
     /// <param name="cell">The cell being styled.</param>
     /// <param name="row">The row being styled.</param>
     /// <returns></returns>
-    protected virtual string DayCellClassname(CalendarCell cell, int row)
+    protected virtual string DayCellClassname(CalendarCell<T> cell, int row)
     {
         return new CssBuilder()
             .AddClass("mud-cal-week-cell")
@@ -153,7 +154,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
     /// <param name="cell">The cell that was clicked.</param>
     /// <param name="row">The row that was clicked.</param>
     /// <returns></returns>
-    protected virtual Task OnCellLinkClicked(CalendarCell cell, int row)
+    protected virtual Task OnCellLinkClicked(CalendarCell<T> cell, int row)
     {
         var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
         return Calendar.CellClicked.InvokeAsync(date);
@@ -164,7 +165,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
     /// </summary>
     /// <param name="item">The calendar item that was clicked.</param>
     /// <returns></returns>
-    protected virtual Task OnItemClicked(CalendarItem item)
+    protected virtual Task OnItemClicked(T item)
     {
         return Calendar.ItemClicked.InvokeAsync(item);
     }
@@ -201,7 +202,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
     /// <param name="item">The calendar item whose height is changing.</param>
     /// <param name="intervals">The number of intervals by which the item's end time should be extended.</param>
     /// <returns>A task representing the asynchronous operation of invoking the item changed event.</returns>
-    protected Task ItemHeightChanged(CalendarItem item, int intervals)
+    protected Task ItemHeightChanged(T item, int intervals)
     {
         // Calculate end time from height
         var minutes = intervals * (int)Calendar.DayTimeInterval;
@@ -219,7 +220,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
         return position;
     }
 
-    private int CalcTop(ItemPosition position)
+    private int CalcTop(ItemPosition<T> position)
     {
         double minutes = 0;
         if (DateOnly.FromDateTime(position.Item.Start.Date) == position.Date)
@@ -233,7 +234,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
         return (int)Math.Round(top);
     }
 
-    private int CalcHeight(ItemPosition position)
+    private int CalcHeight(ItemPosition<T> position)
     {
         double start = 0;
         if (DateOnly.FromDateTime(position.Item.Start.Date) == position.Date)
@@ -274,12 +275,12 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
         await _jsService.Scroll(_scrollDiv, (int)scrollTo);
     }
 
-    protected virtual RenderFragment<CalendarItem> CellTemplate => Calendar.CellTemplate;
+    protected virtual RenderFragment<T> CellTemplate => Calendar.CellTemplate;
 
-    private IEnumerable<ItemPosition> CalcPositions(IEnumerable<CalendarItem> items, DateOnly date)
+    private IEnumerable<ItemPosition<T>> CalcPositions(IEnumerable<T> items, DateOnly date)
     {
-        var positions = new List<ItemPosition>();
-        var overlaps = new List<ItemPosition>();
+        var positions = new List<ItemPosition<T>>();
+        var overlaps = new List<ItemPosition<T>>();
         foreach (var item in items)
         {
             // Check that the end date is valid
@@ -289,7 +290,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
             }
 
             // Create new position object
-            var position = new ItemPosition { Item = item, Position = 0, Total = overlaps.Count + 1, Date = date };
+            var position = new ItemPosition<T> { Item = item, Position = 0, Total = overlaps.Count + 1, Date = date };
             position.Top = CalcTop(position);
             position.Height = CalcHeight(position);
             if (position.Bottom > PixelsInDay)
@@ -344,7 +345,7 @@ public abstract partial class DayWeekViewBase : CalendarViewBase, IDisposable
         return positions;
     }
 
-    private async Task ItemDropped(MudItemDropInfo<CalendarItem> dropItem)
+    private async Task ItemDropped(MudItemDropInfo<T> dropItem)
     {
         if (dropItem.Item == null) return;
         var item = dropItem.Item;

@@ -1,9 +1,10 @@
 @using Microsoft.JSInterop
 @namespace Heron.MudCalendar
 @inject IJSRuntime JsRuntime
+@typeparam T
 
 <div Class="@Classname" Style="@Style">
-    <MudDropZone T="CalendarItem" Identifier="@Position?.Item.Id" Style="height: 100%;">
+    <MudDropZone T="T" Identifier="@Position?.Item.Id" Style="height: 100%;">
         @ChildContent
     </MudDropZone>
 </div>

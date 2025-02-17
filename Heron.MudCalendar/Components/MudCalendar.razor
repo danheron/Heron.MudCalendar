@@ -3,6 +3,7 @@
 @using CategoryTypes = Heron.MudCalendar.Attributes.CategoryTypes
 @using Microsoft.JSInterop
 @inject IJSRuntime JsRuntime
+@typeparam T
 
 @Render
 
@@ -50,7 +51,7 @@
     /// </summary>
     [Attributes.Category(CategoryTypes.Calendar.Template)]
     [Parameter]
-    public RenderFragment<CalendarItem> CellTemplate { get; set; } =
+    public RenderFragment<T> CellTemplate { get; set; } =
         calendarItem =>
             @<div class="mud-cal-cell-template">
                 <MudChip T="string" Label="true" Color="Color.Primary" Class="mud-cal-cell-template-chip">@calendarItem.Text</MudChip>
@@ -98,25 +99,25 @@
     /// Renders the month view.
     /// </summary>
     protected virtual RenderFragment RenderMonthView =>
-        @<MonthView />;
+        @<MonthView T="T"/>;
 
     /// <summary>
     /// Renders the week view.
     /// </summary>
     protected virtual RenderFragment RenderWeekView =>
-        @<WeekView />;
+        @<WeekView T="T" />;
 
 
     /// <summary>
     /// Renders the work week view.
     /// </summary>
     protected virtual RenderFragment RenderWorkWeekView =>
-        @<WorkWeekView />;
+        @<WorkWeekView T="T" />;
 
     /// <summary>
     /// Renders the day view.
     /// </summary>
     protected virtual RenderFragment RenderDayView =>
-        @<DayView />;
+        @<DayView T="T" />;
 
 }

@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Heron.MudCalendar;
 
-public class ItemPosition
+public class ItemPosition<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>  where T : CalendarItem
 {
-    public CalendarItem Item { get; set; } = new();
+    public T Item { get; set; } = (T)Activator.CreateInstance(typeof(T));
     public int Position { get; set; }
     public int Total { get; set; }
     public DateOnly Date { get; set; }

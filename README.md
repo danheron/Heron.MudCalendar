@@ -44,7 +44,7 @@ Add style and script references (optional). This step shouldn't be necessary as 
 Add the MudCalendar component to your razor page/component.
 
 ```razor
-<MudCalendar />
+<MudCalendar T="CalendarItem"/>
 ```
 
 Check out the examples of how to use and customize the MudCalendar component.

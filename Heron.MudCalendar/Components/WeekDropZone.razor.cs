@@ -1,13 +1,14 @@
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
 using MudBlazor.Utilities;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Heron.MudCalendar;
 
-public partial class WeekDropZone : IDisposable
+public partial class WeekDropZone<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : IDisposable where T : CalendarItem
 {
     [CascadingParameter]
-    public MudCalendar Calendar { get; set; } = new();
+    public MudCalendar<T> Calendar { get; set; } = new();
     
     private string _id = Guid.NewGuid().ToString();
 
@@ -17,7 +18,7 @@ public partial class WeekDropZone : IDisposable
     public RenderFragment? ChildContent { get; set; }
     
     [Parameter]
-    public ItemPosition? Position { get; set; }
+    public ItemPosition<T>? Position { get; set; }
     
     [Parameter]
     public string? Style { get; set; }

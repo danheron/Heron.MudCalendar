@@ -1,7 +1,7 @@
 @inject IJSRuntime JsRuntime
 @implements IAsyncDisposable
 
-<MudCalendar ShowMonth="false" DayStartTime="new TimeOnly(6, 15)"/>
+<MudCalendar T="CalendarItem" ShowMonth="false" DayStartTime="new TimeOnly(6, 15)"/>
 
 <div class="cal-test-controls">
     <div class="cal-scroll-pos">@_scrollPos</div>

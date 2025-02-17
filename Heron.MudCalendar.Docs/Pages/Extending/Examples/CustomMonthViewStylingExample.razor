@@ -1,13 +1,13 @@
 @using Heron.MudCalendar
 @using MudBlazor.Extensions
 @using MudBlazor.Utilities
-@inherits MonthView
+@inherits MonthView<CalendarItem>
 
 @Render
 
 @code {
 
-  protected override string DayStyle(CalendarCell calendarCell, int index)
+    protected override string DayStyle(CalendarCell<CalendarItem> calendarCell, int index)
   {
     return new StyleBuilder()
     .AddStyle("border-right", "none",
@@ -22,7 +22,7 @@
     .Build();
   }
 
-  protected override RenderFragment RenderCellDayNumber(CalendarCell cell) =>
+    protected override RenderFragment RenderCellDayNumber(CalendarCell<CalendarItem> cell) =>
   @<MudStack Class="py-0 px-1 ma-0" Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween">
     @if(!cell.Outside) {
       // Make Wednesdays red

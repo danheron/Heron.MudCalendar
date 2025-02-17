@@ -2,7 +2,7 @@
 
 @inject EventService EventService
 
-<MudCalendar Items="_events" MonthCellMinHeight="100" DateRangeChanged="DateRangeChanged" />
+<MudCalendar T="CalendarItem" Items="_events" MonthCellMinHeight="100" DateRangeChanged="DateRangeChanged" />
 
 @code{
 

@@ -1,9 +1,9 @@
 @using Heron.MudCalendar.UnitTests.Viewer.Services
-@inject EventService EventService
+@inject EventService<CalendarItem> EventService
 
 <MudPopoverProvider />
 
-<MudCalendar Items="_events" Height="1000" DateRangeChanged="DateRangeChanged" EnableDragItems="true" EnableResizeItems="true" />
+<MudCalendar T="CalendarItem" Items="_events" Height="1000" DateRangeChanged="DateRangeChanged" EnableDragItems="true" EnableResizeItems="true" />
 
 @code {
     public static string __description__ = "Calendar Delayed Load Tests";

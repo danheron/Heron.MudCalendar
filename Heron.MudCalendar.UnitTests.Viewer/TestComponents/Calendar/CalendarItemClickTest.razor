@@ -1,6 +1,6 @@
 <MudPopoverProvider />
 
-<MudCalendar @ref="_mudCalendar" Items="_events" ItemClicked="TestClick" />
+<MudCalendar T="CalendarItem" @ref="_mudCalendar" Items="_events" ItemClicked="TestClick" />
 <MudTextField @bind-Value="_value" />
 
 @code {
@@ -8,7 +8,7 @@
 
     private string _value = string.Empty;
 
-    private MudCalendar _mudCalendar;
+    private MudCalendar<CalendarItem> _mudCalendar;
 
     private void TestClick(CalendarItem item)
     {

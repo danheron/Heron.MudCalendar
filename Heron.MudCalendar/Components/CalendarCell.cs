@@ -1,10 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Heron.MudCalendar;
 
-public class CalendarCell
+public class CalendarCell<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> where T: CalendarItem
 {
     public DateTime Date { get; set; }
 
-    public IEnumerable<CalendarItem> Items { get; set; } = new List<CalendarItem>();
+    public IEnumerable<T> Items { get; set; } = new List<T>();
     
     public bool Outside { get; set; }
     
