@@ -1,6 +1,6 @@
 <MudPopoverProvider></MudPopoverProvider>
 
-<MudCalendar Items="_events" Height="1000" EnableDragItems="true" EnableResizeItems="true" ItemChanged="ItemChanged" />
+<MudCalendar T="CalendarItem" Items="_events" Height="1000" EnableDragItems="true" EnableResizeItems="true" ItemChanged="ItemChanged" />
 <MudTextField @bind-Value="_value" />
 
 @code {

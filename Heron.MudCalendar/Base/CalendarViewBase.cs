@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Heron.MudCalendar;
 
-public abstract class CalendarViewBase : ComponentBase
+public abstract class CalendarViewBase<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : ComponentBase where T:CalendarItem
 {
     [CascadingParameter]
-    public MudCalendar Calendar { get; set; } = new();
+    public MudCalendar<T> Calendar { get; set; } = new();
 
-    protected List<CalendarCell> Cells = new();
+    protected List<CalendarCell<T>> Cells = new();
 
     protected override void OnParametersSet()
     {
@@ -17,5 +18,5 @@ public abstract class CalendarViewBase : ComponentBase
     /// <summary>
     /// Builds a collection of cells that will be displayed in the month view.
     /// </summary>
-    protected abstract List<CalendarCell> BuildCells();
+    protected abstract List<CalendarCell<T>> BuildCells();
 }

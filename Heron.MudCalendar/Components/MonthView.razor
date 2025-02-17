@@ -1,7 +1,8 @@
 @namespace Heron.MudCalendar
 @using Microsoft.JSInterop
-@inherits CalendarViewBase
+@inherits CalendarViewBase<T>
 @inject IJSRuntime JsRuntime
+@typeparam T
 
 @Render
 
@@ -17,7 +18,7 @@
                 @* @RenderDays *@
                 <MudDropContainer
                     @ref="_dropContainer"
-                    T="CalendarItem"
+                    T="T"
                     Items="Calendar.Items.OrderBy(i => i.Start)"
                     ItemsSelector="@((item, dropzone) => item.Id == dropzone)"
                     ItemDisabled="@(_ => !Calendar.EnableDragItems)"
@@ -86,7 +87,7 @@
                 @for (var cell = row * Columns; cell < (row * Columns) + Columns; cell++)
                 {
                     var currentCell = Cells[cell];
-                    <MudDropZone T="CalendarItem" OnlyZone="true" Identifier="@currentCell.Date.Date.ToString("d")"
+                    <MudDropZone T="T" OnlyZone="true" Identifier="@currentCell.Date.Date.ToString("d")"
                                  Class="@CellClassname" Style="@DayStyle(currentCell, cell)">
                         @if (Calendar.CellClicked.HasDelegate)
                         {
@@ -110,7 +111,7 @@
     /// <summary>
     /// Renders the day number of the cell.
     /// </summary>
-    protected virtual RenderFragment RenderCellDayNumber(CalendarCell cell) =>
+    protected virtual RenderFragment RenderCellDayNumber(CalendarCell<T> cell) =>
         @<div class="@DayClassname(cell)">
             @cell.Date.Day
         </div>;
@@ -128,7 +129,7 @@
             {
                 if (position.Item.Start.Date == currentCell.Date.Date)
                 {
-                    <WeekDropZone Position="position" Style="@EventStyle(position)" @key="position.Item.Id">
+                    <WeekDropZone T="T" Position="position" Style="@EventStyle(position)" @key="position.Item.Id">
                         @RenderResizer(position, currentCell)
                     </WeekDropZone>
                 }
@@ -146,7 +147,7 @@
     /// <summary>
     /// Renders the resizer for the item if necessary.
     /// </summary>
-    protected virtual RenderFragment RenderResizer(ItemPosition position, CalendarCell cell) => __builder =>
+    protected virtual RenderFragment RenderResizer(ItemPosition<T> position, CalendarCell<T> cell) => __builder =>
     {
         @if (Calendar.EnableResizeItems)
         {
@@ -158,7 +159,7 @@
     /// <summary>
     /// Renders the CellTemplate with a click handler if required.
     /// </summary>
-    protected virtual RenderFragment RenderTemplate(CalendarItem item) => __builder =>
+    protected virtual RenderFragment RenderTemplate(T item) => __builder =>
     {
         @if (Calendar.ItemClicked.HasDelegate)
         {
