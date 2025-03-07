@@ -1,3 +1,4 @@
+using Heron.MudCalendar;
 using Heron.MudCalendar.UnitTests.Viewer.Services;
 using MudBlazor.Services;
 
@@ -8,7 +9,7 @@ builder.Services.AddServerSideBlazor()
 
 builder.Services.AddMudServices();
 
-builder.Services.AddScoped<EventService>();
+builder.Services.AddScoped<EventService<CalendarItem>>();
 
 var app = builder.Build();
 

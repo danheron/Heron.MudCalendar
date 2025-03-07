@@ -9,7 +9,7 @@ using MudBlazor;
 using CategoryAttribute = Heron.MudCalendar.Attributes.CategoryAttribute;
 using CategoryTypes = Heron.MudCalendar.Attributes.CategoryTypes;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.JSInterop;
+using System.Reflection;
 
 namespace Heron.MudCalendar;
 
@@ -624,7 +624,13 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
 
         var options = Options.Create(new LocalizationOptions { ResourcesPath = "Resources" });
         var factory = new ResourceManagerStringLocalizerFactory(options, NullLoggerFactory.Instance);
-        var localizer = new StringLocalizer<MudCalendar<T>>(factory);
+        
+        // Get localizer for the generic class
+        var type = typeof(MudCalendar<>);
+        var assemblyName = type.GetTypeInfo().Assembly.GetName().Name;
+        var typeName = type.Name.Remove(type.Name.IndexOf('`'));
+        var baseName = (type.Namespace + "." + typeName)[assemblyName!.Length..].Trim('.');
+        var localizer = factory.Create(baseName, assemblyName);
 
         _uiCulture = Thread.CurrentThread.CurrentUICulture;
         _todayText = localizer["Today"];
