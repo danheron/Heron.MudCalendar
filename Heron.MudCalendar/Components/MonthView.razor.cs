@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
@@ -10,9 +11,14 @@ using MudBlazor.Utilities;
 
 namespace Heron.MudCalendar;
 
-public partial class MonthView : CalendarViewBase, IDisposable
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="T">The type of item displayed in this month view.</typeparam>
+public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : CalendarViewBase<T>, IDisposable where T:CalendarItem
 {
-    private MudDropContainer<CalendarItem>? _dropContainer;
+
+    private MudDropContainer<T>? _dropContainer;
     private ElementReference _monthGrid;
 
     private JsService? _jsService;
@@ -67,7 +73,7 @@ public partial class MonthView : CalendarViewBase, IDisposable
     /// </summary>
     /// <param name="position">The position information</param>
     /// <returns>Style string</returns>
-    protected virtual string EventStyle(ItemPosition position)
+    protected virtual string EventStyle(ItemPosition<T> position)
     {
         return new StyleBuilder()
             .AddStyle("position", "absolute")
@@ -91,7 +97,7 @@ public partial class MonthView : CalendarViewBase, IDisposable
     /// </summary>
     /// <param name="calendarCell">The cell.</param>
     /// <returns></returns>
-    protected virtual string DayClassname(CalendarCell calendarCell)
+    protected virtual string DayClassname(CalendarCell<T> calendarCell)
     {
         return new CssBuilder()
             .AddClass("mud-cal-month-cell-title")
@@ -106,7 +112,7 @@ public partial class MonthView : CalendarViewBase, IDisposable
     /// <param name="calendarCell">The cell.</param>
     /// <param name="index">The cell index.</param>
     /// <returns></returns>
-    protected virtual string DayStyle(CalendarCell calendarCell, int index)
+    protected virtual string DayStyle(CalendarCell<T> calendarCell, int index)
     {
         return new StyleBuilder()
             .AddStyle("border-right", "none",
@@ -127,7 +133,7 @@ public partial class MonthView : CalendarViewBase, IDisposable
     /// </summary>
     /// <param name="cell">The cell that was clicked.</param>
     /// <returns></returns>
-    protected virtual async Task OnCellLinkClicked(CalendarCell cell)
+    protected virtual async Task OnCellLinkClicked(CalendarCell<T> cell)
     {
         if (Calendar.CellClicked.HasDelegate)
         {
@@ -155,12 +161,12 @@ public partial class MonthView : CalendarViewBase, IDisposable
     /// </summary>
     /// <param name="item">The calendar item that was clicked.</param>
     /// <returns></returns>
-    protected virtual Task OnItemClicked(CalendarItem item)
+    protected virtual Task OnItemClicked(T item)
     {
         return Calendar.ItemClicked.InvokeAsync(item);
     }
 
-    protected Task ItemWidthChanged(CalendarItem item, int days, CalendarCell currentCell)
+    protected Task ItemWidthChanged(T item, int days, CalendarCell<T> currentCell)
     {
         // If we are resizing an item that has spanned multiple weeks we need to add the days from previous weeks
         var previousDays = currentCell.Date - item.Start.Date;
@@ -173,9 +179,9 @@ public partial class MonthView : CalendarViewBase, IDisposable
         return Calendar.ItemChanged.InvokeAsync(item);
     }
 
-    protected override List<CalendarCell> BuildCells()
+    protected override List<CalendarCell<T>> BuildCells()
     {
-        var cells = new List<CalendarCell>();
+        var cells = new List<CalendarCell<T>>();
         var monthStart = new DateTime(Calendar.CurrentDay.Year, Calendar.CurrentDay.Month, 1);
         var monthEnd = new DateTime(Calendar.CurrentDay.AddMonths(1).Year, Calendar.CurrentDay.AddMonths(1).Month, 1)
             .AddDays(-1);
@@ -204,10 +210,10 @@ public partial class MonthView : CalendarViewBase, IDisposable
     /// <param name="monthStart">The first day of the month being shown.</param>
     /// <param name="monthEnd">The last day of the month being shown.</param>
     /// <returns></returns>
-    protected virtual CalendarCell BuildCell(DateTime date, DateTime monthStart, DateTime monthEnd)
+    protected virtual CalendarCell<T> BuildCell(DateTime date, DateTime monthStart, DateTime monthEnd)
     {
         // Set cell properties
-        var cell = new CalendarCell { Date = date };
+        var cell = new CalendarCell<T> { Date = date };
         if (date.Date == DateTime.Today) cell.Today = true;
         if (date < monthStart || date > monthEnd)
         {
@@ -227,7 +233,7 @@ public partial class MonthView : CalendarViewBase, IDisposable
         return cell;
     }
 
-    private async Task ItemDropped(MudItemDropInfo<CalendarItem> dropItem)
+    private async Task ItemDropped(MudItemDropInfo<T> dropItem)
     {
         if (dropItem.Item == null) return;
         var item = dropItem.Item;
@@ -271,7 +277,7 @@ public partial class MonthView : CalendarViewBase, IDisposable
 
         var options = Options.Create(new LocalizationOptions { ResourcesPath = "Resources" });
         var factory = new ResourceManagerStringLocalizerFactory(options, NullLoggerFactory.Instance);
-        var localizer = new StringLocalizer<MudCalendar>(factory);
+        var localizer = new StringLocalizer<MudCalendar<T>>(factory);
 
         _uiCulture = Thread.CurrentThread.CurrentUICulture;
         _moreText = localizer["More"];
@@ -279,7 +285,7 @@ public partial class MonthView : CalendarViewBase, IDisposable
         return _moreText;
     }
 
-    private int CalcWidth(ItemPosition position, int cellIndex, DateOnly date)
+    private int CalcWidth(ItemPosition<T> position, int cellIndex, DateOnly date)
     {
         // Get number of days
         var item = position.Item;
@@ -298,16 +304,16 @@ public partial class MonthView : CalendarViewBase, IDisposable
         return width;
     }
 
-    private RenderFragment<CalendarItem> CellTemplate => Calendar.MonthTemplate ?? Calendar.CellTemplate;
+    private RenderFragment<T> CellTemplate => Calendar.MonthTemplate ?? Calendar.CellTemplate;
 
-    private IEnumerable<ItemPosition> CalcPositions(IEnumerable<CalendarItem> items, DateOnly date, int cellIndex)
+    private IEnumerable<ItemPosition<T>> CalcPositions(IEnumerable<T> items, DateOnly date, int cellIndex)
     {
-        var positions = new List<ItemPosition>();
+        var positions = new List<ItemPosition<T>>();
 
         foreach (var item in items)
         {
             // Create new position object
-            var position = new ItemPosition
+            var position = new ItemPosition<T>
             {
                 Item = item,
                 Position = 0,

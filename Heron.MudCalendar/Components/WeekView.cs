@@ -1,14 +1,15 @@
 using Microsoft.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Heron.MudCalendar;
 
-public class WeekView : DayWeekViewBase
+public class WeekView<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : DayWeekViewBase<T> where T:CalendarItem
 {
     protected override int DaysInView => 7;
     
-    protected override List<CalendarCell> BuildCells()
+    protected override List<CalendarCell<T>> BuildCells()
     {
-        var cells = new List<CalendarCell>();
+        var cells = new List<CalendarCell<T>>();
         var range = new CalendarDateRange(Calendar.CurrentDay.Date, CalendarView.Week, Calendar.FirstDayOfWeek);
         
         if (range.Start == null || range.End == null) return cells;
@@ -17,7 +18,7 @@ public class WeekView : DayWeekViewBase
         var lastDate = range.End.Value;
         while (date <= lastDate)
         {
-            var cell = new CalendarCell { Date = date };
+            var cell = new CalendarCell<T> { Date = date };
             if (date.Date == DateTime.Today) cell.Today = true;
             
             cell.Items = Calendar.Items.Where(i =>
@@ -35,5 +36,5 @@ public class WeekView : DayWeekViewBase
         return cells;
     }
     
-    protected override RenderFragment<CalendarItem> CellTemplate => Calendar.WeekTemplate ?? Calendar.CellTemplate;
+    protected override RenderFragment<T> CellTemplate => Calendar.WeekTemplate ?? Calendar.CellTemplate;
 }

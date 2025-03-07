@@ -1,10 +1,10 @@
-@inherits MonthView
+@inherits MonthView<CalendarItem>
 
 @Render
 
 @code {
 
-    protected override RenderFragment RenderCellDayNumber(CalendarCell cell) =>
+    protected override RenderFragment RenderCellDayNumber(CalendarCell<CalendarItem> cell) =>
         @<div class="ma-2">
             <MudAvatar Color="Color.Primary">@cell.Date.Day</MudAvatar>
         </div>;

@@ -8,13 +8,16 @@ using MudBlazor.Utilities;
 using MudBlazor;
 using CategoryAttribute = Heron.MudCalendar.Attributes.CategoryAttribute;
 using CategoryTypes = Heron.MudCalendar.Attributes.CategoryTypes;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.JSInterop;
 
 namespace Heron.MudCalendar;
 
 /// <summary>
-///  Calendar component for MudBlazor.
+/// Calendar component for MudBlazor.
 /// </summary>
-public partial class MudCalendar : MudComponentBase
+/// <typeparam name="T">The type of item displayed in this calendar.</typeparam>
+public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : MudComponentBase where T : CalendarItem
 {
     /// <summary>
     /// The size of the drop shadow.
@@ -328,7 +331,7 @@ public partial class MudCalendar : MudComponentBase
     /// </remarks>
     [Category(CategoryTypes.Calendar.Template)]
     [Parameter]
-    public RenderFragment<CalendarItem>? MonthTemplate { get; set; }
+    public RenderFragment<T>? MonthTemplate { get; set; }
     
     /// <summary>
     /// Defines the cell content for the Week view.
@@ -338,7 +341,7 @@ public partial class MudCalendar : MudComponentBase
     /// </remarks>
     [Category(CategoryTypes.Calendar.Template)]
     [Parameter]
-    public RenderFragment<CalendarItem>? WeekTemplate { get; set; }
+    public RenderFragment<T>? WeekTemplate { get; set; }
     
     /// <summary>
     /// Defines the cell content for the Day view.
@@ -348,7 +351,7 @@ public partial class MudCalendar : MudComponentBase
     /// </remarks>
     [Category(CategoryTypes.Calendar.Template)]
     [Parameter]
-    public RenderFragment<CalendarItem>? DayTemplate { get; set; }
+    public RenderFragment<T>? DayTemplate { get; set; }
     
     /// <summary>
     /// Custom content to appear in the toolbar of the component.
@@ -365,7 +368,7 @@ public partial class MudCalendar : MudComponentBase
     /// </summary>
     [Category(CategoryTypes.Calendar.Behavior)]
     [Parameter]
-    public IEnumerable<CalendarItem> Items { get; set; } = new List<CalendarItem>();
+    public IEnumerable<T> Items { get; set; } = new List<T>();
     
     /// <summary>
     /// Called when the dates visible in the Calendar change.
@@ -383,7 +386,7 @@ public partial class MudCalendar : MudComponentBase
     /// Called when an item is changed, for example by dragging or resizing the item.
     /// </summary>
     [Parameter]
-    public EventCallback<CalendarItem> ItemChanged { get; set; }
+    public EventCallback<T> ItemChanged { get; set; }
 
     /// <summary>
     /// Called when the View is changed.
@@ -401,7 +404,7 @@ public partial class MudCalendar : MudComponentBase
     /// Called when a CalendarItem is clicked.
     /// </summary>
     [Parameter]
-    public EventCallback<CalendarItem> ItemClicked { get; set; }
+    public EventCallback<T> ItemClicked { get; set; }
     
     /// <summary>
     /// Called when the '+x more' label is clicked in the month view.
@@ -621,7 +624,7 @@ public partial class MudCalendar : MudComponentBase
 
         var options = Options.Create(new LocalizationOptions { ResourcesPath = "Resources" });
         var factory = new ResourceManagerStringLocalizerFactory(options, NullLoggerFactory.Instance);
-        var localizer = new StringLocalizer<MudCalendar>(factory);
+        var localizer = new StringLocalizer<MudCalendar<T>>(factory);
 
         _uiCulture = Thread.CurrentThread.CurrentUICulture;
         _todayText = localizer["Today"];

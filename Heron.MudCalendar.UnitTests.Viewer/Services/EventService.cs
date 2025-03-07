@@ -1,16 +1,17 @@
 using MudBlazor;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Heron.MudCalendar.UnitTests.Viewer.Services;
 
-public class EventService
+public class EventService<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> where T:CalendarItem, new()
 {
-    private readonly Dictionary<DateTime, List<CalendarItem>> _items = new();
+    private readonly Dictionary<DateTime, List<T>> _items = new();
 
-    public List<CalendarItem> GetEvents(DateRange dateRange)
+    public List<T> GetEvents(DateRange dateRange)
     {
-        if (dateRange.Start == null || dateRange.End == null) return new List<CalendarItem>();
+        if (dateRange.Start == null || dateRange.End == null) return new List<T>();
 
-        var events = new List<CalendarItem>();
+        var events = new List<T>();
         var month = new DateTime(dateRange.Start.Value.Year, dateRange.Start.Value.Month, 1);
         while (month <= dateRange.End.Value)
         {
@@ -30,7 +31,7 @@ public class EventService
     private void CreateEvents(DateTime month)
     {
         // Create 20 dummy events
-        var events = new List<CalendarItem>();
+        var events = new List<T>();
         var days = DateTime.DaysInMonth(month.Year, month.Month);
         var rnd = new Random();
         for (var i = 0; i < 20; i++)
@@ -39,7 +40,7 @@ public class EventService
             var hour = rnd.Next(8, 16);
             var duration = rnd.Next(1, 8) / 2.0;
 
-            var item = new CalendarItem
+            var item = new T
             {
                 Start = new DateTime(month.Year, month.Month, day, hour, 0, 0)
             };
