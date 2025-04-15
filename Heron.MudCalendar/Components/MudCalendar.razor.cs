@@ -19,6 +19,10 @@ namespace Heron.MudCalendar;
 /// <typeparam name="T">The type of item displayed in this calendar.</typeparam>
 public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : MudComponentBase where T : CalendarItem
 {
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
+
     /// <summary>
     /// The size of the drop shadow.
     /// </summary>
@@ -658,7 +662,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
         
         if (dateChanged) await CurrentDayChanged.InvokeAsync(CurrentDay);
         
-        await ChangeDateRange(new CalendarDateRange(dateTime ?? DateTime.Today, View, GetFirstDayOfWeekByCalendarView(View)));
+        await ChangeDateRange(new CalendarDateRange(dateTime ?? DateTime.Today, View, Culture, GetFirstDayOfWeekByCalendarView(View)));
     }
 
     private void OnDatePickerOpened()
@@ -668,7 +672,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
 
     private async Task ChangeDateRange()
     {
-        await ChangeDateRange(new CalendarDateRange(CurrentDay, View, GetFirstDayOfWeekByCalendarView(View)));
+        await ChangeDateRange(new CalendarDateRange(CurrentDay, View, Culture, GetFirstDayOfWeekByCalendarView(View)));
     }
 
     private async Task ChangeDateRange(CalendarDateRange dateRange)

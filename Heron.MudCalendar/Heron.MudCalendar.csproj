@@ -75,7 +75,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="MudBlazor" Version="8.0.0" />
+        <PackageReference Include="MudBlazor" Version="8.5.1" />
     </ItemGroup>
 
     <ItemGroup>

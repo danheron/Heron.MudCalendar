@@ -51,7 +51,7 @@
     /// <summary>
     /// Renders the day name.
     /// </summary>
-    protected virtual RenderFragment RenderDayTitle(int day) => __builder => { __builder.AddContent(1, Cells[day].Date.ToString("ddd")); };
+    protected virtual RenderFragment RenderDayTitle(int day) => __builder => { __builder.AddContent(1, Cells[day].Date.ToString("ddd",Culture)); };
 
     /// <summary>
     /// Renders the grid that holds the body of the calendar.
@@ -113,7 +113,7 @@
     /// </summary>
     protected virtual RenderFragment RenderCellDayNumber(CalendarCell<T> cell) =>
         @<div class="@DayClassname(cell)">
-            @cell.Date.Day
+        @cell.Date.ToString("dd",Culture)
         </div>;
 
     /// <summary>

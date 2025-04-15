@@ -1,5 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35617.110 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heron.MudCalendar", "Heron.MudCalendar\Heron.MudCalendar.csproj", "{33A2A6EC-4F14-452A-B2A3-3FB2DF7CA564}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heron.MudCalendar.UnitTests.Viewer", "Heron.MudCalendar.UnitTests.Viewer\Heron.MudCalendar.UnitTests.Viewer.csproj", "{C664B3C2-2536-4F5E-A46F-C5A6E31CBAAF}"
@@ -24,5 +27,8 @@ Global
 		{5536C336-05D5-4954-BA3C-71E2B0B2E844}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5536C336-05D5-4954-BA3C-71E2B0B2E844}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5536C336-05D5-4954-BA3C-71E2B0B2E844}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
