@@ -26,11 +26,11 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
+		<PackageReference Include="MudBlazor" Version="8.5.1" />
 		<PackageReference Include="ReportGenerator" Version="5.4.1" />
 	</ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="MudBlazor" Version="8.0.0" />
 		<PackageReference Include="NUnit" Version="4.2.2" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
 	</ItemGroup>
