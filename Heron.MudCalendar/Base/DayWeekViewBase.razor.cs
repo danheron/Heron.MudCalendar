@@ -352,10 +352,18 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
         var duration = item.End?.Subtract(item.Start) ?? TimeSpan.Zero;
 
         var ids = dropItem.DropzoneIdentifier.Split("_");
-        if (!DateTime.TryParse(ids[0], out var date)) return;
-        var cell = int.Parse(ids[1]);
-        var minutes = ((double)cell / CellsInDay) * MinutesInDay;
-        date = date.AddMinutes(minutes);
+        if (DateTime.TryParse(ids[0], out var date))
+        {
+            var cell = int.Parse(ids[1]);
+            var minutes = ((double)cell / CellsInDay) * MinutesInDay;
+            date = date.AddMinutes(minutes);
+        }
+        else
+        {
+            var calendarItem = Cells.SelectMany(c => c.Items).FirstOrDefault(it => it.Id == ids[0]);
+            if(calendarItem == null) return;
+            date = calendarItem.Start;
+        }
 
         // Update start and end time
         item.Start = date;
