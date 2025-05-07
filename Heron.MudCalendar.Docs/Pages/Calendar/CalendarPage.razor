@@ -121,6 +121,21 @@
         </DocsPageSection>
         
         <DocsPageSection>
+            <SectionHeader Title="Internationalization">
+                <Description>
+                    The culture used to format dates can be changed by setting the <CodeInline>Culture</CodeInline> property.
+                    <MudAlert Severity="Severity.Info" Dense="true" Class="mt-3">
+                        Note: Setting the Culture only affects the formatting of dates/numbers etc.
+                        To change the language for UI elements you should set <CodeInline>CultureInfo.CurrentUICulture</CodeInline> to the required culture.
+                    </MudAlert>
+                </Description>
+            </SectionHeader>
+            <SectionContent DarkenBackground="true" Code="InternationalizationCalendarExample" ShowCode="false" Block="true" FullWidth="true" Assembly="typeof(CalendarPage).Assembly" AllowRunCode="false">
+                <InternationalizationCalendarExample/>
+            </SectionContent>
+        </DocsPageSection>
+        
+        <DocsPageSection>
             <SectionHeader Title="Mobile">
                 <Description>
                     For mobile views set the <CodeInline>ShowDropdownViewSelector</CodeInline> property to true.

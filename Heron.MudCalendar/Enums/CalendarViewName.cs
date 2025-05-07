@@ -12,7 +12,7 @@ public static class CalendarViewName
 
     public static string GetText(CalendarView view)
     {
-        if (_viewNames == null || _uiCulture == null || !Equals(_uiCulture, Thread.CurrentThread.CurrentUICulture)) ReadLocalizedNames();
+        if (_viewNames == null || _uiCulture == null || !Equals(_uiCulture, CultureInfo.CurrentUICulture)) ReadLocalizedNames();
         return _viewNames == null ? string.Empty : _viewNames[view];
     }
 
@@ -22,8 +22,8 @@ public static class CalendarViewName
         var factory = new ResourceManagerStringLocalizerFactory(options, NullLoggerFactory.Instance);
         var localizer = new StringLocalizer<CalendarView>(factory);
 
-        _uiCulture = Thread.CurrentThread.CurrentUICulture;
-
+        _uiCulture = CultureInfo.CurrentUICulture;
+        
         _viewNames = new Dictionary<CalendarView, string>
         {
             [CalendarView.Month] = localizer["Month"],

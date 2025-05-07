@@ -19,10 +19,6 @@ namespace Heron.MudCalendar;
 /// <typeparam name="T">The type of item displayed in this calendar.</typeparam>
 public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : MudComponentBase where T : CalendarItem
 {
-    [Parameter]
-    [Category(CategoryTypes.Calendar.Behavior)]
-    public CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
-
     /// <summary>
     /// The size of the drop shadow.
     /// </summary>
@@ -295,7 +291,15 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Category(CategoryTypes.Calendar.Appearance)]
     public bool ShowCurrentTime { get; set; }
     
-    
+    /// <summary>
+    /// The culture to use for displaying dates.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>CultureInfo.CurrentCulture</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
 
     /// <summary>
     /// If true then calendar items can be drag/dropped to different dates/times.

@@ -99,25 +99,24 @@
     /// Renders the month view.
     /// </summary>
     protected virtual RenderFragment RenderMonthView =>
-        @<MonthView Culture="@Culture"  T="T"/>;
+        @<MonthView T="T"/>;
 
     /// <summary>
     /// Renders the week view.
     /// </summary>
     protected virtual RenderFragment RenderWeekView =>
-        @<WeekView Culture="@Culture" T="T" />;
-
-
+        @<WeekView T="T" />;
+    
     /// <summary>
     /// Renders the work week view.
     /// </summary>
     protected virtual RenderFragment RenderWorkWeekView =>
-        @<WorkWeekView Culture="@Culture" T="T" />;
+        @<WorkWeekView T="T" />;
 
     /// <summary>
     /// Renders the day view.
     /// </summary>
     protected virtual RenderFragment RenderDayView =>
-        @<DayView Culture="@Culture" T="T" />;
+        @<DayView T="T" />;
 
 }

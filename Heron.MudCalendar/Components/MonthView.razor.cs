@@ -17,26 +17,12 @@ namespace Heron.MudCalendar;
 /// <typeparam name="T">The type of item displayed in this month view.</typeparam>
 public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : CalendarViewBase<T>, IDisposable where T:CalendarItem
 {
-    [Parameter]
-    public CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
-
-
     private MudDropContainer<T>? _dropContainer;
     private ElementReference _monthGrid;
 
     private JsService? _jsService;
 
-    private CultureInfo? _uiCulture
-    {
-        get
-        {
-            if (Culture!= Thread.CurrentThread.CurrentUICulture)
-            {
-                return Culture;
-            }
-            return Thread.CurrentThread.CurrentUICulture;
-        }
-    }
+    private static CultureInfo? _uiCulture;
     private static string? _moreText;
 
     protected virtual int Columns => 7;
@@ -196,7 +182,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     {
         var cells = new List<CalendarCell<T>>();
 
-        var calendar = Culture.Calendar;
+        var calendar = Calendar.Culture.Calendar;
         int year = calendar.GetYear(Calendar.CurrentDay);
         int month = calendar.GetMonth(Calendar.CurrentDay);
 
@@ -204,10 +190,10 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
 
         int nextMonthYear = calendar.GetYear(Calendar.CurrentDay.AddMonths(1));
         int nextMonthMonth = calendar.GetMonth(Calendar.CurrentDay.AddMonths(1));
-        var monthEnd = new DateTime(nextMonthYear, nextMonthMonth, 1, Culture.Calendar)
+        var monthEnd = new DateTime(nextMonthYear, nextMonthMonth, 1, Calendar.Culture.Calendar)
             .AddDays(-1);
 
-        var range = new CalendarDateRange(Calendar.CurrentDay.Date, CalendarView.Month, Culture);
+        var range = new CalendarDateRange(Calendar.CurrentDay.Date, CalendarView.Month, Calendar.Culture);
         if (range.Start == null || range.End == null) return cells;
 
         var date = range.Start.Value;
@@ -294,13 +280,13 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
 
     private string LoadText()
     {
-        if (_moreText != null && Equals(_uiCulture, Thread.CurrentThread.CurrentUICulture)) return _moreText;
+        if (_moreText != null && Equals(_uiCulture, Calendar.Culture)) return _moreText;
 
         var options = Options.Create(new LocalizationOptions { ResourcesPath = "Resources" });
         var factory = new ResourceManagerStringLocalizerFactory(options, NullLoggerFactory.Instance);
         var localizer = new StringLocalizer<MudCalendar<T>>(factory);
 
-        
+        _uiCulture = Calendar.Culture;
         _moreText = localizer["More"];
 
         return _moreText;

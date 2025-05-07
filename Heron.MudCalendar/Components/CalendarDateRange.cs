@@ -8,17 +8,16 @@ public class CalendarDateRange : DateRange
     public CalendarView View { get; }
 
     private readonly DateTime _currentDay;
-    private static CultureInfo _culture;
+    private static CultureInfo _culture = CultureInfo.InvariantCulture;
     private readonly Calendar _calendar;
 
     public CalendarDateRange(DateTime currentDay, CalendarView view, CultureInfo culture, DayOfWeek? firstDayOfWeek = null)
     {
-        _culture = culture ?? CultureInfo.InvariantCulture;
+        _culture = culture;
         _calendar = culture.Calendar;
         _currentDay = currentDay;
         View = view;
         
-
         SetStart(firstDayOfWeek);
         SetEnd(firstDayOfWeek);
     }
@@ -61,12 +60,8 @@ public class CalendarDateRange : DateRange
         }
     }
     
-     
-
     public DateTime GetFirstMonthDate(DateTime day)
     {
-        
-
         // Get the year and month in the target calendar system
         int year = _calendar.GetYear(day);
         int month = _calendar.GetMonth(day);
@@ -79,6 +74,7 @@ public class CalendarDateRange : DateRange
 
         return firstDayOfMonth;
     }
+    
     public DateTime GetLastMonthDate(DateTime day )
     {
         
@@ -104,13 +100,13 @@ public class CalendarDateRange : DateRange
         return day.AddDays(GetDayOfWeek(day, firstDayOfWeek) * -1);
     }
 
-    public DateTime GetLastWeekDate(DateTime day, DayOfWeek? firstDayOfWeek)
+    public static DateTime GetLastWeekDate(DateTime day, DayOfWeek? firstDayOfWeek)
     {
         // Get last day of the week
         return day.AddDays(6 - GetDayOfWeek(day, firstDayOfWeek));
     }
 
-    public DateTime GetLastWorkWeekDate(DateTime day, DayOfWeek? firstDayOfWeek)
+    public static DateTime GetLastWorkWeekDate(DateTime day, DayOfWeek? firstDayOfWeek)
     {
         // Get last day of the work week
         return day.AddDays(4 - GetDayOfWeek(day, firstDayOfWeek));
