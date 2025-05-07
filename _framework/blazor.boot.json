@@ -1,0 +1,296 @@
+{
+  "mainAssemblyName": "Heron.MudCalendar.Docs",
+  "resources": {
+    "hash": "sha256-iZpPvj9W/dwvrwx8Q+Sl95J0leQi6IvFDn7Y6mBWY50=",
+    "fingerprinting": {
+      "Blazor-Analytics.87lgmrdzq9.wasm": "Blazor-Analytics.wasm",
+      "Blazored.LocalStorage.12n6dz54qr.wasm": "Blazored.LocalStorage.wasm",
+      "BytexDigital.Blazor.Components.CC.41pfghg70a.wasm": "BytexDigital.Blazor.Components.CC.wasm",
+      "Heron.MudCalendar.Docs.a9jqiow5r6.wasm": "Heron.MudCalendar.Docs.wasm",
+      "Heron.MudCalendar.yy8219gb3h.wasm": "Heron.MudCalendar.wasm",
+      "Microsoft.AspNetCore.Components.Forms.0mzztv196n.wasm": "Microsoft.AspNetCore.Components.Forms.wasm",
+      "Microsoft.AspNetCore.Components.zaxjxezd4y.wasm": "Microsoft.AspNetCore.Components.wasm",
+      "Microsoft.AspNetCore.Components.Web.p8077st6ue.wasm": "Microsoft.AspNetCore.Components.Web.wasm",
+      "Microsoft.AspNetCore.Components.WebAssembly.lnww9ckl88.wasm": "Microsoft.AspNetCore.Components.WebAssembly.wasm",
+      "Microsoft.Extensions.Configuration.Abstractions.79qfazjlcu.wasm": "Microsoft.Extensions.Configuration.Abstractions.wasm",
+      "Microsoft.Extensions.Configuration.Json.lo1485j0el.wasm": "Microsoft.Extensions.Configuration.Json.wasm",
+      "Microsoft.Extensions.Configuration.7p4o2tpul4.wasm": "Microsoft.Extensions.Configuration.wasm",
+      "Microsoft.Extensions.DependencyInjection.Abstractions.or85teix66.wasm": "Microsoft.Extensions.DependencyInjection.Abstractions.wasm",
+      "Microsoft.Extensions.DependencyInjection.z10nhqoqkw.wasm": "Microsoft.Extensions.DependencyInjection.wasm",
+      "Microsoft.Extensions.Localization.Abstractions.ixsppbtym0.wasm": "Microsoft.Extensions.Localization.Abstractions.wasm",
+      "Microsoft.Extensions.Localization.bvn14pws96.wasm": "Microsoft.Extensions.Localization.wasm",
+      "Microsoft.Extensions.Logging.Abstractions.zas7edjltg.wasm": "Microsoft.Extensions.Logging.Abstractions.wasm",
+      "Microsoft.Extensions.Logging.fugc9tzrx1.wasm": "Microsoft.Extensions.Logging.wasm",
+      "Microsoft.Extensions.Options.1cu2gj5cau.wasm": "Microsoft.Extensions.Options.wasm",
+      "Microsoft.Extensions.Primitives.mytv1lpnrg.wasm": "Microsoft.Extensions.Primitives.wasm",
+      "Microsoft.JSInterop.0hi1zeigqe.wasm": "Microsoft.JSInterop.wasm",
+      "Microsoft.JSInterop.WebAssembly.8eb000j8w7.wasm": "Microsoft.JSInterop.WebAssembly.wasm",
+      "MudBlazor.Docs.r9vm0z47vk.wasm": "MudBlazor.Docs.wasm",
+      "MudBlazor.Examples.Data.blfilw3kq4.wasm": "MudBlazor.Examples.Data.wasm",
+      "MudBlazor.5lquxtl70p.wasm": "MudBlazor.wasm",
+      "netstandard.wozfe241fe.wasm": "netstandard.wasm",
+      "System.Collections.Concurrent.2qvrq9apuu.wasm": "System.Collections.Concurrent.wasm",
+      "System.Collections.Immutable.2fcknax2w1.wasm": "System.Collections.Immutable.wasm",
+      "System.Collections.NonGeneric.3sy3ubvw6f.wasm": "System.Collections.NonGeneric.wasm",
+      "System.Collections.Specialized.dk3ir1z1tp.wasm": "System.Collections.Specialized.wasm",
+      "System.Collections.75w5k2m7xf.wasm": "System.Collections.wasm",
+      "System.ComponentModel.Annotations.81kcytiftm.wasm": "System.ComponentModel.Annotations.wasm",
+      "System.ComponentModel.Primitives.u4k462jrzm.wasm": "System.ComponentModel.Primitives.wasm",
+      "System.ComponentModel.TypeConverter.oxhfs6ipmn.wasm": "System.ComponentModel.TypeConverter.wasm",
+      "System.ComponentModel.076m38u6l8.wasm": "System.ComponentModel.wasm",
+      "System.Console.ubzcvhlfzi.wasm": "System.Console.wasm",
+      "System.Diagnostics.DiagnosticSource.rfqy1pa4ud.wasm": "System.Diagnostics.DiagnosticSource.wasm",
+      "System.Drawing.Primitives.vq3xxgggil.wasm": "System.Drawing.Primitives.wasm",
+      "System.Drawing.6gq09eh1cq.wasm": "System.Drawing.wasm",
+      "System.IO.Compression.58t5ls677n.wasm": "System.IO.Compression.wasm",
+      "System.IO.Pipelines.0uhw8kopg1.wasm": "System.IO.Pipelines.wasm",
+      "System.Linq.Expressions.wjycywc424.wasm": "System.Linq.Expressions.wasm",
+      "System.Linq.Queryable.2isyrtwdh3.wasm": "System.Linq.Queryable.wasm",
+      "System.Linq.op091elm69.wasm": "System.Linq.wasm",
+      "System.Memory.ynr4xwrmgs.wasm": "System.Memory.wasm",
+      "System.Net.Http.Json.firoqhkdnq.wasm": "System.Net.Http.Json.wasm",
+      "System.Net.Http.4wincr9qpq.wasm": "System.Net.Http.wasm",
+      "System.Net.Primitives.3qbvoenl1w.wasm": "System.Net.Primitives.wasm",
+      "System.ObjectModel.42s2brcfjh.wasm": "System.ObjectModel.wasm",
+      "System.Private.CoreLib.8zql9fwz8m.wasm": "System.Private.CoreLib.wasm",
+      "System.Private.Uri.rdf15h0yxr.wasm": "System.Private.Uri.wasm",
+      "System.Private.Xml.Linq.ajmq46wifi.wasm": "System.Private.Xml.Linq.wasm",
+      "System.Private.Xml.sw7hq9x497.wasm": "System.Private.Xml.wasm",
+      "System.Runtime.InteropServices.JavaScript.era55l3sbb.wasm": "System.Runtime.InteropServices.JavaScript.wasm",
+      "System.Runtime.InteropServices.43itvhifa2.wasm": "System.Runtime.InteropServices.wasm",
+      "System.Runtime.Numerics.nneic3nzbm.wasm": "System.Runtime.Numerics.wasm",
+      "System.Runtime.pbg9s5c6l3.wasm": "System.Runtime.wasm",
+      "System.Text.Encodings.Web.wmi2z5c0zd.wasm": "System.Text.Encodings.Web.wasm",
+      "System.Text.Json.t2lina8jg2.wasm": "System.Text.Json.wasm",
+      "System.Text.RegularExpressions.9mociuckws.wasm": "System.Text.RegularExpressions.wasm",
+      "System.Threading.Tasks.Extensions.4veb8y5rd2.wasm": "System.Threading.Tasks.Extensions.wasm",
+      "System.Threading.Thread.qy7pqu6yhc.wasm": "System.Threading.Thread.wasm",
+      "System.Threading.fjsgap32bg.wasm": "System.Threading.wasm",
+      "System.f0fr8djds0.wasm": "System.wasm",
+      "System.Xml.Linq.mixoc3e4x3.wasm": "System.Xml.Linq.wasm",
+      "System.Xml.ReaderWriter.z3s33utsgl.wasm": "System.Xml.ReaderWriter.wasm",
+      "System.Xml.XDocument.yjcpa9bmva.wasm": "System.Xml.XDocument.wasm",
+      "dotnet.native.5zeujs0gv4.js": "dotnet.native.js",
+      "dotnet.native.63beryycb9.wasm": "dotnet.native.wasm",
+      "dotnet.js": "dotnet.js",
+      "dotnet.runtime.cymp1amu5g.js": "dotnet.runtime.js",
+      "icudt_CJK.tjcz0u77k5.dat": "icudt_CJK.dat",
+      "icudt_EFIGS.tptq2av103.dat": "icudt_EFIGS.dat",
+      "icudt_no_CJK.lfu7j35m59.dat": "icudt_no_CJK.dat",
+      "Heron.MudCalendar.resources.n1ahbhjszq.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.frvt3xxm5p.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.gdct2h5rkm.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.rt2j37lttf.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.okf7fdy82v.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.g1vn994j3u.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.o33ozf5gtb.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.0jgp1h35jf.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.ox61gvkh82.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.f84eaer5y0.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.phi070w4q4.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.3cd4u0y5cx.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.sqbbcauk2l.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.o1es1eq8cw.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.yfsolv8mf9.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.tlge3aaxhm.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.fe4imfrk76.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.fwa30ks66x.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.rw0qdav0bc.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.nug89sghrg.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.2lp4q7h126.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.cr7a5ctg35.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.2vs77n9wat.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.au8ckw6t7j.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.wsttvts7cg.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.l1q94b4zby.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.rb2iunyzhj.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.qw3bv0h3bb.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.3e50o0li59.wasm": "Heron.MudCalendar.resources.wasm",
+      "Heron.MudCalendar.resources.ues7wk1wr1.wasm": "Heron.MudCalendar.resources.wasm"
+    },
+    "jsModuleNative": {
+      "dotnet.native.5zeujs0gv4.js": "sha256-r3UGKPxx/96CmS3UdiSqnjHa0WLl4hfbtM7pagjtclg="
+    },
+    "jsModuleRuntime": {
+      "dotnet.runtime.cymp1amu5g.js": "sha256-dCmS9Zx4egtLYSUgTI3R6gMS+Yg8MkzxW1CgEMJKAEw="
+    },
+    "wasmNative": {
+      "dotnet.native.63beryycb9.wasm": "sha256-Xu3NDG8XqsPlqrXlCi/Mtv10ypOAI2iPEl68cVZrgZs="
+    },
+    "icu": {
+      "icudt_CJK.tjcz0u77k5.dat": "sha256-SZLtQnRc0JkwqHab0VUVP7T3uBPSeYzxzDnpxPpUnHk=",
+      "icudt_EFIGS.tptq2av103.dat": "sha256-8fItetYY8kQ0ww6oxwTLiT3oXlBwHKumbeP2pRF4yTc=",
+      "icudt_no_CJK.lfu7j35m59.dat": "sha256-L7sV7NEYP37/Qr2FPCePo5cJqRgTXRwGHuwF5Q+0Nfs="
+    },
+    "coreAssembly": {
+      "System.Private.CoreLib.8zql9fwz8m.wasm": "sha256-1IBK70r01/5fGwblJxodnfzqMH2pus2eC45pX+6msr0=",
+      "System.Runtime.InteropServices.JavaScript.era55l3sbb.wasm": "sha256-uo4WQ39eiOB+w/weMzCVCfXQey09VlzpTm+e6aR83IA="
+    },
+    "assembly": {
+      "Blazor-Analytics.87lgmrdzq9.wasm": "sha256-VIHzI5xU82EmdqXC80Au4/cWOQw5sKeSuA0gQr4Zz7Y=",
+      "Blazored.LocalStorage.12n6dz54qr.wasm": "sha256-OaMAAd5n7ORfyur5e3QIyEVKJ76MKIvwbg7/icnnYcU=",
+      "BytexDigital.Blazor.Components.CC.41pfghg70a.wasm": "sha256-iB/5P1k7WvumSAQG1CFHPw5+gCIo+tcEJr4RACAynk0=",
+      "Heron.MudCalendar.Docs.a9jqiow5r6.wasm": "sha256-AiqU7B8HByn+w8+Zu0o/qQc712R0PR6kU9kiEJGqVNc=",
+      "Heron.MudCalendar.yy8219gb3h.wasm": "sha256-FkFAtP1yQq/YimwIQZQQx+uzcba1wH+71PRpE/CqUtw=",
+      "Microsoft.AspNetCore.Components.Forms.0mzztv196n.wasm": "sha256-+PdTWSbD8jCthn4tsEVWIK3jPuYTsHD2IULOOK401v4=",
+      "Microsoft.AspNetCore.Components.zaxjxezd4y.wasm": "sha256-W1hVW/LgPoMLthEmUv6a0/hy+WSIgfWYqXuW/tY3SC0=",
+      "Microsoft.AspNetCore.Components.Web.p8077st6ue.wasm": "sha256-+aPy+gon+bV2T5rGEta7S+ZPPx7gpm/ixd+nn3HQ/VU=",
+      "Microsoft.AspNetCore.Components.WebAssembly.lnww9ckl88.wasm": "sha256-UUZeUVVimMNBAkomGpr++Nn7x5+aKX3V31U2mHC0E1Y=",
+      "Microsoft.Extensions.Configuration.Abstractions.79qfazjlcu.wasm": "sha256-Vaey6KNbQjvV5f4sgTb9Z7DpC7i8fKGaG8HGFaV0O8k=",
+      "Microsoft.Extensions.Configuration.Json.lo1485j0el.wasm": "sha256-e7KqvUYccR78CImWVq5kLp49gK7pPVNLuAnrrJ59tXE=",
+      "Microsoft.Extensions.Configuration.7p4o2tpul4.wasm": "sha256-yxPiW+l2bwpbqQMt+LqIVyoudbaoHWuYPnD4DDJUr88=",
+      "Microsoft.Extensions.DependencyInjection.Abstractions.or85teix66.wasm": "sha256-pFBDJnXpoppWHRqrlq9MjnVs/hQs5rWLblaLQz5I7No=",
+      "Microsoft.Extensions.DependencyInjection.z10nhqoqkw.wasm": "sha256-B7mY4Cop/Md/fK1orLh65qOtPeVjxGJu+VZid2z/Q5k=",
+      "Microsoft.Extensions.Localization.Abstractions.ixsppbtym0.wasm": "sha256-tnMHqb6BpI1Jj9M9WNSAAJzzxHrQgov/aSXbFqc+xzk=",
+      "Microsoft.Extensions.Localization.bvn14pws96.wasm": "sha256-6UgMJoVZBfDdfzYR0aKVK6BWArxpXC1qiQDDjiXw/L4=",
+      "Microsoft.Extensions.Logging.Abstractions.zas7edjltg.wasm": "sha256-9eJSY+jkh0z+pQfCnIWmYhMbB9LFFCX2aZOMaMU6BrU=",
+      "Microsoft.Extensions.Logging.fugc9tzrx1.wasm": "sha256-Rw3p7P7cbetsRUa1O+Q7ltdFAmR7kf26guR3xO9aq3s=",
+      "Microsoft.Extensions.Options.1cu2gj5cau.wasm": "sha256-720xjccNSC/ixI8d5toBVmd5GGEzQAIN2LMqBmflaJw=",
+      "Microsoft.Extensions.Primitives.mytv1lpnrg.wasm": "sha256-kvH0PWaEihTjfJSm4b+K3UHAQau8H9u9OsWrrZj/Chw=",
+      "Microsoft.JSInterop.0hi1zeigqe.wasm": "sha256-PNEDV+xipLuvR317S6a9u1afGzemESKRb3t3u2Wajts=",
+      "Microsoft.JSInterop.WebAssembly.8eb000j8w7.wasm": "sha256-sGms9Oai1ztzgfMsqBvmeKwa5ZyGWr/AEXr6thw0lso=",
+      "MudBlazor.Docs.r9vm0z47vk.wasm": "sha256-z7OD92wnS7MXW+AD9UmM0TCa3j8q+xQ4oNJeg1+oeCw=",
+      "MudBlazor.Examples.Data.blfilw3kq4.wasm": "sha256-kfsfpW3zbAbDMlj2l1IQp0YWyZH2VfJACQ4JpF6nGFc=",
+      "MudBlazor.5lquxtl70p.wasm": "sha256-57hzyBatiML0f0Lu3eibqpu+HulzSHRziq6JNOzNKqk=",
+      "netstandard.wozfe241fe.wasm": "sha256-cPjoSsg7BXF7wPb6wCNVdeRhZtIZiz5+T5lgMguXJQ0=",
+      "System.Collections.Concurrent.2qvrq9apuu.wasm": "sha256-piihqTcvb0jJAGB1uRqmJkpDpZ9ibCubkGDlH6IPnpc=",
+      "System.Collections.Immutable.2fcknax2w1.wasm": "sha256-IhUobkdrkdSldNTpgCswOV0pNU6njA9I3lLqvD49zKw=",
+      "System.Collections.NonGeneric.3sy3ubvw6f.wasm": "sha256-06x1icJvHAhRnY79gCGKpqvZ7zch2sDdnJSjrbNQpSk=",
+      "System.Collections.Specialized.dk3ir1z1tp.wasm": "sha256-jfHp6gIbatADiQK7LHwPuUzgWhV8XAY+ZAKq8LmB/V8=",
+      "System.Collections.75w5k2m7xf.wasm": "sha256-BdLJHXnA04biZ+w+5Y7euK1f58SRuZC/9VLwe9+Lswo=",
+      "System.ComponentModel.Annotations.81kcytiftm.wasm": "sha256-bMY+qihjDlor7ELn8OAebwoTGV87aEQXqNhjNQsxsUc=",
+      "System.ComponentModel.Primitives.u4k462jrzm.wasm": "sha256-EsOj+FYiTcrQyIyUwhuP0wvNpy+i6IJAVgf1PD3ztpc=",
+      "System.ComponentModel.TypeConverter.oxhfs6ipmn.wasm": "sha256-jNzNs4mgw2knn3EBG/t9elKyXfA2ACIbnO0EIOihFJQ=",
+      "System.ComponentModel.076m38u6l8.wasm": "sha256-JNR/o2tUFaDeOk9pghPZD2sAdWEKA2OUJ2ONln9UeD0=",
+      "System.Console.ubzcvhlfzi.wasm": "sha256-2rC1Fjf7Jx8yqITTZuKIsWgQ9yZjooeSvXQaqHFIXQk=",
+      "System.Diagnostics.DiagnosticSource.rfqy1pa4ud.wasm": "sha256-qQBSIukM56HeEESc0I03rqi3+of1LXXN+jTaWBDJWbw=",
+      "System.Drawing.Primitives.vq3xxgggil.wasm": "sha256-yW2VkIHKbXmx8zki6V/PfAl6+a/6JdO3VR+MktBurxw=",
+      "System.Drawing.6gq09eh1cq.wasm": "sha256-GomxCCSrh3nkhPG+TkIZCBoIuT7op3ABoFIfc0XINTc=",
+      "System.IO.Compression.58t5ls677n.wasm": "sha256-y5dGCpmB6gjWVqloxUUU38GapKIxNbWpg4GhoBJRGEk=",
+      "System.IO.Pipelines.0uhw8kopg1.wasm": "sha256-uEVVMYx7abWgasKfPzSB6wOMoCpVEVv4EcEAOCa4ph0=",
+      "System.Linq.Expressions.wjycywc424.wasm": "sha256-FCQbTiv3h8bNc0RxsyOqBkFblKYzqsjx3bLOJ1H+7L8=",
+      "System.Linq.Queryable.2isyrtwdh3.wasm": "sha256-NmxGgCYFkYjvpQ4NmojEJlGMC/CXKkOh5xBClU2sVJM=",
+      "System.Linq.op091elm69.wasm": "sha256-JCtL2FxmHAqYy6Pyi8lR6QgPM2KSDQzmqfj2BcDZ+A0=",
+      "System.Memory.ynr4xwrmgs.wasm": "sha256-DtYFOevkaZ1OxsmWOLCyrWDRTugahAa/9oG0bhBm6Js=",
+      "System.Net.Http.Json.firoqhkdnq.wasm": "sha256-uaDJXUjtVrPMO5gJ5/dikCyyZpnq9v69Cd/kmBYzqkE=",
+      "System.Net.Http.4wincr9qpq.wasm": "sha256-nFjhP9p/6CDRuFEih+uNSV3Vh92Mh02NgUQHvsBKyE0=",
+      "System.Net.Primitives.3qbvoenl1w.wasm": "sha256-5fJ22s8mcRnRmxSxEo5y1LX6IzYGAZEd6rBpbmlhyQA=",
+      "System.ObjectModel.42s2brcfjh.wasm": "sha256-dE7TcsW4g7mDJ/QFqrmjyEla7af5dT60Wjvyxs3kdVs=",
+      "System.Private.Uri.rdf15h0yxr.wasm": "sha256-H41X6ScvMCQEqNwU0RiE1UL+247zxlhUKvzzPmK1Tw0=",
+      "System.Private.Xml.Linq.ajmq46wifi.wasm": "sha256-ltDyunwj3A5wxHtpUERmaaln/p70Ut69+qpvqWe30PM=",
+      "System.Private.Xml.sw7hq9x497.wasm": "sha256-THB1FQ9psIAuNjbHOiYaF/HtQAB0jeZif/6Ttraikhs=",
+      "System.Runtime.InteropServices.43itvhifa2.wasm": "sha256-MLwEW/INv7jUETOU/4f6CgFJYuFzB3Ds+9yBPF+h8tg=",
+      "System.Runtime.Numerics.nneic3nzbm.wasm": "sha256-s8IAUJwqk/dG+W9gK5ngRyW2qrYs4mifH9Z8QHngJX0=",
+      "System.Runtime.pbg9s5c6l3.wasm": "sha256-GzUr8J6nFKKTUnneGKmjq8kR8TAj744Xt0xiA1pGAL4=",
+      "System.Text.Encodings.Web.wmi2z5c0zd.wasm": "sha256-KD5saNzkpUD3A/RXlqBthi/qKA3Sk2nZuNvyfL9+EWc=",
+      "System.Text.Json.t2lina8jg2.wasm": "sha256-y6Xrn8EkQ1/BNeevvjZu64XlEZSdvaVRBiQJ0wc+sjk=",
+      "System.Text.RegularExpressions.9mociuckws.wasm": "sha256-X67oRFcdQ3nQxJ88hIN5bq0mkFo5HbwhlYXI5A4o+IU=",
+      "System.Threading.Tasks.Extensions.4veb8y5rd2.wasm": "sha256-AAAgDBjMDTYZODxM7LmlVEE55FwOVL4v1v2XvgHD7bA=",
+      "System.Threading.Thread.qy7pqu6yhc.wasm": "sha256-kmZb15qYrQB2PDPMM82BNT9KdWfSCLD84ZuKZNgTch8=",
+      "System.Threading.fjsgap32bg.wasm": "sha256-e/IaDdVWI7UyYBHc4zfSVycwzh4stVxf2ohwu3nl2Xs=",
+      "System.f0fr8djds0.wasm": "sha256-v1DeJU321NUwk3KJ0Lf8lQA3zwRfrxNommmMBs1s3Gk=",
+      "System.Xml.Linq.mixoc3e4x3.wasm": "sha256-UugB5P9eGQHDIgrdxmssbIT8HjAPz0j6jk7e8xF0pOE=",
+      "System.Xml.ReaderWriter.z3s33utsgl.wasm": "sha256-8WOJRTRMtkKyygJk4bqCFM4DMlFp+oZg7xv34Dcatg4=",
+      "System.Xml.XDocument.yjcpa9bmva.wasm": "sha256-zklI0kpeZdkZxj3EWXo/fbUpAlQq1M6BdTvOb135i2U="
+    },
+    "satelliteResources": {
+      "bg": {
+        "Heron.MudCalendar.resources.n1ahbhjszq.wasm": "sha256-5bPcQkafglO02f23UbhNOyNfBULFhJDgEi6H6i4CXDo="
+      },
+      "cs": {
+        "Heron.MudCalendar.resources.frvt3xxm5p.wasm": "sha256-C91UxeSxlwtLG/GCxlAsuDdLS5uMdVV/7QRH/EH2q1c="
+      },
+      "da": {
+        "Heron.MudCalendar.resources.gdct2h5rkm.wasm": "sha256-HOaqTPqoqW/67ZxtD2EUNnpg3PrQTYw89+lSCvLrrp8="
+      },
+      "de": {
+        "Heron.MudCalendar.resources.rt2j37lttf.wasm": "sha256-D4QHZ/MH6ckfpjzOaSRlwheLc35kj+g7iEWqz3cvncE="
+      },
+      "el": {
+        "Heron.MudCalendar.resources.okf7fdy82v.wasm": "sha256-aNKPXQ8i0sSXe2I8eCTlWTZI8c1sdv+PHwl2I4kjzcs="
+      },
+      "es": {
+        "Heron.MudCalendar.resources.g1vn994j3u.wasm": "sha256-HJZS86yXjluoj9fBBg08eTawk2UJUUsfDCLLE137PKc="
+      },
+      "et": {
+        "Heron.MudCalendar.resources.o33ozf5gtb.wasm": "sha256-tBSa42xwBOUHWBgQxcuIk/kDLLPFU61MPd1o0RDkAqU="
+      },
+      "fa": {
+        "Heron.MudCalendar.resources.0jgp1h35jf.wasm": "sha256-7BR038mamD1bn0HdWEHVzWXAAQSpPqcnVGm+N2i96w4="
+      },
+      "fi": {
+        "Heron.MudCalendar.resources.ox61gvkh82.wasm": "sha256-pLrLTPmchbS7UFvl22WHUqmnat7emnDOpkb6kihNva4="
+      },
+      "fr": {
+        "Heron.MudCalendar.resources.f84eaer5y0.wasm": "sha256-EcGwHAxsouOJIQqiAyuzdJXMtp/URAbKKltK13Pw/Y0="
+      },
+      "hr": {
+        "Heron.MudCalendar.resources.phi070w4q4.wasm": "sha256-YzsXMA7XKhLrGUHv9RrG9wX62ZatuqQ17FBDOdNyLCU="
+      },
+      "hu": {
+        "Heron.MudCalendar.resources.3cd4u0y5cx.wasm": "sha256-faUE3W5pivyZvQ0yh9t7sVFO2QoGeRZWWJVQdg4QUK0="
+      },
+      "id": {
+        "Heron.MudCalendar.resources.sqbbcauk2l.wasm": "sha256-zBvDgZyTExTM5CrDPuNmIrlRDLLfI/cbOuHYe+VTMyQ="
+      },
+      "it": {
+        "Heron.MudCalendar.resources.o1es1eq8cw.wasm": "sha256-5JCX3xG4Sf+RRnKyaIosRSiYhAALqrlWHvCImPpl5o0="
+      },
+      "ja": {
+        "Heron.MudCalendar.resources.yfsolv8mf9.wasm": "sha256-/rYqW5QW4Xp/dItw6ykpSqe9WB/LmaNkxScwdLPQAq4="
+      },
+      "ko": {
+        "Heron.MudCalendar.resources.tlge3aaxhm.wasm": "sha256-b4n48ZywBEmDMOYrulT4J49P8jddkDfQnMUZ4p3uIRM="
+      },
+      "lt": {
+        "Heron.MudCalendar.resources.fe4imfrk76.wasm": "sha256-OfeMW5U5t0LKdMnvwT4HS4/bDHtkJV9/CRSC9CK+aXI="
+      },
+      "lv": {
+        "Heron.MudCalendar.resources.fwa30ks66x.wasm": "sha256-72lM7PYNc/ou/o4nt+6DLCnjHPdXQ5SUoOqyez9qDPw="
+      },
+      "nb": {
+        "Heron.MudCalendar.resources.rw0qdav0bc.wasm": "sha256-GwwY4v+IyNdR/BWKfRNOqPv9J7+r9jHG1ysZou/33i8="
+      },
+      "nl": {
+        "Heron.MudCalendar.resources.nug89sghrg.wasm": "sha256-sR8b+ebFGEKZ3bNCw32dfumyGKHpGNd3wGTIoYHALB0="
+      },
+      "pl": {
+        "Heron.MudCalendar.resources.2lp4q7h126.wasm": "sha256-en8vHvYXoGW4+W2xreYjVJLlFnyw390JvQ6UULQXzf0="
+      },
+      "pt": {
+        "Heron.MudCalendar.resources.cr7a5ctg35.wasm": "sha256-OBVZkLMvrumQd95yf/Ejpudna7FUNZejbEUXARTW5B8="
+      },
+      "ro": {
+        "Heron.MudCalendar.resources.2vs77n9wat.wasm": "sha256-3kALE8ufXSUBv/WXNmi+tJAKmu2S+//7ij0iQbMMjQ8="
+      },
+      "ru": {
+        "Heron.MudCalendar.resources.au8ckw6t7j.wasm": "sha256-PpRnbcJTbWq4mDtsdhKDp83eF+WXtBPqL/N80xw3SZI="
+      },
+      "sk": {
+        "Heron.MudCalendar.resources.wsttvts7cg.wasm": "sha256-IM9J/3OOzFlwAfmf13jZ8HeagQ6x09Or2ahS/EtdbjA="
+      },
+      "sl": {
+        "Heron.MudCalendar.resources.l1q94b4zby.wasm": "sha256-54NrCe2d2VGCySnott17pvpDlQOQL8TNQzpUxg1ESig="
+      },
+      "sv": {
+        "Heron.MudCalendar.resources.rb2iunyzhj.wasm": "sha256-uamNy6NqeTffpFawJJ4s72euqyR/NEmu0Vgxd/JRb5A="
+      },
+      "tr": {
+        "Heron.MudCalendar.resources.qw3bv0h3bb.wasm": "sha256-dshr++0aNVb6iREcUJ/UaEHp+4u6wmDng+Lh3UVhi/k="
+      },
+      "uk": {
+        "Heron.MudCalendar.resources.3e50o0li59.wasm": "sha256-tfzSX/5azALtwQfGJ2sKTFpXnbl7hq59zkTN1i+UQxU="
+      },
+      "zh": {
+        "Heron.MudCalendar.resources.ues7wk1wr1.wasm": "sha256-anT7+zAHWi2ShVS2T6XBWVOq52oxiWK3WoZpiv0jxpQ="
+      }
+    }
+  },
+  "cacheBootResources": true,
+  "debugLevel": 0,
+  "linkerEnabled": true,
+  "globalizationMode": "sharded",
+  "extensions": {
+    "blazor": {}
+  }
+}
