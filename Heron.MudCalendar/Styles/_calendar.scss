@@ -53,7 +53,7 @@
     display: flex;
     justify-content: space-between;
     column-gap: 4px;
-    overflow-x: scroll;
+    overflow-x: auto;
     
     .mud-button-label {
       white-space: nowrap;

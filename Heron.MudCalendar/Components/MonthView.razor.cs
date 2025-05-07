@@ -17,7 +17,6 @@ namespace Heron.MudCalendar;
 /// <typeparam name="T">The type of item displayed in this month view.</typeparam>
 public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : CalendarViewBase<T>, IDisposable where T:CalendarItem
 {
-
     private MudDropContainer<T>? _dropContainer;
     private ElementReference _monthGrid;
 
@@ -182,11 +181,19 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     protected override List<CalendarCell<T>> BuildCells()
     {
         var cells = new List<CalendarCell<T>>();
-        var monthStart = new DateTime(Calendar.CurrentDay.Year, Calendar.CurrentDay.Month, 1);
-        var monthEnd = new DateTime(Calendar.CurrentDay.AddMonths(1).Year, Calendar.CurrentDay.AddMonths(1).Month, 1)
+
+        var calendar = Calendar.Culture.Calendar;
+        int year = calendar.GetYear(Calendar.CurrentDay);
+        int month = calendar.GetMonth(Calendar.CurrentDay);
+
+        var monthStart = new DateTime(year, month, 1,calendar);
+
+        int nextMonthYear = calendar.GetYear(Calendar.CurrentDay.AddMonths(1));
+        int nextMonthMonth = calendar.GetMonth(Calendar.CurrentDay.AddMonths(1));
+        var monthEnd = new DateTime(nextMonthYear, nextMonthMonth, 1, Calendar.Culture.Calendar)
             .AddDays(-1);
 
-        var range = new CalendarDateRange(Calendar.CurrentDay.Date, CalendarView.Month);
+        var range = new CalendarDateRange(Calendar.CurrentDay.Date, CalendarView.Month, Calendar.Culture);
         if (range.Start == null || range.End == null) return cells;
 
         var date = range.Start.Value;
@@ -273,13 +280,13 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
 
     private string LoadText()
     {
-        if (_moreText != null && Equals(_uiCulture, Thread.CurrentThread.CurrentUICulture)) return _moreText;
+        if (_moreText != null && Equals(_uiCulture, Calendar.Culture)) return _moreText;
 
         var options = Options.Create(new LocalizationOptions { ResourcesPath = "Resources" });
         var factory = new ResourceManagerStringLocalizerFactory(options, NullLoggerFactory.Instance);
         var localizer = new StringLocalizer<MudCalendar<T>>(factory);
 
-        _uiCulture = Thread.CurrentThread.CurrentUICulture;
+        _uiCulture = Calendar.Culture;
         _moreText = localizer["More"];
 
         return _moreText;

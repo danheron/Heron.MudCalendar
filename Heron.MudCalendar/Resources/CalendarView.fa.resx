@@ -1,0 +1,14 @@
+<root>
+    <data name="Day" xml:space="preserve">
+        <value>روز</value>
+    </data>
+    <data name="Month" xml:space="preserve">
+        <value>ماه</value>
+    </data>
+    <data name="Week" xml:space="preserve">
+        <value>هفته</value>
+    </data>
+    <data name="WorkWeek" xml:space="preserve">
+        <value>هقته کاری</value>
+    </data>
+</root>

@@ -11,22 +11,34 @@ public partial class CalendarDatePicker
     {
         get
         {
+            if (!Date.HasValue) return null;
+
             switch (View)
             {
                 case CalendarView.Day:
-                    return Date?.ToString("dd MMM yyyy");
+                    return Date.Value.ToString("d MMM yyyy", Culture);
 
                 case CalendarView.Week:
                 case CalendarView.WorkWeek:
-                    if (!Date.HasValue) return null;
-                    var range = new CalendarDateRange(Date.Value, View, FirstDayOfWeek);
-                    return range.End != null && range.Start != null && range.Start.Value.Month == range.End.Value.Month ? 
-                        $"{range.Start:dd} - {range.End:dd} {range.End.Value:MMM yyyy}" : 
-                        $"{range.Start:dd} {range.Start:MMM} - {range.End:dd} {range.End?.ToString("MMM yyyy")}";
-                
+                    var range = new CalendarDateRange(Date.Value, View, Culture, FirstDayOfWeek);
+                    if (range.End == null || range.Start == null) return null;
+
+                    if (range.Start.Value.Month == range.End.Value.Month)
+                    {
+                        return string.Format(Culture,
+                            "{0:dd} - {1:dd} {1:MMM yyyy}",
+                            range.Start, range.End);
+                    }
+                    else
+                    {
+                        return string.Format(Culture,
+                            "{0:dd MMM} - {1:dd MMM yyyy}",
+                            range.Start, range.End);
+                    }
+
                 case CalendarView.Month:
                 default:
-                    return Date?.ToString("MMMM yyyy");
+                    return Date.Value.ToString("MMMM yyyy", Culture);
             }
         }
     }

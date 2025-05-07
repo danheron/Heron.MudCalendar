@@ -1,0 +1,8 @@
+<root>
+    <data name="Today" xml:space="preserve">
+        <value>امروز</value>
+    </data>
+    <data name="More" xml:space="preserve">
+        <value>بیشتر</value>
+    </data>
+</root>

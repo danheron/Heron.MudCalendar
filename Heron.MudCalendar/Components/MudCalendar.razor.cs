@@ -291,7 +291,15 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Category(CategoryTypes.Calendar.Appearance)]
     public bool ShowCurrentTime { get; set; }
     
-    
+    /// <summary>
+    /// The culture to use for displaying dates.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>CultureInfo.CurrentCulture</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
 
     /// <summary>
     /// If true then calendar items can be drag/dropped to different dates/times.
@@ -658,7 +666,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
         
         if (dateChanged) await CurrentDayChanged.InvokeAsync(CurrentDay);
         
-        await ChangeDateRange(new CalendarDateRange(dateTime ?? DateTime.Today, View, GetFirstDayOfWeekByCalendarView(View)));
+        await ChangeDateRange(new CalendarDateRange(dateTime ?? DateTime.Today, View, Culture, GetFirstDayOfWeekByCalendarView(View)));
     }
 
     private void OnDatePickerOpened()
@@ -668,7 +676,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
 
     private async Task ChangeDateRange()
     {
-        await ChangeDateRange(new CalendarDateRange(CurrentDay, View, GetFirstDayOfWeekByCalendarView(View)));
+        await ChangeDateRange(new CalendarDateRange(CurrentDay, View, Culture, GetFirstDayOfWeekByCalendarView(View)));
     }
 
     private async Task ChangeDateRange(CalendarDateRange dateRange)

@@ -70,7 +70,7 @@
                     }
                     @if (ShowDatePicker)
                     {
-                        <CalendarDatePicker @ref="_datePicker" OpenTo="@(View == CalendarView.Month ? OpenTo.Month : OpenTo.Date)" FirstDayOfWeek="@GetFirstDayOfWeekByCalendarView(View)" FixDay="@(View == CalendarView.Month ? PickerDate?.Day : null)" Date="PickerDate" DateChanged="DatePickerDateChanged" View="View" Variant="ButtonVariant" Color="Color" PickerOpened="OnDatePickerOpened"/>
+                        <CalendarDatePicker Culture="@Culture" @ref="_datePicker" OpenTo="@(View == CalendarView.Month ? OpenTo.Month : OpenTo.Date)" FirstDayOfWeek="@GetFirstDayOfWeekByCalendarView(View)" FixDay="@(View == CalendarView.Month ? PickerDate?.Day : null)" Date="PickerDate" DateChanged="DatePickerDateChanged" View="View" Variant="ButtonVariant" Color="Color" PickerOpened="OnDatePickerOpened"/>
                     }
                     @if (ShowTodayButton)
                     {
@@ -106,8 +106,7 @@
     /// </summary>
     protected virtual RenderFragment RenderWeekView =>
         @<WeekView T="T" />;
-
-
+    
     /// <summary>
     /// Renders the work week view.
     /// </summary>
