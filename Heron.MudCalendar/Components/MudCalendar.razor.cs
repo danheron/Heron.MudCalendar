@@ -660,13 +660,25 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
 
     private async Task DatePickerDateChanged(DateTime? dateTime)
     {
-        var dateChanged = dateTime.HasValue && dateTime != CurrentDay;
+        var newDate = dateTime;
+        var oldDate = CurrentDay;
         
         PickerDate = dateTime;
         
-        if (dateChanged) await CurrentDayChanged.InvokeAsync(CurrentDay);
+        // If month view then set day of month to currently selected day of month
+        if (View == CalendarView.Month && newDate.HasValue && newDate.Value.Day == 1)
+        {
+            var daysInMonth = DateTime.DaysInMonth(newDate.Value.Year, newDate.Value.Month);
+            newDate = oldDate.Day > daysInMonth ? newDate.Value.AddDays(daysInMonth - 1) : newDate.Value.AddDays(oldDate.Day - 1);
+        }
+
+        if (newDate.HasValue && newDate != oldDate)
+        {
+            CurrentDay = newDate!.Value;
+            await CurrentDayChanged.InvokeAsync(CurrentDay);
+        }
         
-        await ChangeDateRange(new CalendarDateRange(dateTime ?? DateTime.Today, View, Culture, GetFirstDayOfWeekByCalendarView(View)));
+        await ChangeDateRange(new CalendarDateRange(newDate ?? DateTime.Today, View, Culture, GetFirstDayOfWeekByCalendarView(View)));
     }
 
     private void OnDatePickerOpened()
