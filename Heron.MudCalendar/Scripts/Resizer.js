@@ -17,7 +17,7 @@ export class Resizer {
         this._handle = document.getElementById(handleId);
         this._container = document.getElementsByClassName(containerClass)[0];
         this._cellCount = cellCount;
-        this._item = this._handle.parentElement;
+        this._item = this._handle.closest(".mud-cal-drop-item");
         
         this._handle.addEventListener("mousedown", this.onMouseDown);
     }
