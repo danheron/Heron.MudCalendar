@@ -21,6 +21,8 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
 
     protected virtual int DaysInView => 7;
     protected virtual CalendarView View => CalendarView.Week;
+    protected virtual string HeaderClassname => string.Empty;
+    protected virtual string GridClassname => string.Empty;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -38,9 +40,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     protected virtual string HeaderClass =>
         new CssBuilder("mud-cal-grid")
             .AddClass("mud-cal-grid-header")
-            .AddClass("mud-cal-week-header", DaysInView == 7)
-            .AddClass("mud-cal-work-week-header", DaysInView == 5)
-            .AddClass("mud-cal-day-header", DaysInView == 1)
+            .AddClass(HeaderClassname)
             .Build();
 
     /// <summary>
@@ -48,9 +48,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     /// </summary>
     protected virtual string GridClass =>
         new CssBuilder("mud-cal-grid")
-            .AddClass("mud-cal-week-grid", DaysInView == 7)
-            .AddClass("mud-cal-work-week-grid", DaysInView == 5)
-            .AddClass("mud-cal-day-grid", DaysInView == 1)
+            .AddClass(GridClassname)
             .Build();
 
     /// <summary>
@@ -223,10 +221,10 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
         // Calculate end time from height
         var minutes = intervals * (int)Calendar.DayTimeInterval;
         item.End = item.Start.AddMinutes(minutes);
-
+        
         return Calendar.ItemChanged.InvokeAsync(item);
     }
-    
+
     private double TimelinePosition()
     {
         var minutes = DateTime.Now.Subtract(DateTime.Today).TotalMinutes -
@@ -357,7 +355,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
                 }
             }
         }
-
+        
         return positions;
     }
 

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 
 namespace Heron.MudCalendar;
 
@@ -9,6 +8,8 @@ public class WorkWeekView<[DynamicallyAccessedMembers(DynamicallyAccessedMemberT
     protected override int DaysInView => 5;
 
     protected override CalendarView View => CalendarView.WorkWeek;
+    protected override string HeaderClassname => "mud-cal-work-week-header";
+    protected override string GridClassname => "mud-cal-work-week-grid";
 
     protected override List<CalendarCell<T>> BuildCells()
     {

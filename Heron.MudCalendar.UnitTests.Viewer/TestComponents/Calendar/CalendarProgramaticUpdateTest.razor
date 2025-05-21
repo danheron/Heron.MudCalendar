@@ -1,0 +1,44 @@
+<MudPopoverProvider></MudPopoverProvider>
+
+<MudCalendar T="CalendarItem" Items="_events" Height="1000" EnableResizeItems="true" ItemChanged="ItemChanged" ShowMonth="false" />
+<MudTextField @bind-Value="_value" />
+Set end time
+<MudTextField @bind-Value="_endDate" />
+<MudButton OnClick="SetEndDate">Update end date</MudButton>
+
+@code {
+    public static string __description__ = "Change End Date Programmatically Calendar Tests";
+    
+    private string _value = string.Empty;
+
+    private string _endDate = string.Empty;
+
+    private CalendarItem _event = new CalendarItem
+    {
+        Start = DateTime.Today.AddHours(10),
+        Text = "Event today"
+    };
+
+    private List<CalendarItem> _events = new();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        _events.Add(_event);
+    }
+
+    private void SetEndDate()
+    {
+        if (TimeSpan.TryParse(_endDate, out var time))
+        {
+            _event.End = _event.Start.Date.Add(time);
+            StateHasChanged();
+        }
+    }
+
+    private void ItemChanged(CalendarItem item)
+    {
+        _value = $"Item Changed: {item.Text}, Start: {item.Start}, End: {item.End}";
+    }
+}

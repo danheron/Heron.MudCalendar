@@ -8,6 +8,8 @@ public class WeekView<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes
     protected override int DaysInView => 7;
 
     protected override CalendarView View => CalendarView.Week;
+    protected override string HeaderClassname => "mud-cal-week-header";
+    protected override string GridClassname => "mud-cal-week-grid";
     
     protected override List<CalendarCell<T>> BuildCells()
     {

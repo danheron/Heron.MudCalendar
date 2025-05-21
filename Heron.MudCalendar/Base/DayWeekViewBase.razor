@@ -139,7 +139,7 @@
                 <WeekDropZone T="T" Position="position" Style="@EventStyle(position)" @key="position.Item.Id">
                     @if (Calendar.EnableResizeItems && !position.Item.IsMultiDay)
                     {
-                        <Resizer ContainerClass="mud-cal-week-grid" CellCount="CellsInDay" ResizeX="false" SizeChanged="@(newHeight => ItemHeightChanged(position.Item, newHeight))" />
+                        <Resizer ContainerClass="@GridClassname" CellCount="CellsInDay" ResizeX="false" SizeChanged="@(newHeight => ItemHeightChanged(position.Item, newHeight))" />
                     }
                 </WeekDropZone>
             }
