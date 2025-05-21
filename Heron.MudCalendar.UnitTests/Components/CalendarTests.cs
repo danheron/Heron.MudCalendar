@@ -190,7 +190,40 @@ public class CalendarTests : BunitTest
         comp.FindAll("div.mud-cal-week-layer a")[55].Click();
         timeField.Instance.Text.Should().Be("09:10");   
     }
-    
+
+    [Test]
+    public void DisabledDaysCellClick()
+    {
+        var cut = Context.RenderComponent<CalendarDisableDaysTest>();
+        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
+        var textField = cut.FindComponents<MudTextField<string>>()[0];
+        var timeField = cut.FindComponents<MudTextField<string>>()[1];
+
+        // Month View
+        comp.SetParam(x => x.CurrentDay, new DateTime(2025, 5, 1));
+        comp.FindAll("div.mud-drop-zone a")[4].Click();
+        textField.Instance.Text.Should().Be("2");
+        timeField.Instance.Text.Should().Be("00:00");
+        
+        comp.FindAll("div.mud-drop-zone a")[5].Click(); // Weekend should be skipped
+        textField.Instance.Text.Should().Be("5");
+        timeField.Instance.Text.Should().Be("00:00");
+        
+        // Week View
+        comp.SetParam(x => x.View, CalendarView.Week);
+        comp.SetParam(x => x.CurrentDay, new DateTime(2025, 5, 1));
+        comp.Find("div.mud-cal-week-layer a").Click();
+        textField.Instance.Text.Should().Be("28");
+        timeField.Instance.Text.Should().Be("08:00");
+        
+        // Day View
+        comp.SetParam(x => x.View, CalendarView.Day);
+        comp.SetParam(x => x.CurrentDay, new DateTime(2025, 5, 1));
+        comp.Find("div.mud-cal-week-layer a").Click();
+        textField.Instance.Text.Should().Be("1");
+        timeField.Instance.Text.Should().Be("08:00");
+    }
+
     [Test]
     public void ItemsClick()
     {

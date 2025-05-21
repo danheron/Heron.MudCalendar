@@ -20,6 +20,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     private int PixelsInDay => CellsInDay * PixelsInCell;
 
     protected virtual int DaysInView => 7;
+    protected virtual CalendarView View => CalendarView.Week;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -154,10 +155,25 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     /// <param name="cell">The cell that was clicked.</param>
     /// <param name="row">The row that was clicked.</param>
     /// <returns></returns>
-    protected virtual Task OnCellLinkClicked(CalendarCell<T> cell, int row)
+    protected virtual async Task OnCellLinkClicked(CalendarCell<T> cell, int row)
+    {
+        if (AllowCellLinkClick(cell, row))
+        {
+            var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
+            await Calendar.CellClicked.InvokeAsync(date);
+        }
+    }
+    
+    /// <summary>
+    /// Determines if the click event is allowed on a cell.
+    /// </summary>
+    /// <param name="cell">The cell that was clicked.</param>
+    /// <param name="row">The row that was clicked.</param>
+    /// <returns><c>true</c> if the cell can be clicked.</returns>
+    protected virtual bool AllowCellLinkClick(CalendarCell<T> cell, int row)
     {
         var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
-        return Calendar.CellClicked.InvokeAsync(date);
+        return Calendar.CellClicked.HasDelegate && (Calendar.IsDateTimeDisabledFunc == null || !Calendar.IsDateTimeDisabledFunc(date, View));
     }
 
     /// <summary>

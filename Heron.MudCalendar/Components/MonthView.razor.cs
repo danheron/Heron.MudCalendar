@@ -85,10 +85,10 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     /// <summary>
     /// Classes added to each month cell.
     /// </summary>
-    protected virtual string CellClassname =>
+    protected virtual string CellClassname(CalendarCell<T> calendarCell) =>
         new CssBuilder()
             .AddClass("mud-cal-month-cell")
-            .AddClass("mud-cal-month-link", Calendar.CellClicked.HasDelegate)
+            .AddClass("mud-cal-month-link", AllowCellLinkClick(calendarCell))
             .Build();
 
     /// <summary>
@@ -134,10 +134,20 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     /// <returns></returns>
     protected virtual async Task OnCellLinkClicked(CalendarCell<T> cell)
     {
-        if (Calendar.CellClicked.HasDelegate)
+        if (AllowCellLinkClick(cell))
         {
             await Calendar.CellClicked.InvokeAsync(cell.Date);
         }
+    }
+
+    /// <summary>
+    /// Determines if the click event is allowed on a cell.
+    /// </summary>
+    /// <param name="cell">The cell that was clicked.</param>
+    /// <returns><c>true</c> if the cell can be clicked.</returns>
+    protected virtual bool AllowCellLinkClick(CalendarCell<T> cell)
+    {
+        return Calendar.CellClicked.HasDelegate && (Calendar.IsDateTimeDisabledFunc == null || !Calendar.IsDateTimeDisabledFunc(cell.Date, CalendarView.Month));
     }
 
     protected override void OnParametersSet()

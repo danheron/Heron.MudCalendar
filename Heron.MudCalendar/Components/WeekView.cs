@@ -5,8 +5,9 @@ namespace Heron.MudCalendar;
 
 public class WeekView<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : DayWeekViewBase<T> where T:CalendarItem
 {
-   
     protected override int DaysInView => 7;
+
+    protected override CalendarView View => CalendarView.Week;
     
     protected override List<CalendarCell<T>> BuildCells()
     {

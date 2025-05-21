@@ -1,0 +1,44 @@
+<MudPopoverProvider></MudPopoverProvider>
+
+<MudCalendar T="CalendarItem" Items="_events" CellClicked="TestClick" IsDateTimeDisabledFunc="IsDateTimeDisabled" />
+<MudTextField @bind-Value="_value" />
+<MudTextField @bind-Value="_timeValue" />
+
+@code {
+    public static string __description__ = "Disabled Day Calendar Tests";
+    
+    private string _value = string.Empty;
+    private string _timeValue = string.Empty;
+    
+    private List<CalendarItem> _events = new()
+    {
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(10),
+            End = DateTime.Today.AddHours(11),
+            Text = "Event today"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddDays(1).AddHours(11),
+            End = DateTime.Today.AddDays(1).AddHours(12.5),
+            Text = "Event tomorrow"
+        }
+    };
+
+    private bool IsDateTimeDisabled(DateTime dateTime, CalendarView view)
+    {
+        // Disable if on weekend
+        var disabled = (int)dateTime.DayOfWeek == 0 || (int)dateTime.DayOfWeek == 6;
+        if (view == CalendarView.Month) return disabled;
+        
+        // If on the day/week views then also disable before 8:00 and after 17:00
+        return disabled || dateTime.TimeOfDay < new TimeSpan(8, 0, 0) || dateTime.TimeOfDay >= new TimeSpan(17, 0, 0);
+    }
+    
+    private void TestClick(DateTime dateTime)
+    {
+        _value = dateTime.Day.ToString();
+        _timeValue = dateTime.ToShortTimeString();
+    }
+}

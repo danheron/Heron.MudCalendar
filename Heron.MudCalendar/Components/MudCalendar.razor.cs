@@ -330,6 +330,17 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public bool Use24HourClock { get; set; } = true;
+
+    /// <summary>
+    /// The function used to disable one or more date/times.
+    /// If the function returns true then that date and time will not allow click events or allow items to be dropped.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public Func<DateTime, CalendarView, bool>? IsDateTimeDisabledFunc { get; set; }
     
     /// <summary>
     /// Defines the cell content for the Month view.

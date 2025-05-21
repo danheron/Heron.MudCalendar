@@ -1,0 +1,40 @@
+@namespace Heron.MudCalendar.Docs.Examples
+
+<MudCalendar T="CalendarItem" Items="_events" CellClicked="CellClicked" IsDateTimeDisabledFunc="IsDateTimeDisabled" />
+
+@code {
+    
+    [Inject]
+    private IDialogService DialogService { get; set; }
+    
+    private bool IsDateTimeDisabled(DateTime dateTime, CalendarView view)
+    {
+        // Disable if on weekend
+        var disabled = (int)dateTime.DayOfWeek == 0 || (int)dateTime.DayOfWeek == 6;
+        if (view == CalendarView.Month) return disabled;
+        
+        // If on the day/week views then also disable before 8:00 and after 17:00
+        return disabled || dateTime.TimeOfDay < new TimeSpan(8, 0, 0) || dateTime.TimeOfDay >= new TimeSpan(17, 0, 0);
+    }
+    
+    private Task CellClicked(DateTime dateTime)
+    {
+        return DialogService.ShowMessageBox("Cell Clicked", dateTime.ToString(Thread.CurrentThread.CurrentCulture));
+    }
+    
+    private List<CalendarItem> _events = new()
+    {
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(10),
+            End = DateTime.Today.AddHours(11),
+            Text = "Event today"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddDays(1).AddHours(11),
+            End = DateTime.Today.AddDays(1).AddHours(12.5),
+            Text = "Event tomorrow"
+        }
+    };
+}
