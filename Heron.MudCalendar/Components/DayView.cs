@@ -7,6 +7,8 @@ public class DayView<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.
 {
     protected override int DaysInView => 1;
 
+    protected override CalendarView View => CalendarView.Day;
+
     protected override List<CalendarCell<T>> BuildCells()
     {
         var cell = new CalendarCell<T> { Date = Calendar.CurrentDay.Date };

@@ -88,8 +88,8 @@
                 {
                     var currentCell = Cells[cell];
                     <MudDropZone T="T" OnlyZone="true" Identifier="@currentCell.Date.Date.ToString("d")"
-                                 Class="@CellClassname" Style="@DayStyle(currentCell, cell)">
-                        @if (Calendar.CellClicked.HasDelegate)
+                                 Class="@CellClassname(currentCell)" Style="@DayStyle(currentCell, cell)">
+                        @if (AllowCellLinkClick(currentCell))
                         {
                             <a @onclick="() => OnCellLinkClicked(currentCell)" class="mud-cal-month-cell-link">
                                 <div class="mud-cal-month-link">

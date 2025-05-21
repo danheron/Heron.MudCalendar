@@ -107,6 +107,20 @@
                 <EventsCalendarExample/>
             </SectionContent>
         </DocsPageSection>
+        
+        <DocsPageSection>
+            <SectionHeader Title="Disable Days">
+                <Description>
+                    By setting the <CodeInline>IsDateTimeDisabledFunc</CodeInline> parameter it is possible to disable specific dates and times.
+                    When a date or time is disabled it will no longer respond to click events.
+                    When using the Month View only the <CodeInline>Date</CodeInline> part of the <CodeInline>DateTime</CodeInline> is considered.<br/>
+                    In this example the click event is only fired when the date is Monday to Friday and between 08:00 and 17:00.
+                </Description>
+            </SectionHeader>
+            <SectionContent DarkenBackground="true" Code="DisabledDaysCalendarExample" ShowCode="false" Block="true" FullWidth="true" Assembly="typeof(CalendarPage).Assembly" AllowRunCode="false">
+                <DisableDaysCalendarExample/>
+            </SectionContent>
+        </DocsPageSection>
 
         <DocsPageSection>
             <SectionHeader Title="Height">

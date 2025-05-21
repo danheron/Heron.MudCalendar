@@ -8,6 +8,8 @@ public class WorkWeekView<[DynamicallyAccessedMembers(DynamicallyAccessedMemberT
 {
     protected override int DaysInView => 5;
 
+    protected override CalendarView View => CalendarView.WorkWeek;
+
     protected override List<CalendarCell<T>> BuildCells()
     {
         var cells = new List<CalendarCell<T>>();
