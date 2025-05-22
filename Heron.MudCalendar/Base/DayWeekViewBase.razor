@@ -22,7 +22,7 @@
                                 T="T"
                                 Items="Calendar.Items"
                                 ItemsSelector="@((item, dropzone) => item.Id == dropzone)"
-                                ItemDisabled="@(_ => !Calendar.EnableDragItems)"
+                                ItemDisabled="@(item => !Calendar.EnableDragItems || (Calendar.CanDragItem != null && !Calendar.CanDragItem(item)))"
                                 ItemDropped="ItemDropped"
                                 CanDropClass="mud-cal-drop-ok">
                                 <ChildContent>
@@ -114,7 +114,8 @@
         @for (var i = 0; i < CellsInDay; i++)
         {
             var row = i;
-            <MudDropZone T="T" OnlyZone="true" Style="@CellHeightStyle()" Identifier="@string.Concat(cell.Date.Date.ToString("d"), "_", row.ToString())">
+            <MudDropZone T="T" OnlyZone="true" Style="@CellHeightStyle()" Identifier="@string.Concat(cell.Date.Date.ToString("d"), "_", row.ToString())"
+                         CanDrop="@(item => Calendar.CanDropItem == null || Calendar.CanDropItem(item, cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval), View))">
                 @if (AllowCellLinkClick(cell, row))
                 {
                     <MudLink @onclick="() => OnCellLinkClicked(cell, row)" Class="mud-cal-week-cell-link">

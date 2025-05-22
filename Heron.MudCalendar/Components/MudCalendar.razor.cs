@@ -310,6 +310,20 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool EnableDragItems { get; set; }
+    
+    /// <summary>
+    /// The function determines if an item can be dragged.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public Func<T, bool>? CanDragItem { get; set; }
+    
+    /// <summary>
+    /// The function determines if the item can be dropped at the specified <c>DateTime</c>.
+    /// </summary>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public Func<T, DateTime, CalendarView, bool>? CanDropItem { get; set; }
 
     /// <summary>
     /// If true then the user can change the duration of an item by resizing the item.
