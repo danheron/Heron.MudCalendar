@@ -21,7 +21,7 @@
                     T="T"
                     Items="Calendar.Items.OrderBy(i => i.Start)"
                     ItemsSelector="@((item, dropzone) => item.Id == dropzone)"
-                    ItemDisabled="@(_ => !Calendar.EnableDragItems)"
+                    ItemDisabled="@(item => !Calendar.EnableDragItems || (Calendar.CanDragItem != null && !Calendar.CanDragItem(item)))"
                     ItemDropped="ItemDropped"
                     CanDropClass="mud-cal-drop-ok"
                     Class="@Classname">
@@ -73,7 +73,8 @@
                 {
                     var currentCell = Cells[cell];
                     <MudDropZone T="T" OnlyZone="true" Identifier="@currentCell.Date.Date.ToString("d")"
-                                 Class="@CellClassname(currentCell)" Style="@DayStyle(currentCell, cell)">
+                                 Class="@CellClassname(currentCell)" Style="@DayStyle(currentCell, cell)"
+                                 CanDrop="@(item => Calendar.CanDropItem == null || Calendar.CanDropItem(item, currentCell.Date, CalendarView.Month))">
                         @if (AllowCellLinkClick(currentCell))
                         {
                             <a @onclick="() => OnCellLinkClicked(currentCell)" class="mud-cal-month-cell-link">

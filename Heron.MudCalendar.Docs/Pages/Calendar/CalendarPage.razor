@@ -67,6 +67,9 @@
                     Drag and Drop of items can be enabled by setting the <CodeInline>EnableDragItems</CodeInline> property to true.
                     Allow the user to resize items by setting the <CodeInline>EnableResizeItems</CodeInline> property to true.
                     Be notified when the start or end date of an item was changed by dragging or resizing with the <CodeInline>ItemChanged</CodeInline> event.
+                    The <CodeInline>CanDragItem</CodeInline> parameter can be used to determine whether an item can be dragged.
+                    The <CodeInline>CanDropItem</CodeInline> parameter can be used to determine if an item can be dropped at the specified <CodeInline>DateTime</CodeInline>.<br />
+                    In this example items in the past cannot be dragged and dragged items cannot be dropped in the past.
                 </Description>
             </SectionHeader>
             <SectionContent DarkenBackground="true" Code="DragDropCalendarExample" ShowCode="false" Block="true" FullWidth="true" Assembly="typeof(CalendarPage).Assembly" AllowRunCode="false">
@@ -113,8 +116,10 @@
                 <Description>
                     By setting the <CodeInline>IsDateTimeDisabledFunc</CodeInline> parameter it is possible to disable specific dates and times.
                     When a date or time is disabled it will no longer respond to click events.
+                    A custom class can be applied to specific dates and times using the <CodeInline>AdditionalDateTimeClassesFunc</CodeInline> parameter.
                     When using the Month View only the <CodeInline>Date</CodeInline> part of the <CodeInline>DateTime</CodeInline> is considered.<br/>
                     In this example the click event is only fired when the date is Monday to Friday and between 08:00 and 17:00.
+                    An additional class is applied to cells where the click event is disabled.
                 </Description>
             </SectionHeader>
             <SectionContent DarkenBackground="true" Code="DisabledDaysCalendarExample" ShowCode="false" Block="true" FullWidth="true" Assembly="typeof(CalendarPage).Assembly" AllowRunCode="false">

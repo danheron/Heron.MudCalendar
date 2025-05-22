@@ -1,6 +1,8 @@
 <MudPopoverProvider></MudPopoverProvider>
 
-<MudCalendar T="CalendarItem" Items="_events" Height="1000" EnableDragItems="true" EnableResizeItems="true" ItemChanged="ItemChanged" />
+<MudCalendar T="CalendarItem" Items="_events" Height="1000" EnableDragItems="true" EnableResizeItems="true" ItemChanged="ItemChanged"
+             CanDragItem="@(item => item.Start >= DateTime.Now)"
+             CanDropItem="@((item, date, view) => (view == CalendarView.Month && date.Add(item.Start.TimeOfDay) >= DateTime.Now) || date >= DateTime.Now)" />
 <MudTextField @bind-Value="_value" />
 
 @code {
@@ -12,7 +14,12 @@
     {
         new CalendarItem
         {
-            Start = DateTime.Today.AddHours(10),
+            Start = DateTime.Today.AddDays(-1).AddHours(9),
+            Text = "Event yesterday"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(15),
             Text = "Event today"
         },
         new CalendarItem

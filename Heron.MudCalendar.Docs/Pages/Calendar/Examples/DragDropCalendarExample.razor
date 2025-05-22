@@ -1,16 +1,28 @@
 @namespace Heron.MudCalendar.Docs.Examples
 
-<MudCalendar T="CalendarItem" Items="_events" EnableDragItems="true" EnableResizeItems="true" />
+<MudCalendar T="CalendarItem" Items="_events" EnableDragItems="true" EnableResizeItems="true"
+             CanDragItem="@(item => item.Start >= DateTime.Now)"
+             CanDropItem="@((item, date, view) => (view == CalendarView.Month && date.Add(item.Start.TimeOfDay) >= DateTime.Now) || date >= DateTime.Now)" />
 
 @code {
 
-    private readonly List<CalendarItem> _events = new()
+    private List<CalendarItem> _events = new()
     {
         new CalendarItem
         {
-            Start = DateTime.Today.AddHours(10),
-            End = DateTime.Today.AddHours(12),
+            Start = DateTime.Today.AddDays(-1).AddHours(9),
+            Text = "Event yesterday"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(15),
             Text = "Event today"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddDays(1).AddHours(11),
+            End = DateTime.Today.AddDays(1).AddHours(12.5),
+            Text = "Event tomorrow"
         }
     };
 }
