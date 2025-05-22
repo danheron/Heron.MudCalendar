@@ -22,6 +22,10 @@ export class Resizer {
         this._handle.addEventListener("mousedown", this.onMouseDown);
     }
     
+    updateCellCount(cellCount) {
+        this._cellCount = cellCount;
+    }
+    
     onMouseDown = (e) => {
         e.stopPropagation();
         
