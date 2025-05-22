@@ -36,6 +36,22 @@ public partial class Resizer : IAsyncDisposable
         _moduleTask = new Lazy<Task<IJSObjectReference>>(() => JsRuntime.InvokeAsync<IJSObjectReference>(
             "import", _cancellationTokenSource.Token, "./_content/Heron.MudCalendar/Heron.MudCalendar.min.js").AsTask());
     }
+    
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        // Check if CellCount parameter is changing
+        parameters.TryGetValue(nameof(CellCount), out int cellCount);
+        var needUpdate = cellCount != CellCount;
+
+        // Update parameters
+        await base.SetParametersAsync(parameters);
+        
+        // If the CellCount has changed then the JS object needs to be updated
+        if (needUpdate && _resizer != null)
+        {
+            await _resizer.InvokeVoidAsync("updateCellCount", cellCount);
+        }
+    }
 
     [JSInvokable]
     public Task ResizeFinished(int newSize)
@@ -74,7 +90,7 @@ public partial class Resizer : IAsyncDisposable
 
         if (_moduleTask.IsValueCreated)
         {
-            _cancellationTokenSource.Cancel();
+            await _cancellationTokenSource.CancelAsync();
             _moduleTask.Value.Dispose();
         }
     }

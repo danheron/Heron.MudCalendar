@@ -1,15 +1,26 @@
 <MudPopoverProvider></MudPopoverProvider>
 
-<MudCalendar T="CalendarItem" Items="_events" Height="1000" EnableResizeItems="true" ItemChanged="ItemChanged" ShowMonth="false" />
+<MudCalendar T="CalendarItem" Items="_events" Height="1000" EnableResizeItems="true" DayTimeInterval="_interval" ItemChanged="ItemChanged" ShowMonth="false" />
 <MudTextField @bind-Value="_value" />
 Set end time
 <MudTextField @bind-Value="_endDate" />
 <MudButton OnClick="SetEndDate">Update end date</MudButton>
+<MudSelect @bind-Value="_interval" T="CalendarTimeInterval" Label="Time Interval" class="ml-4">
+    <MudSelectItem Value="CalendarTimeInterval.Minutes5">5 Minutes</MudSelectItem>
+    <MudSelectItem Value="CalendarTimeInterval.Minutes10">10 Minutes</MudSelectItem>
+    <MudSelectItem Value="CalendarTimeInterval.Minutes15">15 Minutes</MudSelectItem>
+    <MudSelectItem Value="CalendarTimeInterval.Minutes20">20 Minutes</MudSelectItem>
+    <MudSelectItem Value="CalendarTimeInterval.Minutes30">30 Minutes</MudSelectItem>
+    <MudSelectItem Value="CalendarTimeInterval.Minutes60">1 Hour</MudSelectItem>
+    <MudSelectItem Value="CalendarTimeInterval.Minutes120">2 Hours</MudSelectItem>
+    <MudSelectItem Value="CalendarTimeInterval.Minutes180">3 Hours</MudSelectItem>
+</MudSelect>
 
 @code {
     public static string __description__ = "Change End Date Programmatically Calendar Tests";
     
     private string _value = string.Empty;
+    private CalendarTimeInterval _interval = CalendarTimeInterval.Minutes30;
 
     private string _endDate = string.Empty;
 
