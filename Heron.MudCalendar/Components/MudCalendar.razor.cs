@@ -343,6 +343,16 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public Func<DateTime, CalendarView, bool>? IsDateTimeDisabledFunc { get; set; }
     
     /// <summary>
+    /// The function returns CSS classes for a date and time.
+    /// </summary>
+    /// <remarks>
+    /// Multiple classes should be separated by spaces.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Appearance)]
+    public Func<DateTime, CalendarView, string>? AdditionalDateTimeClassesFunc { get; set; }
+    
+    /// <summary>
     /// Defines the cell content for the Month view.
     /// </summary>
     /// <remarks>
@@ -685,7 +695,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
 
         if (newDate.HasValue && newDate != oldDate)
         {
-            CurrentDay = newDate!.Value;
+            CurrentDay = newDate.Value;
             await CurrentDayChanged.InvokeAsync(CurrentDay);
         }
         

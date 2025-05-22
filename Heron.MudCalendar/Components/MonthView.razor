@@ -54,21 +54,6 @@
     protected virtual RenderFragment RenderDayTitle(int day) => __builder => { __builder.AddContent(1, Cells[day].Date.ToString("ddd", Calendar.Culture)); };
 
     /// <summary>
-    /// Renders the grid that holds the body of the calendar.
-    /// </summary>
-    protected virtual RenderFragment RenderDays =>
-        @<div class="mud-cal-grid mud-cal-month-grid" style="@GridStyle">
-            @for (var week = 0; week < Cells.Count / Columns; week++)
-            {
-                @for (var i = week * Columns; i < (week + 1) * Columns; i++)
-                {
-                    var cell = Cells[i];
-                    <div class="@CellClassname" style="@DayStyle(cell, i)"></div>
-                }
-            }
-        </div>;
-
-    /// <summary>
     /// Renders the cells of the grid.
     /// </summary>
     protected virtual RenderFragment RenderCells =>

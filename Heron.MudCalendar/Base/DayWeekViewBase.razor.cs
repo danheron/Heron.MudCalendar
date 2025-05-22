@@ -117,6 +117,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     {
         return new CssBuilder()
             .AddClass("mud-cal-week-cell")
+            .AddClass(Calendar.AdditionalDateTimeClassesFunc?.Invoke(cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval), View))
             .AddClass("mud-cal-week-cell-half", !IsHourCell(row))
             .AddClass("mud-cal-week-not-today", !cell.Today || !Calendar.HighlightToday)
             .Build();

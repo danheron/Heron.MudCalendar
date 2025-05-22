@@ -1,6 +1,12 @@
 @namespace Heron.MudCalendar.Docs.Examples
 
-<MudCalendar T="CalendarItem" Items="_events" CellClicked="CellClicked" IsDateTimeDisabledFunc="IsDateTimeDisabled" />
+<MudCalendar T="CalendarItem" Items="_events" CellClicked="CellClicked" IsDateTimeDisabledFunc="IsDateTimeDisabled" AdditionalDateTimeClassesFunc="AdditionalDateTimeClasses" />
+
+<style>
+    .gray-background {
+        background-color: var(--mud-palette-background-gray);
+    }
+</style>
 
 @code {
     
@@ -9,18 +15,31 @@
     
     private bool IsDateTimeDisabled(DateTime dateTime, CalendarView view)
     {
-        // Disable if on weekend
-        var disabled = (int)dateTime.DayOfWeek == 0 || (int)dateTime.DayOfWeek == 6;
-        if (view == CalendarView.Month) return disabled;
-        
-        // If on the day/week views then also disable before 8:00 and after 17:00
-        return disabled || dateTime.TimeOfDay < new TimeSpan(8, 0, 0) || dateTime.TimeOfDay >= new TimeSpan(17, 0, 0);
+        // Disable weekends and before 8:00 and after 17:00 gray
+        return IsWeekend(dateTime) || (view != CalendarView.Month && IsOutsideOfficeHours(dateTime));
+    }
+    
+    private string AdditionalDateTimeClasses(DateTime dateTime, CalendarView view)
+    {
+        // Make weekends and before 8:00 and after 17:00 gray
+        if (IsWeekend(dateTime) || (view != CalendarView.Month && IsOutsideOfficeHours(dateTime)))
+        {
+            return "gray-background";
+        }
+
+        return string.Empty;
     }
     
     private Task CellClicked(DateTime dateTime)
     {
         return DialogService.ShowMessageBox("Cell Clicked", dateTime.ToString(Thread.CurrentThread.CurrentCulture));
     }
+
+    private bool IsWeekend(DateTime dateTime) => 
+        (int)dateTime.DayOfWeek == 0 || (int)dateTime.DayOfWeek == 6;
+
+    private bool IsOutsideOfficeHours(DateTime dateTime) =>
+        dateTime.TimeOfDay < new TimeSpan(8, 0, 0) || dateTime.TimeOfDay >= new TimeSpan(17, 0, 0);
     
     private List<CalendarItem> _events = new()
     {
