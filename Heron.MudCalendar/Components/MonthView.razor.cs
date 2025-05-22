@@ -88,6 +88,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     protected virtual string CellClassname(CalendarCell<T> calendarCell) =>
         new CssBuilder()
             .AddClass("mud-cal-month-cell")
+            .AddClass(Calendar.AdditionalDateTimeClassesFunc?.Invoke(calendarCell.Date, CalendarView.Month))
             .AddClass("mud-cal-month-link", AllowCellLinkClick(calendarCell))
             .Build();
 

@@ -1,8 +1,14 @@
 <MudPopoverProvider></MudPopoverProvider>
 
-<MudCalendar T="CalendarItem" Items="_events" CellClicked="TestClick" IsDateTimeDisabledFunc="IsDateTimeDisabled" />
+<MudCalendar T="CalendarItem" Items="_events" CellClicked="TestClick" IsDateTimeDisabledFunc="IsDateTimeDisabled" AdditionalDateTimeClassesFunc="AdditionalDateTimeClasses" />
 <MudTextField @bind-Value="_value" />
 <MudTextField @bind-Value="_timeValue" />
+
+<style>
+    .yellow-background {
+        background-color: yellow;
+    }
+</style>
 
 @code {
     public static string __description__ = "Disabled Day Calendar Tests";
@@ -34,6 +40,25 @@
         
         // If on the day/week views then also disable before 8:00 and after 17:00
         return disabled || dateTime.TimeOfDay < new TimeSpan(8, 0, 0) || dateTime.TimeOfDay >= new TimeSpan(17, 0, 0);
+    }
+
+    private string AdditionalDateTimeClasses(DateTime dateTime, CalendarView view)
+    {
+        // Make weekends yellow
+        var classes = string.Empty;
+        if ((int)dateTime.DayOfWeek == 0 || (int)dateTime.DayOfWeek == 6)
+        {
+            classes = "yellow-background";
+        }
+        if (view == CalendarView.Month) return classes;
+
+        // Make times before 8:00 and after 17:00 yellow
+        if (dateTime.TimeOfDay < new TimeSpan(8, 0, 0) || dateTime.TimeOfDay >= new TimeSpan(17, 0, 0))
+        {
+            classes = "yellow-background";
+        }
+
+        return classes;
     }
     
     private void TestClick(DateTime dateTime)

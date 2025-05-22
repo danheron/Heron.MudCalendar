@@ -204,10 +204,12 @@ public class CalendarTests : BunitTest
         comp.FindAll("div.mud-drop-zone a")[4].Click();
         textField.Instance.Text.Should().Be("2");
         timeField.Instance.Text.Should().Be("00:00");
+        comp.FindAll("div.mud-drop-zone")[4].ClassName.Should().NotContain("yellow-background");
         
         comp.FindAll("div.mud-drop-zone a")[5].Click(); // Weekend should be skipped
         textField.Instance.Text.Should().Be("5");
         timeField.Instance.Text.Should().Be("00:00");
+        comp.FindAll("div.mud-drop-zone")[5].ClassName.Should().Contain("yellow-background");
         
         // Week View
         comp.SetParam(x => x.View, CalendarView.Week);
@@ -215,6 +217,8 @@ public class CalendarTests : BunitTest
         comp.Find("div.mud-cal-week-layer a").Click();
         textField.Instance.Text.Should().Be("28");
         timeField.Instance.Text.Should().Be("08:00");
+        comp.FindAll("div.mud-cal-week-cell")[1].ClassName.Should().Contain("yellow-background");
+        comp.FindAll("div.mud-cal-week-cell")[128].ClassName.Should().NotContain("yellow-background");
         
         // Day View
         comp.SetParam(x => x.View, CalendarView.Day);
@@ -222,6 +226,8 @@ public class CalendarTests : BunitTest
         comp.Find("div.mud-cal-week-layer a").Click();
         textField.Instance.Text.Should().Be("1");
         timeField.Instance.Text.Should().Be("08:00");
+        comp.FindAll("div.mud-cal-week-cell")[1].ClassName.Should().Contain("yellow-background");
+        comp.FindAll("div.mud-cal-week-cell")[32].ClassName.Should().NotContain("yellow-background");
     }
 
     [Test]
