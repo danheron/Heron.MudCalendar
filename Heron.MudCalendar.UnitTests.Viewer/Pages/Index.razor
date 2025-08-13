@@ -1,50 +1,55 @@
 ﻿@page "/"
 @using System.Reflection
 
-<MudLayout>
-    <MudAppBar Elevation="0">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="DocsDrawerToggle" />
-        <MudText Typo="Typo.h6">@selectedType?.Name</MudText>
-        <MudSpacer />
-        <MudAutocomplete @ref="autocomplete" T="Type" Placeholder="Search" SearchFunc="Search" Variant="Variant.Outlined" ValueChanged="OnSearchResult" Class="docs-search-bar" AdornmentIcon="@Icons.Material.Filled.Search">
-            <ItemTemplate Context="result">
-                <MudText>@result.Name</MudText> <MudText Typo="Typo.body2">@getDescription(result)</MudText>
-            </ItemTemplate>
-        </MudAutocomplete>
-        <MudSpacer />
-    </MudAppBar>
-    <MudDrawer Open="@drawerOpen" Overlay="false" Variant="DrawerVariant.Responsive" ClipMode="DrawerClipMode.Always" Breakpoint="Breakpoint.Sm">
-        <MudDrawerHeader>
-            <MudText Typo="Typo.h6">TestComponents</MudText>
-        </MudDrawerHeader>
-        <MudList T="string">
-            @foreach (var type in availableComponentTypes)
-            {
-                <MudListItem OnClick="@(() => selectedType = type)" @key="type.Name">@type.Name</MudListItem>
-            }
-        </MudList>
-    </MudDrawer>
-    <MudMainContent Class="mt-4">
+<MudRTLProvider RightToLeft="_isRtl">
+    <MudLayout>
+        <MudAppBar Elevation="0">
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="DocsDrawerToggle" />
+            <MudText Typo="Typo.h6">@selectedType?.Name</MudText>
+            <MudSpacer />
+            <MudAutocomplete @ref="autocomplete" T="Type" Placeholder="Search" SearchFunc="Search" Variant="Variant.Outlined" ValueChanged="OnSearchResult" Class="docs-search-bar" AdornmentIcon="@Icons.Material.Filled.Search">
+                <ItemTemplate Context="result">
+                    <MudText>@result.Name</MudText> <MudText Typo="Typo.body2">@getDescription(result)</MudText>
+                </ItemTemplate>
+            </MudAutocomplete>
+            <MudSpacer />
+            <MudTooltip Text="@(_isRtl ? "Left-to-right" : "Right-to-left")">
+                <MudIconButton Icon="@(_isRtl ? @Icons.Material.Filled.FormatTextdirectionLToR : @Icons.Material.Filled.FormatTextdirectionRToL)" OnClick="RtlToggle" Color="Color.Inherit" />
+            </MudTooltip>
+        </MudAppBar>
+        <MudDrawer Open="@drawerOpen" Overlay="false" Variant="DrawerVariant.Responsive" ClipMode="DrawerClipMode.Always" Breakpoint="Breakpoint.Sm">
+            <MudDrawerHeader>
+                <MudText Typo="Typo.h6">TestComponents</MudText>
+            </MudDrawerHeader>
+            <MudList T="string">
+                @foreach (var type in availableComponentTypes)
+                {
+                    <MudListItem OnClick="@(() => selectedType = type)" @key="type.Name">@type.Name</MudListItem>
+                }
+            </MudList>
+        </MudDrawer>
+        <MudMainContent Class="mt-4">
 
-        <MudText Style="padding-left: 24px; margin-left: 24px;">
-            @getDescription(selectedType)
-        </MudText>
-        <MudPaper Elevation="5" Style="padding: 24px; margin: 24px;">
-            @if (@selectedType == null)
-            {
-                <span>Select a component</span>
-            }
-            else
-            {
-                @* Prevent double popovers! *@
-                <CascadingValue Name="UsePopoverProvider" Value="false"  IsFixed="true">
-                    @TestComponent()
-                </CascadingValue>
-            }
-        </MudPaper>
+            <MudText Style="padding-left: 24px; margin-left: 24px;">
+                @getDescription(selectedType)
+            </MudText>
+            <MudPaper Elevation="5" Style="padding: 24px; margin: 24px;">
+                @if (@selectedType == null)
+                {
+                    <span>Select a component</span>
+                }
+                else
+                {
+                    @* Prevent double popovers! *@
+                    <CascadingValue Name="UsePopoverProvider" Value="false"  IsFixed="true">
+                        @TestComponent()
+                    </CascadingValue>
+                }
+            </MudPaper>
 
-    </MudMainContent>
-</MudLayout>
+        </MudMainContent>
+    </MudLayout>
+</MudRTLProvider>
 <style>
     .docs-search-bar .mud-input{height:42px;}
     .docs-search-bar.mud-input-control{background-color:rgba(255,255,255,.15);margin-bottom:5px;height:42px;border-radius:var(--mud-default-borderradius);}
@@ -57,10 +62,16 @@
     Type selectedType = null;
     Type[] availableComponentTypes = new Type[0];
     MudAutocomplete<Type> autocomplete;
+    private bool _isRtl;
 
     void DocsDrawerToggle()
     {
         drawerOpen = !drawerOpen;
+    }
+    
+    void RtlToggle()
+    {
+        _isRtl = !_isRtl;
     }
 
     protected override async Task OnInitializedAsync()
