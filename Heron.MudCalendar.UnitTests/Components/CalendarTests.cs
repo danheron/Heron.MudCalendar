@@ -454,11 +454,11 @@ public class CalendarTests : BunitTest
         comp.SetParam(x => x.CurrentDay, new DateTime(2024, 11, 1));
         // Should be event 3
         comp.FindAll("div.mud-cal-drop-item")[0].Attributes["style"]!.TextContent.Contains("top:36px").Should().BeTrue();
-        comp.FindAll("div.mud-cal-drop-item")[0].Attributes["style"]!.TextContent.Contains("left:14.2").Should().BeTrue();
+        comp.FindAll("div.mud-cal-drop-item")[0].Attributes["style"]!.TextContent.Contains("inset-inline-start:14.2").Should().BeTrue();
         comp.FindAll("div.mud-cal-drop-item")[0].Attributes["style"]!.TextContent.Contains("width:28.5").Should().BeTrue();
         
         // Should be event 7
-        comp.FindAll("div.mud-cal-drop-item")[8].Attributes["style"]!.TextContent.Contains("left:0").Should().BeTrue();
+        comp.FindAll("div.mud-cal-drop-item")[8].Attributes["style"]!.TextContent.Contains("inset-inline-start:0").Should().BeTrue();
         comp.FindAll("div.mud-cal-drop-item")[8].Attributes["style"]!.TextContent.Contains("width:28.5").Should().BeTrue();
     }
 

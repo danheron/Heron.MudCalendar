@@ -77,7 +77,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
         return new StyleBuilder()
             .AddStyle("position", "absolute")
             .AddStyle("top", $"{position.Top}px")
-            .AddStyle("left", ((double)position.Left / Columns * 100).ToInvariantString() + "%")
+            .AddStyle("inset-inline-start", ((double)position.Left / Columns * 100).ToInvariantString() + "%")
             .AddStyle("width", ((double)position.Width / Columns * 100).ToInvariantString() + "%")
             .Build();
     }

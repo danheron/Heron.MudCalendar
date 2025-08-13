@@ -1,9 +1,11 @@
 let _moreText = "";
 let _obj = null;
+let _isRtl = false;
 
 export function positionMonthItems(element, moreText, fixedHeight, obj) {
     if (moreText) _moreText = moreText;
     if (obj) _obj = obj;
+    _isRtl = document.querySelector('.mud-application-layout-rtl') !== null;
     
     element.querySelectorAll(".mud-cal-month-row-holder").forEach(function(container) {
         // Remove any existing messages
@@ -39,13 +41,13 @@ export function positionMonthItems(element, moreText, fixedHeight, obj) {
             position.Item = item;
             position.Top = headerHeight;
             position.Height = item.clientHeight;
-            position.Left = item.offsetLeft;
+            position.Start = offsetStart(item);
             position.Width = item.clientWidth;
             
             // Remove overlaps that are not relevant
             for (let i = 0; i < overlaps.length; i++)
             {
-                if (overlaps[i].Right <= position.Left + 1)
+                if (overlaps[i].End <= position.Start + 1)
                 {
                     overlaps.splice(i, 1);
                     i--;
@@ -68,12 +70,12 @@ export function positionMonthItems(element, moreText, fixedHeight, obj) {
         
         if (fixedHeight) {
             // Find overflows
-            const lefts = [];
+            const starts = [];
             positions.forEach((position) => {
-                if (!lefts.includes(position.Left)) lefts.push(position.Left);
+                if (!starts.includes(position.Start)) starts.push(position.Start);
             });
-            lefts.forEach((left) => {
-                hideOverflows(container, positions.filter(p => p.Left === left), left, datePositions);
+            starts.forEach((start) => {
+                hideOverflows(container, positions.filter(p => p.Start === start), start, datePositions);
             });
         }
         else
@@ -114,7 +116,7 @@ function hideOverflows(container, positions, position, datePositions) {
     const div = document.createElement("div");
     div.className = "mud-cal-overflow-message";
     div.textContent = "+";
-    div.style.left = position + "px";
+    div.style.start = position + "px";
     container.appendChild(div);
     
     // Count and hide the overflowed elements
@@ -142,11 +144,15 @@ function hideOverflows(container, positions, position, datePositions) {
     }
 }
 
+function offsetStart(element) {
+    return _isRtl ? element.offsetParent.offsetWidth - element.offsetLeft - element.offsetWidth : element.offsetLeft;
+}
+
 class ItemPosition {
     
     Top = 0;
     Height = 0;
-    Left = 0;
+    Start = 0;
     Width = 0;
     Item = null;
     Hidden = false;
@@ -155,7 +161,7 @@ class ItemPosition {
         return this.Top + this.Height;
     }
     
-    get Right() {
-        return this.Left + this.Width;
+    get End() {
+        return this.Start + this.Width;
     }
 }
