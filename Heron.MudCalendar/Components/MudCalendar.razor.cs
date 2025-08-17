@@ -453,7 +453,13 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     /// </summary>
     [Parameter]
     public EventCallback<DateTime> CellClicked { get; set; }
-    
+
+    /// <summary>
+    /// Called when a range of cells is selected.
+    /// </summary>
+    [Parameter]
+    public EventCallback<DateRange> CellRangeSelected { get; set; }
+
     /// <summary>
     /// Called when a CalendarItem is clicked.
     /// </summary>
