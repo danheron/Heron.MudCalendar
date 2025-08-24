@@ -74,11 +74,12 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     /// <returns>Style string</returns>
     protected virtual string EventStyle(ItemPosition<T> position)
     {
+        var maxWidth = Calendar.EnableParallelItemClick ? 95.0 : 100.0;
         return new StyleBuilder()
             .AddStyle("position", "absolute")
             .AddStyle("top", $"{position.Top}px")
             .AddStyle("inset-inline-start", ((double)position.Left / Columns * 100).ToInvariantString() + "%")
-            .AddStyle("width", ((double)position.Width / Columns * 100).ToInvariantString() + "%")
+            .AddStyle("width", ((double)position.Width / Columns * maxWidth).ToInvariantString() + "%")
             .Build();
     }
 

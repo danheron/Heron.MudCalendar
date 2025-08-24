@@ -82,14 +82,15 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     /// <returns></returns>
     protected virtual string EventStyle(ItemPosition<T> position)
     {
+        var maxWidth = Calendar.EnableParallelItemClick ? 95.0 : 100.0;
         return new StyleBuilder()
             .AddStyle("position", "absolute")
             .AddStyle("top", $"{position.Top}px")
             .AddStyle("height", $"{position.Height}px")
             .AddStyle("left",
-                (((position.Position / (double)position.Total) - (1.0 / position.Total)) * 100).ToInvariantString() +
+                (((position.Position / (double)position.Total) - (1.0 / position.Total)) * maxWidth).ToInvariantString() +
                 "%")
-            .AddStyle("width", (100d / position.Total).ToInvariantString() + "%")
+            .AddStyle("width", (maxWidth / position.Total).ToInvariantString() + "%")
             .Build();
     }
 
