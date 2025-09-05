@@ -1,28 +1,31 @@
 /**
- * Enables multi-cell selection in a calendar grid.
+ * Enables multi-cell selection in a specific calendar grid container.
  * Users can click and drag to select multiple cells horizontally or vertically.
- * 
+ *
  * @param {number} CellsInDay - Number of rows per day in the calendar (used for vertical wrap-around).
  * @param {object} obj - The Blazor JSInterop object to invoke server-side callbacks.
+ * @param {string} containerId - Unique id of the calendar container (id attribute).
  */
-export function addMultiSelect(CellsInDay, obj) {
-    let isMouseDown = false;           // Tracks if the mouse is currently pressed
-    let startCell = null;              // The initial cell where the drag started
-    let selectedCells = new Set();     // Contains "yyyy-mm-dd_row" of currently highlighted preview cells
+export function addMultiSelect(CellsInDay, containerId, obj) {
+    let isMouseDown = false;
+    let startCell = null;
+    let selectedCells = new Set();
 
-    // --- Helper Functions ---
-
-    // Convert date and row to a unique key string
+    // --- Helpers inside scope ---
     const toKey = (dateStr, row) => `${dateStr}_${row}`;
 
-    // Get the DOM element for a given date and row
-    const getEl = (dateStr, row) => document.querySelector(`[data-date="${dateStr}"][data-row="${row}"]`);
+    // Get the DOM element for a given date and row (scoped to container)
+    const getEl = (dateStr, row) => container.querySelector(`[data-date="${dateStr}"][data-row="${row}"]`);
 
     // Parse a date string safely in UTC
     const parseUtcDate = (dateStr) => new Date(dateStr + "T00:00:00Z");
 
     // Convert a Date object to a "yyyy-mm-dd" string
     const dateToStr = (d) => d.toISOString().split('T')[0];
+
+    
+    const container = document.getElementById(containerId);
+    if (!container) return;
 
     /**
      * Clears all visual highlights and resets the selection set
@@ -55,8 +58,8 @@ export function addMultiSelect(CellsInDay, obj) {
     }
 
     /**
-     * Marks cells vertically
-     */
+    * Marks cells vertically within the same day
+    */
     function markVertical(start, end) {
         const dateStr = start.dataset.date;
         const r1 = parseInt(start.dataset.row, 10);
@@ -72,8 +75,8 @@ export function addMultiSelect(CellsInDay, obj) {
     }
 
     /**
-     * Marks cells horizontally
-     */
+    * Marks cells horizontally across multiple days
+    */
     function markHorizontal(start, end) {
         const startDateStr = start.dataset.date;
         const endDateStr = end.dataset.date;
@@ -100,11 +103,11 @@ export function addMultiSelect(CellsInDay, obj) {
         }
     }
 
-    // --- Attach Event Handlers to Each Cell ---
+    // --- Attach Event Handlers to Each Cell (scoped to this container) ---
 
-    document.querySelectorAll("[data-row][data-date]").forEach(cell => {
+    container.querySelectorAll("[data-row][data-date]").forEach(cell => {
         // Mouse down: start selection
-        cell.addEventListener('mousedown', function (e) {
+        cell.addEventListener('mousedown', function () {
             if (cell.dataset.selectable !== "true") return;
 
             clearVisual();
@@ -140,7 +143,7 @@ export function addMultiSelect(CellsInDay, obj) {
         });
     });
 
-    // --- Fallback for releasing mouse outside grid ---
+    // Fallback if mouse released outside container
     document.addEventListener('mouseup', function () {
         if (!isMouseDown) return;
         obj.invokeMethodAsync('CellsSelected', Array.from(selectedCells));

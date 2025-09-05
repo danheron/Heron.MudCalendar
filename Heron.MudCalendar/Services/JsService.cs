@@ -78,7 +78,8 @@ public class JsService : IDisposable
     /// Initializes the multi-select functionality for the calendar grid.
     /// </summary>
     /// <param name="CellsInDay">The number of cells per day in the calendar view.</param>
-    public async Task AddMultiSelect(int CellsInDay)
+    /// <param name="containerId">The DOM id of the calendar container (e.g., "calendar1-grid").</param>
+    public async Task AddMultiSelect(int CellsInDay, string containerId)
     {
         // Create a .NET object reference for JS interop if it doesn't exist yet
         _this ??= DotNetObjectReference.Create(this);
@@ -88,7 +89,7 @@ public class JsService : IDisposable
 
         // Invoke the JavaScript function "addMultiSelect", passing the number of cells per day
         // and the .NET object reference for callbacks from JS to C#
-        await module.InvokeVoidAsync("addMultiSelect", CellsInDay, _this);
+        await module.InvokeVoidAsync("addMultiSelect", CellsInDay, containerId, _this);
     }
 
     [JSInvokable]

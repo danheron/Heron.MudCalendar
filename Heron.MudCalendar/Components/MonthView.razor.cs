@@ -169,7 +169,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
         if (firstRender)
         {
             _jsService ??= new JsService(JsRuntime);
-            await _jsService.AddMultiSelect(1);
+            await _jsService.AddMultiSelect(1, Calendar._id);
 
             _jsService.OnCellsSelected += OnCellRangeSelected;
         }

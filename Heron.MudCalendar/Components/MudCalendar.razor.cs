@@ -484,6 +484,8 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     
     private JsService? _jsService;
 
+    internal readonly string _id = $"calendar-{Guid.NewGuid()}";
+
     private static CultureInfo? _uiCulture;
     private static string? _todayText;
 

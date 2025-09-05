@@ -32,7 +32,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
         if (firstRender)
         {
             _jsService ??= new JsService(JsRuntime);
-            await _jsService.AddMultiSelect(CellsInDay);
+            await _jsService.AddMultiSelect(CellsInDay, Calendar._id);
 
             _jsService.OnCellsSelected += OnCellRangeSelected;
 
