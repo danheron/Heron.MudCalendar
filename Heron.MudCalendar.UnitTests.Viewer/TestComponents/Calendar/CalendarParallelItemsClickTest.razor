@@ -1,0 +1,36 @@
+﻿<MudPopoverProvider />
+
+<MudCalendar T="CalendarItem" Items="_items" CellClicked="TestClick" MonthCellMinHeight="150" DayTimeInterval="CalendarTimeInterval.Minutes15" EnableParallelItemClick=true />
+
+
+@code {
+    public static string __description__ = "Cell Click Test";
+
+    private string _value = string.Empty;
+    private string _timeValue = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        AddItem(DateTime.Now.Date.AddHours(10));
+
+        AddItem(DateTime.Now.Date.AddHours(8));
+    }
+
+    private List<CalendarItem> _items = new List<CalendarItem>();
+
+
+    private void TestClick(DateTime dateTime)
+    {
+        AddItem(dateTime);
+    }
+
+    private void AddItem(DateTime dateTime)
+    {
+        _items.Add(new CalendarItem()
+        {
+            Start = dateTime,
+            End = dateTime.AddMinutes((int)CalendarTimeInterval.Minutes15),
+            Text = "Event" + (_items.Count + 1)
+        });
+    }
+}

@@ -346,6 +346,17 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public bool Use24HourClock { get; set; } = true;
 
     /// <summary>
+    /// If true it's enabled to click right next to extisting items
+    /// This helps creating parallel items
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>false</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Appearance)]
+    public bool EnableParallelItemClick { get; set; } = false;
+
+    /// <summary>
     /// The function used to disable one or more date/times.
     /// If the function returns true then that date and time will not allow click events or allow items to be dropped.
     /// </summary>
