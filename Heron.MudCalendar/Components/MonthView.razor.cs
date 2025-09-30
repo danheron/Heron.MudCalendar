@@ -183,7 +183,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     /// <returns></returns>
     protected virtual async void OnCellRangeSelected(object? sender, IEnumerable<(DateTime date, int row)> selectedCells)
     {
-        await Calendar.CellRangeSelected.InvokeAsync(new DateRange(selectedCells.First().date, selectedCells.Last().date.AddDays(1).AddTicks(-1)));
+        await Calendar.CellRangeSelected.InvokeAsync(new DateRange(selectedCells.First().date, selectedCells.Last().date.AddDays(1)));
     }
 
     protected virtual bool IsSelectable(CalendarCell<T> cell)
