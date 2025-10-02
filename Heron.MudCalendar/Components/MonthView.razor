@@ -77,7 +77,10 @@
                                  CanDrop="@(item => Calendar.CanDropItem == null || Calendar.CanDropItem(item, currentCell.Date, CalendarView.Month))">
                         @if (AllowCellLinkClick(currentCell))
                         {
-                            <a @onclick="() => OnCellLinkClicked(currentCell)" class="mud-cal-month-cell-link">
+                            <a @onclick="() => OnCellLinkClicked(currentCell)" 
+                               @oncontextmenu="() => OnCellLinkContextMenuClicked(currentCell)" @oncontextmenu:preventDefault
+                               @onmousedown="(mouseeventargs) => OnCellLinkMouseDown(mouseeventargs, currentCell)"
+                               class="mud-cal-month-cell-link">
                                 <div class="mud-cal-month-link">
                                     @RenderCellDayNumber(currentCell)
                                 </div>

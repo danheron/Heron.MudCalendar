@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
@@ -139,6 +140,33 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
         if (AllowCellLinkClick(cell))
         {
             await Calendar.CellClicked.InvokeAsync(cell.Date);
+        }
+    }
+
+    /// <summary>
+    /// Method invoked when the user right-clicks on the hyperlink in the cell.
+    /// </summary>
+    /// <param name="cell">The cell that was clicked.</param>
+    /// <returns></returns>
+    protected virtual async Task OnCellLinkContextMenuClicked(CalendarCell<T> cell)
+    {
+        if (AllowCellLinkClick(cell))
+        {
+            await Calendar.CellContextMenuClicked.InvokeAsync(cell.Date);
+        }
+    }
+
+    /// <summary>
+    /// Method invoked when the user clicks with any button on the hyperlink in the cell.
+    /// </summary>
+    /// <param name="mouseEventArgs">The original MouseEventArgs.</param>
+    /// <param name="cell">The cell that was clicked.</param>
+    /// <returns></returns>
+    protected virtual async Task OnCellLinkMouseDown(MouseEventArgs mouseEventArgs, CalendarCell<T> cell)
+    {
+        if (AllowCellLinkClick(cell))
+        {
+            await Calendar.CellMouseDown.InvokeAsync((mouseEventArgs, cell.Date));
         }
     }
 

@@ -10,6 +10,7 @@ using CategoryAttribute = Heron.MudCalendar.Attributes.CategoryAttribute;
 using CategoryTypes = Heron.MudCalendar.Attributes.CategoryTypes;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Heron.MudCalendar;
 
@@ -28,7 +29,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public int Elevation { get; set; } = 1;
-    
+
     /// <summary>
     /// Disables rounded corners.
     /// </summary>
@@ -38,7 +39,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public bool Square { get; set; }
-    
+
     /// <summary>
     /// Shows an outline around the calendar.
     /// </summary>
@@ -88,7 +89,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public int MonthCellMinHeight { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the day that the calendar is showing.
     /// </summary>
@@ -149,7 +150,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowToolbar { get; set; } = true;
-    
+
     /// <summary>
     /// If false the day view is not shown.
     /// </summary>
@@ -199,7 +200,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowPrevNextButtons { get; set; } = true;
-    
+
     /// <summary>
     /// If false the the Datepicker is not shown.
     /// </summary>
@@ -219,7 +220,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowTodayButton { get; set; }
-    
+
     /// <summary>
     /// If true a dropdown list instead of buttons is used for selecting the view.
     /// This can be useful on mobile devices where space is limited.
@@ -290,7 +291,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public bool ShowCurrentTime { get; set; }
-    
+
     /// <summary>
     /// The culture to use for displaying dates.
     /// </summary>
@@ -310,14 +311,14 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool EnableDragItems { get; set; }
-    
+
     /// <summary>
     /// The function determines if an item can be dragged.
     /// </summary>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public Func<T, bool>? CanDragItem { get; set; }
-    
+
     /// <summary>
     /// The function determines if the item can be dropped at the specified <c>DateTime</c>.
     /// </summary>
@@ -366,7 +367,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public Func<DateTime, CalendarView, bool>? IsDateTimeDisabledFunc { get; set; }
-    
+
     /// <summary>
     /// The function returns CSS classes for a date and time.
     /// </summary>
@@ -376,7 +377,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public Func<DateTime, CalendarView, string>? AdditionalDateTimeClassesFunc { get; set; }
-    
+
     /// <summary>
     /// Defines the cell content for the Month view.
     /// </summary>
@@ -386,7 +387,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Category(CategoryTypes.Calendar.Template)]
     [Parameter]
     public RenderFragment<T>? MonthTemplate { get; set; }
-    
+
     /// <summary>
     /// Defines the cell content for the Week view.
     /// </summary>
@@ -396,7 +397,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Category(CategoryTypes.Calendar.Template)]
     [Parameter]
     public RenderFragment<T>? WeekTemplate { get; set; }
-    
+
     /// <summary>
     /// Defines the cell content for the Day view.
     /// </summary>
@@ -406,7 +407,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Category(CategoryTypes.Calendar.Template)]
     [Parameter]
     public RenderFragment<T>? DayTemplate { get; set; }
-    
+
     /// <summary>
     /// Custom content to appear in the toolbar of the component.
     /// </summary>
@@ -423,13 +424,13 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Category(CategoryTypes.Calendar.Behavior)]
     [Parameter]
     public IEnumerable<T> Items { get; set; } = new List<T>();
-    
+
     /// <summary>
     /// Called when the dates visible in the Calendar change.
     /// </summary>
     [Parameter]
     public EventCallback<DateRange> DateRangeChanged { get; set; }
-    
+
     /// <summary>
     /// Called when the current day changes.
     /// </summary>
@@ -447,19 +448,31 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     /// </summary>
     [Parameter]
     public EventCallback<CalendarView> ViewChanged { get; set; }
-    
+
     /// <summary>
     /// Called when a cell is clicked.
     /// </summary>
     [Parameter]
     public EventCallback<DateTime> CellClicked { get; set; }
-    
+
+    /// <summary>
+    /// Called when a cell is right-clicked.
+    /// </summary>
+    [Parameter]
+    public EventCallback<DateTime> CellContextMenuClicked { get; set; }
+
+    /// <summary>
+    /// Called when a cell is clicked on with any button.
+    /// </summary>
+    [Parameter]
+    public EventCallback<(MouseEventArgs,DateTime)> CellMouseDown { get; set; }
+
     /// <summary>
     /// Called when a CalendarItem is clicked.
     /// </summary>
     [Parameter]
     public EventCallback<T> ItemClicked { get; set; }
-    
+
     /// <summary>
     /// Called when the '+x more' label is clicked in the month view.
     /// </summary>
@@ -475,7 +488,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     private CalendarDateRange? _currentDateRange;
 
     private CalendarDatePicker? _datePicker;
-    
+
     private JsService? _jsService;
 
     private static CultureInfo? _uiCulture;
@@ -509,7 +522,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
         new StyleBuilder()
             .AddStyle("padding", $"{ToolbarPadding}px")
             .Build();
-    
+
     protected virtual string PrevAriaLabel
     {
         get
@@ -527,7 +540,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
             return label;
         }
     }
-    
+
     protected virtual string NextAriaLabel
     {
         get
@@ -541,7 +554,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
                 CalendarView.Month => "Month",
                 _ => throw new ArgumentOutOfRangeException()
             };
-            
+
             return label;
         }
     }
@@ -550,14 +563,14 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     {
         if (CurrentDay == default)
         {
-            CurrentDay = DateTime.Today;   
+            CurrentDay = DateTime.Today;
         }
     }
 
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        
+
         // Ensure that current view is allowed
         if ((View == CalendarView.Day && !ShowDay)
             || (View == CalendarView.Week && !ShowWeek)
@@ -582,7 +595,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
             await SetLinks();
         }
     }
-    
+
     /// <summary>
     /// Forces the component to be redrawn.
     /// </summary>
@@ -631,9 +644,9 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
             CalendarView.Month => CurrentDay.AddMonths(1),
             _ => CurrentDay
         };
-        
+
         await CurrentDayChanged.InvokeAsync(CurrentDay);
-        
+
         await ChangeDateRange();
     }
 
@@ -653,7 +666,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
         };
 
         await CurrentDayChanged.InvokeAsync(CurrentDay);
-        
+
         await ChangeDateRange();
     }
 
@@ -664,21 +677,21 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     protected virtual async Task OnTodayClicked()
     {
         if (CurrentDay == DateTime.Today) return;
-        
+
         CurrentDay = DateTime.Today;
 
         await CurrentDayChanged.InvokeAsync(CurrentDay);
-        
+
         await ChangeDateRange();
     }
-    
+
     protected string DrawTodayText()
     {
         if (_todayText != null && Equals(_uiCulture, Thread.CurrentThread.CurrentUICulture)) return _todayText;
 
         var options = Options.Create(new LocalizationOptions { ResourcesPath = "Resources" });
         var factory = new ResourceManagerStringLocalizerFactory(options, NullLoggerFactory.Instance);
-        
+
         // Get localizer for the generic class
         var type = typeof(MudCalendar<>);
         var assemblyName = type.GetTypeInfo().Assembly.GetName().Name;
@@ -708,9 +721,9 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     {
         var newDate = dateTime;
         var oldDate = CurrentDay;
-        
+
         PickerDate = dateTime;
-        
+
         // If month view then set day of month to currently selected day of month
         if (View == CalendarView.Month && newDate.HasValue && newDate.Value.Day == 1)
         {
@@ -723,7 +736,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
             CurrentDay = newDate.Value;
             await CurrentDayChanged.InvokeAsync(CurrentDay);
         }
-        
+
         await ChangeDateRange(new CalendarDateRange(newDate ?? DateTime.Today, View, Culture, GetFirstDayOfWeekByCalendarView(View)));
     }
 

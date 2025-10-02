@@ -1,5 +1,6 @@
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
 using MudBlazor.Extensions;
 using MudBlazor.Utilities;
@@ -163,7 +164,38 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
             await Calendar.CellClicked.InvokeAsync(date);
         }
     }
-    
+
+    /// <summary>
+    /// Method invoked when the user right-clicks on the hyper link in the cell.
+    /// </summary>
+    /// <param name="cell">The cell that was clicked.</param>
+    /// <param name="row">The row that was clicked.</param>
+    /// <returns></returns>
+    protected virtual async Task OnCellLinkContextMenuClicked(CalendarCell<T> cell, int row)
+    {
+        if (AllowCellLinkClick(cell, row))
+        {
+            var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
+            await Calendar.CellContextMenuClicked.InvokeAsync(date);
+        }
+    }
+
+    /// <summary>
+    /// Method invoked when the user clicks with any button on the hyper link in the cell.
+    /// </summary>
+    /// <param name="mouseEventArgs">The original MouseEventArgs.</param>
+    /// <param name="cell">The cell that was clicked.</param>
+    /// <param name="row">The row that was clicked.</param>
+    /// <returns></returns>
+    protected virtual async Task OnCellLinkMouseDown(MouseEventArgs mouseEventArgs, CalendarCell<T> cell, int row)
+    {
+        if (AllowCellLinkClick(cell, row))
+        {
+            var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
+            await Calendar.CellMouseDown.InvokeAsync((mouseEventArgs, date));
+        }
+    }
+
     /// <summary>
     /// Determines if the click event is allowed on a cell.
     /// </summary>
@@ -211,7 +243,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
 
         return row;
     }
-    
+
     /// <summary>
     /// Adjusts the end time of a calendar item based on the specified number of intervals.
     /// </summary>
@@ -223,7 +255,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
         // Calculate end time from height
         var minutes = intervals * (int)Calendar.DayTimeInterval;
         item.End = item.Start.AddMinutes(minutes);
-        
+
         return Calendar.ItemChanged.InvokeAsync(item);
     }
 
@@ -357,7 +389,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
                 }
             }
         }
-        
+
         return positions;
     }
 
