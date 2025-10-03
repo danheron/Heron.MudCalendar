@@ -75,9 +75,29 @@
                     <MudDropZone T="T" OnlyZone="true" Identifier="@currentCell.Date.Date.ToString("d")"
                                  Class="@CellClassname(currentCell)" Style="@DayStyle(currentCell, cell)"
                                  CanDrop="@(item => Calendar.CanDropItem == null || Calendar.CanDropItem(item, currentCell.Date, CalendarView.Month))">
-                        @if (AllowCellLinkClick(currentCell))
+                        @if (AllowCellLinkClick(currentCell) && AllowCellLinkContextMenuClick(currentCell))
                         {
-                            <a @onclick="() => OnCellLinkClicked(currentCell)" class="mud-cal-month-cell-link">
+                            <a @onclick="() => OnCellLinkClicked(currentCell)"
+                               @oncontextmenu="(mouseEventArgs) => OnCellLinkContextMenuClicked(mouseEventArgs, currentCell)" @oncontextmenu:preventDefault
+                               class="mud-cal-month-cell-link">
+                                <div class="mud-cal-month-link">
+                                    @RenderCellDayNumber(currentCell)
+                                </div>
+                            </a>
+                        }
+                        else if (AllowCellLinkContextMenuClick(currentCell))
+                        {
+                            <a @oncontextmenu="(mouseEventArgs) => OnCellLinkContextMenuClicked(mouseEventArgs, currentCell)" @oncontextmenu:preventDefault
+                               class="mud-cal-month-cell-link">
+                                <div class="mud-cal-month-link" style="cursor: auto">
+                                    @RenderCellDayNumber(currentCell)
+                                </div>
+                            </a>
+                        }
+                        else if (AllowCellLinkClick(currentCell))
+                        {
+                            <a @onclick="() => OnCellLinkClicked(currentCell)" 
+                               class="mud-cal-month-cell-link">
                                 <div class="mud-cal-month-link">
                                     @RenderCellDayNumber(currentCell)
                                 </div>

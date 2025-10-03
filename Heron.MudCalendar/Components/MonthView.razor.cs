@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
@@ -150,6 +151,29 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     protected virtual bool AllowCellLinkClick(CalendarCell<T> cell)
     {
         return Calendar.CellClicked.HasDelegate && (Calendar.IsDateTimeDisabledFunc == null || !Calendar.IsDateTimeDisabledFunc(cell.Date, CalendarView.Month));
+    }
+
+    /// <summary>
+    /// Method invoked when the user right-clicks on the hyperlink in the cell.
+    /// </summary>
+    /// <param name="cell">The cell that was clicked.</param>
+    /// <returns></returns>
+    protected virtual async Task OnCellLinkContextMenuClicked(MouseEventArgs mouseEventArgs, CalendarCell<T> cell)
+    {
+        if (AllowCellLinkContextMenuClick(cell))
+        {
+            await Calendar.CellContextMenuClicked.InvokeAsync(new CalendarClickEventArgs(mouseEventArgs,cell.Date));
+        }
+    }
+
+    /// <summary>
+    /// Determines if the right click event is allowed on a cell.
+    /// </summary>
+    /// <param name="cell">The cell that was clicked.</param>
+    /// <returns><c>true</c> if the cell can be clicked.</returns>
+    protected virtual bool AllowCellLinkContextMenuClick(CalendarCell<T> cell)
+    {
+        return Calendar.CellContextMenuClicked.HasDelegate && (Calendar.IsDateTimeDisabledFunc == null || !Calendar.IsDateTimeDisabledFunc(cell.Date, CalendarView.Month));
     }
 
     protected override void OnParametersSet()

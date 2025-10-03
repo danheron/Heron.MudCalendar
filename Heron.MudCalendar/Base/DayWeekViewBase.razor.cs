@@ -1,5 +1,6 @@
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
 using MudBlazor.Extensions;
 using MudBlazor.Utilities;
@@ -174,6 +175,33 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     {
         var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
         return Calendar.CellClicked.HasDelegate && (Calendar.IsDateTimeDisabledFunc == null || !Calendar.IsDateTimeDisabledFunc(date, View));
+    }
+
+    /// <summary>
+    /// Method invoked when the user right-clicks on the hyper link in the cell.
+    /// </summary>
+    /// <param name="cell">The cell that was clicked.</param>
+    /// <param name="row">The row that was clicked.</param>
+    /// <returns></returns>
+    protected virtual async Task OnCellLinkContextMenuClicked(MouseEventArgs mouseEventArgs, CalendarCell<T> cell, int row)
+    {
+        if (AllowCellLinkContextMenuClick(cell, row))
+        {
+            var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
+            await Calendar.CellContextMenuClicked.InvokeAsync(new CalendarClickEventArgs(mouseEventArgs,date));
+        }
+    }
+
+    /// <summary>
+    /// Determines if the context menu event is allowed on a cell.
+    /// </summary>
+    /// <param name="cell">The cell that was clicked.</param>
+    /// <param name="row">The row that was clicked.</param>
+    /// <returns><c>true</c> if the cell can be clicked.</returns>
+    protected virtual bool AllowCellLinkContextMenuClick(CalendarCell<T> cell, int row)
+    {
+        var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
+        return Calendar.CellContextMenuClicked.HasDelegate && (Calendar.IsDateTimeDisabledFunc == null || !Calendar.IsDateTimeDisabledFunc(date, View));
     }
 
     /// <summary>
