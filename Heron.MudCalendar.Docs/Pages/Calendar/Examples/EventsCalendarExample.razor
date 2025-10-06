@@ -1,6 +1,6 @@
 @namespace Heron.MudCalendar.Docs.Examples
 
-<MudCalendar T="CalendarItem" Items="_events" CellClicked="CellClicked" ItemClicked="ItemClicked" CellContextMenuClicked="OpenMenuContent" DayTimeInterval="CalendarTimeInterval.Minutes15" />
+<MudCalendar T="CalendarItem" Items="_events" CellClicked="CellClicked" ItemClicked="ItemClicked" CellRangeSelected="CellRangeSelected" CellContextMenuClicked="OpenMenuContent" DayTimeInterval="CalendarTimeInterval.Minutes15" />
 
 <MudMenu PositionAtCursor="true" @ref="_contextMenu">
     <MudMenuItem Icon="@Icons.Material.Filled.Add" OnClick="AddEvent">
@@ -10,8 +10,6 @@
         Delete all events in this cell
     </MudMenuItem>
 </MudMenu>
-
-<MudCalendar T="CalendarItem" Items="_events" CellClicked="CellClicked" ItemClicked="ItemClicked" CellRangeSelected="CellRangeSelected" DayTimeInterval="CalendarTimeInterval.Minutes15" />
 
 @code {
 
