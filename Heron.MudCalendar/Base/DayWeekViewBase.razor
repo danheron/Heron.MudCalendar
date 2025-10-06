@@ -116,11 +116,25 @@
             var row = i;
             <MudDropZone T="T" OnlyZone="true" Style="@CellHeightStyle()" Identifier="@string.Concat(cell.Date.Date.ToString("d"), "_", row.ToString())"
                          CanDrop="@(item => Calendar.CanDropItem == null || Calendar.CanDropItem(item, cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval), View))">
-                @if (AllowCellLinkClick(cell, row))
+                @if (AllowCellLinkClick(cell, row) && AllowCellLinkContextMenuClick(cell, row))
                 {
-                    <MudLink @onclick="() => OnCellLinkClicked(cell, row)">
+                    <a @onclick="() => OnCellLinkClicked(cell, row)" @onclick:preventDefault
+                       @oncontextmenu="(mouseEventArgs) => OnCellLinkContextMenuClicked(mouseEventArgs, cell, row)" @oncontextmenu:preventDefault 
+                       class="mud-cal-week-cell-link">
+                        <div class="mud-cal-week-link"></div>
+                    </a>
+                }
+                else if (AllowCellLinkContextMenuClick(cell, row))
+                {
+                    <a @oncontextmenu="(mouseEventArgs) => OnCellLinkContextMenuClicked(mouseEventArgs, cell, row)" @oncontextmenu:preventDefault
+                       class="mud-cal-week-cell-link">
+                        <div class="mud-cal-week-link cursor-auto"></div>
+                    </a>
+                }
+                else if (AllowCellLinkClick(cell,row)) {
+                    <a @onclick="() => OnCellLinkClicked(cell, row)" class="mud-cal-week-cell-link">
                         <div class="mud-cal-week-link" data-row="@row" data-date="@cell.Date.ToString("yyyy-MM-dd")" data-selectable="@IsSelectable(cell, row).ToString().ToLower()"></div>
-                    </MudLink>
+                    </a>
                 }
             </MudDropZone>
         }

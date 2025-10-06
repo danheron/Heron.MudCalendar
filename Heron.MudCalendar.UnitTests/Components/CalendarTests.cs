@@ -192,6 +192,66 @@ public class CalendarTests : BunitTest
     }
 
     [Test]
+    public void CellContextMenuClick()
+    {
+        var cut = Context.RenderComponent<CalendarCellContextMenuClickTest>();
+        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
+        var textField = cut.FindComponents<MudTextField<string>>()[0];
+        var timeField = cut.FindComponents<MudTextField<string>>()[1];
+        
+        // Month View
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
+        comp.Find("div.mud-drop-zone a").ContextMenu();
+        textField.Instance.Text.Should().Be("26");
+        timeField.Instance.Text.Should().Be("00:00");
+        
+        // Month View set with time
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1, 9, 30, 0));
+        comp.Find("div.mud-drop-zone a").ContextMenu();
+        textField.Instance.Text.Should().Be("26");
+        timeField.Instance.Text.Should().Be("00:00");
+
+        // Work Week View
+        comp.SetParam(x => x.View, CalendarView.WorkWeek);
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 13));
+        comp.Find("div.mud-cal-week-layer a").ContextMenu();
+        textField.Instance.Text.Should().Be("13");
+        
+        // Work Week View set with time
+        comp.SetParam(x => x.View, CalendarView.WorkWeek);
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 13, 9, 30, 0));
+        comp.FindAll("div.mud-cal-week-layer a")[55].ContextMenu();
+        textField.Instance.Text.Should().Be("13");
+        timeField.Instance.Text.Should().Be("09:10");
+
+        // Week View
+        comp.SetParam(x => x.View, CalendarView.Week);
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 13));
+        comp.Find("div.mud-cal-week-layer a").ContextMenu();
+        textField.Instance.Text.Should().Be("9");
+        
+        // Week View set with time
+        comp.SetParam(x => x.View, CalendarView.Week);
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 13, 9, 30, 0));
+        comp.FindAll("div.mud-cal-week-layer a")[55].ContextMenu();
+        textField.Instance.Text.Should().Be("9");
+        timeField.Instance.Text.Should().Be("09:10");
+        
+        // Day View
+        comp.SetParam(x => x.View, CalendarView.Day);
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 8));
+        comp.FindAll("div.mud-cal-week-layer a")[55].ContextMenu();
+        timeField.Instance.Text.Should().Be("09:10");
+        
+        // Day View set with time
+        comp.SetParam(x => x.View, CalendarView.Day);
+        comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 8, 9, 30, 0));
+        comp.FindAll("div.mud-cal-week-layer a")[55].ContextMenu();
+        timeField.Instance.Text.Should().Be("09:10");   
+    }
+
+
+    [Test]
     public void DisabledDaysCellClick()
     {
         var cut = Context.RenderComponent<CalendarDisableDaysTest>();

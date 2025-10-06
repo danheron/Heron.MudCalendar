@@ -1,5 +1,16 @@
 @namespace Heron.MudCalendar.Docs.Examples
 
+<MudCalendar T="CalendarItem" Items="_events" CellClicked="CellClicked" ItemClicked="ItemClicked" CellContextMenuClicked="OpenMenuContent" DayTimeInterval="CalendarTimeInterval.Minutes15" />
+
+<MudMenu PositionAtCursor="true" @ref="_contextMenu">
+    <MudMenuItem Icon="@Icons.Material.Filled.Add" OnClick="AddEvent">
+        Add an event
+    </MudMenuItem>
+    <MudMenuItem Icon="@Icons.Material.Filled.Delete" OnClick="RemoveAllEvents">
+        Delete all events in this cell
+    </MudMenuItem>
+</MudMenu>
+
 <MudCalendar T="CalendarItem" Items="_events" CellClicked="CellClicked" ItemClicked="ItemClicked" CellRangeSelected="CellRangeSelected" DayTimeInterval="CalendarTimeInterval.Minutes15" />
 
 @code {
@@ -16,6 +27,27 @@
     {
         return DialogService.ShowMessageBox("Item Clicked", item.Text);
     }
+
+    private DateTime? _contextMenuDate;
+    private MudMenu _contextMenu = null!;
+
+    private async Task OpenMenuContent(CalendarClickEventArgs args)
+    {
+        _contextMenuDate = args.DateTime;
+        await _contextMenu.OpenMenuAsync(args.MouseEventArgs);
+    }
+
+    private Task AddEvent()
+    {
+        return DialogService.ShowMessageBox("Adding an event", _contextMenuDate.Value.ToString(Thread.CurrentThread.CurrentCulture));
+    }
+
+
+    private Task RemoveAllEvents()
+    {
+        return DialogService.ShowMessageBox("Removing all events", _contextMenuDate.Value.ToString(Thread.CurrentThread.CurrentCulture));
+    }
+
 
     private Task CellRangeSelected(MudBlazor.DateRange dateRange)
     {
