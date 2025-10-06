@@ -1,6 +1,6 @@
 @namespace Heron.MudCalendar.Docs.Examples
 
-<MudCalendar T="CalendarItem" Items="_events" CellClicked="CellClicked" ItemClicked="ItemClicked" DayTimeInterval="CalendarTimeInterval.Minutes15" />
+<MudCalendar T="CalendarItem" Items="_events" CellClicked="CellClicked" ItemClicked="ItemClicked" CellRangeSelected="CellRangeSelected" DayTimeInterval="CalendarTimeInterval.Minutes15" />
 
 @code {
 
@@ -15,6 +15,11 @@
     private Task ItemClicked(CalendarItem item)
     {
         return DialogService.ShowMessageBox("Item Clicked", item.Text);
+    }
+
+    private Task CellRangeSelected(MudBlazor.DateRange dateRange)
+    {
+        return DialogService.ShowMessageBox("Cell Range Selected", $"Start: {dateRange.Start?.ToString(Thread.CurrentThread.CurrentCulture)} End: {dateRange.End?.ToString(Thread.CurrentThread.CurrentCulture)}");
     }
 
     private List<CalendarItem> _events = new()

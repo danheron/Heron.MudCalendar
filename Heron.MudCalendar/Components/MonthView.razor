@@ -78,7 +78,7 @@
                         @if (AllowCellLinkClick(currentCell))
                         {
                             <a @onclick="() => OnCellLinkClicked(currentCell)" class="mud-cal-month-cell-link">
-                                <div class="mud-cal-month-link">
+                                <div class="mud-cal-month-link" data-date="@currentCell.Date.ToString("yyyy-MM-dd")" data-row="0" data-selectable="@IsSelectable(currentCell).ToString().ToLower()">
                                     @RenderCellDayNumber(currentCell)
                                 </div>
                             </a>

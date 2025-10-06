@@ -4,6 +4,7 @@ using MudBlazor;
 using MudBlazor.Extensions;
 using MudBlazor.Utilities;
 using System.Diagnostics.CodeAnalysis;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using EnumExtensions = Heron.MudCalendar.Extensions.EnumExtensions;
 
 namespace Heron.MudCalendar;
@@ -30,8 +31,23 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
 
         if (firstRender)
         {
+            if (Calendar.CellRangeSelected.HasDelegate)
+            {
+                _jsService ??= new JsService(JsRuntime);
+                await _jsService.AddMultiSelect(CellsInDay, Calendar._id);
+                _jsService.OnCellsSelected += OnCellRangeSelected;
+            }
+
             await ScrollToDay();
         }
+    }
+
+    
+
+    protected virtual bool IsSelectable(CalendarCell<T> cell, int row)
+    {
+        var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
+        return (Calendar.IsDateTimeDisabledFunc == null || !Calendar.IsDateTimeDisabledFunc(date, View));
     }
 
     /// <summary>
@@ -163,7 +179,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
             await Calendar.CellClicked.InvokeAsync(date);
         }
     }
-    
+
     /// <summary>
     /// Determines if the click event is allowed on a cell.
     /// </summary>
@@ -173,7 +189,22 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     protected virtual bool AllowCellLinkClick(CalendarCell<T> cell, int row)
     {
         var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
-        return Calendar.CellClicked.HasDelegate && (Calendar.IsDateTimeDisabledFunc == null || !Calendar.IsDateTimeDisabledFunc(date, View));
+        return (Calendar.CellClicked.HasDelegate || Calendar.CellRangeSelected.HasDelegate) && (Calendar.IsDateTimeDisabledFunc == null || !Calendar.IsDateTimeDisabledFunc(date, View));
+    }
+
+    /// <summary>
+    /// Called when the user selects a range of cells in the calendar.
+    /// </summary>
+    /// <param name="sender">The source object that triggered the selection event.</param>
+    /// <param name="selectedCells">A collection of selected cells, each represented as a tuple containing the date and row index.</param>
+    /// <returns></returns>
+    protected virtual async void OnCellRangeSelected(object? sender, IEnumerable<(DateTime date, int row)> selectedCells)
+    {
+        var start = selectedCells.First();
+        var end = selectedCells.Last();
+        var dateStart = start.date.AddMinutes(start.row * (int)Calendar.DayTimeInterval);
+        var dateEnd = end.date.AddMinutes((end.row + 1) * (int)Calendar.DayTimeInterval);
+        await Calendar.CellRangeSelected.InvokeAsync(new DateRange(dateStart, dateEnd));
     }
 
     /// <summary>

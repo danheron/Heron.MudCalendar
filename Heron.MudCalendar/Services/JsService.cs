@@ -13,6 +13,8 @@ public class JsService : IDisposable
 
     public event EventHandler<DateTime>? OnMoreClicked;
 
+    public event EventHandler<IEnumerable<(DateTime, int)>>? OnCellsSelected;
+
     public JsService(IJSRuntime jsRuntime)
     {
         _moduleTask = new Lazy<Task<IJSObjectReference>>(() => jsRuntime.InvokeAsync<IJSObjectReference>(
@@ -71,7 +73,40 @@ public class JsService : IDisposable
         var moreDate = DateTime.Parse(date);
         OnMoreClicked?.Invoke(this, moreDate);
     }
-    
+
+    /// <summary>
+    /// Initializes the multi-select functionality for the calendar grid.
+    /// </summary>
+    /// <param name="CellsInDay">The number of cells per day in the calendar view.</param>
+    /// <param name="containerId">The DOM id of the calendar container (e.g., "calendar1-grid").</param>
+    public async Task AddMultiSelect(int CellsInDay, string containerId)
+    {
+        // Create a .NET object reference for JS interop if it doesn't exist yet
+        _this ??= DotNetObjectReference.Create(this);
+
+        // Wait for the JS module to be loaded
+        var module = await _moduleTask.Value;
+
+        // Invoke the JavaScript function "addMultiSelect", passing the number of cells per day
+        // and the .NET object reference for callbacks from JS to C#
+        await module.InvokeVoidAsync("addMultiSelect", CellsInDay, containerId, _this);
+    }
+
+    [JSInvokable]
+    public void CellsSelected(List<string> cellKeys)
+    {
+        // cellKeys are like "2025-08-15_12"
+        var selected = cellKeys.Select(key =>
+        {
+            var parts = key.Split('_');
+            var date = DateTime.Parse(parts[0]);
+            var row = int.Parse(parts[1]);
+            return (date, row);
+        }).OrderBy(X => X.date).ThenBy(X => X.row).ToList();
+
+        OnCellsSelected?.Invoke(this, selected);
+    }
+
     public void Dispose()
     {
         GC.SuppressFinalize(this);
