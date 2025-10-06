@@ -211,6 +211,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     /// <summary>
     /// Method invoked when the user right-clicks on the hyper link in the cell.
     /// </summary>
+    /// <param name="mouseEventArgs">The mouse event arguments.</param>
     /// <param name="cell">The cell that was clicked.</param>
     /// <param name="row">The row that was clicked.</param>
     /// <returns></returns>

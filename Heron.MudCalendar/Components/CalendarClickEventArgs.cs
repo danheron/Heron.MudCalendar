@@ -1,12 +1,9 @@
-﻿using System;
-using Microsoft.AspNetCore.Components.Web;
+﻿using Microsoft.AspNetCore.Components.Web;
 
-namespace MudBlazor;
-
-#nullable enable
+namespace Heron.MudCalendar;
 
 /// <summary>
-/// Represents the information related to a <see cref="MudCalendar.CellContextMenuClicked"/> event.
+/// Represents the information related to a <see cref="MudCalendar{T}.CellContextMenuClicked"/> event.
 /// </summary>
 public class CalendarClickEventArgs : EventArgs
 {
@@ -24,7 +21,7 @@ public class CalendarClickEventArgs : EventArgs
     /// Creates a new instance.
     /// </summary>
     /// <param name="mouseEventArgs">The coordinates of the pointer for this click.</param>
-    /// <param name="item">The date and time corresponding to the cell which was clicked.</param>
+    /// <param name="dateTime">The date and time corresponding to the cell which was clicked.</param>
     public CalendarClickEventArgs(MouseEventArgs mouseEventArgs, DateTime dateTime)
     {
         MouseEventArgs = mouseEventArgs;
