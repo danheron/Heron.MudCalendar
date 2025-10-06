@@ -16,8 +16,8 @@ public class DayView<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.
         if (Calendar.CurrentDay.Date == DateTime.Today) cell.Today = true;
         
         cell.Items = Calendar.Items.Where(i =>
-                (i.Start.Date == Calendar.CurrentDay) || 
-                (i.Start.Date <= Calendar.CurrentDay && i.End.HasValue && i.End.Value > Calendar.CurrentDay))
+                (i.Start.Date == Calendar.CurrentDay.Date) || 
+                (i.Start.Date <= Calendar.CurrentDay.Date && i.End.HasValue && i.End.Value > Calendar.CurrentDay.Date))
             .OrderBy(i => i.Start)
             .ToList();
         
