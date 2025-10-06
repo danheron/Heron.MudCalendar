@@ -150,7 +150,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     /// <returns><c>true</c> if the cell can be clicked.</returns>
     protected virtual bool AllowCellLinkClick(CalendarCell<T> cell)
     {
-        return Calendar.CellClicked.HasDelegate && (Calendar.IsDateTimeDisabledFunc == null || !Calendar.IsDateTimeDisabledFunc(cell.Date, CalendarView.Month));
+        return (Calendar.CellClicked.HasDelegate || Calendar.CellRangeSelected.HasDelegate) && (Calendar.IsDateTimeDisabledFunc == null || !Calendar.IsDateTimeDisabledFunc(cell.Date, CalendarView.Month));
     }
 
     /// <summary>
@@ -189,6 +189,33 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
         await base.OnAfterRenderAsync(firstRender);
 
         await PositionItems();
+
+        if (firstRender)
+        {
+            if (Calendar.CellRangeSelected.HasDelegate)
+            {
+                _jsService ??= new JsService(JsRuntime);
+                await _jsService.AddMultiSelect(1, Calendar._id);
+                _jsService.OnCellsSelected += OnCellRangeSelected;
+            }            
+        }
+    }
+
+    /// <summary>
+    /// Called when the user selects a range of cells in the calendar.
+    /// </summary>
+    /// <param name="sender">The source object that triggered the selection event.</param>
+    /// <param name="selectedCells">A collection of selected cells, each represented as a tuple containing the date and row index.</param>
+    /// <returns></returns>
+    protected virtual async void OnCellRangeSelected(object? sender, IEnumerable<(DateTime date, int row)> selectedCells)
+    {
+        await Calendar.CellRangeSelected.InvokeAsync(new DateRange(selectedCells.First().date, selectedCells.Last().date.AddDays(1)));
+    }
+
+    protected virtual bool IsSelectable(CalendarCell<T> cell)
+    {
+        var date = cell.Date;
+        return (Calendar.IsDateTimeDisabledFunc == null || !Calendar.IsDateTimeDisabledFunc(date, CalendarView.Month));
     }
 
     /// <summary>

@@ -1,8 +1,11 @@
 <MudPopoverProvider />
 
-<MudCalendar T="CalendarItem" CellClicked="TestClick" MonthCellMinHeight="150" DayTimeInterval="CalendarTimeInterval.Minutes10" />
-<MudTextField @bind-Value="_value" />
-<MudTextField @bind-Value="_timeValue" />
+<MudCalendar T="CalendarItem" CellClicked="TestClick" CellRangeSelected="TestRange" MonthCellMinHeight="150" DayTimeInterval="CalendarTimeInterval.Minutes10" />
+<MudTextField @bind-Value="_value" HelperText="Clicked Day" />
+<MudTextField @bind-Value="_timeValue" HelperText="Clicked Time" />
+
+<MudTextField @bind-Value="_start" HelperText="Selected Start Date" />
+<MudTextField @bind-Value="_end" HelperText="Selected End Date" />
 
 @code {
     public static string __description__ = "Cell Click Test";
@@ -10,9 +13,18 @@
     private string _value = string.Empty;
     private string _timeValue = string.Empty;
 
+    private string _start = string.Empty;
+    private string _end = string.Empty;
+
     private void TestClick(DateTime dateTime)
     {
         _value = dateTime.Day.ToString();
         _timeValue = dateTime.ToShortTimeString();
+    }
+
+    private void TestRange(DateRange dateRange)
+    {
+        _start = dateRange.Start.ToString();
+        _end = dateRange.End.ToString();
     }
 }

@@ -11,6 +11,7 @@
     </MudMenuItem>
 </MudMenu>
 
+<MudCalendar T="CalendarItem" Items="_events" CellClicked="CellClicked" ItemClicked="ItemClicked" CellRangeSelected="CellRangeSelected" DayTimeInterval="CalendarTimeInterval.Minutes15" />
 
 @code {
 
@@ -47,6 +48,11 @@
         return DialogService.ShowMessageBox("Removing all events", _contextMenuDate.Value.ToString(Thread.CurrentThread.CurrentCulture));
     }
 
+
+    private Task CellRangeSelected(MudBlazor.DateRange dateRange)
+    {
+        return DialogService.ShowMessageBox("Cell Range Selected", $"Start: {dateRange.Start?.ToString(Thread.CurrentThread.CurrentCulture)} End: {dateRange.End?.ToString(Thread.CurrentThread.CurrentCulture)}");
+    }
 
     private List<CalendarItem> _events = new()
     {

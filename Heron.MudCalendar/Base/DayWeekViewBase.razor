@@ -132,9 +132,8 @@
                     </a>
                 }
                 else if (AllowCellLinkClick(cell,row)) {
-                    <a @onclick="() => OnCellLinkClicked(cell, row)" 
-                       class="mud-cal-week-cell-link">
-                        <div class="mud-cal-week-link"></div>
+                    <a @onclick="() => OnCellLinkClicked(cell, row)" class="mud-cal-week-cell-link">
+                        <div class="mud-cal-week-link" data-row="@row" data-date="@cell.Date.ToString("yyyy-MM-dd")" data-selectable="@IsSelectable(cell, row).ToString().ToLower()"></div>
                     </a>
                 }
             </MudDropZone>

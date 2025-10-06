@@ -249,6 +249,10 @@
   height: 100%;
 }
 
+.cell-selected {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
 .mud-cal-cell-template {
   width: 100%;
   padding: 2px;
