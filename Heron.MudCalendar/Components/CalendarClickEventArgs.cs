@@ -24,7 +24,7 @@ public class CalendarClickEventArgs : EventArgs
     /// Creates a new instance.
     /// </summary>
     /// <param name="mouseEventArgs">The coordinates of the pointer for this click.</param>
-    /// <param name="item">The date and time corresponding to the cell which was clicked.</param>
+    /// <param name="dateTime">The date and time corresponding to the cell which was clicked.</param>
     public CalendarClickEventArgs(MouseEventArgs mouseEventArgs, DateTime dateTime)
     {
         MouseEventArgs = mouseEventArgs;

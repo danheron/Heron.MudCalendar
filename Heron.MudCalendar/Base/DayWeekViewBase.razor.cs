@@ -211,6 +211,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     /// <summary>
     /// Method invoked when the user right-clicks on the hyper link in the cell.
     /// </summary>
+    /// <param name="mouseEventArgs">The original MouseEventArgs.</param>
     /// <param name="cell">The cell that was clicked.</param>
     /// <param name="row">The row that was clicked.</param>
     /// <returns></returns>
@@ -219,7 +220,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
         if (AllowCellLinkContextMenuClick(cell, row))
         {
             var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
-            await Calendar.CellContextMenuClicked.InvokeAsync(new CalendarClickEventArgs(mouseEventArgs,date));
+            await Calendar.CellContextMenuClicked.InvokeAsync(new CalendarClickEventArgs(mouseEventArgs, date));
         }
     }
 

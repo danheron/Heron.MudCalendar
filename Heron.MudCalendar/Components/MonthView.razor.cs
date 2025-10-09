@@ -156,13 +156,14 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     /// <summary>
     /// Method invoked when the user right-clicks on the hyperlink in the cell.
     /// </summary>
+    /// <param name="mouseEventArgs">The original MouseEventArgs.</param>
     /// <param name="cell">The cell that was clicked.</param>
     /// <returns></returns>
     protected virtual async Task OnCellLinkContextMenuClicked(MouseEventArgs mouseEventArgs, CalendarCell<T> cell)
     {
         if (AllowCellLinkContextMenuClick(cell))
         {
-            await Calendar.CellContextMenuClicked.InvokeAsync(new CalendarClickEventArgs(mouseEventArgs,cell.Date));
+            await Calendar.CellContextMenuClicked.InvokeAsync(new CalendarClickEventArgs(mouseEventArgs, cell.Date));
         }
     }
 
