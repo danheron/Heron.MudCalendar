@@ -116,7 +116,8 @@ function hideOverflows(container, positions, position, datePositions) {
     const div = document.createElement("div");
     div.className = "mud-cal-overflow-message";
     div.textContent = "+";
-    div.style.start = position + "px";
+    //div.style.start = position + "px";
+    div.style.insetInlineStart = position + "px";
     container.appendChild(div);
     
     // Count and hide the overflowed elements

@@ -348,8 +348,8 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
 
         var options = Options.Create(new LocalizationOptions { ResourcesPath = "Resources" });
         var factory = new ResourceManagerStringLocalizerFactory(options, NullLoggerFactory.Instance);
-        var localizer = new StringLocalizer<MudCalendar<T>>(factory);
-
+        var localizer = factory.Create("MudCalendar", "Heron.MudCalendar");
+        
         _uiCulture = Calendar.Culture;
         _moreText = localizer["More"];
 
