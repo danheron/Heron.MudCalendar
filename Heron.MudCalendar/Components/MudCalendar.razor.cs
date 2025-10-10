@@ -769,4 +769,16 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
         if (ShowMonth) list.Add(CalendarView.Month);
         return list;
     }
+
+    internal event Func<TimeOnly?, Task>? ScrollToTimeEvent;
+
+    /// <summary>
+    /// Scroll to the provided time if a compatible view is selected.
+    /// </summary>
+    /// <param name="time">The time at which to scroll. Defaults to <see cref="DayStartTime"/> if no value is provided.</param>
+    /// <returns></returns>
+    public void ScrollToTime(TimeOnly? time = null)
+    {
+        ScrollToTimeEvent?.Invoke(time);
+    }
 }

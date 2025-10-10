@@ -26,6 +26,12 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     protected virtual string HeaderClassname => string.Empty;
     protected virtual string GridClassname => string.Empty;
 
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Calendar.ScrollToTimeEvent += async (time) => await ScrollToDay(time);
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -341,9 +347,11 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
         return (int)Math.Round(height);
     }
 
-    private async Task ScrollToDay()
+    private async Task ScrollToDay(TimeOnly? time = null)
     {
-        var startMinutes = (Calendar.DayStartTime.Hour * 60) + Calendar.DayStartTime.Minute;
+        var startMinutes = time != null 
+            ? (time.Value.Hour * 60) + time.Value.Minute
+            : (Calendar.DayStartTime.Hour * 60) + Calendar.DayStartTime.Minute;
         var percent = (double)startMinutes / MinutesInDay;
         var scrollTo = PixelsInDay * percent;
 
