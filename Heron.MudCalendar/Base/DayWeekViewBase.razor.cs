@@ -349,9 +349,19 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
 
     private async Task ScrollToDay(TimeOnly? time = null)
     {
-        var startMinutes = time != null 
-            ? (time.Value.Hour * 60) + time.Value.Minute
-            : (Calendar.DayStartTime.Hour * 60) + Calendar.DayStartTime.Minute;
+        int startMinutes;
+        if (time != null)
+        {
+            startMinutes = (time.Value.Hour * 60) + time.Value.Minute;
+        }
+        else if (Calendar.AutoScrollToCurrentTime)
+        {
+            startMinutes = (DateTime.Now.Hour * 60) + DateTime.Now.Minute;
+        }
+        else
+        {
+            startMinutes = (Calendar.DayStartTime.Hour * 60) + Calendar.DayStartTime.Minute;
+        }
         var percent = (double)startMinutes / MinutesInDay;
         var scrollTo = PixelsInDay * percent;
 
