@@ -355,6 +355,16 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public bool EnableParallelItemClick { get; set; } = false;
+    
+    /// <summary>
+    /// If true then the day/week views will automatically scroll to the current time.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>false</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public bool AutoScrollToCurrentTime { get; set; }
 
     /// <summary>
     /// The function used to disable one or more date/times.
