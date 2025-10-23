@@ -316,3 +316,8 @@
   z-index: 1;
   cursor: ns-resize;
 }
+
+.dragged-reduced {
+    transform: rotateY(30deg) skewX(5deg);
+    transform-origin: 00% 50%;
+}

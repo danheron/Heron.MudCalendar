@@ -3,8 +3,6 @@
 @inject IJSRuntime JsRuntime
 @typeparam T
 
-<div Class="@Classname" Style="@Style">
-    <MudDropZone T="T" Identifier="@Position?.Item.Id" Style="height: 100%;">
-        @ChildContent
-    </MudDropZone>
-</div>
+<MudDropZone T="T" Identifier="@Position?.Item.Id" DraggingClass="dragged-reduced" Class="@Classname" Style="@Style">
+    @ChildContent
+</MudDropZone>

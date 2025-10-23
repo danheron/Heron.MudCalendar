@@ -110,6 +110,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
             .AddStyle("position", "absolute")
             .AddStyle("top", $"{position.Top}px")
             .AddStyle("height", $"{position.Height}px")
+            .AddStyle("transition", "transform ease 1s")
             .AddStyle("left",
                 (((position.Position / (double)position.Total) - (1.0 / position.Total)) * maxWidth).ToInvariantString() +
                 "%")
