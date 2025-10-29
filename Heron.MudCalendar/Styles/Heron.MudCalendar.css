@@ -317,7 +317,8 @@
   cursor: ns-resize;
 }
 
-.dragged-reduced {
-    transform: rotateY(30deg) skewX(5deg);
-    transform-origin: 00% 50%;
+.dragged-reduced, .dragged-reduced ~ .mud-cal-drop-item, .mud-cal-drop-item:has(~ .dragged-reduced) {
+    pointer-events: none;
+    opacity: 50%;
+    filter: grayscale();
 }
