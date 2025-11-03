@@ -254,7 +254,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
 
         int nextMonthYear = calendar.GetYear(Calendar.CurrentDay.AddMonths(1));
         int nextMonthMonth = calendar.GetMonth(Calendar.CurrentDay.AddMonths(1));
-        var monthEnd = new DateTime(nextMonthYear, nextMonthMonth, 1, Calendar.Culture.Calendar)
+        var monthEnd = new DateTime(nextMonthYear, nextMonthMonth, 1, calendar)
             .AddDays(-1);
 
         var range = new CalendarDateRange(Calendar.CurrentDay.Date, CalendarView.Month, Calendar.Culture);
