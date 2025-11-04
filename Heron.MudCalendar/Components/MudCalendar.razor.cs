@@ -652,7 +652,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
             CalendarView.Day => CurrentDay.AddDays(1),
             CalendarView.Week => CurrentDay.AddDays(7),
             CalendarView.WorkWeek => CurrentDay.AddDays(7),
-            CalendarView.Month => CurrentDay.AddMonths(1),
+            CalendarView.Month => Culture.Calendar.AddMonths(CurrentDay,1),
             _ => CurrentDay
         };
         
@@ -672,7 +672,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
             CalendarView.Day => CurrentDay.AddDays(-1),
             CalendarView.Week => CurrentDay.AddDays(-7),
             CalendarView.WorkWeek => CurrentDay.AddDays(-7),
-            CalendarView.Month => CurrentDay.AddMonths(-1),
+            CalendarView.Month => Culture.Calendar.AddMonths(CurrentDay, -1),
             _ => CurrentDay
         };
 
@@ -736,10 +736,11 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
         PickerDate = dateTime;
         
         // If month view then set day of month to currently selected day of month
-        if (View == CalendarView.Month && newDate.HasValue && newDate.Value.Day == 1)
+        var calendar = Culture.Calendar;
+        if (View == CalendarView.Month && newDate.HasValue && calendar.GetDayOfMonth(newDate.Value) == 1)
         {
-            var daysInMonth = DateTime.DaysInMonth(newDate.Value.Year, newDate.Value.Month);
-            newDate = oldDate.Day > daysInMonth ? newDate.Value.AddDays(daysInMonth - 1) : newDate.Value.AddDays(oldDate.Day - 1);
+            var daysInMonth = calendar.GetDaysInMonth(calendar.GetYear(newDate.Value), calendar.GetMonth(newDate.Value), calendar.GetEra(newDate.Value));
+            newDate = calendar.GetDayOfMonth(oldDate) > daysInMonth ? newDate.Value.AddDays(daysInMonth - 1) : newDate.Value.AddDays(calendar.GetDayOfMonth(oldDate) - 1);
         }
 
         if (newDate.HasValue && newDate != oldDate)

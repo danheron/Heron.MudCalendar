@@ -23,7 +23,7 @@ public partial class CalendarDatePicker
                     var range = new CalendarDateRange(Date.Value, View, Culture, FirstDayOfWeek);
                     if (range.End == null || range.Start == null) return null;
 
-                    if (range.Start.Value.Month == range.End.Value.Month)
+                    if (Culture.Calendar.GetMonth(range.Start.Value) == Culture.Calendar.GetMonth(range.End.Value))
                     {
                         return string.Format(Culture,
                             "{0:dd} - {1:dd} {1:MMM yyyy}",
