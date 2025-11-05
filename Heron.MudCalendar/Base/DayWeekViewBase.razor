@@ -152,12 +152,17 @@
         {
             if (position.Item.Start.Date == cell.Date.Date)
             {
-                <WeekDropZone T="T" Position="position" Style="@EventStyle(position)" @key="position.Item.Id">
-                    @if (Calendar.EnableResizeItems && !position.Item.IsMultiDay)
-                    {
-                        <Resizer ContainerClass="@GridClassname" CellCount="CellsInDay" ResizeX="false" SizeChanged="@(newHeight => ItemHeightChanged(position.Item, newHeight))" />
-                    }
-                </WeekDropZone>
+                <WeekDragItem T="T" Position="position" Style="@EventStyle(position)" @key="position.Item.Id">
+                    <ChildContent>
+                        @RenderTemplate(position.Item)
+                    </ChildContent>
+                    <ResizerContent>
+                        @if (Calendar.EnableResizeItems && !position.Item.IsMultiDay)
+                        {
+                            <Resizer ContainerClass="@GridClassname" CellCount="CellsInDay" ResizeX="false" SizeChanged="@(newHeight => ItemHeightChanged(position.Item, newHeight))" />
+                        }
+                    </ResizerContent>
+                </WeekDragItem>
             }
             else
             {

@@ -505,6 +505,8 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     private static CultureInfo? _uiCulture;
     private static string? _todayText;
 
+    internal bool Dragging;
+
     /// <summary>
     /// Classes added to main div of component.
     /// </summary>

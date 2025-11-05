@@ -119,3 +119,8 @@
   background-color: rgba(0, 0, 0, 0.05);
 }
 
+.mud-cal-translucent-for-dragging {
+    opacity: 0.5;
+    pointer-events: none;
+    filter: grayscale(0.5);
+}
