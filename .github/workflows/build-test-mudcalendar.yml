@@ -11,14 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dotnet-version: [ '8.0.x', '9.0.x' ]
+        dotnet-version: [ '8.0.x', '9.0.x', '10.0.x' ]
 
     steps:
-      - name: Install .NET 9
+      - name: Install .NET 10
         run: |
           wget -O dotnet-install.sh https://dot.net/v1/dotnet-install.sh
           chmod +x dotnet-install.sh
-          ./dotnet-install.sh --channel 9.0 --install-dir /usr/share/dotnet
+          ./dotnet-install.sh --channel 10.0 --install-dir /usr/share/dotnet
           ln -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet
 
       - name: Checkout MudCalendar repository
@@ -32,7 +32,7 @@ jobs:
 
       - name: Create temporary global.json
         run: |
-          echo '{"sdk":{"version": "9.0"}}' > ./global.json
+          echo '{"sdk":{"version": "10.0"}}' > ./global.json
 
       - name: Restore
         run: dotnet restore Heron.MudCalendarWithDocs.sln
