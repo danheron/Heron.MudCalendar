@@ -3,7 +3,7 @@
 {
 	"name": "Heron.MudCalendar Dev Container",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/dotnet:1-7.0-bullseye",
+	"image": "mcr.microsoft.com/devcontainers/dotnet:1-9.0-bookworm",
 	"features": {
 		"ghcr.io/devcontainers/features/dotnet:2": {
 			"version": "latest"

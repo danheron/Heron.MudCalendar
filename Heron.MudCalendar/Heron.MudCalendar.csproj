@@ -3,7 +3,7 @@
     <PropertyGroup>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+        <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     </PropertyGroup>
     
     <PropertyGroup>
@@ -74,8 +74,14 @@
         <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.1" />
     </ItemGroup>
 
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net10.0' ">
+        <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.0" />
+    </ItemGroup>
+
     <ItemGroup>
-        <PackageReference Include="MudBlazor" Version="8.0.0" />
+        <PackageReference Include="MudBlazor" Version="8.15.0" />
     </ItemGroup>
 
     <ItemGroup>
