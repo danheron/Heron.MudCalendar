@@ -27,6 +27,9 @@ export function addMultiSelect(CellsInDay, containerId, obj) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
+    // --- Attach mouse down to container ---
+    container.addEventListener('mousedown', (e) => handleMouseDown(e));
+
     /**
      * Clears all visual highlights and resets the selection set
      */
@@ -47,8 +50,7 @@ export function addMultiSelect(CellsInDay, containerId, obj) {
      */
     function addCell(dateStr, row) {
         const el = getEl(dateStr, row);
-        if (!el) return false;
-        if (el.dataset.selectable !== "true") return false; // Stop if cell is not selectable
+        if (!(el && el.dataset && el.dataset.selectable == "true")) { return false; } // Stop if cell is not selectable
         const key = toKey(dateStr, row);
         if (!selectedCells.has(key)) {
             el.classList.add("cell-selected");
@@ -61,6 +63,8 @@ export function addMultiSelect(CellsInDay, containerId, obj) {
     * Marks cells vertically within the same day
     */
     function markVertical(start, end) {
+        if (!(start && start.dataset && end && end.dataset)) return;
+
         const dateStr = start.dataset.date;
         const r1 = parseInt(start.dataset.row, 10);
         const r2 = parseInt(end.dataset.row, 10);
@@ -78,6 +82,8 @@ export function addMultiSelect(CellsInDay, containerId, obj) {
     * Marks cells horizontally across multiple days
     */
     function markHorizontal(start, end) {
+        if (!(start && start.dataset && end && end.dataset)) return;
+
         const startDateStr = start.dataset.date;
         const endDateStr = end.dataset.date;
         const startRow = parseInt(start.dataset.row, 10);
@@ -103,52 +109,75 @@ export function addMultiSelect(CellsInDay, containerId, obj) {
         }
     }
 
-    // --- Attach Event Handlers to Each Cell (scoped to this container) ---
+    /**
+     * wires mouseover and mouse up events. Awaits boolean true when should wireup
+     * @param {any} active
+     */
+    function hookMouseEvents(active) {
+        if (active) {
+            container.addEventListener('mouseover', (e) => handleMouseOver(e));
+            container.addEventListener('mouseup',() => handleMouseUp());
+            document.addEventListener('mouseup', () => handleMouseUp());
+        } else {
+            container.removeEventListener('mouseover', (e) => handleMouseOver(e));
+            container.removeEventListener('mouseup', () => handleMouseUp());
+            document.removeEventListener('mouseup', () => handleMouseUp());
+        }
+    }
 
-    container.querySelectorAll("[data-row][data-date]").forEach(cell => {
-        // Mouse down: start selection
-        cell.addEventListener('mousedown', function () {
-            if (cell.dataset.selectable !== "true") return;
+    /**
+   * Handles mousedown.
+   * @param {any} e EventArgs
+   * @returns
+   */
+    function handleMouseDown(e) {
 
-            clearVisual();
-            isMouseDown = true;
-            startCell = cell;
+        const cell = e.target.closest("[data-row][data-date]");
 
-            addCell(cell.dataset.date, parseInt(cell.dataset.row, 10));
-        });
+        if (!(cell && cell.dataset && cell.dataset.selectable == "true")) return;
 
-        // Mouse over: extend selection while dragging
-        cell.addEventListener('mouseover', function (e) {
-            if (!isMouseDown || !startCell) return;
-
-            clearVisual();
-            const currentCell = e.currentTarget;
-
-            if (currentCell.dataset.date === startCell.dataset.date) {
-                markVertical(startCell, currentCell);
-            } else {
-                markHorizontal(startCell, currentCell);
-            }
-        });
-
-        // Mouse up: finalize selection
-        cell.addEventListener('mouseup', function () {
-            if (!isMouseDown) return;
-
-            obj.invokeMethodAsync('CellsSelected', Array.from(selectedCells));
-            clearVisual();
-
-            isMouseDown = false;
-            startCell = null;
-        });
-    });
-
-    // Fallback if mouse released outside container
-    document.addEventListener('mouseup', function () {
-        if (!isMouseDown) return;
-        obj.invokeMethodAsync('CellsSelected', Array.from(selectedCells));
         clearVisual();
+        isMouseDown = true;
+        startCell = cell;
+
+        addCell(cell.dataset.date, parseInt(cell.dataset.row, 10));
+        hookMouseEvents(true);
+    }
+
+    /**
+     * Handles Moveover.
+     * @param {any} e EventArgs
+     * @returns
+     */
+    function handleMouseOver(e) {
+        if (!isMouseDown || !startCell) return;
+
+        const currentCell = e.target.closest("[data-row][data-date]");
+        if (!(currentCell && currentCell.dataset && currentCell.dataset.selectable == "true")) return;
+
+        clearVisual();
+        if (currentCell.dataset.date === startCell.dataset.date) {
+            markVertical(startCell, currentCell);
+        } else {
+            markHorizontal(startCell, currentCell);
+        }
+    }
+
+    /**
+     * Handles MouseUp events
+     */
+    function handleMouseUp() {
+        var cells = Array.from(selectedCells);
+        clearVisual();
+        hookMouseEvents(false);
+
+        var flag = isMouseDown && startCell && cells.length != 0;
         isMouseDown = false;
         startCell = null;
-    });
+
+        if (flag) {
+            obj.invokeMethodAsync('CellsSelected', cells);
+        }
+    }
+        
 }
