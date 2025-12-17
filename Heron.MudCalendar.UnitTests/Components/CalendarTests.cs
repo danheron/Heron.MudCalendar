@@ -73,6 +73,9 @@ public class CalendarTests : BunitTest
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
         comp.FindAll("button.mud-icon-button")[1].Click();
         comp.FindAll("div.mud-cal-month-cell-title")[0].TextContent.Should().Be("30");
+        comp.Instance.CurrentDateRange.Should().NotBeNull();
+        comp.Instance.CurrentDateRange!.Start.Should().Be(new DateTime(2023, 1, 30));
+        comp.Instance.CurrentDateRange.End.Should().Be(new DateTime(2023, 3, 5));
         
         // Week View
         comp.SetParam(x => x.View, CalendarView.Week);
@@ -80,6 +83,9 @@ public class CalendarTests : BunitTest
         comp.FindAll("button.mud-icon-button")[1].Click();
         var day = comp.FindAll("div.mud-cal-grid.mud-cal-grid-header.mud-cal-week-header div")[1].TextContent;
         day.Substring(day.Length - 1, 1).Should().Be("9");
+        comp.Instance.CurrentDateRange.Should().NotBeNull();
+        comp.Instance.CurrentDateRange!.Start.Should().Be(new DateTime(2023, 1, 9));
+        comp.Instance.CurrentDateRange.End.Should().Be(new DateTime(2023, 1, 15));
 
         // Work Week View
         comp.SetParam(x => x.View, CalendarView.WorkWeek);
@@ -87,6 +93,9 @@ public class CalendarTests : BunitTest
         comp.FindAll("button.mud-icon-button")[1].Click();
         day = comp.FindAll("div.mud-cal-grid.mud-cal-grid-header.mud-cal-work-week-header div")[1].TextContent;
         day.Substring(day.Length - 1, 1).Should().Be("8");
+        comp.Instance.CurrentDateRange.Should().NotBeNull();
+        comp.Instance.CurrentDateRange!.Start.Should().Be(new DateTime(2023, 1, 8));
+        comp.Instance.CurrentDateRange.End.Should().Be(new DateTime(2023, 1, 12));
 
         // Day View
         comp.SetParam(x => x.View, CalendarView.Day);
@@ -94,6 +103,9 @@ public class CalendarTests : BunitTest
         comp.FindAll("button.mud-icon-button")[1].Click();
         day = comp.FindAll("div.mud-cal-grid.mud-cal-grid-header.mud-cal-day-header div")[1].TextContent;
         day.Substring(day.Length - 1, 1).Should().Be("5");
+        comp.Instance.CurrentDateRange.Should().NotBeNull();
+        comp.Instance.CurrentDateRange!.Start.Should().Be(new DateTime(2023, 1, 5));
+        comp.Instance.CurrentDateRange.End.Should().Be(new DateTime(2023, 1, 5));
     }
 
     [Test]
@@ -108,6 +120,9 @@ public class CalendarTests : BunitTest
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 1));
         comp.FindAll("button.mud-icon-button")[0].Click();
         comp.Find("div.mud-cal-month-cell-title").TextContent.Should().Be("28");
+        comp.Instance.CurrentDateRange.Should().NotBeNull();
+        comp.Instance.CurrentDateRange!.Start.Should().Be(new DateTime(2022, 11, 28));
+        comp.Instance.CurrentDateRange.End.Should().Be(new DateTime(2023, 1, 1));
 
         // Week View
         comp.SetParam(x => x.View, CalendarView.Week);
@@ -115,6 +130,9 @@ public class CalendarTests : BunitTest
         comp.FindAll("button.mud-icon-button")[0].Click();
         var day = comp.FindAll("div.mud-cal-grid.mud-cal-grid-header.mud-cal-week-header div")[1].TextContent;
         day.Substring(day.Length - 1, 1).Should().Be("2");
+        comp.Instance.CurrentDateRange.Should().NotBeNull();
+        comp.Instance.CurrentDateRange!.Start.Should().Be(new DateTime(2023, 1, 2));
+        comp.Instance.CurrentDateRange.End.Should().Be(new DateTime(2023, 1, 8));
 
         // Work Week View
         comp.SetParam(x => x.ShowWorkWeek, true);
@@ -123,6 +141,9 @@ public class CalendarTests : BunitTest
         comp.FindAll("button.mud-icon-button")[0].Click();
         day = comp.FindAll("div.mud-cal-grid.mud-cal-grid-header.mud-cal-work-week-header div")[1].TextContent;
         day.Substring(day.Length - 1, 1).Should().Be("1");
+        comp.Instance.CurrentDateRange.Should().NotBeNull();
+        comp.Instance.CurrentDateRange!.Start.Should().Be(new DateTime(2023, 1, 1));
+        comp.Instance.CurrentDateRange.End.Should().Be(new DateTime(2023, 1, 5));
 
         // Day View
         comp.SetParam(x => x.View, CalendarView.Day);
@@ -130,6 +151,9 @@ public class CalendarTests : BunitTest
         comp.FindAll("button.mud-icon-button")[0].Click();
         day = comp.FindAll("div.mud-cal-grid.mud-cal-grid-header.mud-cal-day-header div")[1].TextContent;
         day.Substring(day.Length - 1, 1).Should().Be("7");
+        comp.Instance.CurrentDateRange.Should().NotBeNull();
+        comp.Instance.CurrentDateRange!.Start.Should().Be(new DateTime(2023, 1, 7));
+        comp.Instance.CurrentDateRange.End.Should().Be(new DateTime(2023, 1, 7));
     }
 
     [Test]
