@@ -35,7 +35,7 @@ public class CalendarDateRange : DateRange
                 break;
             case CalendarView.Month:
             default:
-                Start = GetFirstMonthDate(_currentDay);
+                Start = GetFirstMonthDate(_currentDay, firstDayOfWeek);
                 break;
         }
     }
@@ -55,12 +55,12 @@ public class CalendarDateRange : DateRange
                 break;
             case CalendarView.Month:
             default:
-                End = GetLastMonthDate(_currentDay);
+                End = GetLastMonthDate(_currentDay, firstDayOfWeek);
                 break;
         }
     }
     
-    public DateTime GetFirstMonthDate(DateTime day)
+    public DateTime GetFirstMonthDate(DateTime day, DayOfWeek? firstDayOfWeek)
     {
         // Get the year and month in the target calendar system
         int year = _calendar.GetYear(day);
@@ -70,12 +70,12 @@ public class CalendarDateRange : DateRange
         DateTime firstDayOfMonth = _calendar.ToDateTime(year, month, 1, 0, 0, 0, 0);
 
         // Adjust to the start of the week
-        firstDayOfMonth = firstDayOfMonth.AddDays(GetDayOfWeek(firstDayOfMonth) * -1);
+        firstDayOfMonth = firstDayOfMonth.AddDays(GetDayOfWeek(firstDayOfMonth, firstDayOfWeek) * -1);
 
         return firstDayOfMonth;
     }
     
-    public DateTime GetLastMonthDate(DateTime day )
+    public DateTime GetLastMonthDate(DateTime day, DayOfWeek? firstDayOfWeek)
     {
         
         // Get the year and month in the target calendar system
@@ -89,7 +89,7 @@ public class CalendarDateRange : DateRange
         DateTime lastDayOfMonth = _calendar.ToDateTime(year, month, daysInMonth, 0, 0, 0, 0);
 
         // Adjust to the end of the week
-        lastDayOfMonth = lastDayOfMonth.AddDays(6 - GetDayOfWeek(lastDayOfMonth));
+        lastDayOfMonth = lastDayOfMonth.AddDays(6 - GetDayOfWeek(lastDayOfMonth, firstDayOfWeek));
 
         return lastDayOfMonth;
     }
