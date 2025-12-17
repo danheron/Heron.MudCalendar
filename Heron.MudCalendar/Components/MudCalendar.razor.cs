@@ -494,7 +494,10 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
         set => CurrentDay = value ?? DateTime.Today;
     }
 
-    private CalendarDateRange? _currentDateRange;
+    /// <summary>
+    /// The dates that are currently visible in the Calendar.
+    /// </summary>
+    public CalendarDateRange? CurrentDateRange { get; private set; }
 
     private CalendarDatePicker? _datePicker;
     
@@ -764,9 +767,9 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
 
     private async Task ChangeDateRange(CalendarDateRange dateRange)
     {
-        if (dateRange != _currentDateRange)
+        if (dateRange != CurrentDateRange)
         {
-            _currentDateRange = dateRange;
+            CurrentDateRange = dateRange;
             await DateRangeChanged.InvokeAsync(dateRange);
         }
     }
