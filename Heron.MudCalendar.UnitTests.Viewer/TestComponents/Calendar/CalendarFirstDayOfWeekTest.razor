@@ -1,0 +1,17 @@
+<MudPopoverProvider />
+
+<MudCalendar T="CalendarItem"  Items="_events" FirstDayOfWeek="DayOfWeek.Tuesday" Height="1000" />
+
+@code {
+    public static string __description__ = "Calendar First Day Of Week Tests";
+
+    private List<CalendarItem> _events = new()
+    {
+        new CalendarItem
+        {
+            Start = new DateTime(2025, 12, 1, 18, 0, 0),
+            End = new DateTime(2025, 12, 2, 5, 0, 0),
+            Text = "Event 1"
+        }
+    };
+}

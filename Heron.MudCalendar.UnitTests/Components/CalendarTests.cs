@@ -357,7 +357,18 @@ public class CalendarTests : BunitTest
         var firstDayDate = comp.FindAll("div.mud-drop-zone")[0].Attributes["identifier"]!.TextContent;
         DateTime.Parse(firstDayDate).DayOfWeek.Should().Be(DayOfWeek.Sunday);
     }
+    
+    [Test]
+    public void FirstDayOfWeekTest()
+    {
+        var cut = Context.RenderComponent<CalendarFirstDayOfWeekTest>();
+        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
 
+        // Check that the first day is a Tuesday
+        var firstDayDate = comp.FindAll("div.mud-drop-zone")[0].Attributes["identifier"]!.TextContent;
+        DateTime.Parse(firstDayDate).DayOfWeek.Should().Be(DayOfWeek.Tuesday);
+    }
+    
     [Test]
     public void UpdateDatePicker()
     {

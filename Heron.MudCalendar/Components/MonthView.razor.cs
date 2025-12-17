@@ -250,14 +250,14 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
         int year = calendar.GetYear(Calendar.CurrentDay);
         int month = calendar.GetMonth(Calendar.CurrentDay);
 
-        var monthStart = new DateTime(year, month, 1,calendar);
+        var monthStart = new DateTime(year, month, 1, calendar);
 
         int nextMonthYear = calendar.GetYear(Calendar.CurrentDay.AddMonths(1));
         int nextMonthMonth = calendar.GetMonth(Calendar.CurrentDay.AddMonths(1));
         var monthEnd = new DateTime(nextMonthYear, nextMonthMonth, 1, calendar)
             .AddDays(-1);
 
-        var range = new CalendarDateRange(Calendar.CurrentDay.Date, CalendarView.Month, Calendar.Culture);
+        var range = new CalendarDateRange(Calendar.CurrentDay.Date, CalendarView.Month, Calendar.Culture, Calendar.FirstDayOfWeek);
         if (range.Start == null || range.End == null) return cells;
 
         var date = range.Start.Value;
