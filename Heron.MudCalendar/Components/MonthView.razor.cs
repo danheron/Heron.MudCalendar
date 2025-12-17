@@ -231,6 +231,8 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
 
     protected Task ItemWidthChanged(T item, int days, CalendarCell<T> currentCell)
     {
+        var dates = (item.Start, item.End);
+        
         // If we are resizing an item that has spanned multiple weeks we need to add the days from previous weeks
         var previousDays = currentCell.Date - item.Start.Date;
 
@@ -239,7 +241,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
         item.End = item.Start.Date.AddDays(days - 1) + previousDays + endTime;
         if (item.End <= item.Start) item.End = item.Start.AddHours(1);
 
-        return Calendar.ItemChanged.InvokeAsync(item);
+        return dates != (item.Start, item.End) ? Calendar.ItemChanged.InvokeAsync(item) : Task.CompletedTask;
     }
 
     protected override List<CalendarCell<T>> BuildCells()
@@ -308,6 +310,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     {
         if (dropItem.Item == null) return;
         var item = dropItem.Item;
+        var dates = (item.Start, item.End);
 
         // Make sure it is a valid drop zone
         var id = dropItem.DropzoneIdentifier;
@@ -323,7 +326,10 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
 
         Calendar.Refresh();
 
-        await Calendar.ItemChanged.InvokeAsync(item);
+        if (dates != (item.Start, item.End))
+        {
+            await Calendar.ItemChanged.InvokeAsync(item);
+        }
     }
 
     private Task PositionItems()

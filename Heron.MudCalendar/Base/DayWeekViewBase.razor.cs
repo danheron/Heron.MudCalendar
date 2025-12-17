@@ -286,11 +286,13 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     /// <returns>A task representing the asynchronous operation of invoking the item changed event.</returns>
     protected Task ItemHeightChanged(T item, int intervals)
     {
+        var dates = (item.Start, item.End);
+        
         // Calculate end time from height
         var minutes = intervals * (int)Calendar.DayTimeInterval;
         item.End = item.Start.AddMinutes(minutes);
-        
-        return Calendar.ItemChanged.InvokeAsync(item);
+
+        return dates != (item.Start, item.End) ? Calendar.ItemChanged.InvokeAsync(item) : Task.CompletedTask;
     }
 
     private double TimelinePosition()
@@ -443,6 +445,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     {
         if (dropItem.Item == null) return;
         var item = dropItem.Item;
+        var dates = (item.Start, item.End);
         var duration = item.End?.Subtract(item.Start) ?? TimeSpan.Zero;
 
         var ids = dropItem.DropzoneIdentifier.Split("_");
@@ -468,7 +471,10 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
 
         Calendar.Refresh();
 
-        await Calendar.ItemChanged.InvokeAsync(item);
+        if (dates != (item.Start, item.End))
+        {
+            await Calendar.ItemChanged.InvokeAsync(item);
+        }
     }
 
     private bool IsHourCell(int row)
