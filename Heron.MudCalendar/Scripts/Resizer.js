@@ -65,7 +65,7 @@ export class Resizer {
         const movement = this._position - this._startPos;
         let size = this._startSize + movement;
         
-        // Check that item is not too big
+        // Check that the item is not too big
         if (this._resizeX)
         {
             if (this._item.offsetLeft + size > this._container.clientWidth) size = this._container.clientWidth - this._item.offsetLeft;
@@ -75,7 +75,7 @@ export class Resizer {
             if (this._item.offsetTop + size > this._container.clientHeight) size = this._container.clientHeight - this._item.offsetTop;
         }
         
-        // Check that item is not too small
+        // Check that the item is not too small
         if (size < this._intervalSize) size = this._intervalSize;
         
         // Resize to the closest interval

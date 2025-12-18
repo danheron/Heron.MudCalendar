@@ -36,7 +36,7 @@ export function positionMonthItems(element, moreText, fixedHeight, obj) {
             // Remove any overflow messages
             item.classList.remove("mud-cal-overflow-hidden");
             
-            // Create new position object
+            // Create the new position object
             const position = new ItemPosition();
             position.Item = item;
             position.Top = headerHeight;
@@ -80,7 +80,7 @@ export function positionMonthItems(element, moreText, fixedHeight, obj) {
         }
         else
         {
-            // Calculate height of the row
+            // Calculate the height of the row
             let rowMaxBottom = headerHeight;
             positions.forEach((position) => {
                 if (position.Bottom > rowMaxBottom) rowMaxBottom = position.Bottom;
@@ -112,7 +112,7 @@ function hideOverflows(container, positions, position, datePositions) {
     // No need to continue if no overflow
     if (maxBottom <= container.clientHeight) return;
     
-    // Create overflow message
+    // Create the overflow message
     const div = document.createElement("div");
     div.className = "mud-cal-overflow-message";
     div.textContent = "+";

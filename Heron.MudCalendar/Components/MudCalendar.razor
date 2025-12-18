@@ -15,7 +15,7 @@
     protected virtual RenderFragment Render => __builder =>
     {
         <CascadingValue IsFixed="false" Value="this">
-            <div class="@Classname" style="@Styles" id="@_id">
+            <div class="@Classname" style="@Styles" id="@Id">
 
                 <div class="mud-calendar-container">
                     @if (ShowToolbar)
@@ -47,7 +47,7 @@
     };
 
     /// <summary>
-    /// Defines the cell content for the Calendar.  Can be overriden for different Views by defining DayTemplate, WeekTemplate and MonthTemplate.
+    /// Defines the cell content for the Calendar.  Can be overriden for different Views by defining DayTemplate, WeekTemplate, and MonthTemplate.
     /// </summary>
     [Attributes.Category(CategoryTypes.Calendar.Template)]
     [Parameter]
@@ -58,15 +58,15 @@
             </div>;
 
     /// <summary>
-    /// Renders the toolbar of the component including prev/next buttons, date picker and view switcher.
+    /// Renders the toolbar of the component including prev/next buttons, date picker, and view switcher.
     /// </summary>
     protected virtual RenderFragment RenderToolbar =>
         @<div class="mud-cal-toolbar" style="@ToolbarStyle">
                 <div class="mud-cal-toolbar-nav align-center">
                     @if (ShowPrevNextButtons)
                     {
-                            <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" aria-label="@PrevAriaLabel" Color="@Color" OnClick="OnPreviousClicked" />
-                            <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" aria-label="@NextAriaLabel" Color="@Color" OnClick="OnNextClicked" />
+                            <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" aria-label="@PrevAriaLabel" Color="@Color" OnClick="@OnPreviousClicked" />
+                            <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" aria-label="@NextAriaLabel" Color="@Color" OnClick="@OnNextClicked" />
                     }
                     @if (ShowDatePicker)
                     {
@@ -74,7 +74,7 @@
                     }
                     @if (ShowTodayButton)
                     {
-                        <MudButton Variant="@ButtonVariant" Color="@Color" OnClick="OnTodayClicked">@DrawTodayText()</MudButton>
+                        <MudButton Variant="@ButtonVariant" Color="@Color" OnClick="@OnTodayClicked">@DrawTodayText()</MudButton>
                     }
                     @if (ToolbarContent != null)
                     {

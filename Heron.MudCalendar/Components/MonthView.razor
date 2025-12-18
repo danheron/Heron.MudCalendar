@@ -78,7 +78,7 @@
                         @if (AllowCellLinkClick(currentCell) && AllowCellLinkContextMenuClick(currentCell))
                         {
                             <a @onclick="() => OnCellLinkClicked(currentCell)"
-                               @oncontextmenu="(mouseEventArgs) => OnCellLinkContextMenuClicked(mouseEventArgs, currentCell)" @oncontextmenu:preventDefault
+                               @oncontextmenu="@(mouseEventArgs => OnCellLinkContextMenuClicked(mouseEventArgs, currentCell))" @oncontextmenu:preventDefault
                                class="mud-cal-month-cell-link">
                                 <div class="mud-cal-month-link" data-date="@currentCell.Date.ToString("yyyy-MM-dd")" data-row="0" data-selectable="@IsSelectable(currentCell).ToString().ToLower()">
                                     @RenderCellDayNumber(currentCell)
@@ -87,7 +87,7 @@
                         }
                         else if (AllowCellLinkContextMenuClick(currentCell))
                         {
-                            <a @oncontextmenu="(mouseEventArgs) => OnCellLinkContextMenuClicked(mouseEventArgs, currentCell)" @oncontextmenu:preventDefault
+                            <a @oncontextmenu="@(mouseEventArgs => OnCellLinkContextMenuClicked(mouseEventArgs, currentCell))" @oncontextmenu:preventDefault
                                class="mud-cal-month-cell-link">
                                 <div class="mud-cal-month-link cursor-auto">
                                     @RenderCellDayNumber(currentCell)

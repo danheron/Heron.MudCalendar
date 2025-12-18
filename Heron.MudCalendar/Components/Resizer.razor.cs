@@ -39,14 +39,14 @@ public partial class Resizer : IAsyncDisposable
     
     public override async Task SetParametersAsync(ParameterView parameters)
     {
-        // Check if CellCount parameter is changing
+        // Check if the CellCount parameter is changing
         parameters.TryGetValue(nameof(CellCount), out int cellCount);
         var needUpdate = cellCount != CellCount;
 
         // Update parameters
         await base.SetParametersAsync(parameters);
         
-        // If the CellCount has changed then the JS object needs to be updated
+        // If the CellCount has changed, then the JS object needs to be updated
         if (needUpdate && _resizer != null)
         {
             await _resizer.InvokeVoidAsync("updateCellCount", cellCount);

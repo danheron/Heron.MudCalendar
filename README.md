@@ -21,7 +21,7 @@ Documentation and examples are available [here](https://danheron.github.io/Heron
 
 MudCalendar relies on MudBlazor. Follow the installation instructions for [MudBlazor](https://mudblazor.com/getting-started/installation)
 
-Once your project is setup with MudBlazor you can install the MudCalendar package.
+Once your project is set up with MudBlazor you can install the MudCalendar package.
 
 ```
 dotnet add package Heron.MudCalendar
@@ -33,7 +33,7 @@ Add the following to `_Imports.razor`.
 @using Heron.MudCalendar
 ```
 
-Add style and script references (optional). This step shouldn't be necessary as the component injects the references into the page as needed. However if you find that calendar is not displaying properly then add the following to your `index.html` or `_Layout.cshtml`/`_Host.cshtml`
+Add style and script references (optional). This step shouldn't be necessary as the component injects the references into the page as needed. However, if you find that calendar is not displaying properly then add the following to your `index.html` or `_Layout.cshtml`/`_Host.cshtml`
 
 ```html
 <link href="_content/Heron.MudCalendar/Heron.MudCalendar.min.css" rel="stylesheet" />
@@ -55,14 +55,14 @@ For any issues or feature requests, please open a new issue on GitHub.
 
 ## Building From Source
 
-The project includes 2 solution files:
+The project includes two solution files:
 
 - Heron.MudCalendar.sln
 - Heron.MudCalendarWithDocs.sln
 
 The Heron.MudCalendar.sln solution contains the MudCalendar project and Unit Test projects.
 
-The Heron.MudCalendarWithDocs.sln solution also contains the Docs project. This is a bit more complicated to compile because it uses the MudBlazor.Docs project. To build this project you need to clone the [danheron/MudBlazor](https://github.com/danheron/MudBlazor/tree/mudcalendar) repo and checkout the mudcalendar branch.
+The Heron.MudCalendarWithDocs.sln solution also contains the Docs project. This is a bit more complicated to compile because it uses the MudBlazor.Docs project. To build this project, you need to clone the [danheron/MudBlazor](https://github.com/danheron/MudBlazor/tree/mudcalendar) repo and checkout the mudcalendar branch.
 
 The repositories should be cloned into the same parent directory e.g.
 

@@ -21,7 +21,7 @@ public class DayView<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.
             .OrderBy(i => i.Start)
             .ToList();
         
-        return new List<CalendarCell<T>> { cell };
+        return [cell];
     }
 
     protected override RenderFragment<T> CellTemplate => Calendar.DayTemplate ?? Calendar.CellTemplate;

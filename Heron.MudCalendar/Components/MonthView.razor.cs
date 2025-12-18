@@ -23,14 +23,16 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
 
     private JsService? _jsService;
 
+    // ReSharper disable once StaticMemberInGenericType
     private static CultureInfo? _uiCulture;
+    // ReSharper disable once StaticMemberInGenericType
     private static string? _moreText;
 
     protected virtual int Columns => 7;
     protected virtual int Rows => Cells.Count / Columns;
 
     /// <summary>
-    /// Classes added to main div of component.
+    /// Classes added to main div of the component.
     /// </summary>
     protected virtual string Classname =>
         new CssBuilder("mud-cal-month-table-body")
@@ -168,7 +170,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     }
 
     /// <summary>
-    /// Determines if the right click event is allowed on a cell.
+    /// Determines if the right-click event is allowed on a cell.
     /// </summary>
     /// <param name="cell">The cell that was clicked.</param>
     /// <returns><c>true</c> if the cell can be clicked.</returns>
@@ -196,7 +198,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
             if (Calendar.CellRangeSelected.HasDelegate)
             {
                 _jsService ??= new JsService(JsRuntime);
-                await _jsService.AddMultiSelect(1, Calendar._id);
+                await _jsService.AddMultiSelect(1, Calendar.Id);
                 _jsService.OnCellsSelected += OnCellRangeSelected;
             }            
         }
@@ -208,9 +210,10 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     /// <param name="sender">The source object that triggered the selection event.</param>
     /// <param name="selectedCells">A collection of selected cells, each represented as a tuple containing the date and row index.</param>
     /// <returns></returns>
-    protected virtual async void OnCellRangeSelected(object? sender, IEnumerable<(DateTime date, int row)> selectedCells)
+    protected virtual async Task OnCellRangeSelected(object? sender, IEnumerable<(DateTime date, int row)> selectedCells)
     {
-        await Calendar.CellRangeSelected.InvokeAsync(new DateRange(selectedCells.First().date, selectedCells.Last().date.AddDays(1)));
+        var selectedCellsList = selectedCells.ToList();
+        await Calendar.CellRangeSelected.InvokeAsync(new DateRange(selectedCellsList.First().date, selectedCellsList.Last().date.AddDays(1)));
     }
 
     protected virtual bool IsSelectable(CalendarCell<T> cell)
@@ -233,7 +236,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     {
         var dates = (item.Start, item.End);
         
-        // If we are resizing an item that has spanned multiple weeks we need to add the days from previous weeks
+        // If we are resizing an item that has spanned multiple weeks, we need to add the days from previous weeks
         var previousDays = currentCell.Date - item.Start.Date;
 
         // Calculate end date from width
@@ -364,7 +367,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
 
     private int CalcWidth(ItemPosition<T> position, int cellIndex, DateOnly date)
     {
-        // Get number of days
+        // Get the number of days
         var item = position.Item;
         var endDate = item.End ?? item.Start.AddHours(1);
         var days = endDate.Date - item.Start.Date;
@@ -383,13 +386,13 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
 
     private RenderFragment<T> CellTemplate => Calendar.MonthTemplate ?? Calendar.CellTemplate;
 
-    private IEnumerable<ItemPosition<T>> CalcPositions(IEnumerable<T> items, DateOnly date, int cellIndex)
+    private List<ItemPosition<T>> CalcPositions(IEnumerable<T> items, DateOnly date, int cellIndex)
     {
         var positions = new List<ItemPosition<T>>();
 
         foreach (var item in items)
         {
-            // Create new position object
+            // Create a new position object
             var position = new ItemPosition<T>
             {
                 Item = item,
@@ -409,6 +412,11 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     public void Dispose()
     {
         GC.SuppressFinalize(this);
+        
+        if (_jsService != null)
+        {
+            _jsService.OnCellsSelected -= OnCellRangeSelected;
+        }
 
         _jsService?.Dispose();
     }

@@ -50,7 +50,7 @@ export function addMultiSelect(CellsInDay, containerId, obj) {
      */
     function addCell(dateStr, row) {
         const el = getEl(dateStr, row);
-        if (!(el && el.dataset && el.dataset.selectable == "true")) { return false; } // Stop if cell is not selectable
+        if (!(el && el.dataset && el.dataset.selectable === "true")) { return false; } // Stop if the cell is not selectable
         const key = toKey(dateStr, row);
         if (!selectedCells.has(key)) {
             el.classList.add("cell-selected");
@@ -110,7 +110,7 @@ export function addMultiSelect(CellsInDay, containerId, obj) {
     }
 
     /**
-     * wires mouseover and mouse up events. Awaits boolean true when should wireup
+     * wires mouseover and mouse up events. Awaits boolean true when should wire-up
      * @param {any} active
      */
     function hookMouseEvents(active) {
@@ -134,7 +134,7 @@ export function addMultiSelect(CellsInDay, containerId, obj) {
 
         const cell = e.target.closest("[data-row][data-date]");
 
-        if (!(cell && cell.dataset && cell.dataset.selectable == "true")) return;
+        if (!(cell && cell.dataset && cell.dataset.selectable === "true")) return;
 
         clearVisual();
         isMouseDown = true;
@@ -145,7 +145,7 @@ export function addMultiSelect(CellsInDay, containerId, obj) {
     }
 
     /**
-     * Handles Moveover.
+     * Handles Mouseover.
      * @param {any} e EventArgs
      * @returns
      */
@@ -153,7 +153,7 @@ export function addMultiSelect(CellsInDay, containerId, obj) {
         if (!isMouseDown || !startCell) return;
 
         const currentCell = e.target.closest("[data-row][data-date]");
-        if (!(currentCell && currentCell.dataset && currentCell.dataset.selectable == "true")) return;
+        if (!(currentCell && currentCell.dataset && currentCell.dataset.selectable === "true")) return;
 
         clearVisual();
         if (currentCell.dataset.date === startCell.dataset.date) {
@@ -167,11 +167,11 @@ export function addMultiSelect(CellsInDay, containerId, obj) {
      * Handles MouseUp events
      */
     function handleMouseUp() {
-        var cells = Array.from(selectedCells);
+        const cells = Array.from(selectedCells);
         clearVisual();
         hookMouseEvents(false);
 
-        var flag = isMouseDown && startCell && cells.length != 0;
+        const flag = isMouseDown && startCell && cells.length !== 0;
         isMouseDown = false;
         startCell = null;
 

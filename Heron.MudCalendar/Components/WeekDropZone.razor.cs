@@ -10,7 +10,7 @@ public partial class WeekDropZone<[DynamicallyAccessedMembers(DynamicallyAccesse
     [CascadingParameter]
     public MudCalendar<T> Calendar { get; set; } = new();
     
-    private string _id = Guid.NewGuid().ToString();
+    private readonly string _id = Guid.NewGuid().ToString();
 
     private JsService? _jsService;
     

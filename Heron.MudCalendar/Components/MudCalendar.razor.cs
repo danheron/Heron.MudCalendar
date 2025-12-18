@@ -83,7 +83,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     /// Gets or sets the minimum height of a cell.
     /// </summary>
     /// /// <remarks>
-    /// Defaults to <c>0</c>. If 0 the calendar will be fixed height. If set the month view will expand when necessary with this being the minimum height of each cell.
+    /// Defaults to <c>0</c>. If 0, the calendar will be fixed height. If set the month view will expand when necessary with this being the minimum height of each cell.
     /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
@@ -131,7 +131,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public CalendarView View { get; set; } = CalendarView.Month;
 
     /// <summary>
-    /// If true highlights today.
+    /// If true, highlights today.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>true</c>.
@@ -141,7 +141,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public bool HighlightToday { get; set; } = true;
 
     /// <summary>
-    /// If false the toolbar is not shown.
+    /// If false, the toolbar is not shown.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>true</c>.
@@ -151,7 +151,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public bool ShowToolbar { get; set; } = true;
     
     /// <summary>
-    /// If false the day view is not shown.
+    /// If false, the day view is not shown.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>true</c>.
@@ -161,7 +161,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public bool ShowDay { get; set; } = true;
 
     /// <summary>
-    /// If false the week view is not shown.
+    /// If false, the week view is not shown.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>true</c>.
@@ -171,7 +171,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public bool ShowWeek { get; set; } = true;
 
     /// <summary>
-    /// If false the work week view is not shown.
+    /// If false, the work week view is not shown.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>false</c>.
@@ -181,7 +181,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public bool ShowWorkWeek { get; set; }
 
     /// <summary>
-    /// If false the month view is not shown.
+    /// If false, the month view is not shown.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>true</c>.
@@ -191,7 +191,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public bool ShowMonth { get; set; } = true;
 
     /// <summary>
-    /// If false then the prev/next buttons are not shown.
+    /// If false, then the prev/next buttons are not shown.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>true</c>.
@@ -201,7 +201,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public bool ShowPrevNextButtons { get; set; } = true;
     
     /// <summary>
-    /// If false the the Datepicker is not shown.
+    /// If false, the Datepicker is not shown.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>true</c>.
@@ -211,7 +211,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public bool ShowDatePicker { get; set; } = true;
 
     /// <summary>
-    /// If true the Today button is shown.
+    /// If true, the Today button is shown.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>false</c>.
@@ -221,7 +221,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public bool ShowTodayButton { get; set; }
     
     /// <summary>
-    /// If true a dropdown list instead of buttons is used for selecting the view.
+    /// If true, a dropdown list instead of buttons is used for selecting the view.
     /// This can be useful on mobile devices where space is limited.
     /// </summary>
     /// /// <remarks>
@@ -282,7 +282,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public int DayItemMinHeight { get; set; }
 
     /// <summary>
-    /// If true then a line indicating the current time is shown in day and week view.
+    /// If true, then a line indicating the current time is shown in day and week view.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>false</c>.
@@ -302,7 +302,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
 
     /// <summary>
-    /// If true then calendar items can be drag/dropped to different dates/times.
+    /// If true, then calendar items can be drag/dropped to different dates/times.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>false</c>.
@@ -326,7 +326,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public Func<T, DateTime, CalendarView, bool>? CanDropItem { get; set; }
 
     /// <summary>
-    /// If true then the user can change the duration of an item by resizing the item.
+    /// If true, then the user can change the duration of an item by resizing the item.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>false</c>.
@@ -336,7 +336,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public bool EnableResizeItems { get; set; }
 
     /// <summary>
-    /// If true then use 24 hour clock, otherwise use 12 hour format (am/pm).
+    /// If true then use 24-hour clock, otherwise use 12-hour format (am/pm).
     /// </summary>
     /// <remarks>
     /// Defaults to <c>true</c>.
@@ -346,18 +346,18 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public bool Use24HourClock { get; set; } = true;
 
     /// <summary>
-    /// If true it's enabled to click right next to extisting items
-    /// This helps creating parallel items
+    /// If true, it's enabled to click right next to existing items
+    /// This helps to create parallel items
     /// </summary>
     /// <remarks>
     /// Defaults to <c>false</c>.
     /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
-    public bool EnableParallelItemClick { get; set; } = false;
+    public bool EnableParallelItemClick { get; set; }
     
     /// <summary>
-    /// If true then the day/week views will automatically scroll to the current time.
+    /// If true, then the day/week views will automatically scroll to the current time.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>false</c>.
@@ -368,7 +368,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
 
     /// <summary>
     /// The function used to disable one or more date/times.
-    /// If the function returns true then that date and time will not allow click events or allow items to be dropped.
+    /// If the function returns true, then that date and time will not allow click events or allow items to be dropped.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>null</c>.
@@ -381,7 +381,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     /// The function returns CSS classes for a date and time.
     /// </summary>
     /// <remarks>
-    /// Multiple classes should be separated by spaces.
+    /// A space should separate multiple classes.
     /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
@@ -447,7 +447,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public EventCallback<DateTime> CurrentDayChanged { get; set; }
 
     /// <summary>
-    /// Called when an item is changed, for example by dragging or resizing the item.
+    /// Called when an item is changed, for example, by dragging or resizing the item.
     /// </summary>
     [Parameter]
     public EventCallback<T> ItemChanged { get; set; }
@@ -465,7 +465,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public EventCallback<DateTime> CellClicked { get; set; }
 
     /// <summary>
-    /// Called when a range of cells is selected.
+    /// Called when a range of cells are selected.
     /// </summary>
     [Parameter]
     public EventCallback<DateRange> CellRangeSelected { get; set; }
@@ -503,13 +503,15 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     
     private JsService? _jsService;
 
-    internal readonly string _id = $"calendar-{Guid.NewGuid()}";
+    internal readonly string Id = $"calendar-{Guid.NewGuid()}";
 
+    // ReSharper disable once StaticMemberInGenericType
     private static CultureInfo? _uiCulture;
+    // ReSharper disable once StaticMemberInGenericType
     private static string? _todayText;
 
     /// <summary>
-    /// Classes added to main div of component.
+    /// Classes added to main div of the component.
     /// </summary>
     protected virtual string Classname =>
         new CssBuilder("mud-calendar")
@@ -520,7 +522,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
             .Build();
 
     /// <summary>
-    /// Styles added to main div of component.
+    /// Styles added to main div of the component.
     /// </summary>
     protected virtual string Styles =>
         new StyleBuilder("min-height", $"{Height}px")
@@ -585,7 +587,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     {
         base.OnParametersSet();
         
-        // Ensure that current view is allowed
+        // Ensure that the current view is allowed
         if ((View == CalendarView.Day && !ShowDay)
             || (View == CalendarView.Week && !ShowWeek)
             || (View == CalendarView.WorkWeek && !ShowWorkWeek)
@@ -721,12 +723,12 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
 
     private async Task SetLinks()
     {
-        // Check if link is already set
+        // Check if the link is already set
         _jsService ??= new JsService(JsRuntime);
         var head = await _jsService.GetHeadContent();
         if (!string.IsNullOrEmpty(head) && head.Contains("Heron.MudCalendar.min.css")) return;
 
-        // Add link
+        // Add the link
         _jsService.OnLinkLoaded += (_, _) => Refresh();
         await _jsService.AddLink("_content/Heron.MudCalendar/Heron.MudCalendar.min.css", "stylesheet");
     }

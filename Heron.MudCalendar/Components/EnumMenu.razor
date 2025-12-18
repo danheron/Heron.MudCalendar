@@ -8,10 +8,10 @@
         {
             if (AllowedValues == null || AllowedValues.Contains((T)Enum.ToObject(Type, value)))
             {
-                <MudMenuItem OnClick="() => ButtonClicked((T)Enum.ToObject(Type, value))">
+                <MudMenuItem OnClick="@(_ => ButtonClicked((T)Enum.ToObject(Type, value)))">
                     @if (typeof(T) == typeof(CalendarView))
                     {
-                        // Bit of a hack has generic types don't work with StringLocalizer
+                        // A bit of a hack has generic types don't work with StringLocalizer
                         @CalendarViewName.GetText((CalendarView)Enum.ToObject(Type, value))
                     }
                     else

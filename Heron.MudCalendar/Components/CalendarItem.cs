@@ -1,5 +1,3 @@
-using static MudBlazor.Colors;
-
 namespace Heron.MudCalendar;
 
 public class CalendarItem
