@@ -495,6 +495,26 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     }
 
     /// <summary>
+    /// Sets the date picker's minimum date.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public DateTime? PickerMinDate { get; set; }
+
+    /// <summary>
+    /// Sets the date picker's maximum date.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public DateTime? PickerMaxDate { get; set; }
+
+    /// <summary>
     /// The dates that are currently visible in the Calendar.
     /// </summary>
     public CalendarDateRange? CurrentDateRange { get; private set; }

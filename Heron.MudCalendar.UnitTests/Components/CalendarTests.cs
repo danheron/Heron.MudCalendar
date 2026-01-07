@@ -642,4 +642,18 @@ public class CalendarTests : BunitTest
         event6.Attributes["style"].Should().NotBeNull();
         event6.Attributes["style"]?.Value.Should().Contain("height:50");
     }
+
+    [Test]
+    public void MinMaxPickerDateTest()
+    {
+        var cut = Context.RenderComponent<CalendarMinMaxPickerDateTest>();
+        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
+        var picker = cut.FindComponent<MudDatePicker>();
+
+        // Check that the date picker's min date is 1/1/2024
+        picker.Instance.MinDate.Should().Be(new DateTime(2024, 1, 1));
+
+        // Check that the date picker's max date is 12/31/2026
+        picker.Instance.MaxDate.Should().Be(new DateTime(2026, 12, 31));
+    }
 }
