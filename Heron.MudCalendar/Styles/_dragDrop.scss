@@ -9,12 +9,6 @@
         opacity: 1;
     }
 
-/* Week and day view items are positioned by Blazor, so show immediately */
-.mud-cal-week-view .mud-cal-drop-item,
-.mud-cal-day-view .mud-cal-drop-item {
-    opacity: 1;
-}
-
 .mud-cal-drop-item .mud-drop-item {
   height: 100%;
   border: none;
