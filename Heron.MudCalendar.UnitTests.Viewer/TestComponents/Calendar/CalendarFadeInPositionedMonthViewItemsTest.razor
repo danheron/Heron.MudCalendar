@@ -19,8 +19,7 @@
             var numEvents = rnd.Next(3, 6);
 
             _events.AddRange(GenerateEvents(numEvents, monthDate));
-        }
-        ;
+        }        
     }
 
     private IEnumerable<CalendarItem> GenerateEvents(int numEvents, DateTime date)
