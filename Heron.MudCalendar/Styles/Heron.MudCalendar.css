@@ -282,13 +282,14 @@
   cursor: inherit;
 }
 
-.mud-cal-drop-item {
+/* All month view items are initially hidden */
+.mud-cal-month-view .mud-cal-drop-item {
   opacity: 0;
   transition: opacity 0.05s ease-out;
 }
 
 /* Visible month view items fade in after JavaScript positions them to avoid flicker */
-.mud-cal-drop-item.mud-cal-positioned {
+.mud-cal-month-view .mud-cal-drop-item.mud-cal-positioned {
   opacity: 1;
 }
 
