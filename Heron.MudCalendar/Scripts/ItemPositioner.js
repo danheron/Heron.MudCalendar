@@ -97,6 +97,7 @@ export function positionMonthItems(element, moreText, fixedHeight, obj) {
             else
             {
                 position.Item.style.top = position.Top + "px";
+                position.Item.classList.add("mud-cal-positioned"); // Fade in visible items
             }
         });
     });

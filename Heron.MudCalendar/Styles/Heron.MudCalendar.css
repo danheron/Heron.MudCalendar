@@ -283,7 +283,19 @@
 }
 
 .mud-cal-drop-item {
-  transition: none;
+  opacity: 0;
+  transition: opacity 0.05s ease-out;
+}
+
+/* Visible month view items fade in after JavaScript positions them to avoid flicker */
+.mud-cal-drop-item.mud-cal-positioned {
+  opacity: 1;
+}
+
+/* Week and day view items are positioned by Blazor, so show immediately */
+.mud-cal-week-view .mud-cal-drop-item,
+.mud-cal-day-view .mud-cal-drop-item {
+  opacity: 1;
 }
 
 .mud-cal-drop-item .mud-drop-item {
