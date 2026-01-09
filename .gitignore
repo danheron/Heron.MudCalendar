@@ -404,3 +404,4 @@ FodyWeavers.xsd
 **/Heron.MudCalendar.min.js
 **/Heron.MudCalendar.js
 Heron.MudCalendar.Docs/NewFilesToBuild.txt
+/Heron.MudCalendar/Styles/Heron.MudCalendar.css
