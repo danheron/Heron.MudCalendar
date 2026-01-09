@@ -35,7 +35,10 @@ export function positionMonthItems(element, moreText, fixedHeight, obj) {
         container.querySelectorAll(".mud-cal-drop-item").forEach(function(item) {
             // Remove any overflow messages
             item.classList.remove("mud-cal-overflow-hidden");
-            
+
+            // Reset visibility on recalculation
+            item.classList.remove("mud-cal-positioned"); 
+
             // Create the new position object
             const position = new ItemPosition();
             position.Item = item;
