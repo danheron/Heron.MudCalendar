@@ -530,6 +530,8 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     // ReSharper disable once StaticMemberInGenericType
     private static string? _todayText;
 
+    internal bool Dragging;
+
     /// <summary>
     /// Classes added to main div of the component.
     /// </summary>
