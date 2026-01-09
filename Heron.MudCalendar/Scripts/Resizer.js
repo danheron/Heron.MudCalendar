@@ -34,12 +34,14 @@ export class Resizer {
             this._intervalSize = this._container.clientWidth / this._cellCount;
             this._startSize = this._item.clientWidth;
             this._startPos = e.clientX;
+            this._position = e.clientX;
         }
         else
         {
             this._intervalSize = this._container.clientHeight / this._cellCount;
             this._startSize = this._item.clientHeight;
-            this._startPos = e.clientY;   
+            this._startPos = e.clientY;
+            this._position = e.clientY;
         }
         
         document.addEventListener("mouseup", this.onMouseUp);
