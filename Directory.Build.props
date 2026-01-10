@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <!-- Request MSBuild to use a single node for parallel project builds -->
+	<!-- This prevents file locked errors when building for multiple dotnet sdks at the same time -->
+    <MaxCpuCount>1</MaxCpuCount>
+
+    <!-- Defensive flags to further reduce parallel builds in some hosts -->
+    <BuildInParallel>false</BuildInParallel>
+    <DisableParallelBuild>true</DisableParallelBuild>
+  </PropertyGroup>
+</Project>
