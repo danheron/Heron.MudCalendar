@@ -253,6 +253,30 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     }
 
     /// <summary>
+    /// Method invoked when the user right-clicks on the calendar item.
+    /// </summary>
+    /// <param name="mouseEventArgs">The mouse event args.</param>
+    /// <param name="item">The calendar item that was clicked.</param>
+    /// <returns></returns>
+    protected virtual async Task OnItemContextMenuClicked(MouseEventArgs mouseEventArgs, T item)
+    {
+        if (AllowItemContextMenuClick(item))
+        {
+            await Calendar.ItemContextMenuClicked.InvokeAsync(new CalendarItemClickEventArgs<T>(mouseEventArgs, item));
+        }
+    }
+
+    /// <summary>
+    /// Determines if the right-click event is allowed on an item.
+    /// </summary>
+    /// <param name="item">The calendar item that was clicked.</param>
+    /// <returns><c>true</c> if the item can be right-clicked.</returns>
+    protected virtual bool AllowItemContextMenuClick(T item)
+    {
+        return Calendar.ItemContextMenuClicked.HasDelegate;
+    }
+
+    /// <summary>
     /// Creates a string with the time to be displayed.
     /// </summary>
     /// <param name="row">The current row in the table.</param>

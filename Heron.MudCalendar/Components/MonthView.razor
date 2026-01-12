@@ -167,7 +167,22 @@
     /// </summary>
     protected virtual RenderFragment RenderTemplate(T item) => __builder =>
     {
-        @if (Calendar.ItemClicked.HasDelegate)
+        @if (Calendar.ItemClicked.HasDelegate && Calendar.ItemContextMenuClicked.HasDelegate)
+        {
+            <div @onclick="() => OnItemClicked(item)" @onclick:stopPropagation="true" 
+                 @oncontextmenu="@(mouseEventArgs => OnItemContextMenuClicked(mouseEventArgs, item))" @oncontextmenu:preventDefault
+                 class="mud-cal-clickable">
+                @CellTemplate(item)
+            </div>
+        }
+        else if (Calendar.ItemContextMenuClicked.HasDelegate)
+        {
+            <div @oncontextmenu="@(mouseEventArgs => OnItemContextMenuClicked(mouseEventArgs, item))" @oncontextmenu:preventDefault
+                 class="mud-cal-clickable">
+                @CellTemplate(item)
+            </div>
+        }
+        else if (Calendar.ItemClicked.HasDelegate)
         {
             <div @onclick="() => OnItemClicked(item)" @onclick:stopPropagation="true" class="mud-cal-clickable">
                 @CellTemplate(item)

@@ -232,6 +232,30 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
         return Calendar.ItemClicked.InvokeAsync(item);
     }
 
+    /// <summary>
+    /// Method invoked when the user right-clicks on the calendar item.
+    /// </summary>
+    /// <param name="mouseEventArgs">The mouse event args.</param>
+    /// <param name="item">The calendar item that was clicked.</param>
+    /// <returns></returns>
+    protected virtual async Task OnItemContextMenuClicked(MouseEventArgs mouseEventArgs, T item)
+    {
+        if (AllowItemContextMenuClick(item))
+        {
+            await Calendar.ItemContextMenuClicked.InvokeAsync(new CalendarItemClickEventArgs<T>(mouseEventArgs, item));
+        }
+    }
+
+    /// <summary>
+    /// Determines if the right-click event is allowed on an item.
+    /// </summary>
+    /// <param name="item">The calendar item that was clicked.</param>
+    /// <returns><c>true</c> if the item can be right-clicked.</returns>
+    protected virtual bool AllowItemContextMenuClick(T item)
+    {
+        return Calendar.ItemContextMenuClicked.HasDelegate;
+    }
+
     protected Task ItemWidthChanged(T item, int days, CalendarCell<T> currentCell)
     {
         var dates = (item.Start, item.End);
