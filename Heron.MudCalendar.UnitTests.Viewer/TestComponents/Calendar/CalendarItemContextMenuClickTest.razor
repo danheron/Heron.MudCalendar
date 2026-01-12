@@ -1,24 +1,18 @@
-<MudPopoverProvider />
+<MudCalendar Items="_events" 
+             T="CalendarItem" 
+             CellContextMenuClicked="OnCellContextMenuClicked"
+             ItemContextMenuClicked="OnItemContextMenuClicked" 
+             DayTimeInterval="CalendarTimeInterval.Minutes60" 
+             Class="mb-8" />
 
-<MudCalendar Items="_events" T="CalendarItem" ItemContextMenuClicked="OnItemContextMenuClicked" DayTimeInterval="CalendarTimeInterval.Minutes60" />
-
-<MudMenu @ref="_contextMenu">
-    <MudMenuItem Icon="@MudBlazor.Icons.Material.Outlined.EditCalendar" OnClick="OnEditItemClicked">Edit Item</MudMenuItem>
-    <MudMenuItem Icon="@MudBlazor.Icons.Material.Outlined.Delete" OnClick="OnDeleteItemClicked">Delete Item</MudMenuItem>
-</MudMenu>
-
-<MudPopover @bind-Open="@_openPopup" Fixed="true" Class="px-4 pt-4" lo>
-    <div class="d-flex flex-column">
-        <MudText>Edit @_contextItem.Text clicked</MudText>
-    </div>
-</MudPopover>
+<MudTextField Value="_contextDate?.ToShortDateString()" Label="Cell Date" ReadOnly="true" ShrinkLabel="true" Class="mb-3" />
+<MudTextField Value="_contextItem?.Text" Label="Item Text" ReadOnly="true" ShrinkLabel="true" Class="mb-3" />
 
 @code {
     public static string __description__ = "Item Context Menu Click Test";
 
-    private MudMenu _contextMenu;
     private CalendarItem _contextItem;
-    private bool _openPopup;
+    private DateTime? _contextDate;
 
     private List<CalendarItem> _events = new()
     {
@@ -33,16 +27,22 @@
             Start = DateTime.Today.AddHours(10),
             End = DateTime.Today.AddHours(11),
             Text = "Event 2"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddDays(2).AddHours(11),
+            End = DateTime.Today.AddDays(2).AddHours(12),
+            Text = "Event 3"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddDays(2).AddHours(12),
+            End = DateTime.Today.AddDays(2).AddHours(13),
+            Text = "Event 4"
         }
     };
 
-    private async Task OnItemContextMenuClicked(CalendarItemClickEventArgs<CalendarItem> args)
-    {
-        _contextItem = args.Item;
-        await _contextMenu.OpenMenuAsync(args.MouseEventArgs);
-    }
+    private void OnCellContextMenuClicked(CalendarClickEventArgs args) => _contextDate = args.DateTime;
 
-    private void OnEditItemClicked() => _openPopup = true;
-
-    private void OnDeleteItemClicked() => _events.Remove(_contextItem);
+    private void OnItemContextMenuClicked(CalendarItemClickEventArgs<CalendarItem> args) => _contextItem = args.Item;
 }
