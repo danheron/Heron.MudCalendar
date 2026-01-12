@@ -1,6 +1,13 @@
-.mud-cal-drop-item {
-  transition: none;
+/* Initially hide all month view items */
+.mud-cal-month-view .mud-cal-drop-item {
+    opacity: 0;
+    transition: opacity 0.05s ease-out;
 }
+
+    /* Fade visible month view items in after JavaScript positions them */
+    .mud-cal-month-view .mud-cal-drop-item.mud-cal-positioned {
+        opacity: 1;
+    }
 
 .mud-cal-drop-item .mud-drop-item {
   height: 100%;

@@ -1,0 +1,45 @@
+<MudCalendar T="CalendarItem" Items="_events" Height="630" MonthCellMinHeight="@(_fixed ? 0 : 115)">
+    <MonthTemplate>
+        <div class="d-flex gap-1">
+            <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Secondary" Size="Size.Small" />
+            <div>@context.Text</div>
+        </div>
+    </MonthTemplate>
+</MudCalendar>
+
+<MudSwitch class="mt-4" @bind-Value="@_fixed" Color="Color.Primary" T="bool">Fixed Height</MudSwitch>
+
+@code {
+    public static string __description__ = "Calendar Fade-In Positioned Month View Items Test";
+
+    private List<CalendarItem> _events = new();
+    private bool _fixed = true;
+
+    protected override void OnInitialized()
+    {
+        var today = DateTime.Today;
+        var firstOfMonth = new DateTime(today.Year, today.Month, 1);
+        var rnd = new Random();
+
+        for (int i = 0; i < 28; i = i + 2)
+        {
+            var monthDate = firstOfMonth.AddDays(i);
+            var numEvents = rnd.Next(3, 6);
+
+            _events.AddRange(GenerateEvents(numEvents, monthDate));
+        }        
+    }
+
+    private IEnumerable<CalendarItem> GenerateEvents(int numEvents, DateTime date)
+    {
+        for (int i = 0; i < numEvents; i++)
+        {
+            yield return new CalendarItem
+            {
+                Start = date.AddHours(i),
+                End = date.AddHours(i + 1),
+                Text = $"Event {i + 1}"
+            };
+        }
+    }
+}

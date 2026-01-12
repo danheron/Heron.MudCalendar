@@ -35,7 +35,10 @@ export function positionMonthItems(element, moreText, fixedHeight, obj) {
         container.querySelectorAll(".mud-cal-drop-item").forEach(function(item) {
             // Remove any overflow messages
             item.classList.remove("mud-cal-overflow-hidden");
-            
+
+            // Reset visibility on recalculation
+            item.classList.remove("mud-cal-positioned"); 
+
             // Create the new position object
             const position = new ItemPosition();
             position.Item = item;
@@ -97,6 +100,7 @@ export function positionMonthItems(element, moreText, fixedHeight, obj) {
             else
             {
                 position.Item.style.top = position.Top + "px";
+                position.Item.classList.add("mud-cal-positioned"); // Fade in visible items
             }
         });
     });
