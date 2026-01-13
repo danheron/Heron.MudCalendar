@@ -657,25 +657,24 @@ public class CalendarTests : BunitTest
         picker.Instance.MaxDate.Should().Be(new DateTime(2026, 12, 31));
     }
 
-    [Test]
-    public void ItemContextMenuClickedTest()
+    [TestCase(CalendarView.Month)]
+    [TestCase(CalendarView.Week)]
+    [TestCase(CalendarView.Day)]
+    public void ItemContextMenuClickedTest(CalendarView calendarView)
     {
         var cut = Context.RenderComponent<CalendarItemContextMenuClickTest>();
         var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
         var itemTextField = cut.FindComponents<MudTextField<string>>()[1];
 
-        // Month View
-        comp.Find("div.mud-cal-cell-template").ContextMenu();
-        itemTextField.Instance.Text.Should().Be("Event 1");
+        // Set the view
+        comp.SetParam(x => x.View, calendarView);
 
-        // Week View
-        comp.SetParam(x => x.View, CalendarView.Week);
+        // Before context menu click, the item text field should be empty
+        itemTextField.Instance.Text.Should().BeEmpty();
         comp.Find("div.mud-cal-cell-template").ContextMenu();
-        itemTextField.Instance.Text.Should().Be("Event 1");
 
-        // Day View
-        comp.SetParam(x => x.View, CalendarView.Day);
-        comp.Find("div.mud-cal-cell-template").ContextMenu();
+        // After context menu click, the item text field should
+        // contain the first event's Text value
         itemTextField.Instance.Text.Should().Be("Event 1");
     }
 }
