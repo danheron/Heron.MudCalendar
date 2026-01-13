@@ -427,7 +427,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Category(CategoryTypes.Calendar.Behavior)]
     public RenderFragment? ToolbarContent { get; set; }
 
-    private DateTime? PickerDate
+    private DateTime? DatePickerDate
     {
         get => CurrentDay;
         set => CurrentDay = value ?? DateTime.Today;
@@ -441,7 +441,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
-    public DateTime? PickerMinDate { get; set; }
+    public DateTime? DatePickerMinDate { get; set; }
 
     /// <summary>
     /// Sets the date picker's maximum date.
@@ -451,7 +451,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
-    public DateTime? PickerMaxDate { get; set; }
+    public DateTime? DatePickerMaxDate { get; set; }
 
     /// <summary>
     /// The data to display in the Calendar.
@@ -766,7 +766,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
         var newDate = dateTime;
         var oldDate = CurrentDay;
         
-        PickerDate = dateTime;
+        DatePickerDate = dateTime;
         
         // If month view then set day of month to currently selected day of month
         var calendar = Culture.Calendar;

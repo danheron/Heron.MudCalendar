@@ -70,7 +70,7 @@
                     }
                     @if (ShowDatePicker)
                     {
-                        <CalendarDatePicker Culture="@Culture" @ref="_datePicker" OpenTo="@(View == CalendarView.Month ? OpenTo.Month : OpenTo.Date)" FirstDayOfWeek="@GetFirstDayOfWeekByCalendarView(View)" FixDay="@(View == CalendarView.Month ? 1 : null)" Date="PickerDate" DateChanged="DatePickerDateChanged" MinDate="PickerMinDate" MaxDate="PickerMaxDate" View="View" Variant="ButtonVariant" Color="Color" PickerOpened="OnDatePickerOpened"/>
+                        <CalendarDatePicker Culture="@Culture" @ref="_datePicker" OpenTo="@(View == CalendarView.Month ? OpenTo.Month : OpenTo.Date)" FirstDayOfWeek="@GetFirstDayOfWeekByCalendarView(View)" FixDay="@(View == CalendarView.Month ? 1 : null)" Date="DatePickerDate" DateChanged="DatePickerDateChanged" MinDate="DatePickerMinDate" MaxDate="DatePickerMaxDate" View="View" Variant="ButtonVariant" Color="Color" PickerOpened="OnDatePickerOpened"/>
                     }
                     @if (ShowTodayButton)
                     {
