@@ -656,4 +656,25 @@ public class CalendarTests : BunitTest
         // Check that the date picker's max date is 12/31/2026
         picker.Instance.MaxDate.Should().Be(new DateTime(2026, 12, 31));
     }
+
+    [TestCase(CalendarView.Month)]
+    [TestCase(CalendarView.Week)]
+    [TestCase(CalendarView.Day)]
+    public void ItemContextMenuClickedTest(CalendarView calendarView)
+    {
+        var cut = Context.RenderComponent<CalendarItemContextMenuClickTest>();
+        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
+        var itemTextField = cut.FindComponents<MudTextField<string>>()[1];
+
+        // Set the view
+        comp.SetParam(x => x.View, calendarView);
+
+        // Before context menu click, the item text field should be empty
+        itemTextField.Instance.Text.Should().BeNull();
+        comp.Find("div.mud-cal-cell-template").ContextMenu();
+
+        // After context menu click, the item text field should
+        // contain the first event's Text value
+        itemTextField.Instance.Text.Should().Be("Event 1");
+    }
 }

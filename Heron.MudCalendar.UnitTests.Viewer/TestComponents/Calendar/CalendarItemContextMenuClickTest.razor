@@ -1,0 +1,50 @@
+<MudPopoverProvider />
+
+<MudCalendar Items="_events" 
+             T="CalendarItem" 
+             CellContextMenuClicked="OnCellContextMenuClicked"
+             ItemContextMenuClicked="OnItemContextMenuClicked" 
+             DayTimeInterval="CalendarTimeInterval.Minutes60" 
+             Class="mb-8" />
+
+<MudTextField Value="_contextDate?.ToShortDateString()" Label="Cell Date" ReadOnly="true" ShrinkLabel="true" Class="mb-3" />
+<MudTextField Value="_contextItem?.Text" Label="Item Text" ReadOnly="true" ShrinkLabel="true" Class="mb-3" />
+
+@code {
+    public static string __description__ = "Item Context Menu Click Test";
+
+    private CalendarItem _contextItem;
+    private DateTime? _contextDate;
+
+    private List<CalendarItem> _events = new()
+    {
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(9),
+            End = DateTime.Today.AddHours(10),
+            Text = "Event 1"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(10),
+            End = DateTime.Today.AddHours(11),
+            Text = "Event 2"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddDays(2).AddHours(11),
+            End = DateTime.Today.AddDays(2).AddHours(12),
+            Text = "Event 3"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddDays(2).AddHours(12),
+            End = DateTime.Today.AddDays(2).AddHours(13),
+            Text = "Event 4"
+        }
+    };
+
+    private void OnCellContextMenuClicked(CalendarClickEventArgs args) => _contextDate = args.DateTime;
+
+    private void OnItemContextMenuClicked(CalendarItemClickEventArgs<CalendarItem> args) => _contextItem = args.Item;
+}

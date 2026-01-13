@@ -507,6 +507,12 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     /// </summary>
     [Parameter]
     public EventCallback<T> ItemClicked { get; set; }
+
+    /// <summary>
+    /// Called when a CalendarItem is right-clicked.
+    /// </summary>
+    [Parameter]
+    public EventCallback<CalendarItemClickEventArgs<T>> ItemContextMenuClicked { get; set; }
     
     /// <summary>
     /// Called when the '+x more' label is clicked in the month view.
