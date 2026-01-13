@@ -670,7 +670,7 @@ public class CalendarTests : BunitTest
         comp.SetParam(x => x.View, calendarView);
 
         // Before context menu click, the item text field should be empty
-        itemTextField.Instance.Text.Should().BeEmpty();
+        itemTextField.Instance.Text.Should().BeNull();
         comp.Find("div.mud-cal-cell-template").ContextMenu();
 
         // After context menu click, the item text field should
