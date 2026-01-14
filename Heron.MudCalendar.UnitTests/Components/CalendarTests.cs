@@ -646,8 +646,7 @@ public class CalendarTests : BunitTest
     [Test]
     public void MinMaxPickerDateTest()
     {
-        var cut = Context.RenderComponent<CalendarMinMaxPickerDateTest>();
-        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
+        var cut = Context.RenderComponent<CalendarMinMaxDatePickerDateTest>();
         var picker = cut.FindComponent<MudDatePicker>();
 
         // Check that the date picker's min date is 1/1/2024
