@@ -135,9 +135,18 @@
             {
                 if (position.Item.Start.Date == currentCell.Date.Date)
                 {
-                    <WeekDropZone T="T" Position="position" Style="@EventStyle(position)" @key="position.Item.Id">
-                        @RenderResizer(position, currentCell)
-                    </WeekDropZone>
+                    <WeekDragItem T="T" 
+                                  Position="position" 
+                                  Style="@EventStyle(position)" 
+                                  Disabled="@(!Calendar.EnableDragItems || (Calendar.CanDragItem != null && !Calendar.CanDragItem(position.Item)))" 
+                                  @key="position.Item.Id">
+                        <ChildContent>
+                            @RenderTemplate(position.Item)
+                        </ChildContent>
+                        <ResizerContent>
+                            @RenderResizer(position, currentCell)
+                        </ResizerContent>
+                    </WeekDragItem>
                 }
                 else
                 {

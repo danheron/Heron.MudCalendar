@@ -152,7 +152,11 @@
         {
             if (position.Item.Start.Date == cell.Date.Date)
             {
-                <WeekDragItem T="T" Position="position" Style="@EventStyle(position)" @key="position.Item.Id">
+                <WeekDragItem T="T" 
+                              Position="position" 
+                              Style="@EventStyle(position)" 
+                              Disabled="@(!Calendar.EnableDragItems || (Calendar.CanDragItem != null && !Calendar.CanDragItem(position.Item)))" 
+                              @key="position.Item.Id">
                     <ChildContent>
                         @RenderTemplate(position.Item)
                     </ChildContent>

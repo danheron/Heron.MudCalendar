@@ -10,7 +10,7 @@ public partial class WeekDragItem<[DynamicallyAccessedMembers(DynamicallyAccesse
     [CascadingParameter]
     public MudCalendar<T> Calendar { get; set; } = new();
     
-    private string _id = Guid.NewGuid().ToString();
+    private readonly string _id = Guid.NewGuid().ToString();
 
     private JsService? _jsService;
     
@@ -25,6 +25,9 @@ public partial class WeekDragItem<[DynamicallyAccessedMembers(DynamicallyAccesse
     
     [Parameter]
     public string? Style { get; set; }
+    
+    [Parameter]
+    public bool Disabled { get; set; }
 
     private string Classname =>
         new CssBuilder("mud-cal-drop-item")

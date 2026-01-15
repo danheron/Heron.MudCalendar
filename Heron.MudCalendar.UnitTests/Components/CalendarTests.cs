@@ -1,5 +1,4 @@
 using System;
-using AngleSharp.Dom;
 using FluentAssertions;
 using Heron.MudCalendar.UnitTests.Viewer.TestComponents.Calendar;
 using MudBlazor;
@@ -468,7 +467,7 @@ public class CalendarTests : BunitTest
         event2.Attributes["style"]?.Value.Should().Contain("left:33");
         event2.Attributes["style"]?.Value.Should().Contain("width:33");
         
-        // Make sure no error thrown on the event ending at midnight when go to next day
+        // Make sure no error thrown on the event ending at midnight when go to the next day
         comp.FindAll("button.mud-icon-button")[1].Click();
         
         var event16 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-drop-item")[0];
@@ -597,10 +596,10 @@ public class CalendarTests : BunitTest
         var cut = Context.RenderComponent<CalendarTimeIntervalTest>();
         var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
         
-        // Check 24-hour clock
+        // Check the 24-hour clock
         comp.FindAll("div.mud-cal-time-cell")[18].TextContent.Trim().Should().Be("18:00");
 
-        // Check 12-hour clock
+        // Check the 12-hour clock
         comp.SetParam(x => x.Use24HourClock, false);
         comp.FindAll("div.mud-cal-time-cell")[18].TextContent.Trim().ToLower().Should().Be("6 pm");
     }
@@ -611,7 +610,7 @@ public class CalendarTests : BunitTest
         var cut = Context.RenderComponent<CalendarCurrentDayTest>();
         var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
         
-        // Check that current month is Feb 2024
+        // Check that the current month is Feb 2024
         comp.FindAll(".mud-drop-zone")[0].Attributes["identifier"]!.TextContent.Should().Be("29/01/2024");
     }
 
@@ -685,5 +684,30 @@ public class CalendarTests : BunitTest
         
         // Check the first time that is shown
         comp.FindAll("div.mud-cal-time-cell")[0].TextContent.Trim().Should().Be("07:00");
+    }
+
+    [Test]
+    public void DragEnabledTest()
+    {
+        var cut = Context.RenderComponent<CalendarTest>();
+        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
+        
+        // Month View - Drag should not be enabled
+        comp.FindAll("div.mud-cal-drop-item .mud-drop-item[draggable=false]").Count.Should().BeGreaterOrEqualTo(1);
+        
+        // Day View - Drag should not be enabled
+        comp.SetParam(x => x.View, CalendarView.Day);
+        comp.FindAll("div.mud-cal-drop-item .mud-drop-item[draggable=false]").Count.Should().Be(1);
+        
+        // Enable dragging
+        comp.SetParam(x => x.EnableDragItems, true);
+        
+        // Month View - Drag should be enabled
+        comp.SetParam(x => x.View, CalendarView.Month);
+        comp.FindAll("div.mud-cal-drop-item .mud-drop-item[draggable=true]").Count.Should().BeGreaterOrEqualTo(1);
+        
+        // Day View - Drag should be enabled
+        comp.SetParam(x => x.View, CalendarView.Day);
+        comp.FindAll("div.mud-cal-drop-item .mud-drop-item[draggable=true]").Count.Should().Be(1);
     }
 }

@@ -14,7 +14,8 @@
   border: none;
 }
 
-.mud-cal-drop-item .mud-drop-item.disabled {
+.mud-cal-drop-item .mud-drop-item.disabled,
+.mud-cal-drop-item .mud-drop-item[draggable=false] {
   cursor: inherit;
 }
 
