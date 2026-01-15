@@ -115,7 +115,7 @@
         {
             var row = i;
             <MudDropZone T="T" OnlyZone="true" Style="@CellHeightStyle()" Identifier="@string.Concat(cell.Date.Date.ToString("d"), "_", row.ToString())"
-                         CanDrop="@(item => Calendar.CanDropItem == null || Calendar.CanDropItem(item, cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval), View))">
+                         CanDrop="@(item => Calendar.CanDropItem == null || Calendar.CanDropItem(item, cell.Date.AddMinutes((row + InvisibleRows) * (int)Calendar.DayTimeInterval), View))">
                 @if (AllowCellLinkClick(cell, row) && AllowCellLinkContextMenuClick(cell, row))
                 {
                     <a @onclick="() => OnCellLinkClicked(cell, row)" @onclick:preventDefault

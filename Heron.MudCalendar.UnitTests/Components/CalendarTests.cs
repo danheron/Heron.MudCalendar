@@ -676,4 +676,14 @@ public class CalendarTests : BunitTest
         // contain the first event's Text value
         itemTextField.Instance.Text.Should().Be("Event 1");
     }
+    
+    [Test]
+    public void VisibleTimes()
+    {
+        var cut = Context.RenderComponent<CalendarVisibleTimeTest>();
+        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
+        
+        // Check the first time that is shown
+        comp.FindAll("div.mud-cal-time-cell")[0].TextContent.Trim().Should().Be("07:00");
+    }
 }
