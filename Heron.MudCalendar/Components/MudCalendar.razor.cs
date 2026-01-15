@@ -250,6 +250,26 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public TimeOnly DayStartTime { get; set; } = new(8, 0);
+    
+    /// <summary>
+    /// The earliest time that is shown in week/day views.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public TimeOnly? MinVisibleTime { get; set; }
+    
+    /// <summary>
+    /// The latest time that is shown in week/day views.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public TimeOnly? MaxVisibleTime { get; set; }
 
     /// <summary>
     /// Set the time interval of cells in day and week view.

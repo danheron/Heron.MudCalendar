@@ -9,12 +9,11 @@ using EnumExtensions = Heron.MudCalendar.Extensions.EnumExtensions;
 
 namespace Heron.MudCalendar;
 
-public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : CalendarViewBase<T>, IDisposable where T:CalendarItem
+public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : CalendarViewBase<T>, IDisposable where T : CalendarItem
 {
     private ElementReference _scrollDiv;
     private JsService? _jsService;
 
-    private const int MinutesInDay = 24 * 60;
     private int PixelsInCell => Calendar.DayCellHeight;
 
     private int CellsInDay => MinutesInDay / (int)Calendar.DayTimeInterval;
@@ -48,12 +47,24 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
         }
     }
 
-    
-
     protected virtual bool IsSelectable(CalendarCell<T> cell, int row)
     {
-        var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
+        var date = cell.Date.AddMinutes((row + InvisibleRows) * (int)Calendar.DayTimeInterval);
         return (Calendar.IsDateTimeDisabledFunc == null || !Calendar.IsDateTimeDisabledFunc(date, View));
+    }
+
+    protected int MinutesInDay => (int)Math.Round((LastTime - FirstTime).TotalMinutes);
+    protected int InvisibleRows => (int)(FirstTime.ToTimeSpan().TotalMinutes / (int)Calendar.DayTimeInterval);
+    protected int InvisibleMinutes => (int)FirstTime.ToTimeSpan().TotalMinutes;
+    
+    private TimeOnly FirstTime => RoundTimeToInterval(Calendar.MinVisibleTime ?? new TimeOnly());
+    private TimeOnly LastTime => RoundTimeToInterval(Calendar.MaxVisibleTime ?? TimeOnly.MaxValue);
+
+    private TimeOnly RoundTimeToInterval(TimeOnly time)
+    {
+        var minutes = time.ToTimeSpan().TotalMinutes;
+        var closestMinute = Math.Round(minutes / (int)Calendar.DayTimeInterval) * (int)Calendar.DayTimeInterval;
+        return closestMinute >= 1440 ? TimeOnly.MaxValue : TimeOnly.FromTimeSpan(TimeSpan.FromMinutes(closestMinute));
     }
 
     /// <summary>
@@ -140,7 +151,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     {
         return new CssBuilder()
             .AddClass("mud-cal-week-cell")
-            .AddClass(Calendar.AdditionalDateTimeClassesFunc?.Invoke(cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval), View))
+            .AddClass(Calendar.AdditionalDateTimeClassesFunc?.Invoke(cell.Date.AddMinutes((row + InvisibleRows) * (int)Calendar.DayTimeInterval), View))
             .AddClass("mud-cal-week-cell-half", !IsHourCell(row))
             .AddClass("mud-cal-week-not-today", !cell.Today || !Calendar.HighlightToday)
             .Build();
@@ -181,7 +192,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     {
         if (AllowCellLinkClick(cell, row))
         {
-            var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
+            var date = cell.Date.AddMinutes((row + InvisibleRows) * (int)Calendar.DayTimeInterval);
             await Calendar.CellClicked.InvokeAsync(date);
         }
     }
@@ -194,7 +205,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     /// <returns><c>true</c> if the cell can be clicked.</returns>
     protected virtual bool AllowCellLinkClick(CalendarCell<T> cell, int row)
     {
-        var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
+        var date = cell.Date.AddMinutes((row + InvisibleRows) * (int)Calendar.DayTimeInterval);
         return (Calendar.CellClicked.HasDelegate || Calendar.CellRangeSelected.HasDelegate) && (Calendar.IsDateTimeDisabledFunc == null || !Calendar.IsDateTimeDisabledFunc(date, View));
     }
 
@@ -225,7 +236,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     {
         if (AllowCellLinkContextMenuClick(cell, row))
         {
-            var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
+            var date = cell.Date.AddMinutes((row + InvisibleRows) * (int)Calendar.DayTimeInterval);
             await Calendar.CellContextMenuClicked.InvokeAsync(new CalendarClickEventArgs(mouseEventArgs,date));
         }
     }
@@ -238,7 +249,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     /// <returns><c>true</c> if the cell can be clicked.</returns>
     protected virtual bool AllowCellLinkContextMenuClick(CalendarCell<T> cell, int row)
     {
-        var date = cell.Date.AddMinutes(row * (int)Calendar.DayTimeInterval);
+        var date = cell.Date.AddMinutes((row + InvisibleRows) * (int)Calendar.DayTimeInterval);
         return Calendar.CellContextMenuClicked.HasDelegate && (Calendar.IsDateTimeDisabledFunc == null || !Calendar.IsDateTimeDisabledFunc(date, View));
     }
 
@@ -283,7 +294,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     /// <returns></returns>
     protected virtual string DrawTime(int row)
     {
-        var hour = row / (60.0 / (double)Calendar.DayTimeInterval);
+        var hour = (row + InvisibleRows) / (60.0 / (double)Calendar.DayTimeInterval);
         var timeSpan = TimeSpan.FromHours(hour);
         var time = TimeOnly.FromTimeSpan(timeSpan);
 
@@ -297,9 +308,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     protected int TimelineRow()
     {
         var minutes = DateTime.Now.Subtract(DateTime.Today).TotalMinutes;
-        var row = (int)Math.Floor(minutes / (int)Calendar.DayTimeInterval);
-
-        return row;
+        return (int)Math.Floor(minutes / (int)Calendar.DayTimeInterval) - InvisibleRows;
     }
     
     /// <summary>
@@ -322,7 +331,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
     private double TimelinePosition()
     {
         var minutes = DateTime.Now.Subtract(DateTime.Today).TotalMinutes -
-                      (TimelineRow() * (int)Calendar.DayTimeInterval);
+                      (TimelineRow() + InvisibleRows) * (int)Calendar.DayTimeInterval;
         var position = (minutes / (int)Calendar.DayTimeInterval) * Calendar.DayCellHeight;
 
         return position;
@@ -336,7 +345,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
             minutes = position.Item.Start.Hour * 60 + position.Item.Start.Minute;
         }
 
-        var percent = minutes / MinutesInDay;
+        var percent = (minutes - InvisibleMinutes) / MinutesInDay;
         var top = PixelsInDay * percent;
 
         return (int)Math.Round(top);
@@ -349,6 +358,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
         {
             start = position.Item.Start.Hour * 60 + position.Item.Start.Minute;
         }
+        start -= InvisibleMinutes;
 
         var end = start + 60;
         if (position.Item.End.HasValue)
@@ -359,6 +369,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
                 end = position.Item.End.Value.Hour * 60 + position.Item.End.Value.Minute;
             }
         }
+        end -= InvisibleMinutes;
 
         if (end > MinutesInDay) end = MinutesInDay;
         var minutes = end - start;
@@ -388,7 +399,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
         {
             startMinutes = (Calendar.DayStartTime.Hour * 60) + Calendar.DayStartTime.Minute;
         }
-        var percent = (double)startMinutes / MinutesInDay;
+        var percent = (double)(startMinutes - InvisibleMinutes) / MinutesInDay;
         var scrollTo = PixelsInDay * percent;
 
         _jsService ??= new JsService(JsRuntime);
@@ -417,6 +428,9 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
             {
                 position.Height = PixelsInDay - position.Top;
             }
+            
+            // Don't attempt to render items that won't be visible
+            if (position.Top < 0 || position.Height < 1) continue;
 
             // Remove overlaps that are not relevant
             overlaps.RemoveAll(o => o.Bottom <= position.Top);
@@ -476,7 +490,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
         if (DateTime.TryParse(ids[0], out var date))
         {
             var cell = int.Parse(ids[1]);
-            var minutes = ((double)cell / CellsInDay) * MinutesInDay;
+            var minutes = (double)cell / CellsInDay * MinutesInDay + InvisibleMinutes;
             date = date.AddMinutes(minutes);
         }
         else
@@ -503,7 +517,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
 
     private bool IsHourCell(int row)
     {
-        return (int)Calendar.DayTimeInterval >= 60 || row % (60 / (int)Calendar.DayTimeInterval) == 0;
+        return (int)Calendar.DayTimeInterval >= 60 || (row + InvisibleRows) % (60 / (int)Calendar.DayTimeInterval) == 0;
     }
 
     public void Dispose()

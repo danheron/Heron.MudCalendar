@@ -1,0 +1,45 @@
+<MudPopoverProvider></MudPopoverProvider>
+
+<MudCalendar T="CalendarItem"
+             Items="_events"
+             MinVisibleTime="new TimeOnly(7, 0, 0)"
+             MaxVisibleTime="new TimeOnly(16, 30, 0)"
+             ShowCurrentTime="true"
+             EnableDragItems="true"
+             EnableResizeItems="true"
+             DayTimeInterval="CalendarTimeInterval.Minutes20"
+             ShowWorkWeek="true"
+             ShowMonth="false"
+             />
+
+@code {
+    public static string __description__ = "Calendar Visible Times Tests";
+    
+    private List<CalendarItem> _events = new()
+    {
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(4),
+            End = DateTime.Today.AddHours(5),
+            Text = "Event today 1"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(11),
+            End = DateTime.Today.AddHours(12),
+            Text = "Event today 2"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddHours(16),
+            End = DateTime.Today.AddHours(17),
+            Text = "Event today 3"
+        },
+        new CalendarItem
+        {
+            Start = DateTime.Today.AddDays(1).AddHours(11),
+            End = DateTime.Today.AddDays(1).AddHours(12.5),
+            Text = "Event tomorrow"
+        }
+    };
+}
