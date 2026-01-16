@@ -18,12 +18,12 @@
 
     private Task CellClicked(DateTime dateTime)
     {
-        return DialogService.ShowMessageBox("Cell Clicked", dateTime.ToString(Thread.CurrentThread.CurrentCulture));
+        return DialogService.ShowMessageBoxAsync("Cell Clicked", dateTime.ToString(Thread.CurrentThread.CurrentCulture));
     }
 
     private Task ItemClicked(CalendarItem item)
     {
-        return DialogService.ShowMessageBox("Item Clicked", item.Text);
+        return DialogService.ShowMessageBoxAsync("Item Clicked", item.Text);
     }
 
     private DateTime? _contextMenuDate;
@@ -37,19 +37,19 @@
 
     private Task AddEvent()
     {
-        return DialogService.ShowMessageBox("Adding an event", _contextMenuDate.Value.ToString(Thread.CurrentThread.CurrentCulture));
+        return DialogService.ShowMessageBoxAsync("Adding an event", _contextMenuDate.Value.ToString(Thread.CurrentThread.CurrentCulture));
     }
 
 
     private Task RemoveAllEvents()
     {
-        return DialogService.ShowMessageBox("Removing all events", _contextMenuDate.Value.ToString(Thread.CurrentThread.CurrentCulture));
+        return DialogService.ShowMessageBoxAsync("Removing all events", _contextMenuDate.Value.ToString(Thread.CurrentThread.CurrentCulture));
     }
 
 
     private Task CellRangeSelected(MudBlazor.DateRange dateRange)
     {
-        return DialogService.ShowMessageBox("Cell Range Selected", $"Start: {dateRange.Start?.ToString(Thread.CurrentThread.CurrentCulture)} End: {dateRange.End?.ToString(Thread.CurrentThread.CurrentCulture)}");
+        return DialogService.ShowMessageBoxAsync("Cell Range Selected", $"Start: {dateRange.Start?.ToString(Thread.CurrentThread.CurrentCulture)} End: {dateRange.End?.ToString(Thread.CurrentThread.CurrentCulture)}");
     }
 
     private List<CalendarItem> _events = new()

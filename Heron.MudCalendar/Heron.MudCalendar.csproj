@@ -3,14 +3,14 @@
     <PropertyGroup>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+        <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     </PropertyGroup>
     
     <PropertyGroup>
         <PackageId>Heron.MudCalendar</PackageId>
         <Authors>Dan Heron</Authors>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <Copyright>Copyright 2023 Dan Heron</Copyright>
+        <Copyright>Copyright 2026 Dan Heron</Copyright>
         <PackageTags>Calendar, Blazor, MudBlazor, Components, Blazor Components, Blazor Library</PackageTags>
         <Description>A simple but powerful calendar component for MudBlazor.</Description>
         <PackageProjectUrl>https://danheron.github.io/Heron.MudCalendar</PackageProjectUrl>
@@ -37,7 +37,7 @@
     </ItemGroup>
     
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <DocumentationFile>bin\Debug\net6.0\Heron.MudCalendar.xml</DocumentationFile>
+      <DocumentationFile>bin\Debug\net10.0\Heron.MudCalendar.xml</DocumentationFile>
       <NoWarn>1701;1702;IL2121;1591</NoWarn>
     </PropertyGroup>
     
@@ -74,8 +74,14 @@
         <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.1" />
     </ItemGroup>
 
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net10.0' ">
+        <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.1" />
+    </ItemGroup>
+
     <ItemGroup>
-        <PackageReference Include="MudBlazor" Version="8.0.0" />
+        <PackageReference Include="MudBlazor" Version="9.0.0-preview.2" />
     </ItemGroup>
 
     <ItemGroup>

@@ -32,7 +32,7 @@
     
     private Task CellClicked(DateTime dateTime)
     {
-        return DialogService.ShowMessageBox("Cell Clicked", dateTime.ToString(Thread.CurrentThread.CurrentCulture));
+        return DialogService.ShowMessageBoxAsync("Cell Clicked", dateTime.ToString(Thread.CurrentThread.CurrentCulture));
     }
 
     private bool IsWeekend(DateTime dateTime) => 
