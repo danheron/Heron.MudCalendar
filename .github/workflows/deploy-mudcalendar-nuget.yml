@@ -12,7 +12,7 @@ on:
 jobs:
   get-version:
     name: Get version to deploy
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       VERSION: 1.0.0
     outputs:
@@ -31,15 +31,8 @@ jobs:
   deploy-nuget:
     name: Deploy mudcalendar nuget to nuget.org
     needs: get-version
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - name: Install .NET 9
-        run: |
-          wget -O dotnet-install.sh https://dot.net/v1/dotnet-install.sh
-          chmod +x dotnet-install.sh
-          ./dotnet-install.sh --channel 9.0 --install-dir /usr/share/dotnet
-          ln -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet
-          
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -51,10 +44,7 @@ jobs:
           dotnet-version: |
             8.0.x
             9.0.x
-            
-      - name: Create temporary global.json
-        run: |
-          echo '{"sdk":{"version": "9.0"}}' > ./global.json
+            10.0.x
   
       - name: Pack nuget package
         run: dotnet pack -c Release -m:1 --output nupkgs /p:PackageVersion=${{ needs.get-version.outputs.VERSION }} /p:AssemblyVersion=${{ needs.get-version.outputs.VERSION }} /p:Version=${{ needs.get-version.outputs.VERSION }}

@@ -321,7 +321,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
         }
 
         // Need to select all items that start today or, if it's the first day of the week, all items that started in the previous week
-        var firstDateOfThisWeek = CalendarDateRange.GetFirstWeekDate(date, Calendar.FirstDayOfWeek);
+        var firstDateOfThisWeek = CalendarDateRange.GetFirstWeekDate(date, Calendar.Culture, Calendar.FirstDayOfWeek);
         cell.Items = Calendar.Items.Where(i =>
                 i.Start.Date == date ||
                 (date == firstDateOfThisWeek && i.Start.Date < firstDateOfThisWeek && i.End.HasValue &&

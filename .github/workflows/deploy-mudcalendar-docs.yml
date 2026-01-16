@@ -1,6 +1,6 @@
 name: deploy-mudcalendar-docs
 env:
-  PUBLISH_FOLDER: "./Heron.MudCalendar/Heron.MudCalendar.Docs/bin/Release/net9.0/publish/wwwroot"
+  PUBLISH_FOLDER: "./Heron.MudCalendar/Heron.MudCalendar.Docs/bin/Release/net10.0/publish/wwwroot"
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ on:
 jobs:
   get-version:
     name: Get version to deploy
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       VERSION: 1.0.0
     outputs:
@@ -33,15 +33,8 @@ jobs:
   deploy-docs:
     name: Deploy Docs to Github Pages
     needs: get-version
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - name: Install .NET 9
-        run: |
-          wget -O dotnet-install.sh https://dot.net/v1/dotnet-install.sh
-          chmod +x dotnet-install.sh
-          ./dotnet-install.sh --channel 9.0 --install-dir /usr/share/dotnet
-          ln -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet
-
       - name: Checkout MudBlazor
         uses: actions/checkout@v4
         with:
@@ -58,11 +51,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 9.0.x
-          
-      - name: Create temporary global.json
-        run: |
-          echo '{"sdk":{"version": "9.0"}}' > ./global.json
+          dotnet-version: 10.0.x
           
       - name: Install wasm-tools
         run: dotnet workload install wasm-tools  

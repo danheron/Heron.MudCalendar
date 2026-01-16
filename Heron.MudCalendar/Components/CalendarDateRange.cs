@@ -5,117 +5,98 @@ namespace Heron.MudCalendar;
 
 public class CalendarDateRange : DateRange
 {
-    public CalendarView View { get; }
-
-    private readonly DateTime _currentDay;
-    private static CultureInfo _culture = CultureInfo.InvariantCulture;
-    private readonly Calendar _calendar;
-
     public CalendarDateRange(DateTime currentDay, CalendarView view, CultureInfo culture, DayOfWeek? firstDayOfWeek = null)
+        : base(GetStart(view, currentDay, culture, firstDayOfWeek), GetEnd(view, currentDay, culture, firstDayOfWeek))
     {
-        _culture = culture;
-        _calendar = culture.Calendar;
-        _currentDay = currentDay;
-        View = view;
-        
-        SetStart(firstDayOfWeek);
-        SetEnd(firstDayOfWeek);
     }
 
-    private void SetStart(DayOfWeek? firstDayOfWeek)
+    private static DateTime GetStart(CalendarView view, DateTime currentDay, CultureInfo culture, DayOfWeek? firstDayOfWeek)
     {
-        switch (View)
+        switch (view)
         {
             case CalendarView.Day:
-                Start = _currentDay.Date;
-                break;
+                return currentDay.Date;
             case CalendarView.Week:
             case CalendarView.WorkWeek:
-                Start = GetFirstWeekDate(_currentDay, firstDayOfWeek);
-                break;
+                return GetFirstWeekDate(currentDay, culture, firstDayOfWeek);
             case CalendarView.Month:
             default:
-                Start = GetFirstMonthDate(_currentDay, firstDayOfWeek);
-                break;
+                return GetFirstMonthDate(currentDay, culture, firstDayOfWeek);
         }
     }
 
-    private void SetEnd(DayOfWeek? firstDayOfWeek)
+    private static DateTime GetEnd(CalendarView view, DateTime currentDay, CultureInfo culture, DayOfWeek? firstDayOfWeek)
     {
-        switch (View)
+        switch (view)
         {
             case CalendarView.Day:
-                End = _currentDay.Date;
-                break;
+                return currentDay.Date;
             case CalendarView.Week:
-                End = GetLastWeekDate(_currentDay, firstDayOfWeek);
-                break;
+                return GetLastWeekDate(currentDay, culture, firstDayOfWeek);
             case CalendarView.WorkWeek:
-                End = GetLastWorkWeekDate(_currentDay, firstDayOfWeek);
-                break;
+                return GetLastWorkWeekDate(currentDay, culture, firstDayOfWeek);
             case CalendarView.Month:
             default:
-                End = GetLastMonthDate(_currentDay, firstDayOfWeek);
-                break;
+                return GetLastMonthDate(currentDay, culture, firstDayOfWeek);
         }
     }
-    
-    public DateTime GetFirstMonthDate(DateTime day, DayOfWeek? firstDayOfWeek)
+
+    private static DateTime GetFirstMonthDate(DateTime day, CultureInfo culture, DayOfWeek? firstDayOfWeek)
     {
         // Get the year and month in the target calendar system
-        var year = _calendar.GetYear(day);
-        var month = _calendar.GetMonth(day);
+        var year = culture.Calendar.GetYear(day);
+        var month = culture.Calendar.GetMonth(day);
 
         // Get the first day of the month in the target calendar
-        var firstDayOfMonth = _calendar.ToDateTime(year, month, 1, 0, 0, 0, 0);
+        var firstDayOfMonth = culture.Calendar.ToDateTime(year, month, 1, 0, 0, 0, 0);
 
         // Adjust to the start of the week
-        firstDayOfMonth = firstDayOfMonth.AddDays(GetDayOfWeek(firstDayOfMonth, firstDayOfWeek) * -1);
+        firstDayOfMonth = firstDayOfMonth.AddDays(GetDayOfWeek(firstDayOfMonth, culture, firstDayOfWeek) * -1);
 
         return firstDayOfMonth;
     }
-    
-    public DateTime GetLastMonthDate(DateTime day, DayOfWeek? firstDayOfWeek)
+
+    private static DateTime GetLastMonthDate(DateTime day, CultureInfo culture, DayOfWeek? firstDayOfWeek)
     {
-        
+
         // Get the year and month in the target calendar system
-        var year = _calendar.GetYear(day);
-        var month = _calendar.GetMonth(day);
+        var year = culture.Calendar.GetYear(day);
+        var month = culture.Calendar.GetMonth(day);
 
         // Get the number of days in this month
-        var daysInMonth = _calendar.GetDaysInMonth(year, month);
+        var daysInMonth = culture.Calendar.GetDaysInMonth(year, month);
 
         // Get the last day of the month in the target calendar
-        var lastDayOfMonth = _calendar.ToDateTime(year, month, daysInMonth, 0, 0, 0, 0);
+        var lastDayOfMonth = culture.Calendar.ToDateTime(year, month, daysInMonth, 0, 0, 0, 0);
 
         // Adjust to the end of the week
-        lastDayOfMonth = lastDayOfMonth.AddDays(6 - GetDayOfWeek(lastDayOfMonth, firstDayOfWeek));
+        lastDayOfMonth = lastDayOfMonth.AddDays(6 - GetDayOfWeek(lastDayOfMonth, culture, firstDayOfWeek));
 
         return lastDayOfMonth;
     }
 
-    public static DateTime GetFirstWeekDate(DateTime day, DayOfWeek? firstDayOfWeek)
+    public static DateTime GetFirstWeekDate(DateTime day, CultureInfo culture, DayOfWeek? firstDayOfWeek)
     {
         // Get the first day of the week
-        return day.AddDays(GetDayOfWeek(day, firstDayOfWeek) * -1);
+        return day.AddDays(GetDayOfWeek(day, culture, firstDayOfWeek) * -1);
     }
 
-    public static DateTime GetLastWeekDate(DateTime day, DayOfWeek? firstDayOfWeek)
+    public static DateTime GetLastWeekDate(DateTime day, CultureInfo culture, DayOfWeek? firstDayOfWeek)
     {
         // Get the last day of the week
-        return day.AddDays(6 - GetDayOfWeek(day, firstDayOfWeek));
+        return day.AddDays(6 - GetDayOfWeek(day, culture, firstDayOfWeek));
     }
 
-    public static DateTime GetLastWorkWeekDate(DateTime day, DayOfWeek? firstDayOfWeek)
+    public static DateTime GetLastWorkWeekDate(DateTime day, CultureInfo culture, DayOfWeek? firstDayOfWeek)
     {
         // Get the last day of the work week
-        return day.AddDays(4 - GetDayOfWeek(day, firstDayOfWeek));
+        return day.AddDays(4 - GetDayOfWeek(day, culture, firstDayOfWeek));
     }
 
-    public static int GetDayOfWeek(DateTime date, DayOfWeek? firstDayOfWeek = null)
+    public static int GetDayOfWeek(DateTime date, CultureInfo culture, DayOfWeek? firstDayOfWeek = null)
     {
         // Get day as an integer. First day of the week = 0, last day = 6
-        var firstDay = firstDayOfWeek ?? _culture.DateTimeFormat.FirstDayOfWeek;
+        var firstDay = firstDayOfWeek ?? culture.DateTimeFormat.FirstDayOfWeek;
         var day = (int)date.DayOfWeek;
         day -= (int)firstDay;
         if (day < 0)

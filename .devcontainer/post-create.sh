@@ -1,10 +1,10 @@
-## Install .Net 6.0 sdk
+## Install .Net sdk
 wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
 rm packages-microsoft-prod.deb
 sudo apt-get update && \
     export DEBIAN_FRONTEND=noninteractive && \
-    sudo apt-get install -y dotnet-sdk-6.0 dotnet-sdk-7.0
+    sudo apt-get install -y dotnet-sdk-8.0 dotnet-sdk-9.0 dotnet-sdk-10.0
 
 ## Configure git
 git config --global core.autocrlf input
