@@ -65,8 +65,8 @@
                 <div class="mud-cal-toolbar-nav align-center">
                     @if (ShowPrevNextButtons)
                     {
-                            <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" aria-label="@PrevAriaLabel" Color="@Color" OnClick="@OnPreviousClicked" />
-                            <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" aria-label="@NextAriaLabel" Color="@Color" OnClick="@OnNextClicked" />
+                            <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronLeft" aria-label="@PrevAriaLabel" Color="@Color" OnClick="@OnPreviousClicked" Disabled="@PrevButtonDisabled"/>
+                            <MudIconButton Variant="@ButtonVariant" Icon="@Icons.Material.Outlined.ChevronRight" aria-label="@NextAriaLabel" Color="@Color" OnClick="@OnNextClicked" Disabled="@NextButtonDisabled"/>
                     }
                     @if (ShowDatePicker)
                     {

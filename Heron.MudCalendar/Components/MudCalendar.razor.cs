@@ -232,6 +232,28 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public bool ShowDropdownViewSelector { get; set; }
 
     /// <summary>
+    /// If true, then the prev button is disabled. 
+    /// Works only if <see cref="ShowPrevNextButtons"/> is true.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>false</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public bool PrevButtonDisabled { get; set; }
+
+    /// <summary>
+    /// If true, then the next button is disabled. 
+    /// Works only if <see cref="ShowPrevNextButtons"/> is true.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>false</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public bool NextButtonDisabled { get; set; }
+
+    /// <summary>
     /// Set the padding of the toolbar.
     /// </summary>
     /// <remarks>
