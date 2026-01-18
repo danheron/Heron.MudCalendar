@@ -615,6 +615,62 @@ public class CalendarTests : BunitTest
     }
 
     [Test]
+    public void MinMaxDayTest()
+    {
+        var cut = Context.RenderComponent<CalendarMinMaxDayTest>();
+        var cal = cut.FindComponent<MudCalendar<CalendarItem>>();
+        var picker = cut.FindComponent<MudDatePicker>();
+
+        // Check that the date picker's min date is 1/1/2024
+        picker.Instance.MinDate.Should().Be(new DateTime(2024, 1, 1));
+
+        // Check that the date picker's current date is 1/1/2025
+        picker.Instance.Date.Should().Be(new DateTime(2025, 1, 1));
+
+        // Check that the date picker's max date is 1/1/2026
+        picker.Instance.MaxDate.Should().Be(new DateTime(2026, 1, 1));
+
+        // Click previous button 12 times to reach the min date
+        for (int i = 0; i < 12; i++)
+        {
+            // Re-query the button each iteration to get fresh reference
+            var prevButton = cal.FindAll("button.mud-icon-button")[0];
+            prevButton.Attributes["aria-label"]?.Value.Should().Be("Previous Month");
+
+            prevButton.Click();
+
+            // Re-query again after click to check the updated state
+            prevButton = cal.FindAll("button.mud-icon-button")[0];
+
+            if (i < 11)
+                prevButton.HasAttribute("disabled").Should().BeFalse();
+            else
+                prevButton.HasAttribute("disabled").Should().BeTrue();
+        }
+
+        // Reset to the middle date
+        cal.SetParam(c => c.CurrentDay, new DateTime(2025, 1, 1));
+
+        // Click next button 11 times to reach the max date
+        for (int i = 0; i < 11; i++)
+        {
+            // Re-query the button each iteration to get fresh reference
+            var nextButton = cal.FindAll("button.mud-icon-button")[1];
+            nextButton.Attributes["aria-label"]?.Value.Should().Be("Next Month");
+
+            nextButton.Click();
+
+            // Re-query again after click to check the updated state
+            nextButton = cal.FindAll("button.mud-icon-button")[1];
+
+            if (i < 10)
+                nextButton.HasAttribute("disabled").Should().BeFalse();
+            else
+                nextButton.HasAttribute("disabled").Should().BeTrue();
+        }
+    }
+
+    [Test]
     public void DayItemMinHeightTest()
     {
         var cut = Context.RenderComponent<CalendarMinItemHeightTest>();
@@ -640,19 +696,6 @@ public class CalendarTests : BunitTest
         var event6 = comp.FindAll("div.mud-cal-week-cell-holder > div.mud-cal-drop-item")[5];
         event6.Attributes["style"].Should().NotBeNull();
         event6.Attributes["style"]?.Value.Should().Contain("height:50");
-    }
-
-    [Test]
-    public void MinMaxPickerDateTest()
-    {
-        var cut = Context.RenderComponent<CalendarMinMaxDatePickerDateTest>();
-        var picker = cut.FindComponent<MudDatePicker>();
-
-        // Check that the date picker's min date is 1/1/2024
-        picker.Instance.MinDate.Should().Be(new DateTime(2024, 1, 1));
-
-        // Check that the date picker's max date is 12/31/2026
-        picker.Instance.MaxDate.Should().Be(new DateTime(2026, 12, 31));
     }
 
     [TestCase(CalendarView.Month)]
@@ -709,55 +752,5 @@ public class CalendarTests : BunitTest
         // Day View - Drag should be enabled
         comp.SetParam(x => x.View, CalendarView.Day);
         comp.FindAll("div.mud-cal-drop-item .mud-drop-item[draggable=true]").Count.Should().Be(1);
-    }
-
-    [Test]
-    public void DisablePrevButtonTest()
-    {
-        var cut = Context.RenderComponent<CalendarPrevNextButtonsDisabledTest>();
-        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
-
-        // Click previous button 12 times to reach the min date
-        for (int i = 0; i < 12; i++)
-        {
-            // Re-query the button each iteration to get fresh reference
-            var prevButton = comp.FindAll("button.mud-icon-button")[0];
-            prevButton.Attributes["aria-label"]?.Value.Should().Be("Previous Month");
-            
-            prevButton.Click();
-
-            // Re-query again after click to check the updated state
-            prevButton = comp.FindAll("button.mud-icon-button")[0];
-            
-            if(i < 11)
-                prevButton.HasAttribute("disabled").Should().BeFalse();
-            else
-                prevButton.HasAttribute("disabled").Should().BeTrue();
-        }    
-    }
-
-    [Test]
-    public void DisableNextButtonTest()
-    {
-        var cut = Context.RenderComponent<CalendarPrevNextButtonsDisabledTest>();
-        var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
-
-        // Click next button 11 times to reach the max date
-        for (int i = 0; i < 11; i++)
-        {
-            // Re-query the button each iteration to get fresh reference
-            var nextButton = comp.FindAll("button.mud-icon-button")[1];
-            nextButton.Attributes["aria-label"]?.Value.Should().Be("Next Month");
-
-            nextButton.Click();
-
-            // Re-query again after click to check the updated state
-            nextButton = comp.FindAll("button.mud-icon-button")[1];
-
-            if (i < 10)
-                nextButton.HasAttribute("disabled").Should().BeFalse();
-            else
-                nextButton.HasAttribute("disabled").Should().BeTrue();
-        }
     }
 }

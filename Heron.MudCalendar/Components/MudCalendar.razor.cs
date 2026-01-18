@@ -100,6 +100,26 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public DateTime CurrentDay { get; set; }
 
     /// <summary>
+    /// Gets or sets the calendar's maximum day.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>, meaning no maximum.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public DateTime? MaxDay { get; set; }
+
+    /// <summary>
+    /// Gets or sets the calendar's minimum day.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>, meaning no minimum.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public DateTime? MinDay { get; set; }
+
+    /// <summary>
     /// Gets or sets the first day of the week that the calendar is showing in Week View.
     /// This value is also used for the Work Week View if <see cref="FirstDayOfWorkWeek"/> is not set.
     /// </summary>
@@ -230,28 +250,6 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
     public bool ShowDropdownViewSelector { get; set; }
-
-    /// <summary>
-    /// If true, then the prev button is disabled. 
-    /// Works only if <see cref="ShowPrevNextButtons"/> is true.
-    /// </summary>
-    /// <remarks>
-    /// Defaults to <c>false</c>.
-    /// </remarks>
-    [Parameter]
-    [Category(CategoryTypes.Calendar.Behavior)]
-    public bool PrevButtonDisabled { get; set; }
-
-    /// <summary>
-    /// If true, then the next button is disabled. 
-    /// Works only if <see cref="ShowPrevNextButtons"/> is true.
-    /// </summary>
-    /// <remarks>
-    /// Defaults to <c>false</c>.
-    /// </remarks>
-    [Parameter]
-    [Category(CategoryTypes.Calendar.Behavior)]
-    public bool NextButtonDisabled { get; set; }
 
     /// <summary>
     /// Set the padding of the toolbar.
@@ -476,26 +474,6 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     }
 
     /// <summary>
-    /// Sets the date picker's minimum date.
-    /// </summary>
-    /// <remarks>
-    /// Defaults to <c>null</c>.
-    /// </remarks>
-    [Parameter]
-    [Category(CategoryTypes.Calendar.Behavior)]
-    public DateTime? DatePickerMinDate { get; set; }
-
-    /// <summary>
-    /// Sets the date picker's maximum date.
-    /// </summary>
-    /// <remarks>
-    /// Defaults to <c>null</c>.
-    /// </remarks>
-    [Parameter]
-    [Category(CategoryTypes.Calendar.Behavior)]
-    public DateTime? DatePickerMaxDate { get; set; }
-
-    /// <summary>
     /// The data to display in the Calendar.
     /// </summary>
     [Category(CategoryTypes.Calendar.Behavior)]
@@ -570,6 +548,10 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     private CalendarDatePicker? _datePicker;
     
     private JsService? _jsService;
+
+    private bool _prevButtonDisabled;
+
+    private bool _nextButtonDisabled;
 
     internal readonly string Id = $"calendar-{Guid.NewGuid()}";
 
@@ -842,6 +824,9 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
         if (dateRange != CurrentDateRange)
         {
             CurrentDateRange = dateRange;
+            _prevButtonDisabled = dateRange.Start <= MinDay;
+            _nextButtonDisabled = dateRange.End >= MaxDay;
+
             await DateRangeChanged.InvokeAsync(dateRange);
         }
     }
