@@ -627,8 +627,8 @@ public class CalendarTests : BunitTest
         // Check that the date picker's current date is 1/1/2025
         picker.Instance.Date.Should().Be(new DateTime(2025, 1, 1));
 
-        // Check that the date picker's max date is 1/1/2026
-        picker.Instance.MaxDate.Should().Be(new DateTime(2026, 1, 1));
+        // Check that the date picker's max date is 12/31/2026
+        picker.Instance.MaxDate.Should().Be(new DateTime(2026, 12, 31));
 
         // Click previous button 12 times to reach the min date
         for (int i = 0; i < 12; i++)
@@ -651,8 +651,8 @@ public class CalendarTests : BunitTest
         // Reset to the middle date
         cal.SetParam(c => c.CurrentDay, new DateTime(2025, 1, 1));
 
-        // Click next button 11 times to reach the max date
-        for (int i = 0; i < 11; i++)
+        // Click next button 23 times to reach the max date
+        for (int i = 0; i < 23; i++)
         {
             // Re-query the button each iteration to get fresh reference
             var nextButton = cal.FindAll("button.mud-icon-button")[1];
@@ -663,7 +663,7 @@ public class CalendarTests : BunitTest
             // Re-query again after click to check the updated state
             nextButton = cal.FindAll("button.mud-icon-button")[1];
 
-            if (i < 10)
+            if (i < 22)
                 nextButton.HasAttribute("disabled").Should().BeFalse();
             else
                 nextButton.HasAttribute("disabled").Should().BeTrue();
