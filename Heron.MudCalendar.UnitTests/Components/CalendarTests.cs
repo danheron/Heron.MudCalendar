@@ -617,7 +617,7 @@ public class CalendarTests : BunitTest
     [Test]
     public void MinMaxDayTest()
     {
-        var cut = Context.RenderComponent<CalendarMinMaxDayTest>();
+        var cut = Context.RenderComponent<CalendarMinMaxDateTest>();
         var cal = cut.FindComponent<MudCalendar<CalendarItem>>();
         var picker = cut.FindComponent<MudDatePicker>();
 

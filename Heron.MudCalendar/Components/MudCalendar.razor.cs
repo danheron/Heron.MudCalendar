@@ -100,24 +100,24 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public DateTime CurrentDay { get; set; }
 
     /// <summary>
-    /// Gets or sets the calendar's maximum day.
+    /// Gets or sets the calendar's maximum date.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>null</c>, meaning no maximum.
     /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
-    public DateTime? MaxDay { get; set; }
+    public DateTime? MaxDate { get; set; }
 
     /// <summary>
-    /// Gets or sets the calendar's minimum day.
+    /// Gets or sets the calendar's minimum date.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>null</c>, meaning no minimum.
     /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Behavior)]
-    public DateTime? MinDay { get; set; }
+    public DateTime? MinDate { get; set; }
 
     /// <summary>
     /// Gets or sets the first day of the week that the calendar is showing in Week View.
@@ -824,8 +824,8 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
         if (dateRange != CurrentDateRange)
         {
             CurrentDateRange = dateRange;
-            _prevButtonDisabled = dateRange.Start <= MinDay;
-            _nextButtonDisabled = dateRange.End >= MaxDay;
+            _prevButtonDisabled = dateRange.Start <= MinDate;
+            _nextButtonDisabled = dateRange.End >= MaxDate;
 
             await DateRangeChanged.InvokeAsync(dateRange);
         }
