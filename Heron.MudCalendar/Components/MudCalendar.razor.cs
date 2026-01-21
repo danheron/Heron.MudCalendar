@@ -100,6 +100,26 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public DateTime CurrentDay { get; set; }
 
     /// <summary>
+    /// Gets or sets the calendar's maximum date.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>, meaning no maximum.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public DateTime? MaxDate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the calendar's minimum date.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>, meaning no minimum.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public DateTime? MinDate { get; set; }
+
+    /// <summary>
     /// Gets or sets the first day of the week that the calendar is showing in Week View.
     /// This value is also used for the Work Week View if <see cref="FirstDayOfWorkWeek"/> is not set.
     /// </summary>
@@ -454,26 +474,6 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     }
 
     /// <summary>
-    /// Sets the date picker's minimum date.
-    /// </summary>
-    /// <remarks>
-    /// Defaults to <c>null</c>.
-    /// </remarks>
-    [Parameter]
-    [Category(CategoryTypes.Calendar.Behavior)]
-    public DateTime? DatePickerMinDate { get; set; }
-
-    /// <summary>
-    /// Sets the date picker's maximum date.
-    /// </summary>
-    /// <remarks>
-    /// Defaults to <c>null</c>.
-    /// </remarks>
-    [Parameter]
-    [Category(CategoryTypes.Calendar.Behavior)]
-    public DateTime? DatePickerMaxDate { get; set; }
-
-    /// <summary>
     /// The data to display in the Calendar.
     /// </summary>
     [Category(CategoryTypes.Calendar.Behavior)]
@@ -548,6 +548,10 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     private CalendarDatePicker? _datePicker;
     
     private JsService? _jsService;
+
+    private bool _prevButtonDisabled;
+
+    private bool _nextButtonDisabled;
 
     internal readonly string Id = $"calendar-{Guid.NewGuid()}";
 
@@ -820,6 +824,9 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
         if (dateRange != CurrentDateRange)
         {
             CurrentDateRange = dateRange;
+            _prevButtonDisabled = dateRange.Start <= MinDate;
+            _nextButtonDisabled = dateRange.End >= MaxDate;
+
             await DateRangeChanged.InvokeAsync(dateRange);
         }
     }
