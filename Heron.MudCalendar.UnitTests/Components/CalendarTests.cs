@@ -402,7 +402,7 @@ public class CalendarTests : BunitTest
         var cut = Context.RenderComponent<CalendarTest>();
         var comp = cut.FindComponent<MudCalendar<CalendarItem>>();
 
-        comp.Find("div.mud-button-group-root button.mud-button-root span.mud-button-label").TextContent.Should()
+        comp.Find("div.mud-toggle-group button.mud-button-root span.mud-button-label").TextContent.Should()
             .Be("Monat");
 
         comp.FindAll("div.mud-cal-toolbar > div > button")[2].TextContent.Should().Be("Heute");
