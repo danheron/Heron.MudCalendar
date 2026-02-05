@@ -93,6 +93,19 @@ export class Resizer {
         
         return size / this._intervalSize;
     }
+    
+    dispose() {
+        if (this._handle) {
+            this._handle.removeEventListener("mousedown", this.onMouseDown);
+        }
+        document.removeEventListener("mouseup", this.onMouseUp);
+        document.removeEventListener("mousemove", this.onMouseMove);
+        
+        this._obj = null;
+        this._handle = null;
+        this._container = null;
+        this._item = null;
+    }
 }
 
 export function newResizer(handleId, containerClass, cellCount, resizeX, obj) {

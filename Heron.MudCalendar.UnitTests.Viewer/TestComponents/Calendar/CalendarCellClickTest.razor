@@ -1,11 +1,17 @@
 <MudPopoverProvider />
 
-<MudCalendar T="CalendarItem" CellClicked="TestClick" CellRangeSelected="TestRange" MonthCellMinHeight="150" DayTimeInterval="CalendarTimeInterval.Minutes10" />
+<MudCalendar T="CalendarItem" CellClicked="TestClick" CellRangeSelected="TestRange" ShowWorkWeek="true" MonthCellMinHeight="150" DayTimeInterval="CalendarTimeInterval.Minutes10" />
 <MudTextField @bind-Value="_value" HelperText="Clicked Day" />
 <MudTextField @bind-Value="_timeValue" HelperText="Clicked Time" />
 
 <MudTextField @bind-Value="_start" HelperText="Selected Start Date" />
 <MudTextField @bind-Value="_end" HelperText="Selected End Date" />
+
+<style>
+    .yellow-background {
+        background-color: yellow;
+    }
+</style>
 
 @code {
     public static string __description__ = "Cell Click Test";
@@ -26,5 +32,34 @@
     {
         _start = dateRange.Start.ToString();
         _end = dateRange.End.ToString();
+    }
+    
+    private bool IsDateTimeDisabled(DateTime dateTime, CalendarView view)
+    {
+        // Disable if on weekend
+        var disabled = (int)dateTime.DayOfWeek == 0 || (int)dateTime.DayOfWeek == 6;
+        if (view == CalendarView.Month) return disabled;
+        
+        // If on the day/week views then also disable before 8:00 and after 17:00
+        return disabled || dateTime.TimeOfDay < new TimeSpan(8, 0, 0) || dateTime.TimeOfDay >= new TimeSpan(17, 0, 0);
+    }
+    
+    private string AdditionalDateTimeClasses(DateTime dateTime, CalendarView view)
+    {
+        // Make weekends yellow
+        var classes = string.Empty;
+        if ((int)dateTime.DayOfWeek == 0 || (int)dateTime.DayOfWeek == 6)
+        {
+            classes = "yellow-background";
+        }
+        if (view == CalendarView.Month) return classes;
+
+        // Make times before 8:00 and after 17:00 yellow
+        if (dateTime.TimeOfDay < new TimeSpan(8, 0, 0) || dateTime.TimeOfDay >= new TimeSpan(17, 0, 0))
+        {
+            classes = "yellow-background";
+        }
+
+        return classes;
     }
 }

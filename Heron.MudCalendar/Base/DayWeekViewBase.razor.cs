@@ -9,7 +9,7 @@ using EnumExtensions = Heron.MudCalendar.Extensions.EnumExtensions;
 
 namespace Heron.MudCalendar;
 
-public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : CalendarViewBase<T>, IDisposable where T : CalendarItem
+public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : CalendarViewBase<T>, IAsyncDisposable where T : CalendarItem
 {
     private ElementReference _scrollDiv;
     private JsService? _jsService;
@@ -181,6 +181,18 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
             .AddStyle("top", $"{TimelinePosition().ToInvariantString()}px")
             .Build();
     }
+    
+    /// <summary>
+    /// The style of the cell link
+    /// </summary>
+    /// <param name="cursorAuto">Whether to add the 'cursor-auto' class.</param>
+    /// <returns></returns>
+    protected virtual string CellLinkClassname(bool cursorAuto) =>
+        new CssBuilder()
+            .AddClass("mud-cal-week-link")
+            .AddClass("cursor-auto", cursorAuto)
+            .AddClass("mud-cal-selectable", Calendar.CellRangeSelected.HasDelegate)
+            .Build();
 
     /// <summary>
     /// Method invoked when the user clicks on the hyperlink in the cell.
@@ -520,7 +532,7 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
         return (int)Calendar.DayTimeInterval >= 60 || (row + InvisibleRows) % (60 / (int)Calendar.DayTimeInterval) == 0;
     }
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
         GC.SuppressFinalize(this);
         
@@ -529,6 +541,9 @@ public abstract partial class DayWeekViewBase<[DynamicallyAccessedMembers(Dynami
             _jsService.OnCellsSelected -= OnCellRangeSelected;
         }
 
-        _jsService?.Dispose();
+        if (_jsService != null)
+        {
+            await _jsService.DisposeAsync();
+        }
     }
 }

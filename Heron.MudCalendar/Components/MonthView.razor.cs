@@ -16,7 +16,7 @@ namespace Heron.MudCalendar;
 /// 
 /// </summary>
 /// <typeparam name="T">The type of item displayed in this month view.</typeparam>
-public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : CalendarViewBase<T>, IDisposable where T:CalendarItem
+public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : CalendarViewBase<T>, IAsyncDisposable where T:CalendarItem
 {
     private MudDropContainer<T>? _dropContainer;
     private ElementReference _monthGrid;
@@ -38,6 +38,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
         new CssBuilder("mud-cal-month-table-body")
             .AddClass("mud-cal-month-layer")
             .AddClass("mud-cal-month-fixed-height", Calendar.MonthCellMinHeight == 0)
+            .AddClass("mud-cal-selectable-container", Calendar.CellRangeSelected.HasDelegate)
             .Build();
 
     /// <summary>
@@ -59,15 +60,6 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
             .AddStyle("grid-template-rows",
                 $"repeat({Rows}, {(100.0 / Rows).ToInvariantString()}%)",
                 Calendar.MonthCellMinHeight == 0)
-            .Build();
-
-    /// <summary>
-    /// Styles added to each DropZone.
-    /// </summary>
-    protected virtual string DropZoneStyle =>
-        new StyleBuilder()
-            .AddStyle("height", "100%")
-            .AddStyle("width", $"{(100.0 / Columns).ToInvariantString()}%")
             .Build();
 
     /// <summary>
@@ -126,6 +118,18 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
             .AddStyle("width", $"{(100.0 / Columns).ToInvariantString()}%")
             .Build();
     }
+
+    /// <summary>
+    /// The style of the cell link
+    /// </summary>
+    /// <param name="cursorAuto">Whether to add the 'cursor-auto' class.</param>
+    /// <returns></returns>
+    protected virtual string CellLinkClassname(bool cursorAuto) =>
+        new CssBuilder()
+            .AddClass("mud-cal-month-link")
+            .AddClass("cursor-auto", cursorAuto)
+            .AddClass("mud-cal-selectable", Calendar.CellRangeSelected.HasDelegate)
+            .Build();
 
     protected virtual string RowStyle =>
         new StyleBuilder()
@@ -433,7 +437,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
         return positions;
     }
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
         GC.SuppressFinalize(this);
         
@@ -442,6 +446,9 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
             _jsService.OnCellsSelected -= OnCellRangeSelected;
         }
 
-        _jsService?.Dispose();
+        if (_jsService != null)
+        {
+            await _jsService.DisposeAsync();
+        }
     }
 }

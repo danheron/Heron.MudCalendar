@@ -106,6 +106,11 @@
                     The <CodeInline>CellContextMenuClicked</CodeInline> event will be raised when a calendar cell is right-clicked. As the name implies, it allows for example to open a context menu related to a specific cell.<br />
                     The <CodeInline>CellRangeSelected</CodeInline> event will be raised when a range of calendar cells is selected. Neighbouring cells can only be selected unless active.<br />
                     The <CodeInline>ItemClicked</CodeInline> event will be raised when an item in the calendar is clicked.
+                    
+                    <MudAlert Severity="Severity.Info" Class="mt-4">
+                        <b>Note:</b> On touch devices when there is a CellRangeSelected delegate attached it is no longer possible to scroll the day/week views with a single
+                        finger (because dragging is used to select cells). However it is still possible to scroll the view by using 2 fingers.
+                    </MudAlert>
                 </Description>
             </SectionHeader>
             <SectionContent DarkenBackground="true" Code="EventsCalendarExample" ShowCode="false" Block="true" FullWidth="true" Assembly="typeof(CalendarPage).Assembly" AllowRunCode="false">

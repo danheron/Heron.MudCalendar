@@ -1,183 +1,187 @@
-/**
- * Enables multi-cell selection in a specific calendar grid container.
- * Users can click and drag to select multiple cells horizontally or vertically.
- *
- * @param {number} CellsInDay - Number of rows per day in the calendar (used for vertical wrap-around).
- * @param {object} obj - The Blazor JSInterop object to invoke server-side callbacks.
- * @param {string} containerId - Unique id of the calendar container (id attribute).
- */
-export function addMultiSelect(CellsInDay, containerId, obj) {
-    let isMouseDown = false;
-    let startCell = null;
-    let selectedCells = new Set();
-
-    // --- Helpers inside scope ---
-    const toKey = (dateStr, row) => `${dateStr}_${row}`;
-
-    // Get the DOM element for a given date and row (scoped to container)
-    const getEl = (dateStr, row) => container.querySelector(`[data-date="${dateStr}"][data-row="${row}"]`);
-
-    // Parse a date string safely in UTC
-    const parseUtcDate = (dateStr) => new Date(dateStr + "T00:00:00Z");
-
-    // Convert a Date object to a "yyyy-mm-dd" string
-    const dateToStr = (d) => d.toISOString().split('T')[0];
-
+export class MultiSelect {
     
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    // --- Attach mouse down to container ---
-    container.addEventListener('mousedown', (e) => handleMouseDown(e));
-
-    /**
-     * Clears all visual highlights and resets the selection set
-     */
-    function clearVisual() {
-        selectedCells.forEach(k => {
-            const [d, r] = k.split('_');
-            const el = getEl(d, parseInt(r, 10));
-            if (el) el.classList.remove("cell-selected");
-        });
-        selectedCells.clear();
-    }
-
-    /**
-     * Marks a single cell as selected, if selectable
-     * @param {string} dateStr - The date of the cell
-     * @param {number} row - The row index
-     * @returns {boolean} true if cell was successfully added
-     */
-    function addCell(dateStr, row) {
-        const el = getEl(dateStr, row);
-        if (!(el && el.dataset && el.dataset.selectable === "true")) { return false; } // Stop if the cell is not selectable
-        const key = toKey(dateStr, row);
-        if (!selectedCells.has(key)) {
-            el.classList.add("cell-selected");
-            selectedCells.add(key);
-        }
-        return true;
-    }
-
-    /**
-    * Marks cells vertically within the same day
-    */
-    function markVertical(start, end) {
-        if (!(start && start.dataset && end && end.dataset)) return;
-
-        const dateStr = start.dataset.date;
-        const r1 = parseInt(start.dataset.row, 10);
-        const r2 = parseInt(end.dataset.row, 10);
-        const step = r1 <= r2 ? 1 : -1;
-
-        let r = r1;
-        while (true) {
-            if (!addCell(dateStr, r)) break; // Stop if unselectable
-            if (r === r2) break;
-            r += step;
-        }
-    }
-
-    /**
-    * Marks cells horizontally across multiple days
-    */
-    function markHorizontal(start, end) {
-        if (!(start && start.dataset && end && end.dataset)) return;
-
-        const startDateStr = start.dataset.date;
-        const endDateStr = end.dataset.date;
-        const startRow = parseInt(start.dataset.row, 10);
-        const endRow = parseInt(end.dataset.row, 10);
-
-        let d = parseUtcDate(startDateStr);
-        const target = parseUtcDate(endDateStr);
-        const dayStep = (d <= target) ? 1 : -1;
-
-        let row = startRow;
-
-        while (true) {
-            const dStr = dateToStr(d);
-            if (!addCell(dStr, row)) break; // Stop if unselectable
-
-            if (d.getTime() === target.getTime() && row === endRow) break;
-
-            row += dayStep;
-            if (row < 0 || row >= CellsInDay) {
-                d.setUTCDate(d.getUTCDate() + dayStep);
-                row = (dayStep > 0) ? 0 : (CellsInDay - 1);
-            }
-        }
-    }
-
-    /**
-     * wires mouseover and mouse up events. Awaits boolean true when should wire-up
-     * @param {any} active
-     */
-    function hookMouseEvents(active) {
-        if (active) {
-            container.addEventListener('mouseover', (e) => handleMouseOver(e));
-            container.addEventListener('mouseup',() => handleMouseUp());
-            document.addEventListener('mouseup', () => handleMouseUp());
-        } else {
-            container.removeEventListener('mouseover', (e) => handleMouseOver(e));
-            container.removeEventListener('mouseup', () => handleMouseUp());
-            document.removeEventListener('mouseup', () => handleMouseUp());
-        }
-    }
-
-    /**
-   * Handles mousedown.
-   * @param {any} e EventArgs
-   * @returns
-   */
-    function handleMouseDown(e) {
-
-        const cell = e.target.closest("[data-row][data-date]");
-
-        if (!(cell && cell.dataset && cell.dataset.selectable === "true")) return;
-
-        clearVisual();
-        isMouseDown = true;
-        startCell = cell;
-
-        addCell(cell.dataset.date, parseInt(cell.dataset.row, 10));
-        hookMouseEvents(true);
-    }
-
-    /**
-     * Handles Mouseover.
-     * @param {any} e EventArgs
-     * @returns
-     */
-    function handleMouseOver(e) {
-        if (!isMouseDown || !startCell) return;
-
-        const currentCell = e.target.closest("[data-row][data-date]");
-        if (!(currentCell && currentCell.dataset && currentCell.dataset.selectable === "true")) return;
-
-        clearVisual();
-        if (currentCell.dataset.date === startCell.dataset.date) {
-            markVertical(startCell, currentCell);
-        } else {
-            markHorizontal(startCell, currentCell);
-        }
-    }
-
-    /**
-     * Handles MouseUp events
-     */
-    function handleMouseUp() {
-        const cells = Array.from(selectedCells);
-        clearVisual();
-        hookMouseEvents(false);
-
-        const flag = isMouseDown && startCell && cells.length !== 0;
-        isMouseDown = false;
-        startCell = null;
-
-        if (flag) {
-            obj.invokeMethodAsync('CellsSelected', cells);
-        }
-    }
+    _obj;
+    _container;
+    _cellsInDay;
+    _lastItem;
+    _startDate;
+    _startRow;
+    _pointers;
+    _scrolling;
+    _lastScrollY;
+    _frame;
+    
+    constructor(cellsInDay, containerId, obj) {
+        this._obj = obj;
+        this._container = document.getElementById(containerId).querySelector(".mud-cal-selectable-container");
+        this._cellsInDay = cellsInDay;
+        this._pointers = new Map();
+        this._scrolling = false;
+        this._frame = null;
         
+        this._container.addEventListener("pointerdown", this.onPointerDown);
+    }
+    
+    onPointerDown = (e) => {
+        const item = this.getCellFromEvent(e);
+        if (!item) return;
+        
+        this._pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        
+        if (this._pointers.size >= 2) {
+            // If 2 or more fingers are being used, then scroll instead of selecting cells
+            this._scrolling = true;
+            this._lastScrollY = this.getPositionY();
+        } else {
+            this._startDate = new Date(item.dataset.date + "T00:00:00Z");
+            this._startRow = parseInt(item.dataset.row);
+            this._lastItem = null;
+            item.classList.add("cell-selected");
+        }
+
+        this._container.addEventListener("pointermove", this.onPointerMove);
+        this._container.addEventListener("pointerup", this.onPointerUp);
+        this._container.addEventListener("pointerleave", this.onPointerLeave);
+        this._container.addEventListener("pointercancel", this.onPointerLeave);
+    }
+    
+    onPointerUp = (e) => {
+        this.removeEventListeners();
+        
+        if (this._pointers.size < 2) {
+            const item = this.getCellFromEvent(e);
+            if (!item) return;
+
+            const cells = this.getSelectedCells(this._startDate, this._startRow, new Date(item.dataset.date + "T00:00:00Z"), parseInt(item.dataset.row));
+            const keys = cells.map(el => el.dataset.date + "_" + el.dataset.row);
+
+            this._obj.invokeMethodAsync("CellsSelected", keys);
+        }
+
+        this._container.querySelectorAll(".cell-selected").forEach(el => el.classList.remove("cell-selected"));
+        this._pointers.clear();
+        this._scrolling = false;
+    }
+    
+    onPointerLeave = () => {
+        this.removeEventListeners();
+        
+        this._container.querySelectorAll(".cell-selected").forEach(el => el.classList.remove("cell-selected"));
+        this._pointers.clear();
+        this._scrolling = false;
+    }
+    
+    onPointerMove = (e) => {
+        if (this._pointers.size >= 2) {
+            const pointer = this._pointers.get(e.pointerId);
+            pointer.y = e.clientY;
+            this.scrollY();
+        } else {
+            const item = this.getCellFromEvent(e);
+            if (!item || item === this._lastItem) return;
+            this._lastItem = item;
+
+            this._container.querySelectorAll(".cell-selected").forEach(el => el.classList.remove("cell-selected"));
+
+            const currentDate = new Date(item.dataset.date + "T00:00:00Z");
+            const cells = this.getSelectedCells(this._startDate, this._startRow, currentDate, parseInt(item.dataset.row));
+            cells.push(item)
+            cells.forEach(el => el.classList.add("cell-selected"));
+        }
+    }
+
+    getCellFromEvent = (e) => {
+        const x = e.clientX;
+        const y = e.clientY;
+        if (typeof x !== "number" || typeof y !== "number") return null;
+        const element = document.elementFromPoint(x, y);
+        return element ? element.closest(".mud-cal-selectable") : null;
+    }
+    
+    getSelectedCells(startDate, startRow, endDate, endRow) {
+        let firstDate = startDate;
+        let lastDate = endDate;
+        let firstRow = startRow;
+        let lastRow = endRow;
+        if (endDate < startDate || (endDate.getTime() === startDate.getTime() && endRow < startRow)) {
+            lastDate = startDate;
+            firstDate = endDate;
+            lastRow = startRow;
+            firstRow = endRow;
+        }
+        
+        const cells = [];
+        let date = new Date(firstDate);
+        while (date <= lastDate) {
+            const dateString = date.toISOString().split('T')[0];
+            let minRow = 0;
+            let maxRow = this._cellsInDay - 1;
+            if (date.getTime() === firstDate.getTime()) {
+                minRow = firstRow;
+            }
+            if (date.getTime() === lastDate.getTime()) {
+                maxRow = lastRow;
+            }
+            
+            for (let row = minRow; row <= maxRow; row++) {
+                const element = this._container.querySelector(`[data-date="${dateString}"][data-row="${row}"]`);
+                if(element) cells.push(element);
+            }
+            
+            date.setDate(date.getDate() + 1);
+        }
+        
+        return cells;
+    }
+    
+    getPositionY() {
+        // Get an average Y position of all pointers
+        let sumY = 0;
+        let count = 0;
+        for (const pointer of this._pointers.values()) {
+            sumY += pointer.y;
+            count++;
+        }
+        return sumY / count;
+    }
+    
+    scrollY()
+    {
+        if (this._frame) return;
+        this._frame = requestAnimationFrame(() =>
+        {
+            this._frame = null;
+            if (!this._scrolling) return;
+            const scrollY = this.getPositionY();
+            const delta = this._lastScrollY - scrollY;
+            this._container.scrollBy(0, delta);
+            this._lastScrollY = scrollY;
+            this._container.scrollTop += delta;
+        })
+    }
+    
+    removeEventListeners() {
+        this._container.removeEventListener("pointermove", this.onPointerMove);
+        this._container.removeEventListener("pointerup", this.onPointerUp);
+        this._container.removeEventListener("pointerleave", this.onPointerLeave);
+        this._container.removeEventListener("pointercancel", this.onPointerLeave);
+    }
+    
+    dispose() {
+        if (this._container) {
+            this.removeEventListeners();
+            this._container.removeEventListener("pointerdown", this.onPointerDown);
+        }
+        
+        this._obj = null;
+        this._container = null;
+        this._lastItem = null;
+        this._startDate = null;
+        this._pointers = null;
+        this._frame = null;
+    }
+}
+
+export function newMultiSelect(cellsInDay, containerId, obj) {
+    return new MultiSelect(cellsInDay, containerId, obj);
 }

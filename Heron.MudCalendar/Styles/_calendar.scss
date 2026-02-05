@@ -82,4 +82,8 @@
   .mud-cal-overflow-hidden {
     visibility: hidden;
   }
+  
+  .mud-cal-selectable {
+    touch-action: none;
+  }
 }
