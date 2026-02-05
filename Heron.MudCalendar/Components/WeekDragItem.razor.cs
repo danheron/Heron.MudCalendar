@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Heron.MudCalendar;
 
-public partial class WeekDragItem<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : IDisposable where T : CalendarItem
+public partial class WeekDragItem<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : IAsyncDisposable where T : CalendarItem
 {
     [CascadingParameter]
     public MudCalendar<T> Calendar { get; set; } = new();
@@ -60,10 +60,13 @@ public partial class WeekDragItem<[DynamicallyAccessedMembers(DynamicallyAccesse
         }
     }
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
         GC.SuppressFinalize(this);
 
-        _jsService?.Dispose();
+        if (_jsService != null)
+        {
+            await _jsService.DisposeAsync();
+        }
     }
 }
