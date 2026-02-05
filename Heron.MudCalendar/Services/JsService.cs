@@ -3,11 +3,13 @@ using Microsoft.JSInterop;
 
 namespace Heron.MudCalendar.Services;
 
-public class JsService : IDisposable
+public class JsService : IAsyncDisposable
 {
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
     private readonly CancellationTokenSource _cancellationTokenSource = new();
     private DotNetObjectReference<JsService>? _this;
+    
+    private IJSObjectReference? _multiSelect;
 
     public event EventHandler? OnLinkLoaded;
 
@@ -74,22 +76,11 @@ public class JsService : IDisposable
         OnMoreClicked?.Invoke(this, moreDate);
     }
 
-    /// <summary>
-    /// Initializes the multi-select functionality for the calendar grid.
-    /// </summary>
-    /// <param name="cellsInDay">The number of cells per day in the calendar view.</param>
-    /// <param name="containerId">The DOM id of the calendar container (e.g., "calendar1-grid").</param>
     public async Task AddMultiSelect(int cellsInDay, string containerId)
     {
-        // Create a .NET object reference for JS interop if it doesn't exist yet
         _this ??= DotNetObjectReference.Create(this);
-
-        // Wait for the JS module to be loaded
         var module = await _moduleTask.Value;
-
-        // Invoke the JavaScript function "addMultiSelect", passing the number of cells per day
-        // and the .NET object reference for callbacks from JS to C#
-        await module.InvokeVoidAsync("addMultiSelect", cellsInDay, containerId, _this);
+        _multiSelect = await module.InvokeAsync<IJSObjectReference>("newMultiSelect", cellsInDay, containerId, _this);
     }
 
     [JSInvokable]
@@ -107,12 +98,49 @@ public class JsService : IDisposable
         OnCellsSelected?.Invoke(this, selected);
     }
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
         GC.SuppressFinalize(this);
+        
+        if (_this != null) await CastAndDispose(_this);
+        if (_multiSelect != null)
+        {
+            await _multiSelect.InvokeVoidAsync("dispose");
+            await _multiSelect.DisposeAsync();
+        }
 
         if (!_moduleTask.IsValueCreated) return;
-        _cancellationTokenSource.Cancel();
-        _moduleTask.Value.Dispose();
+        try
+        {
+            await _cancellationTokenSource.CancelAsync();
+        }
+        catch
+        {
+            // ignore
+        }
+            
+        try
+        {
+            var module = await _moduleTask.Value; 
+            await module.DisposeAsync();
+        }
+        catch (OperationCanceledException)
+        {
+            // import was canceled
+        }
+        catch
+        {
+            // swallow other exceptions during cleanup to avoid throwing from DisposeAsync
+        }
+
+        return;
+
+        static async ValueTask CastAndDispose(IDisposable resource)
+        {
+            if (resource is IAsyncDisposable resourceAsyncDisposable)
+                await resourceAsyncDisposable.DisposeAsync();
+            else
+                resource.Dispose();
+        }
     }
 }

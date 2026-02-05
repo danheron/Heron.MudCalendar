@@ -79,19 +79,46 @@ public partial class Resizer : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         GC.SuppressFinalize(this);
-
-        _this?.Dispose();
-        _this = null;
+        
+        if (_this != null) await CastAndDispose(_this);
         if (_resizer != null)
         {
+            await _resizer.InvokeVoidAsync("dispose");
             await _resizer.DisposeAsync();
-            _resizer = null;
         }
 
-        if (_moduleTask.IsValueCreated)
+        if (!_moduleTask.IsValueCreated) return;
+        try
         {
             await _cancellationTokenSource.CancelAsync();
-            _moduleTask.Value.Dispose();
+        }
+        catch
+        {
+            // ignore
+        }
+
+        try
+        {
+            var module = await _moduleTask.Value;
+            await module.DisposeAsync();
+        }
+        catch (OperationCanceledException)
+        {
+            // import was canceled
+        }
+        catch
+        {
+            // swallow other exceptions during cleanup to avoid throwing from DisposeAsync
+        }
+
+        return;
+
+        static async ValueTask CastAndDispose(IDisposable resource)
+        {
+            if (resource is IAsyncDisposable resourceAsyncDisposable)
+                await resourceAsyncDisposable.DisposeAsync();
+            else
+                resource.Dispose();
         }
     }
 }

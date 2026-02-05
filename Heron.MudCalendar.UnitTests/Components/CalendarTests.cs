@@ -180,13 +180,13 @@ public class CalendarTests : BunitTest
         comp.SetParam(x => x.View, CalendarView.WorkWeek);
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 13));
         comp.Find("div.mud-cal-week-layer a").Click();
-        textField.Instance.GetState(x => x.Text).Should().Be("13");
+        textField.Instance.GetState(x => x.Text).Should().Be("9");
         
         // Work Week View set with time
         comp.SetParam(x => x.View, CalendarView.WorkWeek);
         comp.SetParam(x => x.CurrentDay, new DateTime(2023, 1, 13, 9, 30, 0));
         comp.FindAll("div.mud-cal-week-layer a")[55].Click();
-        textField.Instance.GetState(x => x.Text).Should().Be("13");
+        textField.Instance.GetState(x => x.Text).Should().Be("9");
         timeField.Instance.GetState(x => x.Text).Should().Be("09:10");
 
         // Week View

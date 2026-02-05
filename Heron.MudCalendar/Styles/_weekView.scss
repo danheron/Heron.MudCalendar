@@ -102,8 +102,10 @@
   cursor: pointer;
 }
 
-.mud-cal-week-link:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+@media (hover: hover) {
+  .mud-cal-week-link:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
 }
 
 .mud-cal-week-cell-link {

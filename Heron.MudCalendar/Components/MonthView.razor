@@ -80,7 +80,7 @@
                             <a @onclick="() => OnCellLinkClicked(currentCell)"
                                @oncontextmenu="@(mouseEventArgs => OnCellLinkContextMenuClicked(mouseEventArgs, currentCell))" @oncontextmenu:preventDefault
                                class="mud-cal-month-cell-link">
-                                <div class="mud-cal-month-link" data-date="@currentCell.Date.ToString("yyyy-MM-dd")" data-row="0" data-selectable="@IsSelectable(currentCell).ToString().ToLower()">
+                                <div class="@CellLinkClassname(false)" data-date="@currentCell.Date.ToString("yyyy-MM-dd")" data-row="0" data-selectable="@IsSelectable(currentCell).ToString().ToLower()">
                                     @RenderCellDayNumber(currentCell)
                                 </div>
                             </a>
@@ -89,7 +89,7 @@
                         {
                             <a @oncontextmenu="@(mouseEventArgs => OnCellLinkContextMenuClicked(mouseEventArgs, currentCell))" @oncontextmenu:preventDefault
                                class="mud-cal-month-cell-link">
-                                <div class="mud-cal-month-link cursor-auto">
+                                <div class="@CellLinkClassname(true)">
                                     @RenderCellDayNumber(currentCell)
                                 </div>
                             </a>
@@ -98,7 +98,7 @@
                         {
                             <a @onclick="() => OnCellLinkClicked(currentCell)"
                                class="mud-cal-month-cell-link">
-                                <div class="mud-cal-month-link" data-date="@currentCell.Date.ToString("yyyy-MM-dd")" data-row="0" data-selectable="@IsSelectable(currentCell).ToString().ToLower()">
+                                <div class="@CellLinkClassname(false)" data-date="@currentCell.Date.ToString("yyyy-MM-dd")" data-row="0" data-selectable="@IsSelectable(currentCell).ToString().ToLower()">
                                     @RenderCellDayNumber(currentCell)
                                 </div>
                             </a>
