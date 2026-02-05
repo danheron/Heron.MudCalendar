@@ -19,6 +19,11 @@ public partial class EnumSwitch<T>
     [Parameter]
     public EventCallback<T> ValueChanged { get; set; }
 
+    [Parameter]
+    public Variant Variant { get; set; } = Variant.Filled;
+
+    private bool _isTransparent => Variant == Variant.Text;
+
     private async Task ButtonClicked(T newValue)
     {
         if (!newValue.Equals(Value))

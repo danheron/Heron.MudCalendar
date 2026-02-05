@@ -3,7 +3,10 @@
 @typeparam T where T : Enum
 
 <div class="@Classname">
-    <MudToggleGroup T="T" Value="Value" Color="@Color" ValueChanged="(v) => ButtonClicked(v)">
+    <MudToggleGroup T="T" Value="Value" ValueChanged="(v) => ButtonClicked(v)" Class="mud-cal-fit-to-content-toggle-group" Delimiters
+                    Outlined="@(!_isTransparent)" 
+                    Color="@(_isTransparent ? Color.Transparent : Color)"
+                    SelectedClass="@(_isTransparent ? "mud-button-text mud-button-text-primary mud-button-not-filled" : "")">
         @foreach (T value in Enum.GetValues(Type))
         {
             if (AllowedValues == null || AllowedValues.Contains(value))
