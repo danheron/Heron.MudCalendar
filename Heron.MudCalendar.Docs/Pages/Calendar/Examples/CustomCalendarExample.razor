@@ -11,7 +11,7 @@
 
 @code{
 
-    private string GetColor(Color color) => $"var(--mud-palette-{color.ToDescriptionString()})";
+    private string GetColor(Color color) => $"var(--mud-palette-{color.ToString().ToLowerInvariant()})";
 
     private List<CustomItem> _events = new()
     {
