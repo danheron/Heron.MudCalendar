@@ -24,7 +24,7 @@ builder.Services.AddSingleton<IRenderQueueService, RenderQueueService>();
 builder.Services.AddGoogleAnalytics("G-QMN1W7PK2X");
 builder.Services.AddCookieConsent(options =>
 {
-    options.ImportJsAutomatically = false;
+    options.ImportJsAutomatically = true;
     options.Revision = 1;
     options.PolicyUrl = "/mudcalendar/cookie-policy";
 
