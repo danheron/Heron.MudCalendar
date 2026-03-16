@@ -1,0 +1,95 @@
+name: deploy-mudcalendar-docs
+env:
+  PUBLISH_FOLDER: "./Heron.MudCalendar/Heron.MudCalendar.Docs/bin/Release/net10.0/publish/wwwroot"
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Tag to publish v[0-9]+.[0-9]+.[0-9]+*"
+        required: true
+        default: ""
+        type: string
+
+jobs:
+  get-version:
+    name: Get version to deploy
+    runs-on: ubuntu-24.04
+    env:
+      VERSION: 1.0.0
+    outputs:
+      VERSION: ${{ steps.output-version.outputs.VERSION }}
+    steps:
+      - name: Set tag from input
+        env:
+          TAG: ${{ github.event.inputs.version }}
+        run: echo "VERSION=${TAG#v}" >> $GITHUB_ENV
+
+      - name: VERSION to job output
+        id: output-version
+        run: |
+          echo "VERSION=${{ env.VERSION }}" >> $GITHUB_OUTPUT
+
+  deploy-docs:
+    name: Deploy Docs to Github Pages
+    needs: get-version
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout MudBlazor
+        uses: actions/checkout@v4
+        with:
+          repository: danheron/MudBlazor
+          ref: mudcalendar
+          path: "./MudBlazor"
+
+      - name: Checkout mudcalendar
+        uses: actions/checkout@v4
+        with:
+          ref: "refs/tags/v${{ needs.get-version.outputs.VERSION }}"
+          path: "./Heron.MudCalendar"
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Install wasm-tools
+        run: dotnet workload install wasm-tools
+
+      - name: Restore MudBlazor
+        run: dotnet restore
+        working-directory: "./MudBlazor/src"
+
+      - name: Restore MudCalendar
+        run: dotnet restore Heron.MudCalendarWithDocs.sln
+        working-directory: "./Heron.MudCalendar"
+
+      # Need to build a debug version because MudBlazor.Docs.Compiler needs the xml attributes
+      - name: Build MudCalendar (Debug)
+        run: dotnet build -c Debug -m:1 --no-restore
+        working-directory: "./Heron.MudCalendar/Heron.MudCalendar"
+
+      - name: Build MudCalendar (Release)
+        run: dotnet build -c Release -m:1 --no-restore
+        working-directory: "./Heron.MudCalendar/Heron.MudCalendar"
+
+      - name: Build MudBlazor Docs
+        run: dotnet build -c Release --no-restore
+        working-directory: "./MudBlazor/src/MudBlazor.Docs"
+
+      - name: Build MudCalendar Docs
+        run: dotnet build -c Release --no-restore
+        working-directory: "./Heron.MudCalendar/Heron.MudCalendar.Docs"
+
+      - name: Publish MudCalendar
+        run: dotnet publish -c Release --no-restore
+        working-directory: "./Heron.MudCalendar/Heron.MudCalendar.Docs"
+
+      # Deploy to Azure Static Web Apps
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GRAY_ISLAND_0ADE67903 }}
+          action: "upload"
+          app_location: "./Heron.MudCalendar.Docs"
+          output_location: "wwwroot"
