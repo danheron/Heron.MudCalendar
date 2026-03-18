@@ -13,7 +13,7 @@
         <Copyright>Copyright 2026 Dan Heron</Copyright>
         <PackageTags>Calendar, Blazor, MudBlazor, Components, Blazor Components, Blazor Library</PackageTags>
         <Description>A simple but powerful calendar component for MudBlazor.</Description>
-        <PackageProjectUrl>https://danheron.github.io/Heron.MudCalendar</PackageProjectUrl>
+        <PackageProjectUrl>https://mudcalendar.heron.li/</PackageProjectUrl>
         <RepositoryUrl>https://github.com/danheron/Heron.MudCalendar</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageReadmeFile>README.md</PackageReadmeFile>

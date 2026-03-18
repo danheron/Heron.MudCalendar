@@ -15,7 +15,7 @@ A simple but powerful calendar component for MudBlazor.
 
 ## Documentation
 
-Documentation and examples are available [here](https://danheron.github.io/Heron.MudCalendar).
+Documentation and examples are available [here](https://mudcalendar.heron.li/).
 
 ## Getting Started
 
