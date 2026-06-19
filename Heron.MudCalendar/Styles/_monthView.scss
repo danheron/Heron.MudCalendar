@@ -45,6 +45,38 @@
   border-top: 1px solid var(--mud-palette-table-lines);
 }
 
+.mud-cal-week-summary-header {
+  flex: 1 1 0;
+  min-width: 0;
+  background-color: var(--mud-palette-surface);
+
+  .mud-cal-week-summary-title {
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.5rem;
+  }
+}
+
+.mud-cal-week-summary {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 8px;
+  font-size: 0.75rem;
+  color: var(--mud-palette-text-secondary);
+  background-color: var(--mud-palette-background-gray);
+  border-left: 1px solid var(--mud-palette-table-lines);
+  border-top: 1px solid var(--mud-palette-table-lines);
+  overflow-y: auto;
+}
+
+.mud-cal-month-header-row .mud-cal-month-grid-header.mud-cal-month-grid-header--with-summary {
+  flex: 7 1 0;
+}
+
 .mud-cal-month-row-content {
   position: relative;
   display: flex;
@@ -52,6 +84,10 @@
   flex: 1;
   min-width: 0;
   height: 100%;
+
+  &.mud-cal-month-row-content--with-summary {
+    flex: 7 1 0;
+  }
 }
 
 .mud-cal-month-layer {

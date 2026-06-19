@@ -1,0 +1,73 @@
+@using Heron.MudCalendar
+
+<MudPopoverProvider></MudPopoverProvider>
+
+<MudCalendar T="EmployeeItem" Items="_events" View="CalendarView.Month" ShowWeekNumbers="true"
+             MonthWeekSummaryTitle="Hours / week"
+             MonthWeekSummaryTemplate="@(_showSummary ? SummaryTemplate : null)" />
+
+<MudSwitch T="bool" @bind-Value="_showSummary" Color="Color.Primary" Label="Show week summary" />
+
+@code {
+    public static string __description__ = "Month view per-week summary column";
+
+    private bool _showSummary = true;
+
+    private RenderFragment<CalendarWeekSummary<EmployeeItem>> SummaryTemplate => week =>
+        @<text>
+            @foreach (var employee in HoursPerEmployee(week))
+            {
+                <div class="mud-cal-week-summary-row">
+                    <span>@employee.Key</span>
+                    <span>@employee.Value.ToString("0.#")h</span>
+                </div>
+            }
+        </text>;
+
+    public class EmployeeItem : CalendarItem
+    {
+        public string Employee { get; set; } = string.Empty;
+    }
+
+    private static IEnumerable<KeyValuePair<string, double>> HoursPerEmployee(CalendarWeekSummary<EmployeeItem> week)
+    {
+        return week.Items
+            .GroupBy(i => i.Employee)
+            .Select(g => new KeyValuePair<string, double>(
+                g.Key,
+                g.Sum(i => ((i.End ?? i.Start.AddHours(1)) - i.Start).TotalHours)))
+            .OrderBy(e => e.Key);
+    }
+
+    private readonly List<EmployeeItem> _events = new()
+    {
+        new EmployeeItem
+        {
+            Start = DateTime.Today.AddHours(9),
+            End = DateTime.Today.AddHours(17),
+            Text = "Shift",
+            Employee = "Alice"
+        },
+        new EmployeeItem
+        {
+            Start = DateTime.Today.AddDays(1).AddHours(8),
+            End = DateTime.Today.AddDays(1).AddHours(12),
+            Text = "Shift",
+            Employee = "Bob"
+        },
+        new EmployeeItem
+        {
+            Start = DateTime.Today.AddDays(2).AddHours(13),
+            End = DateTime.Today.AddDays(2).AddHours(17),
+            Text = "Shift",
+            Employee = "Alice"
+        },
+        new EmployeeItem
+        {
+            Start = DateTime.Today.AddDays(8).AddHours(9),
+            End = DateTime.Today.AddDays(8).AddHours(15),
+            Text = "Shift",
+            Employee = "Bob"
+        }
+    };
+}

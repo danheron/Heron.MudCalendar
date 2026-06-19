@@ -39,10 +39,13 @@
     /// Renders the header of the grid.
     /// </summary>
     protected virtual RenderFragment RenderHeader =>
-        Calendar.ShowWeekNumbers
+        Calendar.ShowWeekNumbers || ShowWeekSummary
             ? @<div class="mud-cal-month-header-row">
-                <div class="mud-cal-week-number-header" aria-hidden="true"></div>
-                <div class="mud-cal-grid-header mud-cal-month-grid-header" style="@HeaderGridStyle">
+                @if (Calendar.ShowWeekNumbers)
+                {
+                    <div class="mud-cal-week-number-header" aria-hidden="true"></div>
+                }
+                <div class="mud-cal-grid-header mud-cal-month-grid-header @(ShowWeekSummary ? "mud-cal-month-grid-header--with-summary" : null)" style="@HeaderGridStyle">
                     @for (var i = 0; i < Columns; i++)
                     {
                         <div class="mud-cal-month-header" aria-label="@Cells[i].Date.ToString("dddd")">
@@ -50,6 +53,19 @@
                         </div>
                     }
                 </div>
+                @if (ShowWeekSummary)
+                {
+                    <div class="mud-cal-week-summary-header">
+                        @if (Calendar.MonthWeekSummaryHeaderTemplate != null)
+                        {
+                            @Calendar.MonthWeekSummaryHeaderTemplate
+                        }
+                        else if (!string.IsNullOrEmpty(Calendar.MonthWeekSummaryTitle))
+                        {
+                            <div class="mud-cal-week-summary-title">@Calendar.MonthWeekSummaryTitle</div>
+                        }
+                    </div>
+                }
             </div>
             : @<div class="mud-cal-grid-header mud-cal-month-grid-header" style="@HeaderGridStyle">
                 @for (var i = 0; i < Columns; i++)
@@ -88,10 +104,16 @@
                         @weekNumber
                     </div>
                 }
-                <div class="mud-cal-month-row-content">
+                <div class="mud-cal-month-row-content @(ShowWeekSummary ? "mud-cal-month-row-content--with-summary" : null)">
                     @RenderRowCells(row)
                     @RenderCellContents(row)
                 </div>
+                @if (ShowWeekSummary)
+                {
+                    <div class="mud-cal-week-summary">
+                        @Calendar.MonthWeekSummaryTemplate!(BuildWeekSummary(row))
+                    </div>
+                }
             </div>
         }
     };

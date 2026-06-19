@@ -448,6 +448,39 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public RenderFragment<T>? MonthTemplate { get; set; }
     
     /// <summary>
+    /// Defines the content of an optional per-week summary column shown on the right of the Month view.
+    /// The column is shown only when this template is set.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
+    [Category(CategoryTypes.Calendar.Template)]
+    [Parameter]
+    public RenderFragment<CalendarWeekSummary<T>>? MonthWeekSummaryTemplate { get; set; }
+
+    /// <summary>
+    /// The title shown in the header cell above the Month view week summary column.
+    /// Ignored when <see cref="MonthWeekSummaryHeaderTemplate"/> is set.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
+    [Category(CategoryTypes.Calendar.Template)]
+    [Parameter]
+    public string? MonthWeekSummaryTitle { get; set; }
+
+    /// <summary>
+    /// Defines the content of the header cell above the Month view week summary column.
+    /// Overrides <see cref="MonthWeekSummaryTitle"/> when set.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
+    [Category(CategoryTypes.Calendar.Template)]
+    [Parameter]
+    public RenderFragment? MonthWeekSummaryHeaderTemplate { get; set; }
+
+    /// <summary>
     /// Defines the cell content for the Week view.
     /// </summary>
     /// <remarks>

@@ -32,6 +32,35 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     protected virtual int Rows => Cells.Count / Columns;
 
     /// <summary>
+    /// Whether the per-week summary column should be shown.
+    /// </summary>
+    protected bool ShowWeekSummary => Calendar.MonthWeekSummaryTemplate != null;
+
+    /// <summary>
+    /// Builds the summary context for a month view row (week).
+    /// </summary>
+    /// <param name="row">The row index.</param>
+    protected virtual CalendarWeekSummary<T> BuildWeekSummary(int row)
+    {
+        var weekStart = Cells[row * Columns].Date.Date;
+        var weekEnd = Cells[(row * Columns) + Columns - 1].Date.Date;
+        var rangeEnd = weekEnd.AddDays(1).AddTicks(-1);
+
+        var items = Calendar.Items
+            .Where(i => i.Start <= rangeEnd && (i.End ?? i.Start) >= weekStart)
+            .OrderBy(i => i.Start)
+            .ToList();
+
+        return new CalendarWeekSummary<T>
+        {
+            WeekNumber = GetWeekNumberForRow(row),
+            WeekStart = weekStart,
+            WeekEnd = weekEnd,
+            Items = items
+        };
+    }
+
+    /// <summary>
     /// Classes added to main div of the component.
     /// </summary>
     protected virtual string Classname =>
