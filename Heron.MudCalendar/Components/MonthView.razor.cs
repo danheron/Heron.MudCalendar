@@ -42,14 +42,11 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
             .Build();
 
     /// <summary>
-    /// Styles added to the main grid.
+    /// Styles added to the month view header.
     /// </summary>
-    protected virtual string GridStyle =>
+    protected virtual string HeaderGridStyle =>
         new StyleBuilder()
             .AddStyle("grid-template-columns", $"repeat({Columns}, minmax(10px, 1fr))")
-            .AddStyle("grid-template-rows",
-                $"repeat({Rows}, {(100.0 / Rows).ToInvariantString()}%)",
-                Calendar.MonthCellMinHeight == 0)
             .Build();
 
     /// <summary>

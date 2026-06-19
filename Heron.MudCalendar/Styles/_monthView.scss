@@ -5,6 +5,12 @@
 .mud-cal-month-header-row {
   display: flex;
   flex-direction: row;
+  flex-shrink: 0;
+
+  .mud-cal-month-grid-header {
+    flex: 1;
+    min-width: 0;
+  }
 }
 
 .mud-cal-week-number-header {
@@ -15,8 +21,7 @@
 }
 
 .mud-cal-month-grid-header {
-  flex: 1;
-  min-width: 0;
+  flex-shrink: 0;
 
   .mud-cal-month-header {
     border-right: none;

@@ -42,7 +42,7 @@
         Calendar.ShowWeekNumbers
             ? @<div class="mud-cal-month-header-row">
                 <div class="mud-cal-week-number-header" aria-hidden="true"></div>
-                <div class="mud-cal-grid-header mud-cal-month-grid-header" style="@GridStyle">
+                <div class="mud-cal-grid-header mud-cal-month-grid-header" style="@HeaderGridStyle">
                     @for (var i = 0; i < Columns; i++)
                     {
                         <div class="mud-cal-month-header" aria-label="@Cells[i].Date.ToString("dddd")">
@@ -51,7 +51,7 @@
                     }
                 </div>
             </div>
-            : @<div class="mud-cal-grid-header mud-cal-month-grid-header" style="@GridStyle">
+            : @<div class="mud-cal-grid-header mud-cal-month-grid-header" style="@HeaderGridStyle">
                 @for (var i = 0; i < Columns; i++)
                 {
                     <div class="mud-cal-month-header" aria-label="@Cells[i].Date.ToString("dddd")">
