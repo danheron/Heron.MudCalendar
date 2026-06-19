@@ -2,10 +2,51 @@
   height: 100%;
 }
 
+.mud-cal-month-header-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.mud-cal-week-number-header {
+  width: 32px;
+  min-width: 32px;
+  flex-shrink: 0;
+  background-color: var(--mud-palette-surface);
+}
+
 .mud-cal-month-grid-header {
+  flex: 1;
+  min-width: 0;
+
   .mud-cal-month-header {
     border-right: none;
   }
+}
+
+.mud-cal-week-number {
+  width: 32px;
+  min-width: 32px;
+  flex-shrink: 0;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 8px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--mud-palette-text-secondary);
+  background-color: var(--mud-palette-background-gray);
+  border-right: 1px solid var(--mud-palette-table-lines);
+  border-top: 1px solid var(--mud-palette-table-lines);
+}
+
+.mud-cal-month-row-content {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
 }
 
 .mud-cal-month-layer {

@@ -88,6 +88,16 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public int MonthCellMinHeight { get; set; }
+
+    /// <summary>
+    /// If true, shows a column with week numbers on the left of the month view.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>false</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Appearance)]
+    public bool ShowWeekNumbers { get; set; }
     
     /// <summary>
     /// Gets or sets the day that the calendar is showing.

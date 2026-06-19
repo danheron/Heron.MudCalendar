@@ -137,6 +137,31 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
             .Build();
 
     /// <summary>
+    /// Gets the week number for the given date.
+    /// </summary>
+    protected virtual int GetWeekNumber(DateTime date) =>
+        CalendarDateRange.GetWeekNumber(date, Calendar.Culture, Calendar.FirstDayOfWeek);
+
+    /// <summary>
+    /// Gets the week number for a month view row, using the first day of the displayed month in that row.
+    /// </summary>
+    protected virtual int GetWeekNumberForRow(int row)
+    {
+        var rowStart = row * Columns;
+        var rowEnd = rowStart + Columns;
+
+        for (var i = rowStart; i < rowEnd; i++)
+        {
+            if (!Cells[i].Outside)
+            {
+                return GetWeekNumber(Cells[i].Date);
+            }
+        }
+
+        return GetWeekNumber(Cells[rowStart].Date);
+    }
+
+    /// <summary>
     /// Method invoked when the user clicks on the hyperlink in the cell.
     /// </summary>
     /// <param name="cell">The cell that was clicked.</param>

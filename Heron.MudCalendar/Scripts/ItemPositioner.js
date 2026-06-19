@@ -14,18 +14,20 @@ export function positionMonthItems(element, moreText, fixedHeight, obj) {
         
         element.querySelectorAll(".mud-cal-month-row-holder").forEach(function(container) {
             try {
+                const contentContainer = container.querySelector(".mud-cal-month-row-content") || container;
+
                 // Remove any existing messages
-                container.querySelectorAll(".mud-cal-overflow-message").forEach(function (message) {
+                contentContainer.querySelectorAll(".mud-cal-overflow-message").forEach(function (message) {
                     message.remove();
                 });
 
                 // Find the height of the header part
                 const datePositions = new Map();
-                const totalWidth = container.clientWidth;
-                const cellCount = container.querySelectorAll(".mud-cal-month-cell").length;
+                const totalWidth = contentContainer.clientWidth;
+                const cellCount = contentContainer.querySelectorAll(".mud-cal-month-cell").length;
                 let headerHeight = 0;
                 let index = 0;
-                container.querySelectorAll(".mud-cal-month-cell").forEach(function(cell) {
+                contentContainer.querySelectorAll(".mud-cal-month-cell").forEach(function(cell) {
                     let height = 0;
                     cell.querySelectorAll(".mud-cal-month-cell-header").forEach(function(item) {
                         height += item.clientHeight;
@@ -38,7 +40,7 @@ export function positionMonthItems(element, moreText, fixedHeight, obj) {
                 
                 const positions = [];
                 const overlaps = [];
-                container.querySelectorAll(".mud-cal-drop-item").forEach(function(item) {
+                contentContainer.querySelectorAll(".mud-cal-drop-item").forEach(function(item) {
                     // Remove any overflow messages
                     item.classList.remove("mud-cal-overflow-hidden");
 
@@ -84,7 +86,7 @@ export function positionMonthItems(element, moreText, fixedHeight, obj) {
                         if (!starts.includes(position.Start)) starts.push(position.Start);
                     });
                     starts.forEach((start) => {
-                        hideOverflows(container, positions.filter(p => p.Start === start), start, datePositions);
+                        hideOverflows(contentContainer, positions.filter(p => p.Start === start), start, datePositions);
                     });
                 }
                 else
