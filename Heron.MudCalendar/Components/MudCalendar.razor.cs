@@ -588,6 +588,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     /// </summary>
     protected virtual string Styles =>
         new StyleBuilder("min-height", $"{Height}px")
+            .AddStyle("height", $"{Height}px", View == CalendarView.Month && MonthCellMinHeight > 0)
             .AddStyle(Style)
             .Build();
 

@@ -91,11 +91,13 @@ export function positionMonthItems(element, moreText, fixedHeight, obj) {
                 }
                 else
                 {
-                    // Calculate the height of the row
+                    // Grow the row to fit all of its items. When MonthCellMinHeight is set
+                    // the row keeps at least that height (via CSS min-height) and the whole
+                    // month body scrolls within the viewport.
                     let rowMaxBottom = headerHeight;
                     positions.forEach((position) => {
                         if (position.Bottom > rowMaxBottom) rowMaxBottom = position.Bottom;
-                    })
+                    });
                     container.style.height = rowMaxBottom + "px";
                 }
                 

@@ -115,3 +115,14 @@
   flex-direction: column;
   height: 100%;
 }
+
+.mud-cal-month-scrollable {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  .mud-cal-grid {
+    height: auto;
+  }
+}

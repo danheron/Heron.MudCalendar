@@ -38,6 +38,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
         new CssBuilder("mud-cal-month-table-body")
             .AddClass("mud-cal-month-layer")
             .AddClass("mud-cal-month-fixed-height", Calendar.MonthCellMinHeight == 0)
+            .AddClass("mud-cal-month-scrollable", Calendar.MonthCellMinHeight > 0)
             .AddClass("mud-cal-selectable-container", Calendar.CellRangeSelected.HasDelegate)
             .Build();
 
@@ -130,6 +131,7 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
 
     protected virtual string RowStyle =>
         new StyleBuilder()
+            .AddStyle("height", Calendar.MonthCellMinHeight + "px", Calendar.MonthCellMinHeight > 0)
             .AddStyle("min-height", Calendar.MonthCellMinHeight + "px", Calendar.MonthCellMinHeight > 0)
             .Build();
 

@@ -80,26 +80,19 @@
     {
         for (var row = 0; row < Rows; row++)
         {
-            if (Calendar.ShowWeekNumbers)
-            {
-                var weekNumber = GetWeekNumberForRow(row);
-                <div class="mud-cal-month-row-holder" style="@RowStyle">
+            var weekNumber = Calendar.ShowWeekNumbers ? GetWeekNumberForRow(row) : 0;
+            <div class="mud-cal-month-row-holder" style="@RowStyle">
+                @if (Calendar.ShowWeekNumbers)
+                {
                     <div class="mud-cal-week-number" aria-label="@($"Week {weekNumber}")">
                         @weekNumber
                     </div>
-                    <div class="mud-cal-month-row-content">
-                        @RenderRowCells(row)
-                        @RenderCellContents(row)
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="mud-cal-month-row-holder" style="@RowStyle">
+                }
+                <div class="mud-cal-month-row-content">
                     @RenderRowCells(row)
                     @RenderCellContents(row)
                 </div>
-            }
+            </div>
         }
     };
 
