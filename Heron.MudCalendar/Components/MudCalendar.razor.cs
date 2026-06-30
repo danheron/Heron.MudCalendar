@@ -77,7 +77,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
-    public int Height { get; set; } = 700;
+    public string Height { get; set; } = "700px";
 
     /// <summary>
     /// Gets or sets the minimum height of a cell.
@@ -620,8 +620,8 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     /// Styles added to main div of the component.
     /// </summary>
     protected virtual string Styles =>
-        new StyleBuilder("min-height", $"{Height}px")
-            .AddStyle("height", $"{Height}px", View == CalendarView.Month && MonthCellMinHeight > 0)
+        new StyleBuilder("min-height", Height)
+            .AddStyle("height", Height, View == CalendarView.Month && MonthCellMinHeight > 0)
             .AddStyle(Style)
             .Build();
 
