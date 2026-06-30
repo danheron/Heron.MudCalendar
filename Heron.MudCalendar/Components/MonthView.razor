@@ -45,7 +45,7 @@
                 {
                     <div class="mud-cal-week-number-header" aria-hidden="true"></div>
                 }
-                <div class="mud-cal-grid-header mud-cal-month-grid-header @(ShowWeekSummary ? "mud-cal-month-grid-header--with-summary" : null)" style="@HeaderGridStyle">
+                <div class="mud-cal-grid-header mud-cal-month-grid-header" style="@HeaderGridStyle">
                     @for (var i = 0; i < Columns; i++)
                     {
                         <div class="mud-cal-month-header" aria-label="@Cells[i].Date.ToString("dddd")">
@@ -104,7 +104,7 @@
                         @weekNumber
                     </div>
                 }
-                <div class="mud-cal-month-row-content @(ShowWeekSummary ? "mud-cal-month-row-content--with-summary" : null)">
+                <div class="mud-cal-month-row-content">
                     @RenderRowCells(row)
                     @RenderCellContents(row)
                 </div>

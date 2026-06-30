@@ -73,10 +73,6 @@
   overflow-y: auto;
 }
 
-.mud-cal-month-header-row .mud-cal-month-grid-header.mud-cal-month-grid-header--with-summary {
-  flex: 7 1 0;
-}
-
 .mud-cal-month-row-content {
   position: relative;
   display: flex;
@@ -84,10 +80,6 @@
   flex: 1;
   min-width: 0;
   height: 100%;
-
-  &.mud-cal-month-row-content--with-summary {
-    flex: 7 1 0;
-  }
 }
 
 .mud-cal-month-layer {
