@@ -8,7 +8,7 @@ public class JsService : IAsyncDisposable
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
     private readonly CancellationTokenSource _cancellationTokenSource = new();
     private DotNetObjectReference<JsService>? _this;
-    
+
     private IJSObjectReference? _multiSelect;
 
     public event EventHandler? OnLinkLoaded;
@@ -19,8 +19,14 @@ public class JsService : IAsyncDisposable
 
     public JsService(IJSRuntime jsRuntime)
     {
+        var version = typeof(JsService).Assembly
+            .GetCustomAttributes(typeof(System.Reflection.AssemblyInformationalVersionAttribute), false)
+            .OfType<System.Reflection.AssemblyInformationalVersionAttribute>()
+            .FirstOrDefault()?.InformationalVersion ?? "1.0.0";
+
         _moduleTask = new Lazy<Task<IJSObjectReference>>(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-            "import", _cancellationTokenSource.Token, "./_content/Heron.MudCalendar/Heron.MudCalendar.min.js").AsTask());
+            "import", _cancellationTokenSource.Token,
+            $"./_content/Heron.MudCalendar/Heron.MudCalendar.min.js?v={version}").AsTask());
     }
 
     public async Task Scroll(ElementReference element, int top)
@@ -28,7 +34,7 @@ public class JsService : IAsyncDisposable
         var module = await _moduleTask.Value;
         await module.InvokeVoidAsync("scroll", element, top);
     }
-    
+
     public async Task<string> GetHeadContent()
     {
         var module = await _moduleTask.Value;
@@ -41,7 +47,7 @@ public class JsService : IAsyncDisposable
         {
             _this ??= DotNetObjectReference.Create(this);
         }
-        
+
         var module = await _moduleTask.Value;
         await module.InvokeVoidAsync("addLink", href, rel, _this);
     }
@@ -51,7 +57,7 @@ public class JsService : IAsyncDisposable
     {
         OnLinkLoaded?.Invoke(this, EventArgs.Empty);
     }
-    
+
     public async Task AddDragHandler(string id, int width)
     {
         var module = await _moduleTask.Value;
@@ -64,7 +70,7 @@ public class JsService : IAsyncDisposable
         {
             _this ??= DotNetObjectReference.Create(this);
         }
-        
+
         var module = await _moduleTask.Value;
         await module.InvokeVoidAsync("positionMonthItems", element, moreText, fixedHeight, _this);
     }
@@ -101,7 +107,7 @@ public class JsService : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         GC.SuppressFinalize(this);
-        
+
         if (_this != null) await CastAndDispose(_this);
         if (_multiSelect != null)
         {
@@ -118,10 +124,10 @@ public class JsService : IAsyncDisposable
         {
             // ignore
         }
-            
+
         try
         {
-            var module = await _moduleTask.Value; 
+            var module = await _moduleTask.Value;
             await module.DisposeAsync();
         }
         catch (OperationCanceledException)

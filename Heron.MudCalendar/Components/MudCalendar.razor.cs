@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Reflection;
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
@@ -9,7 +10,6 @@ using MudBlazor;
 using CategoryAttribute = Heron.MudCalendar.Attributes.CategoryAttribute;
 using CategoryTypes = Heron.MudCalendar.Attributes.CategoryTypes;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace Heron.MudCalendar;
 
@@ -826,7 +826,8 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
 
         // Add the link
         _jsService.OnLinkLoaded += (_, _) => Refresh();
-        await _jsService.AddLink("_content/Heron.MudCalendar/Heron.MudCalendar.min.css", "stylesheet");
+        var version = typeof(MudCalendar<>).Assembly.GetName().Version?.ToString() ?? "1.0.0";
+        await _jsService.AddLink($"_content/Heron.MudCalendar/Heron.MudCalendar.min.css?v={version}", "stylesheet");
     }
 
     private async Task DatePickerDateChanged(DateTime? dateTime)
