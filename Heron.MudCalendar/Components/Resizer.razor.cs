@@ -83,8 +83,19 @@ public partial class Resizer : IAsyncDisposable
         if (_this != null) await CastAndDispose(_this);
         if (_resizer != null)
         {
-            await _resizer.InvokeVoidAsync("dispose");
-            await _resizer.DisposeAsync();
+            try
+            {
+                await _resizer.InvokeVoidAsync("dispose");
+                await _resizer.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+                // circuit already gone
+            }
+            catch (TaskCanceledException)
+            {
+                // circuit closing
+            }
         }
 
         if (!_moduleTask.IsValueCreated) return;
