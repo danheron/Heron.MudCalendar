@@ -105,8 +105,19 @@ public class JsService : IAsyncDisposable
         if (_this != null) await CastAndDispose(_this);
         if (_multiSelect != null)
         {
-            await _multiSelect.InvokeVoidAsync("dispose");
-            await _multiSelect.DisposeAsync();
+            try
+            {
+                await _multiSelect.InvokeVoidAsync("dispose");
+                await _multiSelect.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+                // circuit already gone
+            }
+            catch (TaskCanceledException)
+            {
+                // circuit closing
+            }
         }
 
         if (!_moduleTask.IsValueCreated) return;
