@@ -36,20 +36,20 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout MudBlazor
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: danheron/MudBlazor
           ref: mudcalendar
           path: "./MudBlazor"
 
       - name: Checkout mudcalendar
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: "refs/tags/v${{ needs.get-version.outputs.VERSION }}"
           path: "./Heron.MudCalendar"
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
           

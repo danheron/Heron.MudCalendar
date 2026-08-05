@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: Checkout MudCalendar repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         id: stepid
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
