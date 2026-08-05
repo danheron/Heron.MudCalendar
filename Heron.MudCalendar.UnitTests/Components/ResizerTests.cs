@@ -13,7 +13,7 @@ public class ResizerTests : BunitTest
         var resizerInterop = moduleInterop.SetupModule("newResizer", _ => true);
         resizerInterop.SetupVoid("dispose", _ => true).SetException(new JSDisconnectedException("Circuit disconnected."));
 
-        var cut = Context.RenderComponent<Resizer>();
+        var cut = Context.Render<Resizer>();
 
         var act = async () => await cut.Instance.DisposeAsync();
 
