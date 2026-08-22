@@ -221,7 +221,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public bool ShowPrevNextButtons { get; set; } = true;
     
     /// <summary>
-    /// If false, the Datepicker is not shown.
+    /// If false, the DatePicker is not shown.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>true</c>.
@@ -330,7 +330,18 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public bool ShowCurrentTime { get; set; }
-    
+
+    /// <summary>
+    /// The format of the selected date in the DatePicker title.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to ddd, dd MMM.
+    /// Supported date formats can be found here: https://learn.microsoft.com/dotnet/standard/base-types/standard-date-and-time-format-strings.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Behavior)]
+    public string PickerTitleDateFormat { get; set; } = "ddd, dd MMM";
+
     /// <summary>
     /// The culture to use for displaying dates.
     /// </summary>
