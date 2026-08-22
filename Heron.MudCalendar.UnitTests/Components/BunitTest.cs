@@ -5,7 +5,7 @@ namespace Heron.MudCalendar.UnitTests.Components;
 
 public abstract class BunitTest
 {
-    protected Bunit.TestContext Context { get; private set; } = new();
+    protected BunitContext Context { get; private set; } = new();
 
     [SetUp]
     public virtual void Setup()

@@ -7,7 +7,7 @@ namespace Heron.MudCalendar.UnitTests;
 
 public static class TestContextExtensions
 {
-    public static void AddTestServices(this Bunit.TestContext ctx)
+    public static void AddTestServices(this BunitContext ctx)
     {
         ctx.JSInterop.Mode = JSRuntimeMode.Loose;
         ctx.Services.AddSingleton<NavigationManager>(new MockNavigationManager());
