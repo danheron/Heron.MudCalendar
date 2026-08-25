@@ -1,0 +1,13 @@
+﻿<MudPopoverProvider />
+
+<MudCalendar T="CalendarItem"
+             ShowDatePicker="true"
+             @bind-CurrentDay="@_currentDay"
+             PickerTitleDateFormat="MMM d, yyyy" />
+
+@code {
+
+    public static string __description__ = "Picker Title Date Format Test";
+
+    private DateTime _currentDay = new DateTime(2026, 8, 22);
+}

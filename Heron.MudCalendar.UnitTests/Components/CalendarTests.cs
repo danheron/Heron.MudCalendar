@@ -877,4 +877,19 @@ public class CalendarTests : BunitTest
         );
         comp.FindAll("div.mud-cal-drop-item .mud-drop-item[draggable=true]").Count.Should().Be(1);
     }
+
+    [Test]
+    public void PickerTitleDateFormatTest()
+    {
+        var cut = Context.Render<CalendarPickerTitleDateFormatTest>();
+
+        var picker = cut.FindComponent<MudDatePicker>();
+        picker.Instance.TitleDateFormat.Should().Be("MMM d, yyyy");
+
+        var pickerButton = cut.Find(".mud-picker .mud-button-root");
+        pickerButton.Click(); // Open the date picker
+
+        var dateButton = cut.Find(".mud-button-date");
+        dateButton.TextContent.Should().Be("Aug 22, 2026");
+    }
 }
