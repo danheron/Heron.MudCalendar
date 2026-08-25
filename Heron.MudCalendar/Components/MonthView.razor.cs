@@ -32,24 +32,51 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
     protected virtual int Rows => Cells.Count / Columns;
 
     /// <summary>
+    /// Whether the per-week summary column should be shown.
+    /// </summary>
+    protected bool ShowWeekSummary => Calendar.MonthWeekSummaryTemplate != null;
+
+    /// <summary>
+    /// Builds the summary context for a month view row (week).
+    /// </summary>
+    /// <param name="row">The row index.</param>
+    protected virtual CalendarWeekSummary<T> BuildWeekSummary(int row)
+    {
+        var weekStart = Cells[row * Columns].Date.Date;
+        var weekEnd = Cells[(row * Columns) + Columns - 1].Date.Date;
+        var rangeEnd = weekEnd.AddDays(1).AddTicks(-1);
+
+        var items = Calendar.Items
+            .Where(i => i.Start <= rangeEnd && (i.End ?? i.Start) >= weekStart)
+            .OrderBy(i => i.Start)
+            .ToList();
+
+        return new CalendarWeekSummary<T>
+        {
+            WeekNumber = GetWeekNumberForRow(row),
+            WeekStart = weekStart,
+            WeekEnd = weekEnd,
+            Items = items
+        };
+    }
+
+    /// <summary>
     /// Classes added to main div of the component.
     /// </summary>
     protected virtual string Classname =>
         new CssBuilder("mud-cal-month-table-body")
             .AddClass("mud-cal-month-layer")
             .AddClass("mud-cal-month-fixed-height", Calendar.MonthCellMinHeight == 0)
+            .AddClass("mud-cal-month-scrollable", Calendar.MonthCellMinHeight > 0)
             .AddClass("mud-cal-selectable-container", Calendar.CellRangeSelected.HasDelegate)
             .Build();
 
     /// <summary>
-    /// Styles added to the main grid.
+    /// Styles added to the month view header.
     /// </summary>
-    protected virtual string GridStyle =>
+    protected virtual string HeaderGridStyle =>
         new StyleBuilder()
             .AddStyle("grid-template-columns", $"repeat({Columns}, minmax(10px, 1fr))")
-            .AddStyle("grid-template-rows",
-                $"repeat({Rows}, {(100.0 / Rows).ToInvariantString()}%)",
-                Calendar.MonthCellMinHeight == 0)
             .Build();
 
     /// <summary>
@@ -133,8 +160,34 @@ public partial class MonthView<[DynamicallyAccessedMembers(DynamicallyAccessedMe
 
     protected virtual string RowStyle =>
         new StyleBuilder()
+            .AddStyle("height", Calendar.MonthCellMinHeight + "px", Calendar.MonthCellMinHeight > 0)
             .AddStyle("min-height", Calendar.MonthCellMinHeight + "px", Calendar.MonthCellMinHeight > 0)
             .Build();
+
+    /// <summary>
+    /// Gets the week number for the given date.
+    /// </summary>
+    protected virtual int GetWeekNumber(DateTime date) =>
+        CalendarDateRange.GetWeekNumber(date, Calendar.Culture, Calendar.FirstDayOfWeek);
+
+    /// <summary>
+    /// Gets the week number for a month view row, using the first day of the displayed month in that row.
+    /// </summary>
+    protected virtual int GetWeekNumberForRow(int row)
+    {
+        var rowStart = row * Columns;
+        var rowEnd = rowStart + Columns;
+
+        for (var i = rowStart; i < rowEnd; i++)
+        {
+            if (!Cells[i].Outside)
+            {
+                return GetWeekNumber(Cells[i].Date);
+            }
+        }
+
+        return GetWeekNumber(Cells[rowStart].Date);
+    }
 
     /// <summary>
     /// Method invoked when the user clicks on the hyperlink in the cell.

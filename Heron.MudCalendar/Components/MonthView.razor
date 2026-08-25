@@ -39,14 +39,42 @@
     /// Renders the header of the grid.
     /// </summary>
     protected virtual RenderFragment RenderHeader =>
-        @<div class="mud-cal-grid-header mud-cal-month-grid-header" style="@GridStyle">
-            @for (var i = 0; i < Columns; i++)
-            {
-                <div class="mud-cal-month-header" aria-label="@Cells[i].Date.ToString("dddd")">
-                    @RenderDayTitle(i)
+        Calendar.ShowWeekNumbers || ShowWeekSummary
+            ? @<div class="mud-cal-month-header-row">
+                @if (Calendar.ShowWeekNumbers)
+                {
+                    <div class="mud-cal-week-number-header" aria-hidden="true"></div>
+                }
+                <div class="mud-cal-grid-header mud-cal-month-grid-header" style="@HeaderGridStyle">
+                    @for (var i = 0; i < Columns; i++)
+                    {
+                        <div class="mud-cal-month-header" aria-label="@Cells[i].Date.ToString("dddd")">
+                            @RenderDayTitle(i)
+                        </div>
+                    }
                 </div>
-            }
-        </div>;
+                @if (ShowWeekSummary)
+                {
+                    <div class="mud-cal-week-summary-header">
+                        @if (Calendar.MonthWeekSummaryHeaderTemplate != null)
+                        {
+                            @Calendar.MonthWeekSummaryHeaderTemplate
+                        }
+                        else if (!string.IsNullOrEmpty(Calendar.MonthWeekSummaryTitle))
+                        {
+                            <div class="mud-cal-week-summary-title">@Calendar.MonthWeekSummaryTitle</div>
+                        }
+                    </div>
+                }
+            </div>
+            : @<div class="mud-cal-grid-header mud-cal-month-grid-header" style="@HeaderGridStyle">
+                @for (var i = 0; i < Columns; i++)
+                {
+                    <div class="mud-cal-month-header" aria-label="@Cells[i].Date.ToString("dddd")">
+                        @RenderDayTitle(i)
+                    </div>
+                }
+            </div>;
 
     /// <summary>
     /// Renders the day name.
@@ -68,49 +96,72 @@
     {
         for (var row = 0; row < Rows; row++)
         {
+            var weekNumber = Calendar.ShowWeekNumbers ? GetWeekNumberForRow(row) : 0;
             <div class="mud-cal-month-row-holder" style="@RowStyle">
-                @for (var cell = row * Columns; cell < (row * Columns) + Columns; cell++)
+                @if (Calendar.ShowWeekNumbers)
                 {
-                    var currentCell = Cells[cell];
-                    <MudDropZone T="T" OnlyZone="true" Identifier="@currentCell.Date.Date.ToString("d")"
-                                 Class="@CellClassname(currentCell)" Style="@DayStyle(currentCell, cell)"
-                                 CanDrop="@(item => Calendar.CanDropItem == null || Calendar.CanDropItem(item, currentCell.Date, CalendarView.Month))">
-                        @if (AllowCellLinkClick(currentCell) && AllowCellLinkContextMenuClick(currentCell))
-                        {
-                            <a @onclick="() => OnCellLinkClicked(currentCell)"
-                               @oncontextmenu="@(mouseEventArgs => OnCellLinkContextMenuClicked(mouseEventArgs, currentCell))" @oncontextmenu:preventDefault
-                               class="mud-cal-month-cell-link">
-                                <div class="@CellLinkClassname(false)" data-date="@currentCell.Date.ToString("yyyy-MM-dd")" data-row="0" data-selectable="@IsSelectable(currentCell).ToString().ToLower()">
-                                    @RenderCellDayNumber(currentCell)
-                                </div>
-                            </a>
-                        }
-                        else if (AllowCellLinkContextMenuClick(currentCell))
-                        {
-                            <a @oncontextmenu="@(mouseEventArgs => OnCellLinkContextMenuClicked(mouseEventArgs, currentCell))" @oncontextmenu:preventDefault
-                               class="mud-cal-month-cell-link">
-                                <div class="@CellLinkClassname(true)">
-                                    @RenderCellDayNumber(currentCell)
-                                </div>
-                            </a>
-                        }
-                        else if (AllowCellLinkClick(currentCell))
-                        {
-                            <a @onclick="() => OnCellLinkClicked(currentCell)"
-                               class="mud-cal-month-cell-link">
-                                <div class="@CellLinkClassname(false)" data-date="@currentCell.Date.ToString("yyyy-MM-dd")" data-row="0" data-selectable="@IsSelectable(currentCell).ToString().ToLower()">
-                                    @RenderCellDayNumber(currentCell)
-                                </div>
-                            </a>
-                        }
-                        else
-                        {
-                            @RenderCellDayNumber(currentCell)
-                        }
-                    </MudDropZone>
+                    <div class="mud-cal-week-number" aria-label="@($"Week {weekNumber}")">
+                        @weekNumber
+                    </div>
                 }
-                @RenderCellContents(row)
+                <div class="mud-cal-month-row-content">
+                    @RenderRowCells(row)
+                    @RenderCellContents(row)
+                </div>
+                @if (ShowWeekSummary)
+                {
+                    <div class="mud-cal-week-summary">
+                        @Calendar.MonthWeekSummaryTemplate!(BuildWeekSummary(row))
+                    </div>
+                }
             </div>
+        }
+    };
+
+    /// <summary>
+    /// Renders the day cells for a row.
+    /// </summary>
+    protected virtual RenderFragment RenderRowCells(int row) => __builder =>
+    {
+        for (var cell = row * Columns; cell < (row * Columns) + Columns; cell++)
+        {
+            var currentCell = Cells[cell];
+            <MudDropZone T="T" OnlyZone="true" Identifier="@currentCell.Date.Date.ToString("d")"
+                         Class="@CellClassname(currentCell)" Style="@DayStyle(currentCell, cell)"
+                         CanDrop="@(item => Calendar.CanDropItem == null || Calendar.CanDropItem(item, currentCell.Date, CalendarView.Month))">
+                @if (AllowCellLinkClick(currentCell) && AllowCellLinkContextMenuClick(currentCell))
+                {
+                    <a @onclick="() => OnCellLinkClicked(currentCell)"
+                       @oncontextmenu="@(mouseEventArgs => OnCellLinkContextMenuClicked(mouseEventArgs, currentCell))" @oncontextmenu:preventDefault
+                       class="mud-cal-month-cell-link">
+                        <div class="@CellLinkClassname(false)" data-date="@currentCell.Date.ToString("yyyy-MM-dd")" data-row="0" data-selectable="@IsSelectable(currentCell).ToString().ToLower()">
+                            @RenderCellDayNumber(currentCell)
+                        </div>
+                    </a>
+                }
+                else if (AllowCellLinkContextMenuClick(currentCell))
+                {
+                    <a @oncontextmenu="@(mouseEventArgs => OnCellLinkContextMenuClicked(mouseEventArgs, currentCell))" @oncontextmenu:preventDefault
+                       class="mud-cal-month-cell-link">
+                        <div class="@CellLinkClassname(true)">
+                            @RenderCellDayNumber(currentCell)
+                        </div>
+                    </a>
+                }
+                else if (AllowCellLinkClick(currentCell))
+                {
+                    <a @onclick="() => OnCellLinkClicked(currentCell)"
+                       class="mud-cal-month-cell-link">
+                        <div class="@CellLinkClassname(false)" data-date="@currentCell.Date.ToString("yyyy-MM-dd")" data-row="0" data-selectable="@IsSelectable(currentCell).ToString().ToLower()">
+                            @RenderCellDayNumber(currentCell)
+                        </div>
+                    </a>
+                }
+                else
+                {
+                    @RenderCellDayNumber(currentCell)
+                }
+            </MudDropZone>
         }
     };
 

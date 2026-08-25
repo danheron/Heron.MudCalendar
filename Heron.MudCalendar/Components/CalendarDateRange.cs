@@ -106,4 +106,10 @@ public class CalendarDateRange : DateRange
 
         return day;
     }
+
+    public static int GetWeekNumber(DateTime date, CultureInfo culture, DayOfWeek? firstDayOfWeek = null)
+    {
+        var firstDay = firstDayOfWeek ?? culture.DateTimeFormat.FirstDayOfWeek;
+        return culture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, firstDay);
+    }
 }

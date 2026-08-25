@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Reflection;
 using Heron.MudCalendar.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
@@ -9,7 +10,6 @@ using MudBlazor;
 using CategoryAttribute = Heron.MudCalendar.Attributes.CategoryAttribute;
 using CategoryTypes = Heron.MudCalendar.Attributes.CategoryTypes;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace Heron.MudCalendar;
 
@@ -77,7 +77,7 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     /// </remarks>
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
-    public int Height { get; set; } = 700;
+    public string Height { get; set; } = "700px";
 
     /// <summary>
     /// Gets or sets the minimum height of a cell.
@@ -88,6 +88,16 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     [Parameter]
     [Category(CategoryTypes.Calendar.Appearance)]
     public int MonthCellMinHeight { get; set; }
+
+    /// <summary>
+    /// If true, shows a column with week numbers on the left of the month view.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>false</c>.
+    /// </remarks>
+    [Parameter]
+    [Category(CategoryTypes.Calendar.Appearance)]
+    public bool ShowWeekNumbers { get; set; }
     
     /// <summary>
     /// Gets or sets the day that the calendar is showing.
@@ -449,6 +459,39 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     public RenderFragment<T>? MonthTemplate { get; set; }
     
     /// <summary>
+    /// Defines the content of an optional per-week summary column shown on the right of the Month view.
+    /// The column is shown only when this template is set.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
+    [Category(CategoryTypes.Calendar.Template)]
+    [Parameter]
+    public RenderFragment<CalendarWeekSummary<T>>? MonthWeekSummaryTemplate { get; set; }
+
+    /// <summary>
+    /// The title shown in the header cell above the Month view week summary column.
+    /// Ignored when <see cref="MonthWeekSummaryHeaderTemplate"/> is set.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
+    [Category(CategoryTypes.Calendar.Template)]
+    [Parameter]
+    public string? MonthWeekSummaryTitle { get; set; }
+
+    /// <summary>
+    /// Defines the content of the header cell above the Month view week summary column.
+    /// Overrides <see cref="MonthWeekSummaryTitle"/> when set.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>null</c>.
+    /// </remarks>
+    [Category(CategoryTypes.Calendar.Template)]
+    [Parameter]
+    public RenderFragment? MonthWeekSummaryHeaderTemplate { get; set; }
+
+    /// <summary>
     /// Defines the cell content for the Week view.
     /// </summary>
     /// <remarks>
@@ -588,7 +631,8 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
     /// Styles added to main div of the component.
     /// </summary>
     protected virtual string Styles =>
-        new StyleBuilder("min-height", $"{Height}px")
+        new StyleBuilder("min-height", Height)
+            .AddStyle("height", Height, View == CalendarView.Month && MonthCellMinHeight > 0)
             .AddStyle(Style)
             .Build();
 
@@ -793,7 +837,8 @@ public partial class MudCalendar<[DynamicallyAccessedMembers(DynamicallyAccessed
 
         // Add the link
         _jsService.OnLinkLoaded += (_, _) => Refresh();
-        await _jsService.AddLink("_content/Heron.MudCalendar/Heron.MudCalendar.min.css", "stylesheet");
+        var version = typeof(MudCalendar<>).Assembly.GetName().Version?.ToString() ?? "1.0.0";
+        await _jsService.AddLink($"_content/Heron.MudCalendar/Heron.MudCalendar.min.css?v={version}", "stylesheet");
     }
 
     private async Task DatePickerDateChanged(DateTime? dateTime)
