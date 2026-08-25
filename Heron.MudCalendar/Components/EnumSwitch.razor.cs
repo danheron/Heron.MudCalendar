@@ -1,3 +1,4 @@
+using Heron.MudCalendar.Enums;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using MudBlazor.Utilities;
@@ -8,7 +9,7 @@ public partial class EnumSwitch<T>
 {
     [Parameter]
     public Color Color { get; set; } = Color.Primary;
-    
+
     [Parameter]
     public IEnumerable<T>? AllowedValues { get; set; }
 
@@ -17,6 +18,11 @@ public partial class EnumSwitch<T>
 
     [Parameter]
     public EventCallback<T> ValueChanged { get; set; }
+
+    [Parameter]
+    public Variant Variant { get; set; } = Variant.Filled;
+
+    private bool _isTransparent => Variant == Variant.Text;
 
     private async Task ButtonClicked(T newValue)
     {
@@ -35,4 +41,12 @@ public partial class EnumSwitch<T>
             .Build();
 
     private static Type Type => typeof(T);
+
+    private static string? Label(T value)
+    {
+        return typeof(T) == typeof(CalendarView) ?
+            // Bit of a hack as generic types don't work with StringLocalizer
+            @CalendarViewName.GetText((CalendarView)Enum.ToObject(Type, value)) :
+            @Enum.GetName(Type, value);
+    }
 }
