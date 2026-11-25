@@ -91,23 +91,13 @@
                 </DocsPageSection>
             }
 
-            @if (ShowInheritance)
-            {
-                <DocsPageSection>
-                    <SectionHeader Title="Inheritance" />
-                    <SectionContent Outlined="true" IsApiSection="true">
-                        <ApiTypeHierarchy Type="@DocumentedType" />
-                    </SectionContent>
-                </DocsPageSection>
-            }
-
         </DocsPageContent>
     }
     else
     {
         <DocsPageHeader Title="404 Not Found" />
         <DocsPageContent>
-            @* <MudBlazorLogo Class="docs-api-404-logo" /> *@
+            @*<MudBlazorLogo Class="docs-api-404-logo" />*@
 
             <MudAlert Class="docs-api-404-alert" Icon="@Icons.Material.Outlined.CloudOff">
                 Sorry, the type <CodeInline>@TypeName</CodeInline> was not found.
