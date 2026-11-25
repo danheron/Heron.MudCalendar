@@ -12,7 +12,7 @@ on:
 jobs:
   get-version:
     name: Get version to deploy
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     env:
       VERSION: 1.0.0
     outputs:
@@ -31,7 +31,7 @@ jobs:
   deploy-nuget:
     name: Deploy mudcalendar nuget to nuget.org
     needs: get-version
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -45,6 +45,7 @@ jobs:
             8.0.x
             9.0.x
             10.0.x
+            11.0.x
   
       - name: Pack nuget package
         run: dotnet pack -c Release -m:1 --output nupkgs /p:PackageVersion=${{ needs.get-version.outputs.VERSION }} /p:AssemblyVersion=${{ needs.get-version.outputs.VERSION }} /p:Version=${{ needs.get-version.outputs.VERSION }}

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFramework>net10.0</TargetFramework>
+		<TargetFramework>net11.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<IsPackable>false</IsPackable>
 		<LangVersion>default</LangVersion>
@@ -26,7 +26,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="MudBlazor" Version="9.0.0" />
+		<PackageReference Include="MudBlazor" Version="9.14.0" />
 		<PackageReference Include="ReportGenerator" Version="5.5.1" />
 	</ItemGroup>
 	

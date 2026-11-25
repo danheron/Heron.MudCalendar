@@ -8,10 +8,10 @@ on:
 jobs:
   build-test:
     name: Build and test
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     strategy:
       matrix:
-        dotnet-version: [ '8.0.x', '9.0.x', '10.0.x' ]
+        dotnet-version: [ '8.0.x', '9.0.x', '10.0.x', '11.0.x' ]
 
     steps:
       - name: Checkout MudCalendar repository
