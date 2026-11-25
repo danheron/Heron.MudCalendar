@@ -82,6 +82,19 @@
   .mud-cal-overflow-hidden {
     visibility: hidden;
   }
+
+  .mud-cal-fit-to-content-toggle-group {
+    grid-template-columns: none !important;
+    grid-auto-flow: column;
+
+    .mud-toggle-item {
+      padding: 6px 16px;
+    }
+
+    .mud-button-filled.mud-button-not-filled {
+      background-color: transparent;
+    }
+
   
   .mud-cal-selectable {
     touch-action: none;
